@@ -1,0 +1,33 @@
+# secrets — never commit
+.env
+.env.*
+!.env.example
+.secrets/
+*secret*
+*SECRET*
+PROJECT_KEYS*
+local_secrets*
+
+# local data / db
+*.sqlite
+*.sqlite3
+*.db
+data/local/
+out/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# node / next
+node_modules/
+.next/
+dist/
+build/
+.vercel/
+
+# os
+.DS_Store
+Thumbs.db
