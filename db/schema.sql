@@ -17,6 +17,7 @@ create table if not exists public.jobs (
   remote            boolean,
   posted_at         timestamptz,
   is_active         boolean not null default true,
+  first_seen        timestamptz not null default now(),   -- delta tracking: when we first saw it
   scraped_at        timestamptz not null default now()
 );
 create index if not exists idx_jobs_company on public.jobs(company);
@@ -64,3 +65,28 @@ create table if not exists public.scrape_runs (
   started_at    timestamptz,
   finished_at   timestamptz not null default now()
 );
+
+-- Read surface for the dashboard: each job with its best score + applied status.
+create or replace view public.radar as
+select j.id, j.company, j.title, j.url, j.location, j.source, j.provider_slug,
+       j.remote, j.posted_at, j.is_active, j.first_seen, j.scraped_at,
+       s.fit_score, s.archetype, s.rationale,
+       (a.id is not null) as applied, a.status as applied_status,
+       (j.first_seen > now() - interval '24 hours') as is_new
+from public.jobs j
+join lateral (
+  select fit_score, archetype, rationale from public.job_scores
+  where job_id = j.id order by fit_score desc limit 1
+) s on true
+left join public.applications a on a.job_url = j.url;
+
+-- Source health: latest run + rollup per source.
+create or replace view public.source_health as
+select source,
+       count(*)                          as total_runs,
+       max(finished_at)                  as last_run,
+       sum(case when status='success' then 1 else 0 end) as ok_runs,
+       sum(case when status='error' then 1 else 0 end)   as err_runs,
+       sum(job_count)                    as total_jobs_seen
+from public.scrape_runs
+group by source;
