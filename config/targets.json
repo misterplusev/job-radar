@@ -1,0 +1,22 @@
+{
+  "_note": "Company slugs by ATS source. Verified slugs get scraped; unknown ones return 0 jobs and are skipped. Refine via the career-page discovery task (LLM_TASK_SPECS/01).",
+  "greenhouse": [
+    "anthropic",
+    "openai",
+    "databricks",
+    "stripe",
+    "coinbase",
+    "figma",
+    "airbnb",
+    "robinhood"
+  ],
+  "lever": ["netflix", "plaid"],
+  "ashby": ["ramp", "openai"],
+  "workday": [],
+  "indeed_queries": [
+    {"q": "machine learning engineer", "l": "Remote"},
+    {"q": "reinforcement learning", "l": "Remote"},
+    {"q": "predictive modeling analyst", "l": "Seattle, WA"},
+    {"q": "data scientist", "l": "Denver, CO"}
+  ]
+}
