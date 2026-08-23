@@ -2,7 +2,6 @@
   "_note": "Company slugs by ATS source. Verified live 2026-08-23 via boards-api/api.lever probes. DEV CLONE - prove before promoting to production repo.",
   "greenhouse": [
     "anthropic",
-    "openai",
     "databricks",
     "stripe",
     "coinbase",
@@ -18,13 +17,30 @@
     "figure",
     "apptronik"
   ],
-  "lever": ["netflix", "plaid", "zoox"],
-  "ashby": ["ramp", "openai"],
+  "lever": [
+    "zoox"
+  ],
+  "ashby": [
+    "ramp",
+    "openai"
+  ],
   "workday": [],
   "indeed_queries": [
-    {"q": "machine learning engineer", "l": "Remote"},
-    {"q": "reinforcement learning", "l": "Remote"},
-    {"q": "predictive modeling analyst", "l": "Seattle, WA"},
-    {"q": "data scientist", "l": "Denver, CO"}
+    {
+      "q": "machine learning engineer",
+      "l": "Remote"
+    },
+    {
+      "q": "reinforcement learning",
+      "l": "Remote"
+    },
+    {
+      "q": "predictive modeling analyst",
+      "l": "Seattle, WA"
+    },
+    {
+      "q": "data scientist",
+      "l": "Denver, CO"
+    }
   ]
 }
