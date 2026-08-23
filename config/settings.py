@@ -38,7 +38,7 @@ GENERATED_DOCS_DIR = _get("GENERATED_DOCS_DIR", "D:/Job_Applications_MASTER/Gene
 
 # candidate targeting (used by the prefilter)
 TARGET_METROS = ["phoenix", "scottsdale", "tempe", "arizona", "az", "seattle",
-                 "san francisco", "bay area", "san jose", "san diego", "denver",
+                 "san francisco", "bay area", "san jose", "san diego", "monterey", "santa cruz", "salinas", "denver",
                  "colorado", "remote"]
 TARGET_KEYWORDS = ["machine learning", "reinforcement learning", "neural network",
                    "transformer", "predictive model", "forecast", "data scientist",
