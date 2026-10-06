@@ -158,9 +158,13 @@ def cmd_report(args) -> int:
 
 
 def cmd_render(args) -> int:
-    from jobradar.dashboard import render_dashboard
-    path = render_dashboard(settings, get_storage(settings), args.out)
-    print(f"[render] dashboard -> {path}")
+    try:
+        from jobradar.dashboard import render_dashboard
+        path = render_dashboard(settings, get_storage(settings), args.out)
+        print(f"[render] dashboard -> {path}")
+    except Exception as e:  # noqa: BLE001
+        # the live board (jobradar-board) is the real dashboard; this artifact is dev-only
+        print(f"[render] skipped: {e}")
     return 0
 
 
