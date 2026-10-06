@@ -12,6 +12,7 @@ Commands:
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import sys
 import time
 from pathlib import Path
@@ -23,12 +24,70 @@ from jobradar.models import now_iso  # noqa: E402
 from jobradar.providers import build_providers  # noqa: E402
 from jobradar.storage import get_storage  # noqa: E402
 
+PROVIDER_TIMEOUT = 120
+
 
 def _run_id(slug: str) -> str:
     return f"{slug}-{int(time.time())}"
 
 
-def cmd_ingest(args) -> int:
+def _scrape_all() -> list:
+    """Scrape every provider with a per-provider hard timeout ( robotics module)."""
+    import concurrent.futures
+
+    providers = build_providers(settings.load_targets())
+    all_jobs: list = []
+    for p in providers:
+        rid = _run_id(f"{p.source}:{p.provider_slug}")
+        try:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+                future = pool.submit(p.fetch, rid)
+                jobs = future.result(timeout=PROVIDER_TIMEOUT)
+            print(f"  [{p.source}:{p.provider_slug}] {len(jobs)} jobs")
+            all_jobs.extend(jobs)
+        except concurrent.futures.TimeoutError:
+            print(f"  [{p.source}:{p.provider_slug}] TIMEOUT after {PROVIDER_TIMEOUT}s")
+        except Exception as e:  # noqa: BLE001
+            print(f"  [{p.source}:{p.provider_slug}] ERROR: {e}")
+    return all_jobs
+
+
+def _ingest_supabase() -> int:
+    """Prod path: scrape -> publish to robotics_* tables -> telemetry -> Discord."""
+    from jobradar import publish
+
+    url_base, key = publish.supabase_env()
+    providers = build_providers(settings.load_targets())
+    print(f"[ingest] {len(providers)} providers | storage=supabase(robotics_*)")
+    all_jobs = []
+    for p in providers:
+        rid = _run_id(f"{p.source}:{p.provider_slug}")
+        try:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
+                future = pool.submit(p.fetch, rid)
+                jobs = future.result(timeout=PROVIDER_TIMEOUT)
+            print(f"  [{p.source}:{p.provider_slug}] {len(jobs)} jobs")
+            all_jobs.extend(jobs)
+            publish.record_run(url_base, key, f"{p.source}:{p.provider_slug}",
+                               "success", len(jobs))
+        except concurrent.futures.TimeoutError:
+            publish.record_run(url_base, key, f"{p.source}:{p.provider_slug}",
+                               "error", 0, f"Timeout {PROVIDER_TIMEOUT}s")
+            print(f"  [{p.source}:{p.provider_slug}] TIMEOUT after {PROVIDER_TIMEOUT}s")
+        except Exception as e:  # noqa: BLE001
+            publish.record_run(url_base, key, f"{p.source}:{p.provider_slug}",
+                               "error", 0, str(e)[:500])
+            print(f"  [{p.source}:{p.provider_slug}] ERROR: {e}")
+
+    print(f"[ingest] collected {len(all_jobs)} jobs")
+    if not all_jobs:
+        raise RuntimeError("No robotics jobs scraped from any provider.")
+    publish.publish(all_jobs)
+    return 0
+
+
+def _ingest_sqlite() -> int:
+    """Dev path: legacy per-provider SQLite upsert (no Supabase env configured)."""
     store = get_storage(settings)
     providers = build_providers(settings.load_targets())
     total = 0
@@ -49,6 +108,20 @@ def cmd_ingest(args) -> int:
             print(f"  [{p.source}:{p.provider_slug}] ERROR: {e}")
     print(f"[ingest] done — {total} jobs seen")
     return 0
+
+
+def cmd_ingest(args) -> int:
+    import concurrent.futures  # noqa: F401
+
+    if settings.SUPABASE_URL and settings.SUPABASE_SERVICE_ROLE_KEY:
+        try:
+            return _ingest_supabase()
+        except Exception as e:  # noqa: BLE001
+            from jobradar.publish import notify_failure
+            print(f"[FATAL] {e}")
+            notify_failure(str(e))
+            return 1
+    return _ingest_sqlite()
 
 
 def cmd_score(args) -> int:
