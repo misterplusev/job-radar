@@ -1,0 +1,73 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Job Radar — Robotics Jobs Monitor</title><style>
+:root{color-scheme:dark}body{margin:0;font:14px system-ui;background:#050506;color:#e8e8e8}
+header{padding:16px 20px;border-bottom:1px solid #222}h1{margin:0;font-size:20px}
+.muted{color:#8a8a8a;font-size:12px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;position:sticky;top:0;background:#050506;border-bottom:1px solid #1a1a1a;z-index:5}
+input,select{background:#0c0c0e;color:#eee;border:1px solid #2a2a2a;border-radius:8px;padding:8px}
+table{width:100%;border-collapse:collapse}td,th{padding:8px 12px;border-bottom:1px solid #161616;text-align:left;vertical-align:top}
+th{position:sticky;top:64px;background:#0a0a0b;cursor:pointer}
+a{color:#6ee7b7;text-decoration:none}
+.pill{font-size:11px;padding:2px 7px;border:1px solid #2a2a2a;border-radius:999px;color:#bcbcbc}
+.pill.closed{color:#f87171;border-color:#7f1d1d}
+.pill.remote{color:#93c5fd;border-color:#1e3a8a}
+#status{font-size:12px;color:#8a8a8a;padding:6px 20px}
+</style></head><body>
+<header><h1>Job Radar — Robotics Jobs Monitor</h1><div class=muted>live from the persistent database (robotics_jobs) — refreshed on every load</div></header>
+<div class=controls>
+ <input id=q placeholder="search title / company / location" size=32>
+ <select id=co><option value="">all companies</option></select>
+ <select id=src><option value="">all sources</option></select>
+ <select id=st><option value="">active + closed</option><option value="1">active only</option><option value="0">closed only</option></select>
+ <label><input type=checkbox id=rem> remote only</label>
+</div>
+<div id=status>loading…</div>
+<table><thead><tr><th data-k=title>Title</th><th data-k=company>Company</th><th data-k=location>Location</th><th data-k=ats>Source</th><th data-k=posted_at>Posted</th><th data-k=scraped_at>Seen</th></tr></thead><tbody id=tb></tbody></table>
+<script>
+const SB_URL="__SB_URL__", SB_ANON="__SB_ANON__";
+let DATA=[], sortK="posted_at", asc=false;
+const tb=document.getElementById("tb"), q=document.getElementById("q"), co=document.getElementById("co"),
+ src=document.getElementById("src"), st=document.getElementById("st"), rem=document.getElementById("rem"),
+ cnt=document.getElementById("status");
+async function load(){
+ let rows=[], offset=0;
+ while(true){
+  const r=await fetch(`${SB_URL}/rest/v1/robotics_jobs?select=company,title,url,location,ats,posted_at,is_active,scraped_at&order=posted_at.desc.nullslast,scraped_at.desc&limit=1000&offset=${offset}`,
+   {headers:{apikey:SB_ANON,Authorization:`Bearer ${SB_ANON}`,Range:`${offset}-${offset+999}`}});
+  if(!r.ok){cnt.textContent=`load failed: ${r.status}`;return}
+  const page=await r.json();
+  rows=rows.concat(page);
+  if(page.length<1000)break;
+  offset+=1000;
+ }
+ DATA=rows;
+ const companies=[...new Set(DATA.map(d=>d.company).filter(Boolean))].sort();
+ co.innerHTML="<option value=''>all companies</option>"+companies.map(c=>`<option>${c}</option>`).join("");
+ const sources=[...new Set(DATA.map(d=>d.ats).filter(Boolean))].sort();
+ src.innerHTML="<option value=''>all sources</option>"+sources.map(s=>`<option>${s}</option>`).join("");
+ cnt.textContent=`${DATA.length} jobs · ${DATA.filter(d=>d.is_active).length} active`;
+ render();
+}
+function esc(s){return (""+(s||"")).replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">")}
+function render(){
+ let r=DATA.filter(d=>{
+  if(st.value!==""&&String(d.is_active?1:0)!==st.value)return false;
+  if(co.value&&d.company!==co.value)return false;
+  if(src.value&&d.ats!==src.value)return false;
+  if(rem.checked&&!/remote/i.test(d.location))return false;
+  const t=(q.value||"").toLowerCase();
+  return !t||`${d.title} ${d.company} ${d.location}`.toLowerCase().includes(t);});
+ r.sort((a,b)=>{const x=a[sortK],y=b[sortK];const c=(""+(x||"")).localeCompare(""+(y||""),undefined,{numeric:true});return asc?c:-c;});
+ tb.innerHTML=r.map(d=>`<tr>
+  <td><a href="${esc(d.url)}" target=_blank rel=noopener>${esc(d.title)}</a></td>
+  <td>${esc(d.company)}</td><td>${esc(d.location)}</td>
+  <td><span class=pill>${esc(d.ats)}</span></td>
+  <td>${esc((d.posted_at||"").slice(0,10))}</td>
+  <td><span class="pill ${d.is_active?"":"closed"}">${d.is_active?"active":"closed"}</span></td>
+ </tr>`).join("");
+}
+document.querySelectorAll("th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(k===sortK)asc=!asc;else{sortK=k;asc=false}render()});
+[q,co,src,st,rem].forEach(el=>el.addEventListener("input",render));
+load();
+</script></body></html>
