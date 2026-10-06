@@ -22,7 +22,8 @@
   ],
   "ashby": [
     "ramp",
-    "openai"
+    "openai",
+    "wayve"
   ],
   "workday": [],
   "indeed_queries": [
@@ -42,5 +43,9 @@
       "q": "data scientist",
       "l": "Denver, CO"
     }
+  ],
+  "amazon": [
+    "robotics",
+    "autonomy"
   ]
 }

@@ -21,6 +21,7 @@ def _get(name: str, default: str = "") -> str:
 # storage
 SUPABASE_URL = _get("SUPABASE_URL")
 SUPABASE_SERVICE_ROLE_KEY = _get("SUPABASE_SERVICE_ROLE_KEY")
+SUPABASE_ANON_KEY = _get("SUPABASE_ANON_KEY")
 SQLITE_PATH = _get("SQLITE_PATH", str(ROOT / "data" / "local" / "jobradar.sqlite"))
 
 # matcher brain
@@ -30,6 +31,7 @@ MATCH_MONTHLY_USD_CEILING = float(_get("MATCH_MONTHLY_USD_CEILING", "30") or 30)
 
 # alerts
 DISCORD_JOB_RADAR_WEBHOOK = _get("DISCORD_JOB_RADAR_WEBHOOK")
+DISCORD_WEBHOOK_JOBS = _get("DISCORD_WEBHOOK_JOBS")
 ALERT_MIN_SCORE = int(_get("ALERT_MIN_SCORE", "75") or 75)
 
 # candidate profile
