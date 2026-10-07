@@ -12,6 +12,8 @@ a{color:#6ee7b7;text-decoration:none}
 .pill{font-size:11px;padding:2px 7px;border:1px solid #2a2a2a;border-radius:999px;color:#bcbcbc}
 .pill.closed{color:#f87171;border-color:#7f1d1d}
 .pill.remote{color:#93c5fd;border-color:#1e3a8a}
+.pill.company{color:#6ee7b7;border-color:#14532d}
+.pill.date{color:#d4d4d4;border-color:#333}
 #status{font-size:12px;color:#8a8a8a;padding:6px 20px}
 </style></head><body>
 <header><h1>Job Radar — Robotics Jobs Monitor</h1><div class=muted>live from the persistent database (robotics_jobs) — refreshed on every load</div></header>
@@ -61,9 +63,9 @@ function render(){
  r.sort((a,b)=>{const x=a[sortK],y=b[sortK];const c=(""+(x||"")).localeCompare(""+(y||""),undefined,{numeric:true});return asc?c:-c;});
  tb.innerHTML=r.map(d=>`<tr>
   <td><a href="${esc(d.url)}" target=_blank rel=noopener>${esc(d.title)}</a></td>
-  <td>${esc(d.company)}</td><td>${esc(d.location)}</td>
+  <td><span class="pill company">${esc(d.company)}</span></td><td><span class="pill${/remote/i.test(d.location||"")?" remote":""}">${esc(d.location)||"—"}</span></td>
   <td><span class=pill>${esc(d.ats)}</span></td>
-  <td>${esc((d.posted_at||"").slice(0,10))}</td>
+  <td><span class="pill date">${esc((d.posted_at||"").slice(0,10))||"—"}</span></td>
   <td><span class="pill ${d.is_active?"":"closed"}">${d.is_active?"active":"closed"}</span></td>
  </tr>`).join("");
 }
