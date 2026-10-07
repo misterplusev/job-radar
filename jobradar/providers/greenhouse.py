@@ -64,4 +64,28 @@ def _board_company(data: dict, slug: str) -> str:
     name = (data.get("name") or "").strip()
     if name:
         return name
+    if slug in _BOARD_NAMES:
+        return _BOARD_NAMES[slug]
     return slug.replace("-", " ").title()
+
+
+_BOARD_NAMES = {
+    "anthropic": "Anthropic",
+    "databricks": "Databricks",
+    "stripe": "Stripe",
+    "coinbase": "Coinbase",
+    "figma": "Figma",
+    "airbnb": "Airbnb",
+    "robinhood": "Robinhood",
+    "waymo": "Waymo",
+    "nuro": "Nuro",
+    "flyzipline": "Zipline",
+    "motional": "Motional",
+    "kodiak": "Kodiak Robotics",
+    "agilityrobotics": "Agility Robotics",
+    "figure": "Figure",
+    "apptronik": "Apptronik",
+    "andurilindustries": "Anduril Industries",
+    "locusrobotics": "Locus Robotics",
+    "diligentrobotics": "Diligent Robotics",
+}
