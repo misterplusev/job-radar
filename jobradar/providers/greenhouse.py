@@ -27,8 +27,14 @@ def _strip_html(raw: str) -> str:
 class GreenhouseProvider(Provider):
     source = "greenhouse"
 
+    def __init__(self, slug: str, content: bool = True):
+        super().__init__(slug)
+        self.content = content
+
     def fetch(self, run_id: str) -> List[Job]:
         url = API.format(slug=self.slug)
+        if not self.content:
+            url = url.replace("?content=true", "")
         try:
             data = http_get(url).json()
         except Exception:
