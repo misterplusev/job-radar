@@ -6,12 +6,14 @@ from .greenhouse import GreenhouseProvider
 from .lever import LeverProvider
 from .ashby import AshbyProvider
 from .amazon import AmazonProvider
+from .workday import WorkdayProvider
 
 _REGISTRY = {
     "greenhouse": GreenhouseProvider,
     "lever": LeverProvider,
     "ashby": AshbyProvider,
     "amazon": AmazonProvider,
+    "workday": WorkdayProvider,
 }
 
 
