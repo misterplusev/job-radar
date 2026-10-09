@@ -21,8 +21,17 @@ a:hover{text-decoration:underline}
 .pill.company{color:#58a6ff;border-color:rgba(56,139,253,.4)}
 .pill.date{color:#c9d1d9}
 #status{font-size:12px;color:#8b949e;padding:6px 20px}
+.alpha{color:#FFD600;font-weight:bold;font-style:italic;text-shadow:0 0 10px rgba(255,214,0,.35)}
+.logo-wrap{display:flex;align-items:center;gap:10px}
+.logo-brand{font-size:1.5rem;font-weight:bold;color:#fff}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;padding:48px 20px}
+.sb-spin-ring{width:40px;height:40px;border:3px solid rgba(0,184,212,0.15);border-top-color:#00B8D4;border-radius:50%;animation:sb-spin 0.8s linear infinite}
+.shimmer-track{width:30%;max-width:320px;height:4px;background:#161b22;border-radius:2px;overflow:hidden}
+.shimmer-bar{width:100%;height:100%;background:linear-gradient(90deg,#00B8D4,#00D4FF);border-radius:2px;animation:sb-shimmer 1.5s ease-in-out infinite}
+@keyframes sb-spin{to{transform:rotate(360deg)}}
+@keyframes sb-shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
 </style></head><body>
-<header><h1>Job Radar — Robotics Jobs Monitor</h1><div class=muted>live from the persistent database (robotics_jobs) — refreshed on every load</div></header>
+<header><div class=logo-wrap><span class=logo-brand><span class=alpha>α</span>bet</span><h1 style="margin:0;font-size:1.75rem;font-weight:600">Robotics Jobs Monitor</h1></div><div class=muted>live from the persistent database (robotics_jobs) — refreshed on every load</div></header>
 <div class=controls>
  <input id=q placeholder="search title / company / location" size=32>
  <select id=co><option value="">all companies</option></select>
@@ -30,27 +39,37 @@ a:hover{text-decoration:underline}
  <select id=st><option value="">active + closed</option><option value="1">active only</option><option value="0">closed only</option></select>
  <label><input type=checkbox id=rem> remote only</label>
 </div>
-<div id=status>loading…</div>
-<table><thead><tr><th data-k=title>Title</th><th data-k=company>Company</th><th data-k=location>Location</th><th data-k=ats>Source</th><th data-k=posted_at>Posted</th><th data-k=scraped_at>Status</th></tr></thead><tbody id=tb></tbody></table>
+<div id=status style=display:none></div>
+<div id=loading class=loading-wrap>
+ <div class=sb-spin-ring></div>
+ <div class=shimmer-track><div class=shimmer-bar></div></div>
+ <div id=loadprogress class=muted>Loading jobs...</div>
+</div>
+<table id=tblwrap style=display:none><thead><tr><th data-k=title>Title</th><th data-k=company>Company</th><th data-k=location>Location</th><th data-k=ats>Source</th><th data-k=posted_at>Posted</th><th data-k=scraped_at>Status</th></tr></thead><tbody id=tb></tbody></table>
 <script>
 const SB_URL="__SB_URL__", SB_ANON="__SB_ANON__";
 let DATA=[], sortK="posted_at", asc=false;
-const tb=document.getElementById("tb"), q=document.getElementById("q"), co=document.getElementById("co"),
+ const tb=document.getElementById("tb"), q=document.getElementById("q"), co=document.getElementById("co"),
  src=document.getElementById("src"), st=document.getElementById("st"), rem=document.getElementById("rem"),
- cnt=document.getElementById("status");
+ cnt=document.getElementById("status"), loadwrap=document.getElementById("loading"),
+ tblwrap=document.getElementById("tblwrap"), loadprogress=document.getElementById("loadprogress");
 function slugify(name){return (""+(name||"")).toLowerCase().replace(/ /g,"-").replace(/\./g,"-")}
 async function load(){
  let rows=[], offset=0;
  while(true){
   const r=await fetch(`${SB_URL}/rest/v1/robotics_jobs?select=company,title,url,location,ats,posted_at,is_active,scraped_at&order=posted_at.desc.nullslast,scraped_at.desc&limit=1000&offset=${offset}`,
    {headers:{apikey:SB_ANON,Authorization:`Bearer ${SB_ANON}`,Range:`${offset}-${offset+999}`}});
-  if(!r.ok){cnt.textContent=`load failed: ${r.status}`;return}
+  if(!r.ok){loadwrap.style.display="none";cnt.style.display="block";cnt.textContent=`load failed: ${r.status}`;return}
   const page=await r.json();
   rows=rows.concat(page);
   if(page.length<1000)break;
   offset+=1000;
+  loadprogress.textContent=`Loaded page ${Math.floor(offset/1000)+1} of ~${Math.floor(offset/1000)+2}...`;
  }
  DATA=rows;
+ loadwrap.style.display="none";
+ tblwrap.style.display="table";
+ cnt.style.display="block";
  const companies=[...new Set(DATA.map(d=>d.company).filter(Boolean))].sort();
  co.innerHTML="<option value=''>all companies</option>"+companies.map(c=>`<option>${c}</option>`).join("");
  const sources=[...new Set(DATA.map(d=>d.ats).filter(Boolean))].sort();

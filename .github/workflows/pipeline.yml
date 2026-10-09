@@ -3,7 +3,7 @@ name: job-radar-pipeline
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 */2 * * *"   # every 2 hours (resource budget: private repo = 2,000 Actions min/mo; ~19 min/run at hourly would burn ~13,600)
+    - cron: "0 * * * *"   # hourly (repo is PUBLIC = unlimited Actions minutes; restored from 2h)
 
 jobs:
   pipeline:
