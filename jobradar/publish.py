@@ -300,7 +300,8 @@ def publish(jobs) -> None:
                 continue
             seen.add(row["url"])
             rows.append(row)
-        upsert(url_base, key, rows)
+        upsert(url_base, key, [r for r in rows if "description" in r])
+        upsert(url_base, key, [r for r in rows if "description" not in r])
         new_jobs.extend(r for r in rows if r["url"] not in existing_urls)
         removed = existing_urls - seen
         if removed:
