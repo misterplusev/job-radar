@@ -3,7 +3,7 @@ name: job-radar-pipeline
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"   # hourly (robotics module, sportsbook-parity cadence)
+    - cron: "0 */2 * * *"   # every 2 hours (resource budget: private repo = 2,000 Actions min/mo; ~19 min/run at hourly would burn ~13,600)
 
 jobs:
   pipeline:

@@ -20,6 +20,7 @@
     "locusrobotics",
     "diligentrobotics"
   ],
+  "_resource_note": "andurilindustries uses content:false (2,470 jobs x full descriptions made hourly runs 19 min; without content ~3 min). Resource budget: private repo = 2,000 Actions min/mo.",
   "lever": [
     "zoox",
     "waabi"

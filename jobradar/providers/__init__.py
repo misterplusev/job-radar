@@ -16,9 +16,20 @@ _REGISTRY = {
 
 
 def build_providers(targets: dict) -> List[Provider]:
-    """Instantiate providers from config/targets.json: {"greenhouse": [slugs], "lever": [...], ...}."""
+    """Instantiate providers from config/targets.json.
+
+    Target entries are strings ("slug") or objects ({"slug": ..., "content": false}).
+    """
     providers: List[Provider] = []
     for source, cls in _REGISTRY.items():
-        for slug in targets.get(source, []):
-            providers.append(cls(slug))
+        for entry in targets.get(source, []):
+            if isinstance(entry, dict):
+                slug = entry.get("slug") or ""
+                opts = {k: v for k, v in entry.items() if k != "slug"}
+            else:
+                slug = entry
+                opts = {}
+            if not slug:
+                continue
+            providers.append(cls(slug, **opts) if opts else cls(slug))
     return providers

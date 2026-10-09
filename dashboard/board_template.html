@@ -1,20 +1,26 @@
 <!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>Job Radar — Robotics Jobs Monitor</title><style>
-:root{color-scheme:dark}body{margin:0;font:14px system-ui;background:#050506;color:#e8e8e8}
-header{padding:16px 20px;border-bottom:1px solid #222}h1{margin:0;font-size:20px}
-.muted{color:#8a8a8a;font-size:12px}
-.controls{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;position:sticky;top:0;background:#050506;border-bottom:1px solid #1a1a1a;z-index:5}
-input,select{background:#0c0c0e;color:#eee;border:1px solid #2a2a2a;border-radius:8px;padding:8px}
-table{width:100%;border-collapse:collapse}td,th{padding:8px 12px;border-bottom:1px solid #161616;text-align:left;vertical-align:top}
-th{position:sticky;top:64px;background:#0a0a0b;cursor:pointer}
-a{color:#6ee7b7;text-decoration:none}
-.pill{font-size:11px;padding:2px 7px;border:1px solid #2a2a2a;border-radius:999px;color:#bcbcbc}
-.pill.closed{color:#f87171;border-color:#7f1d1d}
-.pill.remote{color:#93c5fd;border-color:#1e3a8a}
-.pill.company{color:#6ee7b7;border-color:#14532d}
-.pill.date{color:#d4d4d4;border-color:#333}
-#status{font-size:12px;color:#8a8a8a;padding:6px 20px}
+:root{color-scheme:dark}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:14px;background:#0d1117;color:#e6edf3}
+header{padding:16px 20px;border-bottom:1px solid #30363d;background:#0d1117}
+h1{margin:0 0 4px;font-size:1.75rem;font-weight:600}
+.muted{color:#8b949e;font-size:.875rem}
+.controls{display:flex;gap:10px;flex-wrap:wrap;padding:14px 20px;position:sticky;top:0;background:#0d1117;border-bottom:1px solid #21262d;z-index:5}
+input,select{background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:6px;padding:6px 10px;font-size:.875rem}
+input:focus,select:focus{border-color:#58a6ff;outline:none}
+table{width:100%;border-collapse:collapse}
+td,th{padding:8px 12px;border-bottom:1px solid #21262d;text-align:left;vertical-align:middle}
+th{position:sticky;top:61px;background:#161b22;color:#8b949e;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;z-index:2}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+.logo{width:22px;height:22px;border-radius:6px;background:#161b22;border:1px solid #30363d;object-fit:contain;padding:1px;vertical-align:middle;margin-right:2px}
+.pill{display:inline-block;font-size:11px;padding:2px 8px;border:1px solid #30363d;border-radius:999px;color:#8b949e;background:#161b22}
+.pill.closed{color:#f85149;border-color:rgba(248,81,73,.4)}
+.pill.remote{color:#3fb950;border-color:rgba(63,185,80,.4)}
+.pill.company{color:#58a6ff;border-color:rgba(56,139,253,.4)}
+.pill.date{color:#c9d1d9}
+#status{font-size:12px;color:#8b949e;padding:6px 20px}
 </style></head><body>
 <header><h1>Job Radar — Robotics Jobs Monitor</h1><div class=muted>live from the persistent database (robotics_jobs) — refreshed on every load</div></header>
 <div class=controls>
@@ -25,13 +31,14 @@ a{color:#6ee7b7;text-decoration:none}
  <label><input type=checkbox id=rem> remote only</label>
 </div>
 <div id=status>loading…</div>
-<table><thead><tr><th data-k=title>Title</th><th data-k=company>Company</th><th data-k=location>Location</th><th data-k=ats>Source</th><th data-k=posted_at>Posted</th><th data-k=scraped_at>Seen</th></tr></thead><tbody id=tb></tbody></table>
+<table><thead><tr><th data-k=title>Title</th><th data-k=company>Company</th><th data-k=location>Location</th><th data-k=ats>Source</th><th data-k=posted_at>Posted</th><th data-k=scraped_at>Status</th></tr></thead><tbody id=tb></tbody></table>
 <script>
 const SB_URL="__SB_URL__", SB_ANON="__SB_ANON__";
 let DATA=[], sortK="posted_at", asc=false;
 const tb=document.getElementById("tb"), q=document.getElementById("q"), co=document.getElementById("co"),
  src=document.getElementById("src"), st=document.getElementById("st"), rem=document.getElementById("rem"),
  cnt=document.getElementById("status");
+function slugify(name){return (""+(name||"")).toLowerCase().replace(/ /g,"-").replace(/\./g,"-")}
 async function load(){
  let rows=[], offset=0;
  while(true){
@@ -63,7 +70,7 @@ function render(){
  r.sort((a,b)=>{const x=a[sortK],y=b[sortK];const c=(""+(x||"")).localeCompare(""+(y||""),undefined,{numeric:true});return asc?c:-c;});
  tb.innerHTML=r.map(d=>`<tr>
   <td><a href="${esc(d.url)}" target=_blank rel=noopener>${esc(d.title)}</a></td>
-  <td><span class="pill company">${esc(d.company)}</span></td><td><span class="pill${/remote/i.test(d.location||"")?" remote":""}">${esc(d.location)||"—"}</span></td>
+  <td><img class=logo src="logos/${slugify(d.company)}.png" alt="" onerror="this.style.display='none'"><span class="pill company">${esc(d.company)}</span></td><td><span class="pill${/remote/i.test(d.location||"")?" remote":""}">${esc(d.location)||"—"}</span></td>
   <td><span class=pill>${esc(d.ats)}</span></td>
   <td><span class="pill date">${esc((d.posted_at||"").slice(0,10))||"—"}</span></td>
   <td><span class="pill ${d.is_active?"":"closed"}">${d.is_active?"active":"closed"}</span></td>
