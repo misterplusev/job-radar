@@ -1,5 +1,5 @@
 {
-  "_note": "Robotics company slugs by ATS source. Verified live 2026-10-06 via boards-api/lever/ashby probes. Tesla careers (custom, Akamai-blocked) needs stealth/proxy tooling - not included.",
+  "_note": "Robotics company slugs by ATS source. Verified live 2026-10-06 via boards-api/lever/ashby probes; 2026-10-09 Workday cxs probes (direct career portals). Tesla careers (custom, Akamai-blocked) needs stealth/proxy tooling - not included.",
   "greenhouse": [
     "anthropic",
     "databricks",
@@ -33,7 +33,11 @@
     "physicalintelligence",
     "standardbots"
   ],
-  "workday": [],
+  "workday": [
+    "bostondynamics",
+    "autostore",
+    "rockwellautomation"
+  ],
   "indeed_queries": [
     {
       "q": "machine learning engineer",
