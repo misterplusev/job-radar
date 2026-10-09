@@ -245,27 +245,41 @@ def notify_failure(error_message: str) -> None:
 # orchestration
 # --------------------------------------------------------------------------- #
 def serialize(job) -> dict:
-    """Job contract row -> robotics_jobs row (source_payload keeps raw/clean)."""
-    return {
+    """Job contract row -> robotics_jobs row (source_payload keeps raw/clean).
+
+    Empty description fields are OMITTED so the merge-upsert keeps existing
+    descriptions instead of wiping them (content-less boards, e.g. greenhouse
+    boards fetched with content=false).
+    """
+    row = {
         "company": job.company,
         "title": job.title,
         "url": job.url,
         "location": job.location,
-        "description": job.description,
         "is_active": bool(job.is_active),
         "last_seen_at": now_iso(),
         "scraped_at": now_iso(),
         "ats": job.source,
         "posted_at": job.posted_at,
-        "source_payload": {
+    }
+    if job.description or job.description_raw or job.description_clean:
+        row["description"] = job.description
+        row["source_payload"] = {
             "description_raw": job.description_raw,
             "description_clean": job.description_clean,
             "provider_slug": job.provider_slug,
             "run_id": job.run_id,
             "salary": job.salary,
             "remote": job.remote,
-        },
-    }
+        }
+    else:
+        row["source_payload"] = {
+            "provider_slug": job.provider_slug,
+            "run_id": job.run_id,
+            "salary": job.salary,
+            "remote": job.remote,
+        }
+    return row
 
 
 def publish(jobs) -> None:
