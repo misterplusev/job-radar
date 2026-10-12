@@ -36,7 +36,7 @@ BATCH_SIZE = 100
 CHUNK_SIZE = 5
 POSTED_DAYS_MAX = 14
 PROVIDER_TIMEOUT = 120
-BOARD_LOGOS_BASE = "https://misterplusev.github.io/jobradar-board/logos"
+BOARD_LOGOS_BASE = "https://misterplusev.github.io/robotics-jobradar-board/logos"
 
 
 def _logo_url(company: Optional[str]) -> Optional[str]:
