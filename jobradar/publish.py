@@ -36,6 +36,12 @@ BATCH_SIZE = 100
 CHUNK_SIZE = 5
 POSTED_DAYS_MAX = 14
 PROVIDER_TIMEOUT = 120
+BOARD_LOGOS_BASE = "https://misterplusev.github.io/jobradar-board/logos"
+
+
+def _logo_url(company: Optional[str]) -> Optional[str]:
+    slug = ((company or "").strip().lower().replace(" ", "-").replace(".", "-"))
+    return f"{BOARD_LOGOS_BASE}/{slug}.png" if slug else None
 
 
 def now_iso() -> str:
@@ -193,6 +199,9 @@ def _embed(job: dict) -> dict:
     ats = job.get("ats")
     if ats:
         embed["fields"].insert(0, {"name": "Source", "value": str(ats)[:256], "inline": True})
+    thumb = _logo_url(job.get("company"))
+    if thumb:
+        embed["thumbnail"] = {"url": thumb}
     return embed
 
 
