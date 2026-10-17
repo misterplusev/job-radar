@@ -88,6 +88,30 @@ create policy "anon read robotics_job_scrape_runs"
   to anon
   using (true);
 
+-- Robotics board "Applied?" tracker.
+-- The board runs in the visitor's browser holding only the anon key, so it needs
+-- insert/delete on its OWN applications table. Previously BOTH boards wrote to a
+-- shared public.applications table (created 2026-10-12), which comingled the
+-- robotics and tech modules and left this namespaced table unreachable.
+-- Scope is anon-only; the service key bypasses RLS.
+drop policy if exists "anon read robotics_applications" on public.robotics_applications;
+create policy "anon read robotics_applications"
+  on public.robotics_applications for select
+  to anon
+  using (true);
+
+drop policy if exists "anon insert robotics_applications" on public.robotics_applications;
+create policy "anon insert robotics_applications"
+  on public.robotics_applications for insert
+  to anon
+  with check (true);
+
+drop policy if exists "anon delete robotics_applications" on public.robotics_applications;
+create policy "anon delete robotics_applications"
+  on public.robotics_applications for delete
+  to anon
+  using (true);
+
 -- 5) Dashboard join view (sportsbook parity)
 create or replace view public.robotics_jobs_with_applied as
 select

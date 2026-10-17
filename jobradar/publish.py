@@ -7,6 +7,7 @@ module). Behavior contract:
           ->  fetch existing robotics_jobs urls (paginated)
           ->  upsert new/seen rows (on_conflict=company,url, batched, retried)
           ->  deactivate urls that vanished from the provider (closed_at fallback)
+          ->  relevance-gate the announce (storage is NEVER filtered)
           ->  Discord-announce NEW jobs posted within POSTED_DAYS_MAX days
               (5-embed chunks, 429-aware retries, 0.5s spacing)
           ->  failure alerts to the same webhook
@@ -26,6 +27,9 @@ from typing import Dict, List, Optional, Set
 import requests
 from requests import HTTPError
 
+from .relevance import explain as _relevance_explain
+from .relevance import is_relevant as _is_relevant
+
 DISCORD_WEBHOOK_JOBS = os.environ.get("DISCORD_WEBHOOK_JOBS", "").strip()
 DRY_RUN = False
 
@@ -37,6 +41,8 @@ CHUNK_SIZE = 5
 POSTED_DAYS_MAX = 14
 PROVIDER_TIMEOUT = 120
 BOARD_LOGOS_BASE = "https://misterplusev.github.io/robotics-jobradar-board/logos"
+RELEVANCE_ON = os.environ.get("DISCORD_RELEVANCE_FILTER", "1").strip() not in ("0", "false", "False")
+SUPPRESS_SAMPLE = 5
 
 
 def _logo_url(company: Optional[str]) -> Optional[str]:
@@ -205,6 +211,28 @@ def _embed(job: dict) -> dict:
     return embed
 
 
+def _split_relevant(jobs: List[dict]) -> tuple[List[dict], List[dict]]:
+    """Partition new postings into (announce, suppress). Storage is untouched.
+
+    Kill switch: DISCORD_RELEVANCE_FILTER=0 restores the old announce-everything
+    behavior without a code change.
+    """
+    if not RELEVANCE_ON:
+        return list(jobs), []
+    keep: List[dict] = []
+    drop: List[dict] = []
+    for j in jobs:
+        (keep if _is_relevant(j.get("title"), j.get("description"), j.get("company")) else drop).append(j)
+    if drop:
+        print(f"[RELEVANCE] suppressed {len(drop)} non-robotics postings ({len(keep)} kept)")
+        for job in drop[:SUPPRESS_SAMPLE]:
+            _, reason = _relevance_explain(job.get("title"), job.get("description"), job.get("company"))
+            print(f"[RELEVANCE]   - {job.get('company')}: {(job.get('title') or '')[:70]} ({reason})")
+        if len(drop) > SUPPRESS_SAMPLE:
+            print(f"[RELEVANCE]   ... and {len(drop) - SUPPRESS_SAMPLE} more")
+    return keep, drop
+
+
 def notify_new_jobs(new_jobs: List[dict]) -> None:
     if not DISCORD_WEBHOOK_JOBS and not DRY_RUN:
         print("[DISCORD] DISCORD_WEBHOOK_JOBS not configured; skipping new job alerts")
@@ -212,6 +240,10 @@ def notify_new_jobs(new_jobs: List[dict]) -> None:
     recent = [j for j in new_jobs if _is_recently_posted(j.get("posted_at"))]
     if not recent:
         print("[DISCORD] No recently posted jobs to announce")
+        return
+    recent, _suppressed = _split_relevant(recent)
+    if not recent:
+        print("[DISCORD] Nothing robotics-relevant to announce")
         return
     for idx in range(0, len(recent), CHUNK_SIZE):
         chunk = recent[idx : idx + CHUNK_SIZE]
