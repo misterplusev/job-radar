@@ -184,6 +184,56 @@ STRICT_TITLE_ONLY_COMPANIES = frozenset({
 })
 
 
+# --------------------------------------------------------------------------- #
+# ROBOTICS_NATIVE — verified robotics/autonomy employers.
+#
+# At these employers the WHOLE board is on-topic, so the title-signal
+# requirement is the wrong instrument: it rejected "Senior Radar Systems
+# Engineer" (Nuro), "Wire Harness Engineer" (Figure AI), "Manufacturing
+# Engineer, Battery" (1X) and "AV Operations Specialist" (Figure AI) purely
+# because their titles lacked a robotics keyword.
+#
+# Measured on 2026-10-16, the first run after the 34 new boards landed
+# suppressed 1,772 postings and announced 43 — a 97.6% rejection rate at
+# employers we had just deliberately added.
+#
+# So for these companies the decision is: NEGATIVE_TITLE still applies (it is
+# the business/service-role filter, and it carries the internship rule), and
+# everything else is announced. Storage was never filtered and still is not.
+#
+# Excluded on purpose: the nine pure-software seed boards above (they are in
+# targets.json only for their autonomy teams) and the mixed megacorps
+# amazon / rockwellautomation / lgelectronics, whose boards are mostly
+# off-topic consumer-and-enterprise roles.
+# --------------------------------------------------------------------------- #
+ROBOTICS_NATIVE = frozenset({
+    # AV / self-driving
+    "waymo", "nuro", "motional", "kodiak", "kodiakrobotics", "zoox", "waabi", "wayve",
+    "torcrobotics", "maymobility", "pronto", "oxa", "weride",
+    "toyotaresearchinstitute",
+    # delivery / logistics robotics
+    "zipline", "flyzipline", "locusrobotics", "brightmachines", "dexory",
+    "outrider", "ambirobotics", "picklerobot", "osaro", "cobaltrobotics",
+    # humanoid / manipulation / hardware
+    "figure", "figureai", "apptronik", "agilityrobotics", "1x", "physicalintelligence",
+    "standardbots", "dexterity", "anybotics", "bostondynamics", "autostore",
+    # drones / defense autonomy
+    "skydio", "shieldai", "brinc", "brincdrones", "swoop", "swoopaero",
+    "saronic", "epirus",
+    # field service / medical / inspection robotics
+    "serverobotics", "diligentrobotics", "noahmedical",
+    # autonomy software / perception
+    "helmai",
+    # space & launch hardware (engineering-dense boards)
+    "spacex", "andurilindustries", "rocketlab", "relativityspace", "vast",
+    "astranis", "machindustries", "planet", "ursamajor", "impulse",
+    "impulsespace", "brightmachines", "dexory", "outrider", "wing",
+})
+
+_NATIVE_NORM = frozenset(_norm_company(c) for c in ROBOTICS_NATIVE)
+_STRICT_NORM = frozenset(_norm_company(c) for c in STRICT_TITLE_ONLY_COMPANIES)
+
+
 def _text(title: Optional[str], description: Optional[str]) -> str:
     """Retained for callers that want title+description as one blob."""
     return f"{title or ''}\n{description or ''}"
@@ -199,13 +249,17 @@ def explain(title: Optional[str], description: Optional[str] = None,
     if neg:
         return False, f"negative:{neg.group(0).lower()}"
 
+    norm = _norm_company(company)
+    if norm in _NATIVE_NORM:
+        return True, f"robotics-native-employer:{norm}"
+
     strong = STRONG_TITLE.search(title)
     if strong:
         return True, f"strong-title:{strong.group(0).lower()}"
 
-    strict = _norm_company(company) in {_norm_company(c) for c in STRICT_TITLE_ONLY_COMPANIES}
+    strict = norm in _STRICT_NORM
     if strict:
-        return False, f"strict-company-no-strong-title:{_norm_company(company)}"
+        return False, f"strict-company-no-strong-title:{norm}"
 
     weak = WEAK_TITLE.search(title)
     if not weak:
