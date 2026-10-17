@@ -54,6 +54,20 @@ def ashby(slug):
 
 PROBES = {"greenhouse": gh, "lever": lever, "ashby": ashby}
 
+
+def _slugs(entries):
+    """Normalise a target list to plain slugs.
+
+    Entries are strings ("slug") or objects ({"slug": ..., "content": false}),
+    the same two shapes build_providers accepts.
+    """
+    out = []
+    for e in entries or []:
+        slug = e.get("slug") if isinstance(e, dict) else e
+        if slug:
+            out.append(slug)
+    return out
+
 # Signals that a board is the wrong industry.
 SUSPECT = re.compile(
     r"counsel|attorney|accounting|treasury|underwriter|mortgage|lending|"
@@ -68,7 +82,7 @@ def main():
     report = {}
 
     for source, probe in PROBES.items():
-        slugs = targets.get(source) or []
+        slugs = _slugs(targets.get(source))
         if not slugs:
             continue
         print(f"\n=== {source} ===")
@@ -98,8 +112,13 @@ def main():
 
     for key, probe in (("indeed_queries", lambda s: None), ("amazon", lambda s: None),
                        ("workday", lambda s: None)):
-        for slug in (targets.get(key) or []):
-            label = slug.get("q") if isinstance(slug, dict) else slug
+        for entry in (targets.get(key) or []):
+            if isinstance(entry, dict) and key == "indeed_queries":
+                label = entry.get("q")
+            elif isinstance(entry, dict):
+                label = entry.get("slug")
+            else:
+                label = entry
             print(f"  [{key}] {label}  (not probed here)")
 
     Path("targets_audit.json").write_text(json.dumps(report, indent=2), encoding="utf-8")

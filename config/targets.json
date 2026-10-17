@@ -1,6 +1,8 @@
 {
-  "_note": "Robotics company slugs by ATS source. Verified live 2026-10-06 via boards-api/lever/ashby probes; 2026-10-09 Workday cxs probes (direct career portals). Tesla careers (custom, Akamai-blocked) needs stealth/proxy tooling - not included.",
+  "_note": "Robotics company slugs by ATS source. Verified live 2026-10-06 via boards-api/lever/ashby probes; 2026-10-09 Workday cxs probes (direct career portals). Tesla careers (custom, Akamai Bot Manager behavioral challenge) is NOT scrapeable: verified 2026-10-16 across urllib, curl, headless Chrome and headed Chrome - every client gets the sec-if-cpt behavioral interstitial then 'Access Denied'. Tesla roles must arrive via an aggregator, not a direct provider.",
   "_note_2026_10_16": "greenhouse 'figure' resolved to [Figure Lending] (mortgage/insurance), NOT Figure AI humanoid robotics - 0/17 roles were relevant. Corrected to 'figureai' (verified: company_name 'Figure', 100 jobs incl. AV Operations Specialist). Audited with audit_targets.py.",
+  "_note_2026_10_16_discovery": "Discovery probe against 147 candidate slugs found 44 live public ATS boards not previously scraped. 34 added here. REJECTED after verification: greenhouse:archer (board_name 'Archer Veterinary Clinic' - DVM externships, NOT Archer Aviation), ashby:sanctuary (civil engineer / construction coordinator / FP&A - not Sanctuary AI), ashby:kindred (no robotics titles, Kindred AI was acquired by Ocado in 2020), lever:relay (3 React frontend roles, cannot confirm Relay Robotics vs an unrelated 'Relay'), and 0-job boards lever:attabotics / lever:beta / lever:blueorigin / lever:zapsurgical / ashby:planet.",
+  "_resource_note": "content:false is set for every board with >=100 jobs. Anduril alone showed the cost: 2,470 jobs x full descriptions pushed hourly runs to 19 min; content:false dropped that to ~3 min. Large boards still count toward the workflow's 45-min timeout even without descriptions, because the payload must still be downloaded.",
   "greenhouse": [
     "anthropic",
     "databricks",
@@ -17,14 +19,40 @@
     "agilityrobotics",
     "figureai",
     "apptronik",
-    "andurilindustries",
+    { "slug": "andurilindustries", "content": false },
     "locusrobotics",
-    "diligentrobotics"
+    "diligentrobotics",
+    { "slug": "spacex", "content": false },
+    { "slug": "rocketlab", "content": false },
+    { "slug": "relativity", "content": false },
+    { "slug": "vast", "content": false },
+    { "slug": "astranis", "content": false },
+    { "slug": "machindustries", "content": false },
+    { "slug": "planetlabs", "content": false },
+    { "slug": "ursamajor", "content": false },
+    { "slug": "lgelectronics", "content": false },
+    "wing",
+    "torcrobotics",
+    "epirus",
+    "maymobility",
+    "dexory",
+    "pronto",
+    "outrider",
+    "noahmedical"
   ],
-  "_resource_note": "andurilindustries uses content:false (2,470 jobs x full descriptions made hourly runs 19 min; without content ~3 min). Resource budget: private repo = 2,000 Actions min/mo.",
   "lever": [
     "zoox",
-    "waabi"
+    "waabi",
+    { "slug": "shieldai", "content": false },
+    "anybotics",
+    "dexterity",
+    "brightmachines",
+    "weride",
+    "tri",
+    "cobaltrobotics",
+    "osaro",
+    "picklerobot",
+    "ambirobotics"
   ],
   "ashby": [
     "ramp",
@@ -32,7 +60,15 @@
     "wayve",
     "1x",
     "physicalintelligence",
-    "standardbots"
+    "standardbots",
+    { "slug": "saronic", "content": false },
+    { "slug": "skydio", "content": false },
+    "serverobotics",
+    "brinc",
+    "swoop",
+    "helm-ai",
+    "impulse",
+    "oxa"
   ],
   "workday": [
     "bostondynamics",

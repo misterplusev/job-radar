@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 
 from ..models import Job, clean_ws, now_iso
 from .base import Provider, http_get
+from .names import board_company
 
 API = "https://api.ashbyhq.com/posting-api/job-board/{slug}?includeCompensation=true"
 
@@ -25,12 +26,16 @@ def _strip(raw: str) -> str:
 class AshbyProvider(Provider):
     source = "ashby"
 
+    def __init__(self, slug: str, content: bool = True):
+        super().__init__(slug)
+        self.content = content
+
     def fetch(self, run_id: str) -> List[Job]:
         try:
             data = http_get(API.format(slug=self.slug)).json()
         except Exception:
             return []
-        company = clean_ws(data.get("name")) or self.slug.replace("-", " ").title()
+        company = board_company(self.slug, data.get("name"))
         jobs: List[Job] = []
         for p in data.get("jobs", []):
             title = clean_ws(p.get("title"))
@@ -38,9 +43,13 @@ class AshbyProvider(Provider):
             if not title or not url:
                 continue
             loc = clean_ws(p.get("location") or p.get("locationName"))
-            desc = _strip(p.get("descriptionHtml") or "") or clean_ws(p.get("descriptionPlain"))
+            if self.content:
+                desc = _strip(p.get("descriptionHtml") or "") or clean_ws(p.get("descriptionPlain"))
+                raw = p.get("descriptionHtml") or ""
+            else:
+                desc, raw = "", ""
             jobs.append(Job(company=company, title=title, url=url, location=loc or None,
-                            description=desc, description_raw=p.get("descriptionHtml") or "",
+                            description=desc, description_raw=raw,
                             description_clean=desc, source=self.source, provider_slug=self.slug,
                             run_id=run_id, remote=bool(p.get("isRemote")) or ("remote" in (loc or "").lower()) or None,
                             scraped_at=now_iso()))
