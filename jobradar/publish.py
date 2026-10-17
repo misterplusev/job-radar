@@ -43,6 +43,9 @@ PROVIDER_TIMEOUT = 120
 BOARD_LOGOS_BASE = "https://misterplusev.github.io/robotics-jobradar-board/logos"
 RELEVANCE_ON = os.environ.get("DISCORD_RELEVANCE_FILTER", "1").strip() not in ("0", "false", "False")
 SUPPRESS_SAMPLE = 5
+# Discord webhooks are capped at ~30 requests/minute; pace chunks so a big
+# backlog announce stays under the limit instead of hammering 429s.
+DISCORD_PACE_SECONDS = 2.1
 
 
 def _logo_url(company: Optional[str]) -> Optional[str]:
@@ -68,6 +71,19 @@ def _headers(key: str) -> dict:
         "Authorization": f"Bearer {key}",
         "Content-Type": "application/json",
     }
+
+
+def _discord_retry_after(response) -> float:
+    """Parse Discord's retry_after (seconds) from a 429 response, bounded."""
+    try:
+        body = response.json()
+        wait = float(body.get("retry_after", 0) or 0)
+    except Exception:  # noqa: BLE001
+        wait = 0.0
+    # Discord sends retry_after in milliseconds for some endpoints; normalize.
+    if wait > 60:
+        wait /= 1000.0
+    return min(max(wait, 1.0), 30.0)
 
 
 def _rest(url_base: str, table: str) -> str:
@@ -252,16 +268,20 @@ def notify_new_jobs(new_jobs: List[dict]) -> None:
         if DRY_RUN:
             print(f"[DRY-RUN] Chunk {idx // CHUNK_SIZE + 1}: {json.dumps(payload, indent=2)[:400]}")
             continue
-        for attempt in range(3):
+        for attempt in range(8):
             r = requests.post(DISCORD_WEBHOOK_JOBS, json=payload, timeout=30)
             if r.status_code == 429:
-                wait = 3 * (attempt + 1)
-                print(f"[DISCORD] 429 on chunk {idx // CHUNK_SIZE + 1}, retrying in {wait}s")
+                wait = _discord_retry_after(r)
+                print(f"[DISCORD] 429 on chunk {idx // CHUNK_SIZE + 1}, waiting {wait:.1f}s "
+                      f"(attempt {attempt + 1}/8)")
                 time.sleep(wait)
                 continue
             r.raise_for_status()
             break
-        time.sleep(0.5)
+        else:
+            print(f"[DISCORD] chunk {idx // CHUNK_SIZE + 1} dropped after repeated 429s")
+            continue
+        time.sleep(DISCORD_PACE_SECONDS)
     print(f"[DISCORD] Posted {len(recent)} new robotics jobs")
 
 
