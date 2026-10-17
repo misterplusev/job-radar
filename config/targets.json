@@ -1,5 +1,6 @@
 {
   "_note": "Robotics company slugs by ATS source. Verified live 2026-10-06 via boards-api/lever/ashby probes; 2026-10-09 Workday cxs probes (direct career portals). Tesla careers (custom, Akamai-blocked) needs stealth/proxy tooling - not included.",
+  "_note_2026_10_16": "greenhouse 'figure' resolved to [Figure Lending] (mortgage/insurance), NOT Figure AI humanoid robotics - 0/17 roles were relevant. Corrected to 'figureai' (verified: company_name 'Figure', 100 jobs incl. AV Operations Specialist). Audited with audit_targets.py.",
   "greenhouse": [
     "anthropic",
     "databricks",
@@ -14,7 +15,7 @@
     "motional",
     "kodiak",
     "agilityrobotics",
-    "figure",
+    "figureai",
     "apptronik",
     "andurilindustries",
     "locusrobotics",

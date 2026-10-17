@@ -69,10 +69,12 @@ th{top:0}
  <select id=src><option value="">all sources</option></select>
  <select id=st><option value="">active + closed</option><option value="1">active only</option><option value="0">closed only</option><option value="applied">applied only</option></select>
  <label><input type=checkbox id=rem> remote only</label>
+ <label title="Hides postings from pure-software companies (Databricks, OpenAI, Stripe, Anthropic, Airbnb, Coinbase, Robinhood, Ramp, Figma) and the Figure Lending mortgage board. These boards are scraped as seed sources but are not robotics employers."><input type=checkbox id=offtopic checked> hide off-topic</label>
  </div>
  <div id=pills class=pills></div>
 </div>
 <div id=status style=display:none></div>
+<div id=ofnote class=muted style="padding:0 20px 6px;display:none"></div>
 <div id=loading class=loading-wrap>
  <div class=abet-chip-loader role=status aria-live=polite><div class=abet-chip-perspective><div class=abet-chip-spinner><div class=abet-chip-face><span class=abet-chip-seg style="transform:rotate(0deg)"></span><span class=abet-chip-seg style="transform:rotate(45deg)"></span><span class=abet-chip-seg style="transform:rotate(90deg)"></span><span class=abet-chip-seg style="transform:rotate(135deg)"></span><span class=abet-chip-seg style="transform:rotate(180deg)"></span><span class=abet-chip-seg style="transform:rotate(225deg)"></span><span class=abet-chip-seg style="transform:rotate(270deg)"></span><span class=abet-chip-seg style="transform:rotate(315deg)"></span><span class=abet-chip-txt>α</span></div><div class="abet-chip-face abet-chip-back"><span class=abet-chip-seg style="transform:rotate(0deg)"></span><span class=abet-chip-seg style="transform:rotate(45deg)"></span><span class=abet-chip-seg style="transform:rotate(90deg)"></span><span class=abet-chip-seg style="transform:rotate(135deg)"></span><span class=abet-chip-seg style="transform:rotate(180deg)"></span><span class=abet-chip-seg style="transform:rotate(225deg)"></span><span class=abet-chip-seg style="transform:rotate(270deg)"></span><span class=abet-chip-seg style="transform:rotate(315deg)"></span><span class=abet-chip-txt>α</span></div></div></div></div>
  <div id=loadprogress class=muted>Loading jobs...</div>
@@ -84,8 +86,34 @@ let DATA=[], sortK="posted_at", asc=false, APPLIED=new Set(), COMP=new Set();
 const tb=document.getElementById("tb"), q=document.getElementById("q"),
  src=document.getElementById("src"), st=document.getElementById("st"), rem=document.getElementById("rem"),
  loc=document.getElementById("loc"), pills=document.getElementById("pills"),
+ ofc=document.getElementById("offtopic"),
  cnt=document.getElementById("status"), loadwrap=document.getElementById("loading"),
- tblwrap=document.getElementById("tblwrap"), loadprogress=document.getElementById("loadprogress");
+ tblwrap=document.getElementById("tblwrap"), loadprogress=document.getElementById("loadprogress"),
+ ofnote=document.getElementById("ofnote");
+// Off-topic = pure-software companies that were added to config/targets.json as seed
+// sources, plus the `figure` Greenhouse slug which is Figure LENDING (mortgage/insurance),
+// not Figure AI. Figure AI lives at /figureai/ once the target is corrected.
+// Keep OFFTOPIC_COMPANIES in sync with STRICT_TITLE_ONLY_COMPANIES in jobradar/relevance.py.
+const OFFTOPIC_COMPANIES=new Set(["anthropic","databricks","stripe","coinbase","figma","airbnb","robinhood","ramp","openai"]);
+const OFFTOPIC_URL=/\/(figure|figure-lending)\/jobs\//i;
+// Mirror of _norm_company() in jobradar/relevance.py: providers report the same
+// employer inconsistently ("Stripe" / "Stripe, Inc." / "stripe inc"), so strip
+// corporate suffixes before comparing.
+const CORP_SUFFIXES=["incorporated","corporation","corp","company","holdings","group","technologies","technology","labs","plc","llc","ltd","inc","sa","gmbh","pbc","llp","pllc","limited","bv","nv"];
+function normCompany(name){
+ let flat=(""+(name||"")).toLowerCase().replace(/[^a-z0-9]/g,"");
+ let changed=true;
+ while(changed&&flat.length>4){
+  changed=false;
+  for(const s of CORP_SUFFIXES){
+   if(flat.endsWith(s)&&flat.length-s.length>=3){flat=flat.slice(0,flat.length-s.length);changed=true}
+  }
+ }
+ return flat;
+}
+function isOffTopic(d){
+ return OFFTOPIC_COMPANIES.has(normCompany(d.company))||OFFTOPIC_URL.test(d.url||"");
+}
 function slugify(name){return (""+(name||"")).toLowerCase().replace(/ /g,"-").replace(/\./g,"-")}
 function esc(s){return (""+(s||"")).replace(/&/g,"\x26amp;").replace(/</g,"\x26lt;").replace(/>/g,"\x26gt;").replace(/"/g,"\x26quot;").replace(/'/g,"\x26#39;")}
 const PALETTE=["#58a6ff","#3fb950","#f778ba","#d29922","#a371f7","#39c5cf","#ff7b72","#7ee787","#f0883e","#79c0ff","#db61a2","#56d364","#e3b341","#ffa657"];
@@ -97,7 +125,7 @@ async function loadApplied(){
  const set=new Set(); let off=0;
  try{
   while(true){
-   const r=await fetch(SB_URL+"/rest/v1/applications?select=company,job_url&limit=1000&offset="+off,{headers:SBH});
+   const r=await fetch(SB_URL+"/rest/v1/robotics_applications?select=company,job_url&limit=1000&offset="+off,{headers:SBH});
    if(!r.ok)break;
    const pg=await r.json(); pg.forEach(a=>set.add(akey(a.company,a.job_url)));
    if(pg.length<1000)break; off+=1000;
@@ -110,10 +138,10 @@ async function toggleApplied(company,url,title){
  try{
   if(APPLIED.has(key)){
    const f="company=eq."+encodeURIComponent(company)+"&job_url=eq."+encodeURIComponent(url);
-   const r=await fetch(SB_URL+"/rest/v1/applications?"+f,{method:"DELETE",headers:SBH});
+   const r=await fetch(SB_URL+"/rest/v1/robotics_applications?"+f,{method:"DELETE",headers:SBH});
    if(r.ok){APPLIED.delete(key);render()}
   }else{
-   const r=await fetch(SB_URL+"/rest/v1/applications",{method:"POST",headers:Object.assign({},SBH,{"Content-Type":"application/json",Prefer:"resolution=merge-duplicates"}),body:JSON.stringify([{company:company,job_url:url,job_title:title}])});
+   const r=await fetch(SB_URL+"/rest/v1/robotics_applications",{method:"POST",headers:Object.assign({},SBH,{"Content-Type":"application/json",Prefer:"resolution=merge-duplicates"}),body:JSON.stringify([{company:company,job_url:url,job_title:title}])});
    if(r.ok){APPLIED.add(key);render()}
   }
  }catch(e){}
@@ -153,7 +181,9 @@ async function load(){
  render();
 }
 function render(){
+ let hidden=0;
  let r=DATA.filter(d=>{
+  if(ofc.checked&&isOffTopic(d)){hidden++;return false}
   if(st.value==="applied"){if(!APPLIED.has(akey(d.company,d.url)))return false}
   else if(st.value!==""&&String(d.is_active?1:0)!==st.value)return false;
   if(COMP.size&&!COMP.has(d.company))return false;
@@ -163,6 +193,8 @@ function render(){
   const t=(q.value||"").toLowerCase();
   return !t||(d.title+" "+d.company+" "+d.location).toLowerCase().includes(t);});
  r.sort((a,b)=>{const x=a[sortK],y=b[sortK];const c=(""+(x||"")).localeCompare(""+(y||""),undefined,{numeric:true});return asc?c:-c;});
+ ofnote.style.display=hidden?"":"none";
+ ofnote.textContent=hidden?("showing "+r.length+" of "+(r.length+hidden)+" — hiding "+hidden+" off-topic posting"+(hidden===1?"":"s")+" from pure-software boards"):"";
  tb.innerHTML=r.map(d=>{const on=APPLIED.has(akey(d.company,d.url));return "<tr>\n"+
   "<td><a href=\""+esc(d.url)+"\" target=_blank rel=noopener>"+esc(d.title)+"</a></td>"+
   "<td><img class=logo src='logos/"+slugify(d.company)+".png' alt='' onerror=\"this.style.display='none'\"><span class='pill company'>"+esc(d.company)+"</span></td>"+
@@ -192,7 +224,7 @@ tb.addEventListener("click",e=>{
  toggleApplied(b.dataset.c,b.dataset.u,b.dataset.t);
 });
 document.querySelectorAll("th[data-k]").forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(k===sortK)asc=!asc;else{sortK=k;asc=false}render()});
-[q,loc,src,st,rem].forEach(el=>el.addEventListener("input",render));
+[q,loc,src,st,rem,ofc].forEach(el=>el.addEventListener("input",render));
 window.addEventListener("resize",setCtrlH);
 new ResizeObserver(setCtrlH).observe(document.querySelector(".controls"));
 load();

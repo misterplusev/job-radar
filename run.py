@@ -158,13 +158,12 @@ def cmd_report(args) -> int:
 
 
 def cmd_render(args) -> int:
-    try:
-        from jobradar.dashboard import render_dashboard
-        path = render_dashboard(settings, get_storage(settings), args.out)
-        print(f"[render] dashboard -> {path}")
-    except Exception as e:  # noqa: BLE001
-        # the live board (jobradar-board) is the real dashboard; this artifact is dev-only
-        print(f"[render] skipped: {e}")
+    # Never swallow this. The render step used to catch every exception, print
+    # "[render] skipped" and exit 0, so a broken query looked like a green run
+    # while uploading no artifact — silently broken on every execution.
+    from jobradar.dashboard import render_dashboard
+    path = render_dashboard(settings, get_storage(settings), args.out)
+    print(f"[render] dashboard -> {path}")
     return 0
 
 
