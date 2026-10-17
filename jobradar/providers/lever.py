@@ -8,6 +8,7 @@ from typing import List
 
 from ..models import Job, clean_ws, now_iso
 from .base import Provider, http_get
+from .names import board_company
 
 API = "https://api.lever.co/v0/postings/{slug}?mode=json"
 
@@ -15,12 +16,16 @@ API = "https://api.lever.co/v0/postings/{slug}?mode=json"
 class LeverProvider(Provider):
     source = "lever"
 
+    def __init__(self, slug: str, content: bool = True):
+        super().__init__(slug)
+        self.content = content
+
     def fetch(self, run_id: str) -> List[Job]:
         try:
             data = http_get(API.format(slug=self.slug)).json()
         except Exception:
             return []
-        company = self.slug.replace("-", " ").title()
+        company = board_company(self.slug)
         jobs: List[Job] = []
         for p in data:
             title = clean_ws(p.get("text"))
@@ -28,9 +33,13 @@ class LeverProvider(Provider):
             if not title or not url:
                 continue
             loc = clean_ws((p.get("categories") or {}).get("location"))
-            desc = clean_ws(p.get("descriptionPlain") or p.get("description"))
+            if self.content:
+                desc = clean_ws(p.get("descriptionPlain") or p.get("description"))
+                raw = p.get("description") or ""
+            else:
+                desc, raw = "", ""
             jobs.append(Job(company=company, title=title, url=url, location=loc or None,
-                            description=desc, description_raw=p.get("description") or "",
+                            description=desc, description_raw=raw,
                             description_clean=desc, source=self.source, provider_slug=self.slug,
                             run_id=run_id, remote=("remote" in (loc or "").lower()) or None,
                             scraped_at=now_iso()))
