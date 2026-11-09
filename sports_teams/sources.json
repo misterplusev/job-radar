@@ -562,5 +562,21 @@
     "org_id": "30003",
     "league": "NHL",
     "team": "Washington Capitals"
+  },
+  {
+    "key": "tw:multiple-properties/ilitch-sports/detroit-red-wings",
+    "kind": "teamworkonline",
+    "path": "hockey-jobs/hockeyjobs/nhl-league-office",
+    "org_id": "28282",
+    "league": "NHL",
+    "team": "Detroit Red Wings"
+  },
+  {
+    "key": "tw:multiple-properties/harris-blitzer-sports-entertainment-jobs/new-jersey-devils-jobs",
+    "kind": "teamworkonline",
+    "path": "hockey-jobs/hockeyjobs/nhl-league-office",
+    "org_id": "28286",
+    "league": "NHL",
+    "team": "New Jersey Devils"
   }
 ]

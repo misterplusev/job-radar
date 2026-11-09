@@ -14,6 +14,16 @@ from providers import teamwork
 
 
 class ParityTests(unittest.TestCase):
+    def test_detail_request_uses_working_listing_headers_and_full_text(self):
+        raw={'@type':'JobPosting','description':'A'*2500,'datePosted':'2026-11-09'}
+        response=Mock(text='<script type="application/ld+json">'+json.dumps(raw)+'</script>')
+        client=Mock();client.get.return_value=response
+        with patch.object(enrichment,'BoundedSession') as session:
+            session.return_value.__enter__.return_value=client
+            got=enrichment.fetch_detail({'url':'https://www.teamworkonline.com/baseball-jobs/team/role-1'})
+        client.headers.update.assert_called_once_with(teamwork.UA)
+        self.assertEqual(len(got['description']),2500)
+
     def test_complete_description_updates_even_when_shorter(self):
         con=sqlite3.connect(':memory:');con.executescript(pipeline_local.SCHEMA);self.addCleanup(con.close)
         row=dict(league='NFL',team='Team',title='Manager',url='https://example.com/role',platform='greenhouse',description='A'*2000)
