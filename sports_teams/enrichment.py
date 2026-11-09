@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
 
 from live_refresh import BoundedSession
+from providers.teamwork import UA
 from publish_teams import _clean_text, _iso
 
 
@@ -35,6 +36,8 @@ def fetch_detail(row):
     with BoundedSession() as client:
         url = row['url']
         p = urlsplit(url)
+        if p.netloc == 'www.teamworkonline.com':
+            client.headers.update(UA)
         if 'myworkdayjobs.com' in p.netloc:
             parts = [s for s in p.path.split('/') if s]
             if re.fullmatch(r'[a-z]{2}-[A-Z]{2}', parts[0]):
@@ -69,7 +72,7 @@ def enrich(con, limit=250, seconds=900):
         and (detail_checked_at is null or (detail_status!='success' and detail_checked_at<?)
              or (detail_status='success' and detail_checked_at<?))
         order by detail_checked_at is not null, first_seen_at desc limit ?''', (retry_before,refresh_before,limit))]
-    start = time.monotonic(); counts = {'success':0, 'error':0, 'pending':0}
+    start = time.monotonic(); counts = {'success':0, 'error':0, 'pending':0, 'error_samples':[]}
     for row in rows:
         if time.monotonic() - start > seconds:
             break
@@ -82,10 +85,12 @@ def enrich(con, limit=250, seconds=900):
                 salary=coalesce(?,salary),detail_status='success',detail_checked_at=? where id=?''',
                 (detail['description'],detail['posted_at'],detail['salary'],stamp,row['id']))
             counts['success'] += 1
-        except Exception:
+        except Exception as exc:
             # Preserve known details and active state on a detail-page failure.
             con.execute("update team_jobs set detail_status='error',detail_checked_at=? where id=?",(stamp,row['id']))
             counts['error'] += 1
+            if len(counts['error_samples']) < 5:
+                counts['error_samples'].append({'url':row['url'],'error':f'{type(exc).__name__}: {exc}'[:350]})
         con.commit()
     counts['pending'] = con.execute("select count(*) from team_jobs where is_active=1 and platform in ('teamworkonline','workday') and coalesce(detail_status,'')!='success'").fetchone()[0]
     return counts
