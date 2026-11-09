@@ -103,10 +103,11 @@ def ingest(con, rows, record_runs=True):
         cur = con.execute('select id, first_seen_at from team_jobs where url=? order by id limit 1', (url,))
         hit = cur.fetchone()
         if hit:
-            con.execute('''update team_jobs set league=?, team=?, title=?, location=?, description=case when length(?)>length(coalesce(description,'')) or length(?)>length(coalesce(description,'')) then ? else description end,
+            full_description = r.get('platform') in ('greenhouse','adp') and len(desc)>=80
+            con.execute('''update team_jobs set league=?, team=?, title=?, location=?, description=case when length(?)>length(coalesce(description,'')) or ? then ? else description end,
                            platform=?, posted_at=coalesce(?,posted_at), last_seen_at=?, is_active=1, closed_at=null,
                            logo_url=? where id=?''',
-                        (league, team_display, title, loc, desc, desc, desc, r.get('platform'), posted, r.get('scraped_at') or now(), logo, hit[0]))
+                        (league, team_display, title, loc, desc, full_description, desc, r.get('platform'), posted, r.get('scraped_at') or now(), logo, hit[0]))
             updated += 1
         else:
             con.execute('''insert into team_jobs (league, team, title, url, location, description,
