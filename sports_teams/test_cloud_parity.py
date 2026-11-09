@@ -14,6 +14,12 @@ from providers import teamwork
 
 
 class ParityTests(unittest.TestCase):
+    def test_complete_description_updates_even_when_shorter(self):
+        con=sqlite3.connect(':memory:');con.executescript(pipeline_local.SCHEMA);self.addCleanup(con.close)
+        row=dict(league='NFL',team='Team',title='Manager',url='https://example.com/role',platform='greenhouse',description='A'*2000)
+        pipeline_local.ingest(con,[row],False);pipeline_local.ingest(con,[dict(row,description='B'*1000)],False)
+        self.assertEqual(con.execute('select description from team_jobs').fetchone()[0],'B'*1000)
+
     def test_league_portal_preserves_actual_employer(self):
         from providers.base import Job
         job=Job(league='NHL',team='Washington Capitals',title='Manager',url='https://example.com/job',location='DC')
