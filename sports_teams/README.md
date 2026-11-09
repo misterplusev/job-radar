@@ -28,7 +28,7 @@ the pre-existing operator hold. Tests mock delivery; no messages were sent.
 Normal delivery acknowledges only successful chunks; old unannounced listings
 are not represented as newly posted. Existing delivery history is in Supabase.
 
-Tests: `python -m unittest discover -p "test_*.py"` (31 regression checks).
+Tests: `python -m unittest discover -p "test_*.py"` (33 regression checks).
 `node test_worker.mjs` covers the retired relay experiment (7 safety checks).
 `verify_deployment.py` checks the board/database counts, duplicate URLs and
 preservation of the original observation dates without modifying production.

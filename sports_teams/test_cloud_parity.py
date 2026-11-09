@@ -14,6 +14,21 @@ from providers import teamwork
 
 
 class ParityTests(unittest.TestCase):
+    def test_transient_timeout_retries_within_request_budget(self):
+        response=Mock(status_code=200)
+        with patch('requests.Session.request',side_effect=[live_refresh.requests.ReadTimeout('temporary'),response]) as request,patch.object(live_refresh.time,'sleep'):
+            with live_refresh.BoundedSession() as client:
+                self.assertIs(client.get('https://example.com/jobs'),response)
+                self.assertEqual(client.calls,2)
+        self.assertEqual(request.call_count,2)
+
+    def test_forbidden_response_is_not_retried(self):
+        response=Mock(status_code=403)
+        with patch('requests.Session.request',return_value=response) as request:
+            with live_refresh.BoundedSession() as client:
+                self.assertIs(client.get('https://example.com/jobs'),response)
+        self.assertEqual(request.call_count,1)
+
     def test_detail_request_uses_working_listing_headers_and_full_text(self):
         raw={'@type':'JobPosting','description':'A'*2500,'datePosted':'2026-11-09'}
         response=Mock(text='<script type="application/ld+json">'+json.dumps(raw)+'</script>')

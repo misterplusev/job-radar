@@ -38,6 +38,25 @@ class BoundedSession(requests.Session):
         self.calls = 0
 
     def request(self, method, url, **kwargs):
+        # Retry read-only requests, with the same total source budget and pacing.
+        retryable = method.upper() in ('GET', 'HEAD')
+        for attempt in range(3):
+            delay = 2 ** attempt
+            try:
+                response = self._request_once(method, url, **kwargs)
+            except (requests.Timeout, requests.ConnectionError):
+                if not retryable or attempt == 2:
+                    raise
+            else:
+                if not retryable or response.status_code not in (429, 500, 502, 503, 504) or attempt == 2:
+                    return response
+                try:
+                    delay = max(delay, min(30, int(response.headers.get('Retry-After', delay))))
+                except (TypeError, ValueError):
+                    pass
+            time.sleep(delay)
+
+    def _request_once(self, method, url, **kwargs):
         self.calls += 1
         remaining = SOURCE_SECONDS - (time.monotonic() - self.started)
         if self.calls > MAX_REQUESTS or remaining <= 0:
