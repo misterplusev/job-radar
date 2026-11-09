@@ -102,7 +102,7 @@ def scrape_org(org: TeamWorkOrg, session=None, timeout: int = 45) -> list[Job]:
                 location = f"{location} · {level}"
         jobs.append(Job(
             league=org.league,
-            team=org.team,
+            team=_clean(cat.group(1)) if cat and _clean(cat.group(1)) else org.team,
             title=title,
             url=BASE + href if href.startswith("/") else href,
             location=location,

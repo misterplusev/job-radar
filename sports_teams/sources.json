@@ -554,5 +554,13 @@
     "url": "https://www.49ers.com/employment/",
     "league": "NFL",
     "team": "San Francisco 49ers"
+  },
+  {
+    "key": "tw:multiple-properties/monumentalsports/washington-capitals-jobs",
+    "kind": "teamworkonline",
+    "path": "hockey-jobs/hockeyjobs/nhl-league-office",
+    "org_id": "30003",
+    "league": "NHL",
+    "team": "Washington Capitals"
   }
 ]
