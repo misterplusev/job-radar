@@ -7,17 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests
-      - name: Verify public Teamwork source from the robotics/tech runtime
+      - run: pip install -r sports_teams/requirements.txt
+      - name: Check detail extraction with production code
+        working-directory: sports_teams
         run: |
           python - <<'PY'
-          import requests
-          u='https://www.teamworkonline.com/basketball-jobs/nbateamjobs'
-          r=requests.get(u,headers={'User-Agent':'ABET-TeamsJobs/1.0'},timeout=30)
-          print('TEAMWORK_HTTP',r.status_code,'BYTES',len(r.content),'CARDS',r.text.count('organization-portal__job-title'))
-          r.raise_for_status()
-          assert 'organization-portal__job-title' in r.text
+          from enrichment import fetch_detail
+          urls=['https://www.teamworkonline.com/baseball-jobs/philadelphia-phillies-baseball-ops/philadelphia-phillies-baseball-ops/minor-league-assistant-pitching-coach-2198771','https://www.teamworkonline.com/basketball-jobs/nbateamjobs/dallas-wings/it-manager-2196126']
+          for url in urls:
+              try:
+                  d=fetch_detail({'url':url});print('OK',url,len(d['description']),d['posted_at'])
+              except Exception as e:print('FAILED',url,type(e).__name__,str(e)[:400])
           PY
