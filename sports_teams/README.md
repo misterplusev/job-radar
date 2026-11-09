@@ -22,6 +22,9 @@ supported. Failures preserve existing jobs; only verified complete observations
 can retire missing jobs. First-seen dates are immutable across upserts/rebuilds.
 Full details refresh in bounded batches (250 pages/run, 15-minute detail budget).
 The health receipt exposes remaining details and every source failure.
+Some Teamwork detail pages reject automated requests with HTTP 403; their
+listings remain visible, prior descriptions are preserved, and failures are
+reported without bypassing the site's restrictions.
 
 Notifications remain parked (`NOTIFICATIONS_PAUSED: '1'` in the workflow) under
 the pre-existing operator hold. Tests mock delivery; no messages were sent.
@@ -30,12 +33,15 @@ are not represented as newly posted. Existing delivery history is in Supabase.
 
 Tests: `python -m unittest discover -p "test_*.py"` (33 regression checks).
 `node test_worker.mjs` covers the retired relay experiment (7 safety checks).
-`verify_deployment.py` checks the board/database counts, duplicate URLs and
+The local operator helper `verify_deployment.py` checks board/database counts, duplicate URLs and
 preservation of the original observation dates without modifying production.
 
-Deployment helper: `deploy_github.py`; secrets travel via GitHub secret stdin.
+Local operator deployment helper: `deploy_github.py`; secrets travel via GitHub secret stdin.
 The shared database migration was applied in an isolated one-time workflow;
 the original robotics and tech pipelines were not modified.
+After production certification on 2026-11-09, the old Windows scrape/publish
+tasks were exported to the local backup and disabled. GitHub Actions owns
+the recurring schedule; do not re-enable the Windows tasks alongside it.
 
 The Hugging Face/Cloudflare experiment is retired: HF could not reach Teamwork
 or its relay reliably. The sportsbook launcher and Dockerfile were restored
