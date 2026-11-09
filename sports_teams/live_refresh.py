@@ -23,6 +23,10 @@ from providers import nba, nfl, teamwork, teamwork_vertical, adp, ultipro
 MAX_WORKERS = 3
 MAX_REQUESTS = 80
 SOURCE_SECONDS = 240
+SOURCE_ALIASES = {
+    'football-jobs/la-rams-careers/la-rams-micro':
+        'football-jobs/la-rams-careers/los-angeles-rams',
+}
 
 
 class BoundedSession(requests.Session):
@@ -68,6 +72,7 @@ def source_from_row(row):
     base = {'team': team, 'league': league}
     if 'teamworkonline.com' in p.netloc and len(parts) >= 3:
         path = '/'.join(parts[:3])
+        path = SOURCE_ALIASES.get(path,path)
         return dict(base, kind='teamworkonline', key='tw:' + path, path=path)
     if 'greenhouse.io' in p.netloc and parts:
         board = parts[0]
@@ -126,7 +131,7 @@ def fetch_source(source):
         with BoundedSession() as client:
             kind = source['kind']
             if kind == 'teamworkonline':
-                jobs = teamwork.scrape_org(teamwork.TeamWorkOrg(source['league'], source['team'], source['path'], ''), session=client)
+                jobs = teamwork.scrape_org(teamwork.TeamWorkOrg(source['league'], source['team'], source['path'], source.get('org_id','')), session=client)
             elif kind == 'nba':
                 jobs = nba.scrape(session=client)
             elif kind == 'ultipro':
@@ -180,7 +185,14 @@ def fetch_source(source):
             row = dict(job) if isinstance(job, dict) else asdict(job)
             if not row.get('title') or not row.get('url'):
                 raise ValueError('source returned a job without title or URL')
-            row.update(league=source['league'], team=source['team'], platform=row.get('platform') or source['kind'], source_id=source['key'], scraped_at=observed_at)
+            team=row.get('team') or source['team']
+            league=row.get('league') or source['league']
+            if source['kind']=='teamworkonline':
+                import publish_teams as labels
+                for key,meta in labels.LOGO_MAP.items():
+                    if labels._norm(team) in (labels._norm(key.partition(':')[2]),labels._norm(meta.get('espn_name'))):
+                        league=key.partition(':')[0];break
+            row.update(league=league, team=team, platform=row.get('platform') or source['kind'], source_id=source['key'], scraped_at=observed_at)
             row['description'] = row.get('description') or row.get('description_clean') or ''
             rows.append(row)
         return {'source': source, 'rows': rows, 'status': 'success',
@@ -236,6 +248,9 @@ def apply_results(con, results, pipeline):
             n, u = pipeline.ingest(con, result['rows'], record_runs=False)
             new += n; updated += u
             urls = {r['url'] for r in result['rows']}
+            for old,new_path in SOURCE_ALIASES.items():
+                if source['key']=='tw:'+new_path:
+                    con.execute('delete from team_job_observations where source_id=?',('tw:'+old,))
             con.execute('update team_job_observations set is_active=0,observed_at=? where source_id=?', (result['observed_at'], source['key']))
             for url in urls:
                 con.execute('update team_jobs set source_id=? where url=?', (source['key'], url))

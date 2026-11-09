@@ -57,6 +57,11 @@ class CloudStorage:
             if name not in cols:con.execute(f'alter table team_jobs add column {name} text')
         con.execute('create table if not exists team_job_observations (source_id text,url text,is_active integer,observed_at text,primary key(source_id,url))')
         for row in rows:
+            hit=con.execute('select id from team_jobs where url=?',(row['url'],)).fetchone()
+            if hit:
+                con.execute('update team_jobs set '+','.join(f'{k}=?' for k in JOB_FIELDS)+' where id=?',
+                            [row.get(k) for k in JOB_FIELDS]+[hit[0]])
+                continue
             fields=','.join(JOB_FIELDS);marks=','.join('?' for _ in JOB_FIELDS)
             updates=','.join(f'{k}=excluded.{k}' for k in JOB_FIELDS if k not in ('url','team'))
             con.execute(f'insert into team_jobs ({fields}) values ({marks}) on conflict(team,url) do update set {updates}',[row.get(k) for k in JOB_FIELDS])

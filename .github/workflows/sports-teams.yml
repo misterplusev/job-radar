@@ -1,6 +1,12 @@
 name: sports-teams-jobs
 on:
   workflow_dispatch:
+    inputs:
+      detail_limit:
+        description: 'Detail-page batch (0 verifies sources using cached descriptions)'
+        type: choice
+        options: ['250', '0']
+        default: '250'
   schedule:
     - cron: '23 * * * *'
 permissions:
@@ -35,7 +41,7 @@ jobs:
         run: python -m unittest discover -p 'test_*.py'
       - name: Scrape and persist all supported sources
         id: scrape
-        run: python -u pipeline_local.py --cloud --trigger '${{ github.event_name }}'
+        run: python -u pipeline_local.py --cloud --trigger '${{ github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}'
       - name: Notification guard and delivery
         run: |
           if [ "$NOTIFICATIONS_PAUSED" = "0" ]; then

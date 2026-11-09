@@ -14,6 +14,21 @@ from providers import teamwork
 
 
 class ParityTests(unittest.TestCase):
+    def test_league_portal_preserves_actual_employer(self):
+        from providers.base import Job
+        job=Job(league='NHL',team='Washington Capitals',title='Manager',url='https://example.com/job',location='DC')
+        with patch.object(live_refresh.teamwork,'scrape_org',return_value=[job]):
+            result=live_refresh.fetch_source(dict(kind='teamworkonline',key='tw:league',path='hockey-jobs/league',league='NHL',team='NHL League Office'))
+        self.assertEqual(result['rows'][0]['team'],'Washington Capitals')
+
+    def test_owner_correction_preserves_identity_and_first_seen(self):
+        con=sqlite3.connect(':memory:');con.executescript(pipeline_local.SCHEMA);self.addCleanup(con.close)
+        row=dict(league='NHL',team='NHL League Office',title='Manager',url='https://example.com/role')
+        pipeline_local.ingest(con,[row],False)
+        first=con.execute('select first_seen_at from team_jobs').fetchone()[0]
+        pipeline_local.ingest(con,[dict(row,team='Washington Capitals')],False)
+        self.assertEqual(con.execute('select count(*),team,first_seen_at from team_jobs').fetchone(),(1,'Washington Capitals',first))
+
     def test_old_unannounced_job_is_not_announced_as_new(self):
         import sys
         rows=[dict(title='Old role',url='https://example.com/old',posted_at='2020-01-01',first_seen_at='2020-01-01')]
