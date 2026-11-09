@@ -1,31 +1,23 @@
-name: sports-teams-cloud-bootstrap
+name: sports-teams-cloud-connectivity
 on: workflow_dispatch
 permissions:
   contents: read
 jobs:
-  migrate:
+  check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: pip install requests
-      - name: Apply only sports teams schema
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      - name: Verify public Teamwork source from the robotics/tech runtime
         run: |
           python - <<'PY'
-          import os, requests
-          from pathlib import Path
-          expected='alxgteasytezekyunyjk'
-          assert expected in os.environ['SUPABASE_URL'], 'Unexpected database project'
-          assert os.environ['SUPABASE_PROJECT_REF']==expected, 'Unexpected migration project'
-          r=requests.post(f'https://api.supabase.com/v1/projects/{expected}/database/query', headers={'Authorization':'Bearer '+os.environ['SUPABASE_ACCESS_TOKEN']}, json={'query':Path('db/schema_sports_teams.sql').read_text()}, timeout=90)
-          if not r.ok: raise RuntimeError(f'Migration HTTP {r.status_code}: {r.text[:300]}')
-          print('Sports teams schema applied. Existing runtime database secrets reused.')
+          import requests
+          u='https://www.teamworkonline.com/basketball-jobs/nbateamjobs'
+          r=requests.get(u,headers={'User-Agent':'ABET-TeamsJobs/1.0'},timeout=30)
+          print('TEAMWORK_HTTP',r.status_code,'BYTES',len(r.content),'CARDS',r.text.count('organization-portal__job-title'))
+          r.raise_for_status()
+          assert 'organization-portal__job-title' in r.text
           PY
