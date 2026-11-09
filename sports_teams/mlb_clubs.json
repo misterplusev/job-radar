@@ -1,0 +1,296 @@
+[
+ {
+  "club_slug": "angels",
+  "careers_url": "https://www.mlb.com/angels/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": [
+   "asmglobal",
+   "wd1",
+   "careers"
+  ]
+ },
+ {
+  "club_slug": "astros",
+  "careers_url": "https://www.mlb.com/astros/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "athletics",
+  "careers_url": "https://www.mlb.com/athletics/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": "athleticsbaseballops",
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "bluejays",
+  "careers_url": "https://www.mlb.com/bluejays/team/career",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "braves",
+  "careers_url": "https://www.mlb.com/braves/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": [
+   "atlantabravesmlb",
+   "wd5",
+   "AtlantaBraves"
+  ]
+ },
+ {
+  "club_slug": "brewers",
+  "careers_url": "https://www.mlb.com/brewers/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "cardinals",
+  "careers_url": "https://www.mlb.com/cardinals/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "cubs",
+  "careers_url": "https://www.mlb.com/cubs/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": [
+   "my1060wd",
+   "wd5",
+   "Chicago_Cubs_FO"
+  ]
+ },
+ {
+  "club_slug": "dbacks",
+  "careers_url": "https://www.mlb.com/dbacks/team/careers",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "dodgers",
+  "careers_url": "https://www.mlb.com/dodgers/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "giants",
+  "careers_url": "https://www.mlb.com/giants/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": "sfgiants",
+  "workday": null
+ },
+ {
+  "club_slug": "guardians",
+  "careers_url": "https://www.mlb.com/guardians/official-information/job-opportunities",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": "clevelandguardiansbops",
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "mariners",
+  "careers_url": "https://www.mlb.com/mariners/team/job-opportunities",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": [
+   "mariners",
+   "wd5",
+   "Mariners"
+  ]
+ },
+ {
+  "club_slug": "marlins",
+  "careers_url": "https://www.mlb.com/marlins/team/jobs",
+  "http": 200,
+  "teamwork": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/50-50-raffle-ticket-seller-2176792",
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "mets",
+  "careers_url": "https://www.mlb.com/mets/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": [
+   "sterlingmets",
+   "wd5",
+   "Mets"
+  ]
+ },
+ {
+  "club_slug": "nationals",
+  "careers_url": "https://www.mlb.com/nationals/team/job-opportunities",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "orioles",
+  "careers_url": "https://www.mlb.com/orioles/team/job-opportunities",
+  "http": 200,
+  "teamwork": "https://www.teamworkonline.com/baseball-jobs/orioles-jobs/baltimore-orioles-jobs/gameday-event-staff-positions-seasonal-part-time-2197911",
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "padres",
+  "careers_url": "https://www.mlb.com/padres/team/career-opportunities",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "phillies",
+  "careers_url": "https://www.mlb.com/phillies/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "pirates",
+  "careers_url": "https://www.mlb.com/pirates/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "rangers",
+  "careers_url": "https://www.mlb.com/rangers/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": [
+   "rangersmlb",
+   "wd5",
+   "Rangers"
+  ]
+ },
+ {
+  "club_slug": "rays",
+  "careers_url": "https://www.mlb.com/rays/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "reds",
+  "careers_url": "https://www.mlb.com/reds/team/job-opportunities",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "redsox",
+  "careers_url": "https://www.mlb.com/redsox/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": "redsox",
+  "workday": null
+ },
+ {
+  "club_slug": "rockies",
+  "careers_url": "https://www.mlb.com/rockies/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "royals",
+  "careers_url": "https://www.mlb.com/royals/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "tigers",
+  "careers_url": "https://www.mlb.com/tigers/team/job-opportunities",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "twins",
+  "careers_url": "https://www.mlb.com/twins/team/careers",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "whitesox",
+  "careers_url": "https://www.mlb.com/whitesox/team/job-opportunities",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ },
+ {
+  "club_slug": "yankees",
+  "careers_url": "https://www.mlb.com/yankees/team/jobs",
+  "http": 200,
+  "teamwork": null,
+  "greenhouse": null,
+  "lever": null,
+  "workday": null
+ }
+]

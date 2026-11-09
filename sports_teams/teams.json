@@ -1,0 +1,1026 @@
+{
+ "schema": "abet.teams.registry.v1",
+ "built": "2026-11-07",
+ "counts": {
+  "NFL": 32,
+  "NHL": 32,
+  "NBA": 30,
+  "MLB": 30
+ },
+ "league_platforms": {
+  "NFL": {
+   "league_office": "greenhouse:nflcareers",
+   "source": "https://www.nfl.com/careers/",
+   "note": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  "NHL": {
+   "league_office": "teamworkonline:28289",
+   "source": "https://www.nhl.com/careers",
+   "note": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  "NBA": {
+   "league_office": "phenom:careers.nba.com",
+   "source": "https://careers.nba.com/",
+   "note": "Phenom People career site; widget API not yet mapped."
+  },
+  "MLB": {
+   "league_office": "custom:mlb.com/careers",
+   "source": "https://www.mlb.com/careers/jobs",
+   "note": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  }
+ },
+ "teams": [
+  {
+   "league": "NFL",
+   "team": "Arizona Cardinals",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Atlanta Falcons",
+   "careers_url": "https://ambgroup.wd1.myworkdayjobs.com/AMBSE",
+   "platform": "workday",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Baltimore Ravens",
+   "careers_url": "https://www.baltimoreravens.com/employment",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Buffalo Bills",
+   "careers_url": "https://www.buffalobills.com/about-us/career-opportunities",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Carolina Panthers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Chicago Bears",
+   "careers_url": "https://www.chicagobears.com/about/employment-opportunities",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Cincinnati Bengals",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/footballjobs/cincinnati-bengals",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Cleveland Browns",
+   "careers_url": "https://www.clevelandbrowns.com/about/employment-opportunities",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Dallas Cowboys",
+   "careers_url": "https://www.dallascowboys.com/career-opportunities",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Denver Broncos",
+   "careers_url": "https://www.denverbroncos.com/employment/",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Detroit Lions",
+   "careers_url": "https://www.detroitlions.com/about-us/careers",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Green Bay Packers",
+   "careers_url": "https://www.packers.com/lambeau-field/employment",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Houston Texans",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/texans/houston-texans",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Indianapolis Colts",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/footballjobs/indianapolis-colts",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Jacksonville Jaguars",
+   "careers_url": "https://www.jaguars.com/careers",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Kansas City Chiefs",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/chiefs/kansas-city-chiefs-29577",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Las Vegas Raiders",
+   "careers_url": "https://www.raiders.com/about/employment-opportunities",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Los Angeles Chargers",
+   "careers_url": "https://www.chargers.com/contact-us/careers",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Los Angeles Rams",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/la-rams-careers/la-rams-micro",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Miami Dolphins",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/footballjobs/miami-dolphins",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Minnesota Vikings",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/minnesota-vikings-jobs/vikings",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "New England Patriots",
+   "careers_url": "https://www.thekraftgroup.com/careers/",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "New Orleans Saints",
+   "careers_url": "https://www.neworleanssaints.com/team/careers",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "New York Giants",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "New York Jets",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Philadelphia Eagles",
+   "careers_url": "https://www.philadelphiaeagles.com/footer/employment-opportunities",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Pittsburgh Steelers",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/footballjobs/pittsburgh-steelers-",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "San Francisco 49ers",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/49ers/san-francisco-49ers",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Seattle Seahawks",
+   "careers_url": "https://www.seahawks.com/about/employment/",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Tampa Bay Buccaneers",
+   "careers_url": "https://www.buccaneers.com/team/employment",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Tennessee Titans",
+   "careers_url": "https://www.titansonline.com/about-us/employment",
+   "platform": "custom",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NFL",
+   "team": "Washington Commanders",
+   "careers_url": "https://www.teamworkonline.com/football-jobs/footballjobs/washington-football-jobs/",
+   "platform": "teamworkonline",
+   "league_source": "https://www.nfl.com/careers/",
+   "notes": "League office on Greenhouse (44 postings). Club postings are not on this board."
+  },
+  {
+   "league": "NHL",
+   "team": "Anaheim Ducks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Boston Bruins",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Buffalo Sabres",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Calgary Flames",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Carolina Hurricanes",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Chicago Blackhawks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Colorado Avalanche",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Columbus Blue Jackets",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Dallas Stars",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Detroit Red Wings",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Edmonton Oilers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Florida Panthers",
+   "careers_url": "https://www.panthers.com/about-us/employment",
+   "platform": "custom",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Los Angeles Kings",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Minnesota Wild",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Montreal Canadiens",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Nashville Predators",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "New Jersey Devils",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "New York Islanders",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "New York Rangers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Ottawa Senators",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Philadelphia Flyers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Pittsburgh Penguins",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "San Jose Sharks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Seattle Kraken",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "St. Louis Blues",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Tampa Bay Lightning",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Toronto Maple Leafs",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Utah Mammoth",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Vancouver Canucks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Vegas Golden Knights",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Washington Capitals",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NHL",
+   "team": "Winnipeg Jets",
+   "careers_url": "https://www.newyorkjets.com/careers/",
+   "platform": "custom",
+   "league_source": "https://www.nhl.com/careers",
+   "notes": "League office via TeamWork Online org 28289 (job cards verified)."
+  },
+  {
+   "league": "NBA",
+   "team": "Atlanta Hawks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Boston Celtics",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Brooklyn Nets",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Charlotte Hornets",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Chicago Bulls",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Cleveland Cavaliers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Dallas Mavericks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Denver Nuggets",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Detroit Pistons",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Golden State Warriors",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Houston Rockets",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Indiana Pacers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "LA Clippers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Los Angeles Lakers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Memphis Grizzlies",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Miami Heat",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Milwaukee Bucks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Minnesota Timberwolves",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "New Orleans Pelicans",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "New York Knicks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Oklahoma City Thunder",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Orlando Magic",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Philadelphia 76ers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Phoenix Suns",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Portland Trail Blazers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Sacramento Kings",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "San Antonio Spurs",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Toronto Raptors",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Utah Jazz",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "NBA",
+   "team": "Washington Wizards",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://careers.nba.com/",
+   "notes": "Phenom People career site; widget API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Arizona Diamondbacks",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Athletics",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Atlanta Braves",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Baltimore Orioles",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Boston Red Sox",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Chicago Cubs",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Chicago White Sox",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Cincinnati Reds",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Cleveland Guardians",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Colorado Rockies",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Detroit Tigers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Houston Astros",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Kansas City Royals",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Los Angeles Angels",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Los Angeles Dodgers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Miami Marlins",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Milwaukee Brewers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Minnesota Twins",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "New York Mets",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "New York Yankees",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Philadelphia Phillies",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Pittsburgh Pirates",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "San Diego Padres",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "San Francisco Giants",
+   "careers_url": "https://www.metlifestadium.com/stadium/employment",
+   "platform": "custom",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Seattle Mariners",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "St. Louis Cardinals",
+   "careers_url": "https://www.azcardinals.com/news/employment",
+   "platform": "custom",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Tampa Bay Rays",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Texas Rangers",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Toronto Blue Jays",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  },
+  {
+   "league": "MLB",
+   "team": "Washington Nationals",
+   "careers_url": "",
+   "platform": "unknown",
+   "league_source": "https://www.mlb.com/careers/jobs",
+   "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped."
+  }
+ ]
+}
