@@ -19,6 +19,12 @@ jobs:
         run: |
           python - <<'PY'
           from enrichment import fetch_detail
+          from live_refresh import BoundedSession
+          from providers.teamwork import UA
+          original_init=BoundedSession.__init__
+          def initialize(self):
+              original_init(self);self.headers.update(UA)
+          BoundedSession.__init__=initialize
           urls=['https://www.teamworkonline.com/baseball-jobs/philadelphia-phillies-baseball-ops/philadelphia-phillies-baseball-ops/minor-league-assistant-pitching-coach-2198771','https://www.teamworkonline.com/basketball-jobs/nbateamjobs/dallas-wings/it-manager-2196126']
           for url in urls:
               try:
