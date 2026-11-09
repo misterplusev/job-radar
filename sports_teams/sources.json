@@ -1,0 +1,558 @@
+[
+  {
+    "team": "NFL League Office",
+    "league": "NFL",
+    "kind": "greenhouse",
+    "key": "gh:nflcareers",
+    "board": "nflcareers"
+  },
+  {
+    "team": "NHL League Office",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/hockeyjobs/nhl-league-office",
+    "path": "hockey-jobs/hockeyjobs/nhl-league-office"
+  },
+  {
+    "team": "Houston Texans",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/texans/houston-texans",
+    "path": "football-jobs/texans/houston-texans"
+  },
+  {
+    "team": "Houston Texans",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/texans/lovb-houston-jobs",
+    "path": "football-jobs/texans/lovb-houston-jobs"
+  },
+  {
+    "team": "Indianapolis Colts",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/indianapolis-colts-jobs/indianapolis-colts",
+    "path": "football-jobs/indianapolis-colts-jobs/indianapolis-colts"
+  },
+  {
+    "team": "Kansas City Chiefs",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/chiefs/kansas-city-chiefs-29577",
+    "path": "football-jobs/chiefs/kansas-city-chiefs-29577"
+  },
+  {
+    "team": "Miami Dolphins",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/miami-dolphins-jobs/miami-dolphins",
+    "path": "football-jobs/miami-dolphins-jobs/miami-dolphins"
+  },
+  {
+    "team": "Pittsburgh Steelers",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/footballjobs/pittsburgh-steelers-",
+    "path": "football-jobs/footballjobs/pittsburgh-steelers-"
+  },
+  {
+    "team": "Washington Commanders",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/washington-commanders-jobs/washington-commanders-jobs",
+    "path": "football-jobs/washington-commanders-jobs/washington-commanders-jobs"
+  },
+  {
+    "team": "Athletics",
+    "league": "MLB",
+    "kind": "greenhouse",
+    "key": "gh:athleticsbaseballops",
+    "board": "athleticsbaseballops"
+  },
+  {
+    "team": "Cleveland Guardians",
+    "league": "MLB",
+    "kind": "greenhouse",
+    "key": "gh:clevelandguardiansbops",
+    "board": "clevelandguardiansbops"
+  },
+  {
+    "team": "Miami Marlins",
+    "league": "MLB",
+    "kind": "teamworkonline",
+    "key": "tw:baseball-jobs/miamibaseball/miami-marlins",
+    "path": "baseball-jobs/miamibaseball/miami-marlins"
+  },
+  {
+    "team": "Baltimore Orioles",
+    "league": "MLB",
+    "kind": "teamworkonline",
+    "key": "tw:baseball-jobs/orioles-jobs/baltimore-orioles-jobs",
+    "path": "baseball-jobs/orioles-jobs/baltimore-orioles-jobs"
+  },
+  {
+    "team": "Houston Astros",
+    "league": "MLB",
+    "kind": "ultipro",
+    "key": "ukg:recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055",
+    "host": "recruiting2.ultipro.com",
+    "company_id": "HOU1000",
+    "board_guid": "e68ddd55-8f58-ba9d-0b3a-76742aed1055"
+  },
+  {
+    "team": "Colorado Rockies",
+    "league": "MLB",
+    "kind": "ultipro",
+    "key": "ukg:recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367",
+    "host": "recruiting2.ultipro.com",
+    "company_id": "COL1047COLBA",
+    "board_guid": "17b65dc7-8957-462f-bbe5-957d054a4367"
+  },
+  {
+    "team": "Chicago White Sox",
+    "league": "MLB",
+    "kind": "ultipro",
+    "key": "ukg:recruiting2.ultipro.com/CHI1000CWS/JobBoard/8e2339b4-b699-46e9-8b91-e3e826e53794",
+    "host": "recruiting2.ultipro.com",
+    "company_id": "CHI1000CWS",
+    "board_guid": "8e2339b4-b699-46e9-8b91-e3e826e53794"
+  },
+  {
+    "team": "Tampa Bay Rays",
+    "league": "MLB",
+    "kind": "adp",
+    "key": "adp:d4e6b608-831f-4a04-bdb6-f61493552d27",
+    "cid": "d4e6b608-831f-4a04-bdb6-f61493552d27"
+  },
+  {
+    "team": "Chicago White Sox",
+    "league": "MLB",
+    "kind": "adp",
+    "key": "adp:83ec9677-34a5-4c8d-9597-a5e5843ed18e",
+    "cid": "83ec9677-34a5-4c8d-9597-a5e5843ed18e"
+  },
+  {
+    "team": "Buffalo Sabres",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/buffalosports/buffalo-sabres-29560",
+    "path": "hockey-jobs/buffalosports/buffalo-sabres-29560"
+  },
+  {
+    "team": "Buffalo Sabres",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/buffalosports/key-bank-center",
+    "path": "hockey-jobs/buffalosports/key-bank-center"
+  },
+  {
+    "team": "Buffalo Sabres",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/buffalosports/rochester-americans-29631",
+    "path": "hockey-jobs/buffalosports/rochester-americans-29631"
+  },
+  {
+    "team": "Buffalo Sabres",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/buffalosports/harbor-center",
+    "path": "hockey-jobs/buffalosports/harbor-center"
+  },
+  {
+    "team": "Carolina Hurricanes",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+    "path": "hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+  },
+  {
+    "team": "Chicago Blackhawks",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/chicago-blackhawks/chicago-blackhawks",
+    "path": "hockey-jobs/chicago-blackhawks/chicago-blackhawks"
+  },
+  {
+    "team": "Dallas Stars",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/dallas-stars-jobs/dallas-stars",
+    "path": "hockey-jobs/dallas-stars-jobs/dallas-stars"
+  },
+  {
+    "team": "Edmonton Oilers",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/edmontonoilers/edmonton-oilers-29182",
+    "path": "hockey-jobs/edmontonoilers/edmonton-oilers-29182"
+  },
+  {
+    "team": "Edmonton Oilers",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/edmontonoilers/oilers-entertainment-group",
+    "path": "hockey-jobs/edmontonoilers/oilers-entertainment-group"
+  },
+  {
+    "team": "Edmonton Oilers",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/edmontonoilers/bakersfield-condors-29185",
+    "path": "hockey-jobs/edmontonoilers/bakersfield-condors-29185"
+  },
+  {
+    "team": "Florida Panthers",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/floridapanthers/florida-panthers",
+    "path": "hockey-jobs/floridapanthers/florida-panthers"
+  },
+  {
+    "team": "Florida Panthers",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/floridapanthers/panthers-iceden",
+    "path": "hockey-jobs/floridapanthers/panthers-iceden"
+  },
+  {
+    "team": "Florida Panthers",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/floridapanthers/ftl-war-memorial",
+    "path": "hockey-jobs/floridapanthers/ftl-war-memorial"
+  },
+  {
+    "team": "Florida Panthers",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/floridapanthers/amerant-bank-arena",
+    "path": "hockey-jobs/floridapanthers/amerant-bank-arena"
+  },
+  {
+    "team": "Columbus Blue Jackets",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/hockeyjobs/columbus-blue-jackets",
+    "path": "hockey-jobs/hockeyjobs/columbus-blue-jackets"
+  },
+  {
+    "team": "St. Louis Blues",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/hockeyjobs/st--louis-blues",
+    "path": "hockey-jobs/hockeyjobs/st--louis-blues"
+  },
+  {
+    "team": "Los Angeles Kings",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/los-angeles-kings-jobs/los-angeles-kings-28605",
+    "path": "hockey-jobs/los-angeles-kings-jobs/los-angeles-kings-28605"
+  },
+  {
+    "team": "Nashville Predators",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/nashville-predators/ford-ice-centers-jobs",
+    "path": "hockey-jobs/nashville-predators/ford-ice-centers-jobs"
+  },
+  {
+    "team": "Nashville Predators",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/nashville-predators/sabertooth-sports-entertainment-jobs",
+    "path": "hockey-jobs/nashville-predators/sabertooth-sports-entertainment-jobs"
+  },
+  {
+    "team": "Nashville Predators",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/nashville-predators/bridgestone-arena-jobs",
+    "path": "hockey-jobs/nashville-predators/bridgestone-arena-jobs"
+  },
+  {
+    "team": "Nashville Predators",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/nashville-predators/nashville-predators",
+    "path": "hockey-jobs/nashville-predators/nashville-predators"
+  },
+  {
+    "team": "Nashville Predators",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/nashville-predators/centennial-ice-rink",
+    "path": "hockey-jobs/nashville-predators/centennial-ice-rink"
+  },
+  {
+    "team": "New York Islanders",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/new-york-islanders/new-york-islanders",
+    "path": "hockey-jobs/new-york-islanders/new-york-islanders"
+  },
+  {
+    "team": "Pittsburgh Penguins",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/pittsburgh-penguins/pittsburgh-penguins",
+    "path": "hockey-jobs/pittsburgh-penguins/pittsburgh-penguins"
+  },
+  {
+    "team": "Tampa Bay Lightning",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/tampanhl/tampa-bay-lightning-jobs",
+    "path": "hockey-jobs/tampanhl/tampa-bay-lightning-jobs"
+  },
+  {
+    "team": "Tampa Bay Lightning",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/tampanhl/vinik-sports-group-jobs",
+    "path": "hockey-jobs/tampanhl/vinik-sports-group-jobs"
+  },
+  {
+    "team": "Atlanta Falcons",
+    "league": "NFL",
+    "kind": "workday",
+    "key": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE",
+    "host": "ambgroup.wd1.myworkdayjobs.com",
+    "tenant": "ambgroup",
+    "site": "AMBSE"
+  },
+  {
+    "team": "Cincinnati Bengals",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/footballjobs/cincinnati-bengals",
+    "path": "football-jobs/footballjobs/cincinnati-bengals"
+  },
+  {
+    "team": "Indianapolis Colts",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/footballjobs/indianapolis-colts",
+    "path": "football-jobs/footballjobs/indianapolis-colts"
+  },
+  {
+    "team": "Miami Dolphins",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/footballjobs/miami-dolphins",
+    "path": "football-jobs/footballjobs/miami-dolphins"
+  },
+  {
+    "team": "Washington Commanders",
+    "league": "NFL",
+    "kind": "teamworkonline",
+    "key": "tw:football-jobs/footballjobs/washington-football-jobs",
+    "path": "football-jobs/footballjobs/washington-football-jobs"
+  },
+  {
+    "team": "Atlanta Braves",
+    "league": "MLB",
+    "kind": "workday",
+    "key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+    "host": "atlantabravesmlb.wd5.myworkdayjobs.com",
+    "tenant": "atlantabravesmlb",
+    "site": "AtlantaBraves"
+  },
+  {
+    "team": "Chicago Cubs",
+    "league": "MLB",
+    "kind": "workday",
+    "key": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO",
+    "host": "my1060wd.wd5.myworkdayjobs.com",
+    "tenant": "my1060wd",
+    "site": "Chicago_Cubs_FO"
+  },
+  {
+    "team": "Seattle Mariners",
+    "league": "MLB",
+    "kind": "workday",
+    "key": "wd:mariners.wd5.myworkdayjobs.com/Mariners",
+    "host": "mariners.wd5.myworkdayjobs.com",
+    "tenant": "mariners",
+    "site": "Mariners"
+  },
+  {
+    "team": "New York Mets",
+    "league": "MLB",
+    "kind": "workday",
+    "key": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets",
+    "host": "sterlingmets.wd5.myworkdayjobs.com",
+    "tenant": "sterlingmets",
+    "site": "Mets"
+  },
+  {
+    "team": "Texas Rangers",
+    "league": "MLB",
+    "kind": "workday",
+    "key": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers",
+    "host": "rangersmlb.wd5.myworkdayjobs.com",
+    "tenant": "rangersmlb",
+    "site": "Rangers"
+  },
+  {
+    "kind": "nba",
+    "key": "nba:league",
+    "league": "NBA",
+    "team": "NBA League Office"
+  },
+  {
+    "key": "tw:football-jobs/greenbay-packers-jobs/green-bay-packers-",
+    "kind": "teamworkonline",
+    "path": "football-jobs/greenbay-packers-jobs/green-bay-packers-",
+    "league": "NFL",
+    "team": "Green Bay Packers"
+  },
+  {
+    "key": "tw:football-jobs/browns/cleveland-browns-28698",
+    "kind": "teamworkonline",
+    "path": "football-jobs/browns/cleveland-browns-28698",
+    "league": "NFL",
+    "team": "Cleveland Browns"
+  },
+  {
+    "key": "tw:football-jobs/la-rams-careers/los-angeles-rams",
+    "kind": "teamworkonline",
+    "path": "football-jobs/la-rams-careers/los-angeles-rams",
+    "league": "NFL",
+    "team": "Los Angeles Rams"
+  },
+  {
+    "key": "tw:football-jobs/arizona-cardinals-jobs/arizona-cardinals",
+    "kind": "teamworkonline",
+    "path": "football-jobs/arizona-cardinals-jobs/arizona-cardinals",
+    "league": "NFL",
+    "team": "Arizona Cardinals"
+  },
+  {
+    "key": "tw:football-jobs/raiders/raiders-jobs",
+    "kind": "teamworkonline",
+    "path": "football-jobs/raiders/raiders-jobs",
+    "league": "NFL",
+    "team": "Las Vegas Raiders"
+  },
+  {
+    "key": "tw:football-jobs/atlanta-falcons-careers/amb-atlanta-falcons-jobs",
+    "kind": "teamworkonline",
+    "path": "football-jobs/atlanta-falcons-careers/amb-atlanta-falcons-jobs",
+    "league": "NFL",
+    "team": "Atlanta Falcons"
+  },
+  {
+    "key": "tw:hockey-jobs/sharkssports/san-jose-sharks",
+    "kind": "teamworkonline",
+    "path": "hockey-jobs/sharkssports/san-jose-sharks",
+    "league": "NHL",
+    "team": "San Jose Sharks"
+  },
+  {
+    "key": "tw:hockey-jobs/utah-nhl-jobs/utah-nhl-jobs",
+    "kind": "teamworkonline",
+    "path": "hockey-jobs/utah-nhl-jobs/utah-nhl-jobs",
+    "league": "NHL",
+    "team": "Utah Mammoth"
+  },
+  {
+    "key": "tw:baseball-jobs/los-angeles-angels-jobs/los-angeles-angels",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/los-angeles-angels-jobs/los-angeles-angels",
+    "league": "MLB",
+    "team": "Los Angeles Angels"
+  },
+  {
+    "key": "tw:baseball-jobs/colorado-rockies/colorado-rockies-jobs",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/colorado-rockies/colorado-rockies-jobs",
+    "league": "MLB",
+    "team": "Colorado Rockies"
+  },
+  {
+    "key": "tw:baseball-jobs/milwaukeebaseball/milwaukee-brewers",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/milwaukeebaseball/milwaukee-brewers",
+    "league": "MLB",
+    "team": "Milwaukee Brewers"
+  },
+  {
+    "key": "tw:baseball-jobs/fenwaysports/boston-red-sox",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/fenwaysports/boston-red-sox",
+    "league": "MLB",
+    "team": "Boston Red Sox"
+  },
+  {
+    "key": "tw:baseball-jobs/washington-nationals/washington-nationals",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/washington-nationals/washington-nationals",
+    "league": "MLB",
+    "team": "Washington Nationals"
+  },
+  {
+    "key": "tw:baseball-jobs/minnesota-twins/minnesota-twins-jobs",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/minnesota-twins/minnesota-twins-jobs",
+    "league": "MLB",
+    "team": "Minnesota Twins"
+  },
+  {
+    "key": "tw:baseball-jobs/texasbaseball/texas-rangers",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/texasbaseball/texas-rangers",
+    "league": "MLB",
+    "team": "Texas Rangers"
+  },
+  {
+    "key": "tw:baseball-jobs/athletics-jobs/athletics-jobs",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/athletics-jobs/athletics-jobs",
+    "league": "MLB",
+    "team": "Athletics"
+  },
+  {
+    "key": "tw:baseball-jobs/pittsburghpirates/pittsburgh-pirates-jobs",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/pittsburghpirates/pittsburgh-pirates-jobs",
+    "league": "MLB",
+    "team": "Pittsburgh Pirates"
+  },
+  {
+    "key": "tw:baseball-jobs/stl-cardinals/st--louis-cardinals",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/stl-cardinals/st--louis-cardinals",
+    "league": "MLB",
+    "team": "St. Louis Cardinals"
+  },
+  {
+    "key": "tw:baseball-jobs/tampa-bay-rays/tampa-bay-rays",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/tampa-bay-rays/tampa-bay-rays",
+    "league": "MLB",
+    "team": "Tampa Bay Rays"
+  },
+  {
+    "key": "tw:baseball-jobs/philadelphia-phillies/philadelphia-phillies",
+    "kind": "teamworkonline",
+    "path": "baseball-jobs/philadelphia-phillies/philadelphia-phillies",
+    "league": "MLB",
+    "team": "Philadelphia Phillies"
+  },
+  {
+    "key": "adp:79875354-b46d-4cef-b74b-aff52f5942af",
+    "kind": "adp",
+    "cid": "79875354-b46d-4cef-b74b-aff52f5942af",
+    "league": "NFL",
+    "team": "Minnesota Vikings"
+  },
+  {
+    "key": "official:49ers",
+    "kind": "official_links",
+    "url": "https://www.49ers.com/employment/",
+    "league": "NFL",
+    "team": "San Francisco 49ers"
+  }
+]
