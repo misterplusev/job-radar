@@ -15,14 +15,15 @@ def build(results):
             routes.append({'source_key':key,'status':r.get('status','not_checked'),
                            'job_count':count,'checked_at':r.get('observed_at'),'error':r.get('error')})
         good=sum(r['status']=='success' for r in routes)
-        status='verified' if routes and good==len(routes) else 'partial' if good else 'unverified'
+        status='verified' if routes and good==len(routes) and team.get('career_link_verified') else 'partial' if good else 'unverified'
         teams.append(dict(team,verification_status=status,live_checks=routes,unique_jobs_in_checked_sources=len(urls)))
     summary={'teams':len(teams),'with_verified_source':sum(any(x['status']=='success' for x in t['live_checks']) for t in teams),
+             'official_career_links_verified':sum(bool(t.get('career_link_verified')) for t in teams),
              'all_configured_routes_verified':sum(t['verification_status']=='verified' for t in teams),
              'partial':sum(t['verification_status']=='partial' for t in teams),'unverified':sum(t['verification_status']=='unverified' for t in teams)}
     return {'generated_at':datetime.now(timezone.utc).isoformat(),'summary':summary,'teams':teams,
             'scope':'124 NFL, NBA, MLB and NHL teams. Shared ownership boards may include affiliated businesses. A verified source means its live listing fetched completely; it does not claim every linked vendor or alternate career page works.',
-            'proof_note':'Official league directories and team pages were checked individually. Some NBA team pages block HTTP; for those, the branded employer ATS and matching public job links establish the route. Discovery evidence is retained in the local official_audit directory.'}
+            'proof_note':'Career-link evidence and live feed checks are separate. A branded employer board alone does not prove that the official team careers page links to it. Missing link evidence remains flagged in the full JSON report.'}
 
 def write(report,directory):
     directory=Path(directory);directory.mkdir(exist_ok=True,parents=True)

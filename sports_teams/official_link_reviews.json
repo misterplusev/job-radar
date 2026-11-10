@@ -1,0 +1,149 @@
+[
+  {
+    "team": "Boston Celtics",
+    "page": "https://www.nba.com/celtics/careers",
+    "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?ccId=9201173610523_2&cid=60aee0ad-011f-4b26-8df9-73f60a0520a2",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Dallas Mavericks",
+    "page": "https://www.nba.com/mavs/careers",
+    "destination": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c68eee9454018ef2f81a7d05a4",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Houston Rockets",
+    "page": "https://www.nba.com/rockets/careers",
+    "destination": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c689b7fbd50189ffa65b61208d",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Memphis Grizzlies",
+    "page": "https://www.nba.com/grizzlies/careers",
+    "destination": "https://careers-grizzlies.icims.com/jobs/search",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Miami Heat",
+    "page": "https://www.nba.com/heat/careers",
+    "destination": "https://recruiting.ultipro.com/MIA1004MHLP/JobBoard/b34868a3-6ce1-4a28-b8fb-afb1cd5be9d3",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Phoenix Suns",
+    "page": "https://www.nba.com/suns/contact/careers",
+    "destination": "https://jobs.dayforcehcm.com/en-US/slp/CANDIDATEPORTAL",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "San Antonio Spurs",
+    "page": "https://www.nba.com/spurs/careers",
+    "destination": "https://jobs.dayforcehcm.com/en-US/onesse/CANDIDATEPORTAL",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Minnesota Timberwolves",
+    "page": "https://www.nba.com/timberwolves/careers",
+    "destination": "https://jobs.dayforcehcm.com/en-US/packportal/CANDIDATEPORTAL",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "New Orleans Pelicans",
+    "page": "https://www.nba.com/pelicans/career-opportunities",
+    "destination": "https://dayforcehcm.com/CandidatePortal/en-US/bensonenterprises/SITE/SAINTSPELSCAREERS",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Oklahoma City Thunder",
+    "page": "https://www.nba.com/thunder/employment",
+    "destination": "https://www.paycomonline.net/v4/ats/web.php/portal/8E7F16AD6654E4ED3797EE9F40DB0A48/jobs/488699",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Orlando Magic",
+    "page": "https://www.nba.com/magic/careers",
+    "destination": "https://recruiting.ultipro.com/ORL1001MAGIC/JobBoard/d2d331e7-e222-4a47-bb35-c640aa29a3d7/",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Sacramento Kings",
+    "page": "https://www.nba.com/kings/careers",
+    "destination": "https://www.teamworkonline.com/basketball-jobs/sacramento-kings-jobs/sacramento-kings",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Dallas Cowboys",
+    "page": "https://www.dallascowboys.com/career-opportunities",
+    "destination": "https://dayforcehcm.com/CandidatePortal/en-US/jonesentities/SITE/DALLASCOWBOYSFOOTBALLCLUB",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "New Orleans Saints",
+    "page": "https://www.neworleanssaints.com/team/careers/",
+    "destination": "https://dayforcehcm.com/CandidatePortal/en-US/bensonenterprises/SITE/SAINTSPELSCAREERS",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Tennessee Titans",
+    "page": "https://www.tennesseetitans.com/about-us/employment",
+    "destination": "https://us59.dayforcehcm.com/CandidatePortal/en-US/titans",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Winnipeg Jets",
+    "page": "https://www.nhl.com/jets/",
+    "destination": "https://www.tnse.com/join-our-team/",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Detroit Pistons",
+    "page": "https://www.nba.com/pistons/careers",
+    "destination": "https://recruiting.paylocity.com/recruiting/jobs/All/19408bc7-4e69-4ea7-9ff6-3e39455d6469/Detroit-Pistons",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Brooklyn Nets",
+    "page": "https://careers.nba.com/teams/",
+    "destination": "https://bkse.com/careers",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Indiana Pacers",
+    "page": "https://careers.nba.com/teams/",
+    "destination": "https://apply.clearcompany.com/pse?noheader=False",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "New York Rangers",
+    "page": "https://www.msgrangers.com/careers/",
+    "destination": "https://www.msgrangers.com/jobs/",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Washington Commanders",
+    "page": "https://www.nfl.com/careers/clubs",
+    "destination": "https://www.teamworkonline.com/football-jobs/washington-commanders-jobs/washington-commanders-jobs",
+    "method": "Followed link on official careers page with web tool",
+    "checked_at": "2026-11-10"
+  }
+]

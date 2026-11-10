@@ -17,7 +17,9 @@ is the read-only source proof; `python run.py render` exports the active cache.
 The scheduled workflow runs `pipeline_local.py --cloud` directly.
 `pipeline_local.py` is the historical filename, not a local-only runtime.
 
-Teamwork follows real pagination links and discovers NFL/NHL/MLB/NBA portals.
+Production uses only the 124-team organization registry. Teamwork follows real
+pagination on those exact employer boards; broad league discovery and old job
+URLs cannot add production sources.
 Workday, Greenhouse, ADP, UKG, the NBA frontend and official 49ers links are
 supported, alongside Dayforce, Paycor, Paylocity, Paycom, BambooHR, Lever,
 Jobvite, ClearCompany, ApplicantPro, Hireology, Hirebridge, iCIMS and official
@@ -29,24 +31,23 @@ Some Teamwork detail pages reject automated requests with HTTP 403; their
 listings remain visible, prior descriptions are preserved, and failures are
 reported without bypassing the site's restrictions.
 
-Notifications remain parked (`NOTIFICATIONS_PAUSED: '1'` in the workflow) under
-the pre-existing operator hold. Tests mock delivery; no messages were sent.
-Normal delivery acknowledges only successful chunks; old unannounced listings
-are not represented as newly posted. Existing delivery history is in Supabase.
+Normal individual alerts are enabled. Scrapes queue URLs new to the database,
+matching the other jobs scrapers. Successful chunks are acknowledged immediately;
+failed chunks remain pending. Existing delivery history is preserved in Supabase.
+The explicit recovery option can recover missed individual alerts from paused
+scrapes, restricted to jobs observed on the configured organization sources.
 
 The official registry contains all 124 NFL/NBA/MLB/NHL teams. Coverage is computed
 from the current run, not the number of sources. A successful source does not
 imply every alternate link works; blocked and missing routes remain visible.
 Shared ownership boards retain the actual parent business name.
 
-The prepared restart supports one explicit `--baseline` summary, retaining all
-existing listings on the board and recording them as seeded, never delivered.
 Normal publishing uses `--limit 0`: all eligible new jobs, five embeds per message,
 with rate-limit pacing and a 10-minute delivery budget. Each successful chunk is
-acknowledged immediately; unsent jobs remain queued. Removing the existing hold
-and sending the catch-up summary still require the operator's approval.
+acknowledged immediately; unsent jobs remain queued. There is no summary or
+20-job cap. Employer posting dates remain distinct from discovery dates.
 
-Tests: `python -m unittest discover -p "test_*.py"` (52 regression checks).
+Tests: `python -m unittest discover -p "test_*.py"`.
 `node test_worker.mjs` covers the retired relay experiment (7 safety checks).
 The local operator helper `verify_deployment.py` checks board/database counts, duplicate URLs and
 preservation of the original observation dates without modifying production.

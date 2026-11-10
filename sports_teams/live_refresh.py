@@ -142,6 +142,10 @@ def source_from_row(row):
         tenant,board=parts[:2]
         suffix=':'+culture if culture!='en-US' else ''
         return dict(base,kind='dayforce',key=f'dayforce:{tenant}/{board}'+suffix,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}')
+    if p.netloc.endswith('dayforcehcm.com') and len(parts)>=3 and parts[0]=='CandidatePortal':
+        culture,tenant=parts[1:3]
+        board=parts[4] if len(parts)>=5 and parts[3]=='SITE' else 'CANDIDATEPORTAL'
+        return source_from_row(dict(base,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}'))
     if p.netloc.endswith('.myworkdaysite.com') and 'recruiting' in parts:
         i=parts.index('recruiting');tenant,site=parts[i+1:i+3]
         # Same public Workday CXS API, hosted on the explicitly linked site.
@@ -169,34 +173,14 @@ def source_from_row(row):
 
 
 def build_sources(pt):
-    sources = {}
-    # Versioned registry makes the cloud runtime independent of old proof files.
-    registry = pt.ROOT / 'sources.json'
-    if registry.exists():
-        sources.update({s['key']: s for s in json.loads(registry.read_text(encoding='utf-8'))})
-    def add(row):
-        source = source_from_row(row)
-        if source and source.get('league') in ('NFL', 'NBA', 'MLB', 'NHL'):
-            sources.setdefault(source['key'], source)
-    for row in pt.load_rows():
-        add(dict(row, team=pt._display_team(row)))
-    for row in json.loads((pt.ROOT / 'teams.json').read_text(encoding='utf-8'))['teams']:
-        add(row)
-    for club in json.loads((pt.ROOT / 'mlb_clubs.json').read_text(encoding='utf-8')):
-        wd = club.get('workday')
-        if wd and wd[0] != 'asmglobal':
-            tenant, pod, site = wd
-            add({'league': 'MLB', 'team': pt._display_team({'league': 'MLB', 'team': club['club_slug']}),
-                 'url': f'https://{tenant}.{pod}.myworkdayjobs.com/{site}'})
-    # NBA's careers frontend is the validated source, not an inferred Workday list.
-    for key in list(sources):
-        if key.startswith('wd:nba.'):
-            del sources[key]
-    sources['nba:league'] = {'kind': 'nba', 'key': 'nba:league', 'league': 'NBA', 'team': 'NBA League Office'}
-    for old in SOURCE_ALIASES:sources.pop('tw:'+old,None)
-    for retired in ('tw:football-jobs/minnesota-vikings-jobs/vikings','tw:football-jobs/49ers/san-francisco-49ers',
-                    'tw:football-jobs/la-rams-careers/la-rams-micro'):
-        sources.pop(retired,None)
+    # Same organization registry model as robotics/tech/sportsbook. Never turn
+    # an old job URL or a broad league search into a new production source.
+    registry=json.loads((pt.ROOT/'sources.json').read_text(encoding='utf-8'))
+    teams=json.loads((pt.ROOT/'official_careers_registry.json').read_text(encoding='utf-8'))
+    allowed={key for team in teams for key in team['source_keys']}
+    sources={s['key']:s for s in registry if s['key'] in allowed}
+    missing=allowed-sources.keys()
+    if missing:raise ValueError('Official team source configuration missing: '+', '.join(sorted(missing)))
     return sources
 
 
@@ -288,22 +272,8 @@ def fetch_source(source):
 
 def collect(pt):
     sources = build_sources(pt)
-    discovery = []
-    for league in ('NFL', 'NHL', 'MLB', 'NBA'):
-        try:
-            with BoundedSession() as client:
-                orgs = teamwork_vertical.discover(league, session=client)
-            for org in orgs:
-                if any(x in org.slug.lower() for x in ('necbl', 'riddell', 'sports-info', 'camelback')):
-                    continue
-                path = f'{org.vertical_path}/{org.slug}'
-                key = 'tw:' + path
-                sources.setdefault(key, dict(key=key, kind='teamworkonline', path=path, league=league, team=org.org_name))
-            discovery.append({'league': league, 'sources': len(orgs), 'status': 'success'})
-            print(f'[DISCOVERY] {league}: {len(orgs)} organizations',flush=True)
-        except Exception as exc:
-            discovery.append({'league': league, 'status': 'error', 'error': type(exc).__name__})
-            print(f'[DISCOVERY] {league}: {type(exc).__name__}',flush=True)
+    discovery=[{'mode':'organization_careers_registry','sources':len(sources),'status':'success'}]
+    print(f'[SOURCES] {len(sources)} registered organization career boards',flush=True)
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as pool:
         results=[]
         futures=[pool.submit(fetch_source,s) for s in sources.values()]

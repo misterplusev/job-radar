@@ -9,13 +9,19 @@
         "official_page": "https://www.mlb.com/dbacks/team/job-opportunities",
         "board_url": "https://jobs.dayforcehcm.com/en-US/dbacks/CANDIDATEPORTAL",
         "label": "View D-backs Job Opportunities",
-        "source_key": "dayforce:dbacks/CANDIDATEPORTAL"
+        "source_key": "dayforce:dbacks/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/dbacks/team/job-opportunities",
+          "destination": "https://jobs.dayforcehcm.com/en-US/dbacks/CANDIDATEPORTAL"
+        }
       }
     ],
     "source_keys": [
       "dayforce:dbacks/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -27,20 +33,31 @@
         "official_page": "https://www.mlb.com/athletics/team/jobs",
         "board_url": "https://boards.greenhouse.io/athleticsbusinessops?bpexternal=true",
         "label": "View Opportunities",
-        "source_key": "gh:athleticsbusinessops"
+        "source_key": "gh:athleticsbusinessops",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/athletics/team/jobs",
+          "destination": "https://boards.greenhouse.io/athleticsbusinessops?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/athletics/team/jobs",
         "board_url": "https://boards.greenhouse.io/athleticsbaseballops?bpexternal=true",
         "label": "View Opportunities",
-        "source_key": "gh:athleticsbaseballops"
+        "source_key": "gh:athleticsbaseballops",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/athletics/team/jobs",
+          "destination": "https://boards.greenhouse.io/athleticsbaseballops?bpexternal=true"
+        }
       }
     ],
     "source_keys": [
       "gh:athleticsbaseballops",
       "gh:athleticsbusinessops"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -52,37 +69,63 @@
         "official_page": "https://www.mlb.com/braves/team/jobs",
         "board_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
         "label": "View All Open Positions",
-        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/braves/team/jobs",
+          "destination": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        }
       },
       {
         "official_page": "https://www.mlb.com/braves/team/jobs",
         "board_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/en-US/AtlantaBraves/jobs",
         "label": "All Open Positions",
-        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/braves/team/jobs",
+          "destination": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        }
       },
       {
         "official_page": "https://www.mlb.com/braves/team/jobs",
         "board_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/en-US/AtlantaBraves/details/Kids-Crew_R1931",
         "label": "Kids Crew Position",
-        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/braves/team/jobs",
+          "destination": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        }
       },
       {
         "official_page": "https://www.mlb.com/braves/team/jobs",
         "board_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/en-US/AtlantaBraves/details/XMLNAME-2025-Guest-Services-Gameday-Staff_R1929-1",
         "label": "Guest Operations Position",
-        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/braves/team/jobs",
+          "destination": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        }
       },
       {
         "official_page": "https://www.mlb.com/braves/team/jobs",
         "board_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/en-US/AtlantaBraves/details/Braves-Retail-Operations_R1934",
         "label": "Retail Position",
-        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        "source_key": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/braves/team/jobs",
+          "destination": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+        }
       }
     ],
     "source_keys": [
       "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -94,19 +137,30 @@
         "official_page": "https://www.mlb.com/orioles/team/job-opportunities",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/orioles-jobs/baltimore-orioles-jobs?bpexternal=true",
         "label": "View Current Opportunities",
-        "source_key": "tw:baseball-jobs/orioles-jobs/baltimore-orioles-jobs"
+        "source_key": "tw:baseball-jobs/orioles-jobs/baltimore-orioles-jobs",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/orioles/team/job-opportunities",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/orioles-jobs/baltimore-orioles-jobs?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/orioles/team/job-opportunities",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/orioles-jobs/baltimore-orioles-jobs/gameday-event-staff-positions-seasonal-part-time-2197911",
         "label": "Gameday Event Staff Positions",
-        "source_key": "tw:baseball-jobs/orioles-jobs/baltimore-orioles-jobs"
+        "source_key": "tw:baseball-jobs/orioles-jobs/baltimore-orioles-jobs",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/orioles/team/job-opportunities",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/orioles-jobs/baltimore-orioles-jobs?bpexternal=true"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/orioles-jobs/baltimore-orioles-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -118,13 +172,19 @@
         "official_page": "https://www.mlb.com/redsox/team/jobs",
         "board_url": "https://jobs.lever.co/redsox",
         "label": "See Open Boston Red Sox Jobs",
-        "source_key": "lever:redsox"
+        "source_key": "lever:redsox",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/redsox/team/jobs",
+          "destination": "https://jobs.lever.co/redsox"
+        }
       }
     ],
     "source_keys": [
       "lever:redsox"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -136,31 +196,56 @@
         "official_page": "https://www.mlb.com/cubs/team/jobs",
         "board_url": "https://my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO?bpexternal=true",
         "label": "View Opportunities",
-        "source_key": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO"
+        "source_key": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/cubs/team/jobs",
+          "destination": "https://my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/cubs/team/jobs",
         "board_url": "https://my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_Seasonal?bpexternal=true",
         "label": "View Opportunities",
-        "source_key": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_Seasonal"
+        "source_key": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_Seasonal",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/cubs/team/jobs",
+          "destination": "https://my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_Seasonal?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/cubs/team/jobs",
         "board_url": "https://my1060wd.wd5.myworkdayjobs.com/Marquee_360?bpexternal=true",
         "label": "View Opportunities",
-        "source_key": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_360"
+        "source_key": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_360",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/cubs/team/jobs",
+          "destination": "https://my1060wd.wd5.myworkdayjobs.com/Marquee_360?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/cubs/team/jobs",
         "board_url": "https://my1060wd.wd5.myworkdayjobs.com/Marquee_Development?bpexternal=true",
         "label": "View Opportunities",
-        "source_key": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_Development"
+        "source_key": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_Development",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/cubs/team/jobs",
+          "destination": "https://my1060wd.wd5.myworkdayjobs.com/Marquee_Development?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/cubs/team/jobs",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=ff153427-7699-4a48-bfec-f91b40e88134&ccId=19000101_000001&lang=en_US&bpexternal=true",
         "label": "View Opportunities",
-        "source_key": "adp:ff153427-7699-4a48-bfec-f91b40e88134"
+        "source_key": "adp:ff153427-7699-4a48-bfec-f91b40e88134",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/cubs/team/jobs",
+          "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=ff153427-7699-4a48-bfec-f91b40e88134&ccId=19000101_000001&lang=en_US&bpexternal=true"
+        }
       }
     ],
     "source_keys": [
@@ -170,7 +255,8 @@
       "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_360",
       "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_Development"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -182,20 +268,31 @@
         "official_page": "https://www.mlb.com/whitesox/team/job-opportunities",
         "board_url": "https://recruiting2.ultipro.com/CHI1000CWS/JobBoard/8e2339b4-b699-46e9-8b91-e3e826e53794/?q=&o=postedDateDesc",
         "label": "View All Current Jobs",
-        "source_key": "ukg:recruiting2.ultipro.com/CHI1000CWS/JobBoard/8e2339b4-b699-46e9-8b91-e3e826e53794"
+        "source_key": "ukg:recruiting2.ultipro.com/CHI1000CWS/JobBoard/8e2339b4-b699-46e9-8b91-e3e826e53794",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/whitesox/team/job-opportunities",
+          "destination": "https://recruiting2.ultipro.com/CHI1000CWS/JobBoard/8e2339b4-b699-46e9-8b91-e3e826e53794/?q=&o=postedDateDesc"
+        }
       },
       {
         "official_page": "https://www.mlb.com/whitesox/team/job-opportunities",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=83ec9677-34a5-4c8d-9597-a5e5843ed18e&ccId=19000101_000001&lang=en_US",
         "label": "View All At Your Service Jobs",
-        "source_key": "adp:83ec9677-34a5-4c8d-9597-a5e5843ed18e"
+        "source_key": "adp:83ec9677-34a5-4c8d-9597-a5e5843ed18e",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/whitesox/team/job-opportunities",
+          "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=83ec9677-34a5-4c8d-9597-a5e5843ed18e&ccId=19000101_000001&lang=en_US"
+        }
       }
     ],
     "source_keys": [
       "adp:83ec9677-34a5-4c8d-9597-a5e5843ed18e",
       "ukg:recruiting2.ultipro.com/CHI1000CWS/JobBoard/8e2339b4-b699-46e9-8b91-e3e826e53794"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -207,13 +304,19 @@
         "official_page": "https://www.mlb.com/reds/team/job-opportunities",
         "board_url": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883d07c5da337017c9998a2cb1623",
         "label": "Reviewed official link",
-        "source_key": "paycor:8a7883d07c5da337017c9998a2cb1623"
+        "source_key": "paycor:8a7883d07c5da337017c9998a2cb1623",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.mlb.com/reds/team/job-opportunities",
+          "destination": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883d07c5da337017c9998a2cb1623"
+        }
       }
     ],
     "source_keys": [
       "paycor:8a7883d07c5da337017c9998a2cb1623"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -225,20 +328,31 @@
         "official_page": "https://www.mlb.com/guardians/official-information/job-opportunities",
         "board_url": "https://boards.greenhouse.io/clevelandguardiansbops",
         "label": "",
-        "source_key": "gh:clevelandguardiansbops"
+        "source_key": "gh:clevelandguardiansbops",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/guardians/official-information/job-opportunities",
+          "destination": "https://boards.greenhouse.io/clevelandguardiansbops"
+        }
       },
       {
         "official_page": "https://www.mlb.com/guardians/official-information/job-opportunities/full-time",
         "board_url": "https://recruiting.ultipro.com/CLE1000TRIBE/JobBoard/238e1889-8939-44ff-b2ab-ec69103cdd0d/?q=&o=postedDateDesc",
         "label": "Join Our Team",
-        "source_key": "ukg:recruiting.ultipro.com/CLE1000TRIBE/JobBoard/238e1889-8939-44ff-b2ab-ec69103cdd0d"
+        "source_key": "ukg:recruiting.ultipro.com/CLE1000TRIBE/JobBoard/238e1889-8939-44ff-b2ab-ec69103cdd0d",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/guardians/official-information/job-opportunities/full-time",
+          "destination": "https://recruiting.ultipro.com/CLE1000TRIBE/JobBoard/238e1889-8939-44ff-b2ab-ec69103cdd0d/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
       "gh:clevelandguardiansbops",
       "ukg:recruiting.ultipro.com/CLE1000TRIBE/JobBoard/238e1889-8939-44ff-b2ab-ec69103cdd0d"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -250,25 +364,41 @@
         "official_page": "https://www.mlb.com/rockies/team/job-opportunities",
         "board_url": "https://recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367/?q=&o=postedDateDesc&w=&wc=&we=&wpst=&f6=1",
         "label": "View Full-Time Opportunities",
-        "source_key": "ukg:recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367"
+        "source_key": "ukg:recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/rockies/team/job-opportunities",
+          "destination": "https://recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367/?q=&o=postedDateDesc&w=&wc=&we=&wpst=&f6=1"
+        }
       },
       {
         "official_page": "https://www.mlb.com/rockies/team/job-opportunities",
         "board_url": "https://recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367/?q=&o=postedDateDesc&w=&wc=&we=&wpst=&f6=0",
         "label": "View Part-Time Opportunities",
-        "source_key": "ukg:recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367"
+        "source_key": "ukg:recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/rockies/team/job-opportunities",
+          "destination": "https://recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367/?q=&o=postedDateDesc&w=&wc=&we=&wpst=&f6=1"
+        }
       },
       {
         "official_page": "https://www.mlb.com/rockies/team/job-opportunities",
         "board_url": "https://recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367/?q=&o=postedDateDesc&w=&wc=&we=&wpst=&f5=NV2xxwnAgkimgS720iZv1Q",
         "label": "View Event Services Opportunities",
-        "source_key": "ukg:recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367"
+        "source_key": "ukg:recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/rockies/team/job-opportunities",
+          "destination": "https://recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367/?q=&o=postedDateDesc&w=&wc=&we=&wpst=&f6=1"
+        }
       }
     ],
     "source_keys": [
       "ukg:recruiting2.ultipro.com/COL1047COLBA/JobBoard/17b65dc7-8957-462f-bbe5-957d054a4367"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -280,20 +410,27 @@
         "official_page": "https://careersatilitchcompanies.com/en-us",
         "board_url": "https://ilitch.wd5.myworkdayjobs.com/Detroit-Tigers",
         "label": "Reviewed official link",
-        "source_key": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Tigers"
+        "source_key": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Tigers",
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.mlb.com/tigers/team/job-opportunities",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/detroit-tigers",
         "label": "Reviewed official link",
-        "source_key": "tw:baseball-jobs/baseballjobs/detroit-tigers"
+        "source_key": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.mlb.com/tigers/team/job-opportunities",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/detroit-tigers"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/baseballjobs/detroit-tigers",
       "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Tigers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -305,20 +442,31 @@
         "official_page": "https://www.mlb.com/astros/team/jobs",
         "board_url": "https://recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055/?q=&o=postedDateDesc",
         "label": "Apply Today",
-        "source_key": "ukg:recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055"
+        "source_key": "ukg:recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/astros/team/jobs",
+          "destination": "https://recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055/?q=&o=postedDateDesc"
+        }
       },
       {
         "official_page": "https://www.mlb.com/astros/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/houstonbaseball/houston-astros",
         "label": "Teamwork Online",
-        "source_key": "tw:baseball-jobs/houstonbaseball/houston-astros"
+        "source_key": "tw:baseball-jobs/houstonbaseball/houston-astros",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/astros/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/houstonbaseball/houston-astros"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/houstonbaseball/houston-astros",
       "ukg:recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -330,13 +478,19 @@
         "official_page": "https://www.mlb.com/royals/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/kansas-city-royals-jobs/kansas-city-royals",
         "label": "View Postings",
-        "source_key": "tw:baseball-jobs/kansas-city-royals-jobs/kansas-city-royals"
+        "source_key": "tw:baseball-jobs/kansas-city-royals-jobs/kansas-city-royals",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/royals/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/kansas-city-royals-jobs/kansas-city-royals"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/kansas-city-royals-jobs/kansas-city-royals"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -348,13 +502,19 @@
         "official_page": "https://www.mlb.com/angels/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/los-angeles-angels",
         "label": "View Postings",
-        "source_key": "tw:baseball-jobs/baseballjobs/los-angeles-angels"
+        "source_key": "tw:baseball-jobs/baseballjobs/los-angeles-angels",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/angels/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/los-angeles-angels"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/baseballjobs/los-angeles-angels"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -366,20 +526,31 @@
         "official_page": "https://www.mlb.com/dodgers/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/los-angeles-dodgers-jobs/los-angeles-dodgers",
         "label": "View Current Opportunities",
-        "source_key": "tw:baseball-jobs/los-angeles-dodgers-jobs/los-angeles-dodgers"
+        "source_key": "tw:baseball-jobs/los-angeles-dodgers-jobs/los-angeles-dodgers",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/dodgers/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/los-angeles-dodgers-jobs/los-angeles-dodgers"
+        }
       },
       {
         "official_page": "https://www.mlb.com/dodgers/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/los-angeles-dodgers",
         "label": "here",
-        "source_key": "tw:baseball-jobs/baseballjobs/los-angeles-dodgers"
+        "source_key": "tw:baseball-jobs/baseballjobs/los-angeles-dodgers",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/dodgers/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/los-angeles-dodgers"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/baseballjobs/los-angeles-dodgers",
       "tw:baseball-jobs/los-angeles-dodgers-jobs/los-angeles-dodgers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -391,43 +562,74 @@
         "official_page": "https://www.mlb.com/marlins/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/guest-experience-part-time-event-staff-2144599?bpexternal=true",
         "label": "Apply Now \u00bb",
-        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins"
+        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/marlins/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/guest-experience-part-time-event-staff-2144599?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/marlins/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/50-50-raffle-ticket-seller-2176792",
         "label": "Apply Now \u00bb",
-        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins"
+        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/marlins/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/guest-experience-part-time-event-staff-2144599?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/marlins/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/tour-guide-game-day-receptionist-2152570?bpexternal=true",
         "label": "Apply Now \u00bb",
-        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins"
+        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/marlins/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/guest-experience-part-time-event-staff-2144599?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/marlins/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/brand-ambassador-seasonal-2140148",
         "label": "Apply Now \u00bb",
-        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins"
+        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/marlins/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/guest-experience-part-time-event-staff-2144599?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/marlins/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/security-officer-part-time-jupiter-2151897?bpexternal=true",
         "label": "Apply Now \u00bb",
-        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins"
+        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/marlins/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/guest-experience-part-time-event-staff-2144599?bpexternal=true"
+        }
       },
       {
         "official_page": "https://www.mlb.com/marlins/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins",
         "label": "See Open Miami Marlins Jobs",
-        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins"
+        "source_key": "tw:baseball-jobs/miamibaseball/miami-marlins",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/marlins/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/miamibaseball/miami-marlins/guest-experience-part-time-event-staff-2144599?bpexternal=true"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/miamibaseball/miami-marlins"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -439,13 +641,19 @@
         "official_page": "https://www.mlb.com/brewers/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/milwaukeebaseball/milwaukee-brewers-micro",
         "label": "Job Opportunities",
-        "source_key": "tw:baseball-jobs/milwaukeebaseball/milwaukee-brewers"
+        "source_key": "tw:baseball-jobs/milwaukeebaseball/milwaukee-brewers",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/brewers/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/milwaukeebaseball/milwaukee-brewers-micro"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/milwaukeebaseball/milwaukee-brewers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -457,13 +665,19 @@
         "official_page": "https://www.mlb.com/twins/team/careers",
         "board_url": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883d08b729b3e018b72dc67f6007f",
         "label": "Reviewed official link",
-        "source_key": "paycor:8a7883d08b729b3e018b72dc67f6007f"
+        "source_key": "paycor:8a7883d08b729b3e018b72dc67f6007f",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.mlb.com/twins/team/careers",
+          "destination": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883d08b729b3e018b72dc67f6007f"
+        }
       }
     ],
     "source_keys": [
       "paycor:8a7883d08b729b3e018b72dc67f6007f"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -475,13 +689,19 @@
         "official_page": "https://www.mlb.com/mets/team/jobs",
         "board_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets",
         "label": "Current Team Openings",
-        "source_key": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+        "source_key": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/mets/team/jobs",
+          "destination": "https://sterlingmets.wd5.myworkdayjobs.com/Mets"
+        }
       }
     ],
     "source_keys": [
       "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -493,13 +713,19 @@
         "official_page": "https://www.mlb.com/yankees/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/major-league-baseball?employment_opportunity_search%5Bquery%5D=&employment_opportunity_search%5Bcategory_id%5D=&employment_opportunity_search%5Borganization_id%5D=28229",
         "label": "See Open New York Yankees Jobs",
-        "source_key": "tw:baseball-jobs/baseballjobs/major-league-baseball:org:28229"
+        "source_key": "tw:baseball-jobs/baseballjobs/major-league-baseball:org:28229",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/yankees/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/major-league-baseball?employment_opportunity_search%5Bquery%5D=&employment_opportunity_search%5Bcategory_id%5D=&employment_opportunity_search%5Borganization_id%5D=28229"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/baseballjobs/major-league-baseball:org:28229"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -511,19 +737,34 @@
         "official_page": "https://www.mlb.com/phillies/team/jobs/full-time",
         "board_url": "https://job-boards.greenhouse.io/philliesbaseballoperations",
         "label": "Reviewed official link",
-        "source_key": "gh:philliesbaseballoperations"
+        "source_key": "gh:philliesbaseballoperations",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.mlb.com/phillies/team/jobs/full-time",
+          "destination": "https://job-boards.greenhouse.io/philliesbaseballoperations"
+        }
       },
       {
         "official_page": "https://www.mlb.com/phillies/team/jobs/full-time",
         "board_url": "https://job-boards.greenhouse.io/philliesbusinessops",
         "label": "Reviewed official link",
-        "source_key": "gh:philliesbusinessops"
+        "source_key": "gh:philliesbusinessops",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.mlb.com/phillies/team/jobs/full-time",
+          "destination": "https://job-boards.greenhouse.io/philliesbusinessops"
+        }
       },
       {
         "official_page": "https://www.mlb.com/phillies/team/jobs/game-day",
         "board_url": "https://job-boards.greenhouse.io/philliesgameday",
         "label": "Reviewed official link",
-        "source_key": "gh:philliesgameday"
+        "source_key": "gh:philliesgameday",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.mlb.com/phillies/team/jobs/game-day",
+          "destination": "https://job-boards.greenhouse.io/philliesgameday"
+        }
       }
     ],
     "source_keys": [
@@ -531,7 +772,8 @@
       "gh:philliesbusinessops",
       "gh:philliesgameday"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -543,13 +785,19 @@
         "official_page": "https://www.mlb.com/pirates/team/jobs",
         "board_url": "https://pirates.rec.pro.ukg.net/PIT1500PITA/JobBoard/1571bce9-cb30-4961-98da-07b26506146a/",
         "label": "Reviewed official link",
-        "source_key": "ukg:pirates.rec.pro.ukg.net/PIT1500PITA/JobBoard/1571bce9-cb30-4961-98da-07b26506146a"
+        "source_key": "ukg:pirates.rec.pro.ukg.net/PIT1500PITA/JobBoard/1571bce9-cb30-4961-98da-07b26506146a",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.mlb.com/pirates/team/jobs",
+          "destination": "https://pirates.rec.pro.ukg.net/PIT1500PITA/JobBoard/1571bce9-cb30-4961-98da-07b26506146a/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
       "ukg:pirates.rec.pro.ukg.net/PIT1500PITA/JobBoard/1571bce9-cb30-4961-98da-07b26506146a"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -561,13 +809,19 @@
         "official_page": "https://careers.hireology.com/sandiegopadres",
         "board_url": "https://careers.hireology.com/sandiegopadres",
         "label": "Official entry or career link destination",
-        "source_key": "hireology:sandiegopadres"
+        "source_key": "hireology:sandiegopadres",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://www.mlb.com/player-resource-center/work-opportunities",
+          "destination": "https://careers.hireology.com/sandiegopadres"
+        }
       }
     ],
     "source_keys": [
       "hireology:sandiegopadres"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -579,13 +833,19 @@
         "official_page": "https://www.mlb.com/giants/team/jobs",
         "board_url": "https://jobs.lever.co/sfgiants",
         "label": "View All Giants Jobs",
-        "source_key": "lever:sfgiants"
+        "source_key": "lever:sfgiants",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/giants/team/jobs",
+          "destination": "https://jobs.lever.co/sfgiants"
+        }
       }
     ],
     "source_keys": [
       "lever:sfgiants"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -597,13 +857,19 @@
         "official_page": "https://www.mlb.com/mariners/team/job-opportunities",
         "board_url": "https://mariners.wd5.myworkdayjobs.com/Mariners",
         "label": "View Opportunities",
-        "source_key": "wd:mariners.wd5.myworkdayjobs.com/Mariners"
+        "source_key": "wd:mariners.wd5.myworkdayjobs.com/Mariners",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/mariners/team/job-opportunities",
+          "destination": "https://mariners.wd5.myworkdayjobs.com/Mariners"
+        }
       }
     ],
     "source_keys": [
       "wd:mariners.wd5.myworkdayjobs.com/Mariners"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -615,13 +881,19 @@
         "official_page": "https://stlcardinals.aaimtrack.com/jobs/",
         "board_url": "https://stlcardinals.aaimtrack.com/jobs/",
         "label": "Official entry or career link destination",
-        "source_key": "applicantpro:stlcardinals.aaimtrack.com"
+        "source_key": "applicantpro:stlcardinals.aaimtrack.com",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://www.mlb.com/player-resource-center/work-opportunities",
+          "destination": "https://stlcardinals.aaimtrack.com/jobs/"
+        }
       }
     ],
     "source_keys": [
       "applicantpro:stlcardinals.aaimtrack.com"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -633,13 +905,19 @@
         "official_page": "https://www.mlb.com/rays/team/jobs",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4e6b608-831f-4a04-bdb6-f61493552d27&ccId=19000101_000001&lang=en_US",
         "label": "Available Jobs",
-        "source_key": "adp:d4e6b608-831f-4a04-bdb6-f61493552d27"
+        "source_key": "adp:d4e6b608-831f-4a04-bdb6-f61493552d27",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/rays/team/jobs",
+          "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=d4e6b608-831f-4a04-bdb6-f61493552d27&ccId=19000101_000001&lang=en_US"
+        }
       }
     ],
     "source_keys": [
       "adp:d4e6b608-831f-4a04-bdb6-f61493552d27"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -651,20 +929,31 @@
         "official_page": "https://www.mlb.com/rangers/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/texasbaseball/texas-rangers?employment_opportunity_search%5Bquery%5D=&employment_opportunity_search%5Bcategory_id%5D=&employment_opportunity_search%5Borganization_id%5D=29214",
         "label": "",
-        "source_key": "tw:baseball-jobs/texasbaseball/texas-rangers:org:29214"
+        "source_key": "tw:baseball-jobs/texasbaseball/texas-rangers:org:29214",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/rangers/team/jobs",
+          "destination": "https://www.teamworkonline.com/baseball-jobs/texasbaseball/texas-rangers?employment_opportunity_search%5Bquery%5D=&employment_opportunity_search%5Bcategory_id%5D=&employment_opportunity_search%5Borganization_id%5D=29214"
+        }
       },
       {
         "official_page": "https://www.mlb.com/rangers/team/jobs",
         "board_url": "https://rangersmlb.wd5.myworkdayjobs.com/en-US/Rangers",
         "label": "",
-        "source_key": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+        "source_key": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/rangers/team/jobs",
+          "destination": "https://rangersmlb.wd5.myworkdayjobs.com/en-US/Rangers"
+        }
       }
     ],
     "source_keys": [
       "tw:baseball-jobs/texasbaseball/texas-rangers:org:29214",
       "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -676,91 +965,162 @@
         "official_page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D",
         "label": "Fan Services Representative",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/396?source=aWQ9MTI%3D",
         "label": "Mobile Team Representative",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/395?source=aWQ9MTI%3D",
         "label": "Ticket Operations Representative",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/399?source=aWQ9MTM%3D",
         "label": "Data Scientist, Baseball Research",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/400?source=aWQ9MTM%3D",
         "label": "Baseball Research Specialist",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/387",
         "label": "Hitting Analyst",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/379?source=aWQ9MTM%3D",
         "label": "Baseball Operations \u2013 Entry Level Opportunities",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/403?source=aWQ9MTM%3D",
         "label": "Manager, Strategy",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/402?source=aWQ9MTM%3D",
         "label": "Senior People Operations (HR) Business Partner",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/401",
         "label": "Specialist, Challenger Baseball \u2013 Jays Care Foundation",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/386",
         "label": "Youth Baseball Instructor (MARITIMES)",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/385",
         "label": "Youth Baseball Instructor (ALBERTA)",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/384",
         "label": "Youth Baseball Instructor (ONTARIO)",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       },
       {
         "official_page": "https://www.mlb.com/bluejays/team/career/front-office-opportunities",
         "board_url": "https://torontobluejays.bamboohr.com/careers/378",
         "label": "Facilities Operations Technician",
-        "source_key": "bamboohr:torontobluejays.bamboohr.com"
+        "source_key": "bamboohr:torontobluejays.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlb.com/bluejays/team/career/seasonal-opportunities",
+          "destination": "https://torontobluejays.bamboohr.com/careers/393?source=aWQ9MTI%3D"
+        }
       }
     ],
     "source_keys": [
       "bamboohr:torontobluejays.bamboohr.com"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "MLB",
@@ -772,13 +1132,19 @@
         "official_page": "https://recruiting.ultipro.com/MON1001/JobBoard/0ed4fc6a-fdb9-2188-7d7e-c0ace225afcf/?q=&o=postedDateDesc",
         "board_url": "https://recruiting.ultipro.com/MON1001/JobBoard/0ed4fc6a-fdb9-2188-7d7e-c0ace225afcf/?q=&o=postedDateDesc",
         "label": "Official entry or career link destination",
-        "source_key": "ukg:recruiting.ultipro.com/MON1001/JobBoard/0ed4fc6a-fdb9-2188-7d7e-c0ace225afcf"
+        "source_key": "ukg:recruiting.ultipro.com/MON1001/JobBoard/0ed4fc6a-fdb9-2188-7d7e-c0ace225afcf",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://www.mlb.com/player-resource-center/work-opportunities",
+          "destination": "https://recruiting.ultipro.com/MON1001/JobBoard/0ed4fc6a-fdb9-2188-7d7e-c0ace225afcf/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
       "ukg:recruiting.ultipro.com/MON1001/JobBoard/0ed4fc6a-fdb9-2188-7d7e-c0ace225afcf"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -790,13 +1156,19 @@
         "official_page": "https://wd1.myworkdaysite.com/en-US/recruiting/hawks/External",
         "board_url": "https://wd1.myworkdaysite.com/en-US/recruiting/hawks/External",
         "label": "Official entry or career link destination",
-        "source_key": "wd:wd1.myworkdaysite.com/hawks/External"
+        "source_key": "wd:wd1.myworkdaysite.com/hawks/External",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://wd1.myworkdaysite.com/en-US/recruiting/hawks/External"
+        }
       }
     ],
     "source_keys": [
       "wd:wd1.myworkdaysite.com/hawks/External"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -808,13 +1180,22 @@
         "official_page": "https://www.nba.com/celtics/careers",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=60aee0ad-011f-4b26-8df9-73f60a0520a2&ccId=9201173610523_2",
         "label": "Reviewed official link",
-        "source_key": "adp:60aee0ad-011f-4b26-8df9-73f60a0520a2:9201173610523_2"
+        "source_key": "adp:60aee0ad-011f-4b26-8df9-73f60a0520a2:9201173610523_2",
+        "career_link_evidence": {
+          "team": "Boston Celtics",
+          "page": "https://www.nba.com/celtics/careers",
+          "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?ccId=9201173610523_2&cid=60aee0ad-011f-4b26-8df9-73f60a0520a2",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "adp:60aee0ad-011f-4b26-8df9-73f60a0520a2:9201173610523_2"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -826,13 +1207,22 @@
         "official_page": "https://careers.nba.com/teams/",
         "board_url": "https://bkse.com/careers",
         "label": "Reviewed official link",
-        "source_key": "official:bkse"
+        "source_key": "official:bkse",
+        "career_link_evidence": {
+          "team": "Brooklyn Nets",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://bkse.com/careers",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "official:bkse"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -844,13 +1234,19 @@
         "official_page": "https://recruiting.ultipro.com/HOR1011HORNT/JobBoard/5b257d2d-0813-4167-b64c-95fb001e0d96/?q=&o=postedDateDesc",
         "board_url": "https://recruiting.ultipro.com/HOR1011HORNT/JobBoard/5b257d2d-0813-4167-b64c-95fb001e0d96/?q=&o=postedDateDesc",
         "label": "Official entry or career link destination",
-        "source_key": "ukg:recruiting.ultipro.com/HOR1011HORNT/JobBoard/5b257d2d-0813-4167-b64c-95fb001e0d96"
+        "source_key": "ukg:recruiting.ultipro.com/HOR1011HORNT/JobBoard/5b257d2d-0813-4167-b64c-95fb001e0d96",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://recruiting.ultipro.com/HOR1011HORNT/JobBoard/5b257d2d-0813-4167-b64c-95fb001e0d96/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
       "ukg:recruiting.ultipro.com/HOR1011HORNT/JobBoard/5b257d2d-0813-4167-b64c-95fb001e0d96"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -862,13 +1258,15 @@
         "official_page": "https://recruiting.paylocity.com/recruiting/jobs/Details/4633121/The-Chicago-Bulls/Executive-Director-Brand-and-Fan-Marketing",
         "board_url": "https://recruiting.paylocity.com/Recruiting/Jobs/All/cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3",
         "label": "Reviewed official link",
-        "source_key": "paylocity:cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3"
+        "source_key": "paylocity:cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "paylocity:cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NBA",
@@ -880,13 +1278,19 @@
         "official_page": "https://www.teamworkonline.com/basketball-jobs/cleveland-cavaliers/cleveland-cavaliers-jobs",
         "board_url": "https://www.teamworkonline.com/basketball-jobs/cleveland-cavaliers/cleveland-cavaliers-jobs",
         "label": "Official entry or career link destination",
-        "source_key": "tw:basketball-jobs/cleveland-cavaliers/cleveland-cavaliers-jobs"
+        "source_key": "tw:basketball-jobs/cleveland-cavaliers/cleveland-cavaliers-jobs",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://www.teamworkonline.com/basketball-jobs/cleveland-cavaliers/cleveland-cavaliers-jobs"
+        }
       }
     ],
     "source_keys": [
       "tw:basketball-jobs/cleveland-cavaliers/cleveland-cavaliers-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -898,13 +1302,22 @@
         "official_page": "https://www.nba.com/mavs/careers",
         "board_url": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c68eee9454018ef2f81a7d05a4",
         "label": "Reviewed official link",
-        "source_key": "paycor:8a7883c68eee9454018ef2f81a7d05a4"
+        "source_key": "paycor:8a7883c68eee9454018ef2f81a7d05a4",
+        "career_link_evidence": {
+          "team": "Dallas Mavericks",
+          "page": "https://www.nba.com/mavs/careers",
+          "destination": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c68eee9454018ef2f81a7d05a4",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "paycor:8a7883c68eee9454018ef2f81a7d05a4"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -916,13 +1329,19 @@
         "official_page": "https://www.ballarena.com/careers",
         "board_url": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c693dc38f10193f3d11bba0774",
         "label": "Reviewed official link",
-        "source_key": "paycor:8a7883c693dc38f10193f3d11bba0774"
+        "source_key": "paycor:8a7883c693dc38f10193f3d11bba0774",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.ballarena.com/careers",
+          "destination": "https://recruitingbypaycor.com/career/iframe.action?clientId=8a7883c693dc38f10193f3d11bba0774"
+        }
       }
     ],
     "source_keys": [
       "paycor:8a7883c693dc38f10193f3d11bba0774"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -934,13 +1353,22 @@
         "official_page": "https://recruiting.paylocity.com/Recruiting/Jobs/Success/4391535",
         "board_url": "https://recruiting.paylocity.com/Recruiting/Jobs/All/19408bc7-4e69-4ea7-9ff6-3e39455d6469",
         "label": "Reviewed official link",
-        "source_key": "paylocity:19408bc7-4e69-4ea7-9ff6-3e39455d6469"
+        "source_key": "paylocity:19408bc7-4e69-4ea7-9ff6-3e39455d6469",
+        "career_link_evidence": {
+          "team": "Detroit Pistons",
+          "page": "https://www.nba.com/pistons/careers",
+          "destination": "https://recruiting.paylocity.com/recruiting/jobs/All/19408bc7-4e69-4ea7-9ff6-3e39455d6469/Detroit-Pistons",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "paylocity:19408bc7-4e69-4ea7-9ff6-3e39455d6469"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -952,19 +1380,26 @@
         "official_page": "https://www.teamworkonline.com/basketball-jobs/warriors/golden-state-warriors-jobs",
         "board_url": "https://sites.teamworkonline.com/golden-state-warriors/",
         "label": "Official entry or career link destination",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://sites.teamworkonline.com/golden-state-warriors/",
         "board_url": "https://www.teamworkonline.com/basketball-jobs/warriors/golden-state-warriors-jobs",
         "label": "Reviewed official link",
-        "source_key": "tw:basketball-jobs/warriors/golden-state-warriors-careers"
+        "source_key": "tw:basketball-jobs/warriors/golden-state-warriors-careers",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://www.teamworkonline.com/basketball-jobs/warriors/golden-state-warriors-jobs"
+        }
       }
     ],
     "source_keys": [
       "tw:basketball-jobs/warriors/golden-state-warriors-careers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -976,13 +1411,22 @@
         "official_page": "https://www.nba.com/rockets/careers",
         "board_url": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c689b7fbd50189ffa65b61208d",
         "label": "Reviewed official link",
-        "source_key": "paycor:8a7883c689b7fbd50189ffa65b61208d"
+        "source_key": "paycor:8a7883c689b7fbd50189ffa65b61208d",
+        "career_link_evidence": {
+          "team": "Houston Rockets",
+          "page": "https://www.nba.com/rockets/careers",
+          "destination": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c689b7fbd50189ffa65b61208d",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "paycor:8a7883c689b7fbd50189ffa65b61208d"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -994,13 +1438,22 @@
         "official_page": "https://pse.hrmdirect.com/employment/job-openings.php",
         "board_url": "https://apply.clearcompany.com/pse?noheader=False",
         "label": "Reviewed official link",
-        "source_key": "clearcompany:pse"
+        "source_key": "clearcompany:pse",
+        "career_link_evidence": {
+          "team": "Indiana Pacers",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://apply.clearcompany.com/pse?noheader=False",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "clearcompany:pse"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1012,13 +1465,15 @@
         "official_page": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4723835006",
         "board_url": "https://job-boards.greenhouse.io/laclippers",
         "label": "Reviewed official link",
-        "source_key": "gh:laclippers"
+        "source_key": "gh:laclippers",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "gh:laclippers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NBA",
@@ -1030,13 +1485,19 @@
         "official_page": "https://www.teamworkonline.com/basketball-jobs/los-angeles-lakers/los-angeles-lakers-jobs",
         "board_url": "https://www.teamworkonline.com/basketball-jobs/los-angeles-lakers/los-angeles-lakers-jobs",
         "label": "Official entry or career link destination",
-        "source_key": "tw:basketball-jobs/los-angeles-lakers/los-angeles-lakers-jobs"
+        "source_key": "tw:basketball-jobs/los-angeles-lakers/los-angeles-lakers-jobs",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://www.teamworkonline.com/basketball-jobs/los-angeles-lakers/los-angeles-lakers-jobs"
+        }
       }
     ],
     "source_keys": [
       "tw:basketball-jobs/los-angeles-lakers/los-angeles-lakers-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1048,13 +1509,22 @@
         "official_page": "https://www.nba.com/grizzlies/careers",
         "board_url": "https://careers-grizzlies.icims.com/jobs/search",
         "label": "Reviewed official link",
-        "source_key": "icims:careers-grizzlies.icims.com"
+        "source_key": "icims:careers-grizzlies.icims.com",
+        "career_link_evidence": {
+          "team": "Memphis Grizzlies",
+          "page": "https://www.nba.com/grizzlies/careers",
+          "destination": "https://careers-grizzlies.icims.com/jobs/search",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "icims:careers-grizzlies.icims.com"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1066,13 +1536,22 @@
         "official_page": "https://www.nba.com/heat/careers",
         "board_url": "https://recruiting.ultipro.com/MIA1004MHLP/JobBoard/b34868a3-6ce1-4a28-b8fb-afb1cd5be9d3",
         "label": "Reviewed official link",
-        "source_key": "ukg:recruiting.ultipro.com/MIA1004MHLP/JobBoard/b34868a3-6ce1-4a28-b8fb-afb1cd5be9d3"
+        "source_key": "ukg:recruiting.ultipro.com/MIA1004MHLP/JobBoard/b34868a3-6ce1-4a28-b8fb-afb1cd5be9d3",
+        "career_link_evidence": {
+          "team": "Miami Heat",
+          "page": "https://www.nba.com/heat/careers",
+          "destination": "https://recruiting.ultipro.com/MIA1004MHLP/JobBoard/b34868a3-6ce1-4a28-b8fb-afb1cd5be9d3",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "ukg:recruiting.ultipro.com/MIA1004MHLP/JobBoard/b34868a3-6ce1-4a28-b8fb-afb1cd5be9d3"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1084,13 +1563,15 @@
         "official_page": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&jobId=571885",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001",
         "label": "Reviewed official link",
-        "source_key": "adp:035c77cb-5b5c-4e48-b858-605ab1663076"
+        "source_key": "adp:035c77cb-5b5c-4e48-b858-605ab1663076",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "adp:035c77cb-5b5c-4e48-b858-605ab1663076"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NBA",
@@ -1102,13 +1583,22 @@
         "official_page": "https://www.nba.com/timberwolves/careers",
         "board_url": "https://jobs.dayforcehcm.com/en-US/packportal/CANDIDATEPORTAL",
         "label": "Reviewed official link",
-        "source_key": "dayforce:packportal/CANDIDATEPORTAL"
+        "source_key": "dayforce:packportal/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "team": "Minnesota Timberwolves",
+          "page": "https://www.nba.com/timberwolves/careers",
+          "destination": "https://jobs.dayforcehcm.com/en-US/packportal/CANDIDATEPORTAL",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "dayforce:packportal/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1120,13 +1610,22 @@
         "official_page": "https://www.nba.com/pelicans/career-opportunities",
         "board_url": "https://jobs.dayforcehcm.com/en-US/bensonenterprises/SAINTSPELSCAREERS",
         "label": "Reviewed official link",
-        "source_key": "dayforce:bensonenterprises/SAINTSPELSCAREERS"
+        "source_key": "dayforce:bensonenterprises/SAINTSPELSCAREERS",
+        "career_link_evidence": {
+          "team": "New Orleans Pelicans",
+          "page": "https://www.nba.com/pelicans/career-opportunities",
+          "destination": "https://dayforcehcm.com/CandidatePortal/en-US/bensonenterprises/SITE/SAINTSPELSCAREERS",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "dayforce:bensonenterprises/SAINTSPELSCAREERS"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1138,13 +1637,19 @@
         "official_page": "https://msgknicks.com/careers/",
         "board_url": "https://www.msgknicks.com/jobs/",
         "label": "Reviewed official link",
-        "source_key": "official:www.msgknicks.com"
+        "source_key": "official:www.msgknicks.com",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://msgknicks.com/careers/",
+          "destination": "https://www.msgknicks.com/xmlrpc.php"
+        }
       }
     ],
     "source_keys": [
       "official:www.msgknicks.com"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1156,13 +1661,22 @@
         "official_page": "https://www.nba.com/thunder/employment",
         "board_url": "https://www.paycomonline.net/v4/ats/web.php/portal/8E7F16AD6654E4ED3797EE9F40DB0A48/career-page",
         "label": "Reviewed official link",
-        "source_key": "paycom:8E7F16AD6654E4ED3797EE9F40DB0A48"
+        "source_key": "paycom:8E7F16AD6654E4ED3797EE9F40DB0A48",
+        "career_link_evidence": {
+          "team": "Oklahoma City Thunder",
+          "page": "https://www.nba.com/thunder/employment",
+          "destination": "https://www.paycomonline.net/v4/ats/web.php/portal/8E7F16AD6654E4ED3797EE9F40DB0A48/jobs/488699",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "paycom:8E7F16AD6654E4ED3797EE9F40DB0A48"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1174,13 +1688,22 @@
         "official_page": "https://www.nba.com/magic/careers",
         "board_url": "https://recruiting.ultipro.com/ORL1001MAGIC/JobBoard/d2d331e7-e222-4a47-bb35-c640aa29a3d7",
         "label": "Reviewed official link",
-        "source_key": "ukg:recruiting.ultipro.com/ORL1001MAGIC/JobBoard/d2d331e7-e222-4a47-bb35-c640aa29a3d7"
+        "source_key": "ukg:recruiting.ultipro.com/ORL1001MAGIC/JobBoard/d2d331e7-e222-4a47-bb35-c640aa29a3d7",
+        "career_link_evidence": {
+          "team": "Orlando Magic",
+          "page": "https://www.nba.com/magic/careers",
+          "destination": "https://recruiting.ultipro.com/ORL1001MAGIC/JobBoard/d2d331e7-e222-4a47-bb35-c640aa29a3d7/",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "ukg:recruiting.ultipro.com/ORL1001MAGIC/JobBoard/d2d331e7-e222-4a47-bb35-c640aa29a3d7"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1192,13 +1715,19 @@
         "official_page": "https://recruit.hirebridge.com/v3/CareerCenter/v2/?cid=8097",
         "board_url": "https://recruit.hirebridge.com/v3/CareerCenter/v2/?cid=8097",
         "label": "Official entry or career link destination",
-        "source_key": "hirebridge:8097"
+        "source_key": "hirebridge:8097",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://recruit.hirebridge.com/v3/CareerCenter/v2/?cid=8097"
+        }
       }
     ],
     "source_keys": [
       "hirebridge:8097"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1210,13 +1739,22 @@
         "official_page": "https://www.nba.com/suns/contact/careers",
         "board_url": "https://jobs.dayforcehcm.com/en-US/slp/CANDIDATEPORTAL",
         "label": "Reviewed official link",
-        "source_key": "dayforce:slp/CANDIDATEPORTAL"
+        "source_key": "dayforce:slp/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "team": "Phoenix Suns",
+          "page": "https://www.nba.com/suns/contact/careers",
+          "destination": "https://jobs.dayforcehcm.com/en-US/slp/CANDIDATEPORTAL",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "dayforce:slp/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1228,19 +1766,22 @@
         "official_page": "https://jobs.ripcity.org/jobs/18455025-manager-inside-sales",
         "board_url": "https://jobs.jobvite.com/ripcity/jobs",
         "label": "Reviewed official link",
-        "source_key": "jobvite:ripcity"
+        "source_key": "jobvite:ripcity",
+        "career_link_evidence": null
       },
       {
         "official_page": "https://jobs.ripcity.org",
         "board_url": "https://jobs.ripcity.org/search/jobs",
         "label": "Reviewed official link",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "jobvite:ripcity"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NBA",
@@ -1252,13 +1793,22 @@
         "official_page": "https://www.nba.com/kings/careers",
         "board_url": "https://www.teamworkonline.com/basketball-jobs/sacramento-kings-jobs/sacramento-kings",
         "label": "Reviewed official link",
-        "source_key": "tw:basketball-jobs/sacramento-kings-jobs/sacramento-kings"
+        "source_key": "tw:basketball-jobs/sacramento-kings-jobs/sacramento-kings",
+        "career_link_evidence": {
+          "team": "Sacramento Kings",
+          "page": "https://www.nba.com/kings/careers",
+          "destination": "https://www.teamworkonline.com/basketball-jobs/sacramento-kings-jobs/sacramento-kings",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "tw:basketball-jobs/sacramento-kings-jobs/sacramento-kings"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1270,13 +1820,22 @@
         "official_page": "https://www.nba.com/spurs/careers",
         "board_url": "https://jobs.dayforcehcm.com/en-US/onesse/CANDIDATEPORTAL",
         "label": "Reviewed official link",
-        "source_key": "dayforce:onesse/CANDIDATEPORTAL"
+        "source_key": "dayforce:onesse/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "team": "San Antonio Spurs",
+          "page": "https://www.nba.com/spurs/careers",
+          "destination": "https://jobs.dayforcehcm.com/en-US/onesse/CANDIDATEPORTAL",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "dayforce:onesse/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1288,13 +1847,19 @@
         "official_page": "https://www.mlse.com/our-company/join-our-team",
         "board_url": "https://mlse.wd3.myworkdayjobs.com/MLSE",
         "label": "Career Search",
-        "source_key": "wd:mlse.wd3.myworkdayjobs.com/MLSE"
+        "source_key": "wd:mlse.wd3.myworkdayjobs.com/MLSE",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.mlse.com/our-company/join-our-team",
+          "destination": "https://mlse.wd3.myworkdayjobs.com/MLSE"
+        }
       }
     ],
     "source_keys": [
       "wd:mlse.wd3.myworkdayjobs.com/MLSE"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1306,13 +1871,19 @@
         "official_page": "https://www.teamworkonline.com/basketball-jobs/utah-jazz-jobs/utah-jazz",
         "board_url": "https://www.teamworkonline.com/basketball-jobs/utah-jazz-jobs/utah-jazz",
         "label": "Official entry or career link destination",
-        "source_key": "tw:basketball-jobs/utah-jazz-jobs/utah-jazz"
+        "source_key": "tw:basketball-jobs/utah-jazz-jobs/utah-jazz",
+        "career_link_evidence": {
+          "kind": "official_directory_link",
+          "page": "https://careers.nba.com/teams/",
+          "destination": "https://www.teamworkonline.com/basketball-jobs/utah-jazz-jobs/utah-jazz"
+        }
       }
     ],
     "source_keys": [
       "tw:basketball-jobs/utah-jazz-jobs/utah-jazz"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1324,13 +1895,15 @@
         "official_page": "https://job-boards.greenhouse.io/monumentalsports",
         "board_url": "https://job-boards.greenhouse.io/monumentalsports",
         "label": "Reviewed official link",
-        "source_key": "gh:monumentalsports"
+        "source_key": "gh:monumentalsports",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "gh:monumentalsports"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NFL",
@@ -1342,13 +1915,19 @@
         "official_page": "https://www.azcardinals.com/employment",
         "board_url": "https://recruiting2.ultipro.com/ARI1001CARD/JobBoard/bfe37693-2c0a-46b6-af4e-f984b08a8e7f/?q=&o=postedDateDesc",
         "label": "Employment",
-        "source_key": "ukg:recruiting2.ultipro.com/ARI1001CARD/JobBoard/bfe37693-2c0a-46b6-af4e-f984b08a8e7f"
+        "source_key": "ukg:recruiting2.ultipro.com/ARI1001CARD/JobBoard/bfe37693-2c0a-46b6-af4e-f984b08a8e7f",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.azcardinals.com/employment",
+          "destination": "https://recruiting2.ultipro.com/ARI1001CARD/JobBoard/bfe37693-2c0a-46b6-af4e-f984b08a8e7f/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
       "ukg:recruiting2.ultipro.com/ARI1001CARD/JobBoard/bfe37693-2c0a-46b6-af4e-f984b08a8e7f"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1360,13 +1939,19 @@
         "official_page": "https://www.atlantafalcons.com/",
         "board_url": "https://ambgroup.wd1.myworkdayjobs.com/AMBSE",
         "label": "Employment",
-        "source_key": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE"
+        "source_key": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.atlantafalcons.com/",
+          "destination": "https://ambgroup.wd1.myworkdayjobs.com/AMBSE"
+        }
       }
     ],
     "source_keys": [
       "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1378,13 +1963,19 @@
         "official_page": "https://www.baltimoreravens.com/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/baltimoreravens/CANDIDATEPORTAL/jobs/2295",
         "label": "50/50 RAFFLE SELLER",
-        "source_key": "dayforce:baltimoreravens/CANDIDATEPORTAL"
+        "source_key": "dayforce:baltimoreravens/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.baltimoreravens.com/employment",
+          "destination": "https://jobs.dayforcehcm.com/en-US/baltimoreravens/CANDIDATEPORTAL/jobs/2295"
+        }
       }
     ],
     "source_keys": [
       "dayforce:baltimoreravens/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1396,19 +1987,34 @@
         "official_page": "https://www.buffalobills.com/about-us/career-opportunities",
         "board_url": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/fe63f75a-e850-45d2-8772-63a210927fdc/?q=&o=postedDateDesc",
         "label": "View Openings",
-        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/fe63f75a-e850-45d2-8772-63a210927fdc"
+        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/fe63f75a-e850-45d2-8772-63a210927fdc",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.buffalobills.com/about-us/career-opportunities",
+          "destination": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/fe63f75a-e850-45d2-8772-63a210927fdc/?q=&o=postedDateDesc"
+        }
       },
       {
         "official_page": "https://www.buffalobills.com/about-us/career-opportunities",
         "board_url": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/3805bf94-db10-4fad-870e-d1d9fbbf9d9b/?q=&o=postedDateDesc",
         "label": "View Openings",
-        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/3805bf94-db10-4fad-870e-d1d9fbbf9d9b"
+        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/3805bf94-db10-4fad-870e-d1d9fbbf9d9b",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.buffalobills.com/about-us/career-opportunities",
+          "destination": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/3805bf94-db10-4fad-870e-d1d9fbbf9d9b/?q=&o=postedDateDesc"
+        }
       },
       {
         "official_page": "https://www.buffalobills.com/about-us/career-opportunities",
         "board_url": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/925d63bc-1544-4b27-89b4-fd8dbe8b6440/?q=&o=postedDateDesc",
         "label": "View Openings",
-        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/925d63bc-1544-4b27-89b4-fd8dbe8b6440"
+        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/925d63bc-1544-4b27-89b4-fd8dbe8b6440",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.buffalobills.com/about-us/career-opportunities",
+          "destination": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/925d63bc-1544-4b27-89b4-fd8dbe8b6440/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
@@ -1416,7 +2022,8 @@
       "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/925d63bc-1544-4b27-89b4-fd8dbe8b6440",
       "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/fe63f75a-e850-45d2-8772-63a210927fdc"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1428,109 +2035,191 @@
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87",
         "label": "Click here for a list of all employment opportunities.",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5860",
         "label": "APPLY NOW",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/4315",
         "label": "APPLY NOW",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5044",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5315",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5327",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5999",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5947",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5958",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5962",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5966",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5978",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5991",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/cp87/CANDIDATEPORTAL/jobs/6011",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/6017",
         "label": "Apply Now",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/5846",
         "label": "Partnership Marketing Gameday Associate",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       },
       {
         "official_page": "https://www.panthers.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/cp87/CANDIDATEPORTAL/jobs/6003",
         "label": "Photography & Digital Asset Management",
-        "source_key": "dayforce:cp87/CANDIDATEPORTAL"
+        "source_key": "dayforce:cp87/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.panthers.com/about-us/employment",
+          "destination": "https://www.dayforcehcm.com/CandidatePortal/en-US/cp87"
+        }
       }
     ],
     "source_keys": [
       "dayforce:cp87/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1542,13 +2231,19 @@
         "official_page": "https://www.chicagobears.com/about/employment-opportunities",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=0103272e-a631-4293-97b2-7da68f74bc1f&ccId=19000101_000001&type=MP&lang=en_US",
         "label": "View Current Openings",
-        "source_key": "adp:0103272e-a631-4293-97b2-7da68f74bc1f"
+        "source_key": "adp:0103272e-a631-4293-97b2-7da68f74bc1f",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.chicagobears.com/about/employment-opportunities",
+          "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=0103272e-a631-4293-97b2-7da68f74bc1f&ccId=19000101_000001&type=MP&lang=en_US"
+        }
       }
     ],
     "source_keys": [
       "adp:0103272e-a631-4293-97b2-7da68f74bc1f"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1560,19 +2255,30 @@
         "official_page": "https://www.bengals.com/contact-us/careers",
         "board_url": "https://www.teamworkonline.com/football-jobs/footballjobs/cincinnati-bengals",
         "label": "VIEW JOBS",
-        "source_key": "tw:football-jobs/footballjobs/cincinnati-bengals"
+        "source_key": "tw:football-jobs/footballjobs/cincinnati-bengals",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.bengals.com/contact-us/careers",
+          "destination": "https://www.teamworkonline.com/football-jobs/footballjobs/cincinnati-bengals"
+        }
       },
       {
         "official_page": "https://www.bengals.com/contact-us/careers",
         "board_url": "https://www.teamworkonline.com/football-jobs/footballjobs/cincinnati-bengals/game-day-sales-associate-1986523",
         "label": "VIEW AVAILABLE POSITIONS",
-        "source_key": "tw:football-jobs/footballjobs/cincinnati-bengals"
+        "source_key": "tw:football-jobs/footballjobs/cincinnati-bengals",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.bengals.com/contact-us/careers",
+          "destination": "https://www.teamworkonline.com/football-jobs/footballjobs/cincinnati-bengals"
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/footballjobs/cincinnati-bengals"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1584,13 +2290,19 @@
         "official_page": "https://www.clevelandbrowns.com/about/employment-opportunities",
         "board_url": "https://clevelandbrowns.isolvedhire.com/jobs/",
         "label": "Reviewed official link",
-        "source_key": "applicantpro:clevelandbrowns.isolvedhire.com"
+        "source_key": "applicantpro:clevelandbrowns.isolvedhire.com",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.clevelandbrowns.com/about/employment-opportunities",
+          "destination": "https://clevelandbrowns.isolvedhire.com/jobs/"
+        }
       }
     ],
     "source_keys": [
       "applicantpro:clevelandbrowns.isolvedhire.com"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1602,19 +2314,26 @@
         "official_page": "https://www.dallascowboys.com/career-opportunities",
         "board_url": "https://dayforcehcm.com/CandidatePortal/en-US/jonesentities/SITE/DALLASCOWBOYSFOOTBALLCLUB",
         "label": "Click here",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.dallascowboys.com/career-opportunities",
         "board_url": "https://jobs.dayforcehcm.com/en-US/jonesentities/DALLASCOWBOYSFOOTBALLCLUB",
         "label": "Reviewed official link",
-        "source_key": "dayforce:jonesentities/DALLASCOWBOYSFOOTBALLCLUB"
+        "source_key": "dayforce:jonesentities/DALLASCOWBOYSFOOTBALLCLUB",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.dallascowboys.com/career-opportunities",
+          "destination": "https://dayforcehcm.com/CandidatePortal/en-US/jonesentities/SITE/DALLASCOWBOYSFOOTBALLCLUB"
+        }
       }
     ],
     "source_keys": [
       "dayforce:jonesentities/DALLASCOWBOYSFOOTBALLCLUB"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1626,13 +2345,19 @@
         "official_page": "https://www.denverbroncos.com/employment/",
         "board_url": "https://boards.greenhouse.io/denverbroncosteamllc",
         "label": "EMPLOYMENT OPPORTUNITIES",
-        "source_key": "gh:denverbroncosteamllc"
+        "source_key": "gh:denverbroncosteamllc",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.denverbroncos.com/employment/",
+          "destination": "https://boards.greenhouse.io/denverbroncosteamllc"
+        }
       }
     ],
     "source_keys": [
       "gh:denverbroncosteamllc"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1644,13 +2369,19 @@
         "official_page": "https://www.detroitlions.com/about-us/careers",
         "board_url": "https://boards.greenhouse.io/detroitlions",
         "label": "VIEW CURRENT JOB OPENINGS >",
-        "source_key": "gh:detroitlions"
+        "source_key": "gh:detroitlions",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.detroitlions.com/about-us/careers",
+          "destination": "https://boards.greenhouse.io/detroitlions"
+        }
       }
     ],
     "source_keys": [
       "gh:detroitlions"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1662,20 +2393,31 @@
         "official_page": "https://www.packers.com/lambeau-field/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/greenbaypackers/CANDIDATEPORTAL",
         "label": "Apply Online",
-        "source_key": "dayforce:greenbaypackers/CANDIDATEPORTAL"
+        "source_key": "dayforce:greenbaypackers/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.packers.com/lambeau-field/employment",
+          "destination": "https://jobs.dayforcehcm.com/en-US/greenbaypackers/CANDIDATEPORTAL"
+        }
       },
       {
         "official_page": "https://www.packers.com/lambeau-field/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/greenbaypackers/PACWebSite",
         "label": "Current Open Positions",
-        "source_key": "dayforce:greenbaypackers/PACWebSite"
+        "source_key": "dayforce:greenbaypackers/PACWebSite",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.packers.com/lambeau-field/employment",
+          "destination": "https://jobs.dayforcehcm.com/en-US/greenbaypackers/PACWebSite"
+        }
       }
     ],
     "source_keys": [
       "dayforce:greenbaypackers/CANDIDATEPORTAL",
       "dayforce:greenbaypackers/PACWebSite"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1687,31 +2429,52 @@
         "official_page": "https://www.houstontexans.com/employment/",
         "board_url": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/brand-marketing-manager-2188294",
         "label": "BRAND MARKETING MANAGER, LOVB",
-        "source_key": "tw:football-jobs/texans/houston-texans"
+        "source_key": "tw:football-jobs/texans/houston-texans",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.houstontexans.com/employment/",
+          "destination": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/brand-marketing-manager-2188294"
+        }
       },
       {
         "official_page": "https://www.houstontexans.com/employment/",
         "board_url": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/inside-sales-representative-2183512",
         "label": "INSIDE SALES REPRESENTATIVE",
-        "source_key": "tw:football-jobs/texans/houston-texans"
+        "source_key": "tw:football-jobs/texans/houston-texans",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.houstontexans.com/employment/",
+          "destination": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/brand-marketing-manager-2188294"
+        }
       },
       {
         "official_page": "https://www.houstontexans.com/employment/",
         "board_url": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/membership-services-advisor-2196678",
         "label": "MEMBERSHIP SERVICES ADVISOR",
-        "source_key": "tw:football-jobs/texans/houston-texans"
+        "source_key": "tw:football-jobs/texans/houston-texans",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.houstontexans.com/employment/",
+          "destination": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/brand-marketing-manager-2188294"
+        }
       },
       {
         "official_page": "https://www.houstontexans.com/employment/",
         "board_url": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/junior-graphic-designer-2194401",
         "label": "JUNIOR GRAPHIC DESIGNER",
-        "source_key": "tw:football-jobs/texans/houston-texans"
+        "source_key": "tw:football-jobs/texans/houston-texans",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.houstontexans.com/employment/",
+          "destination": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/brand-marketing-manager-2188294"
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/texans/houston-texans"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1723,13 +2486,19 @@
         "official_page": "https://www.colts.com/",
         "board_url": "https://jobs.dayforcehcm.com/en-US/indianapoliscolts/CANDIDATEPORTAL",
         "label": "Employment",
-        "source_key": "dayforce:indianapoliscolts/CANDIDATEPORTAL"
+        "source_key": "dayforce:indianapoliscolts/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.colts.com/",
+          "destination": "https://jobs.dayforcehcm.com/en-US/indianapoliscolts/CANDIDATEPORTAL"
+        }
       }
     ],
     "source_keys": [
       "dayforce:indianapoliscolts/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1741,13 +2510,19 @@
         "official_page": "https://www.jaguars.com/careers",
         "board_url": "https://www.teamworkonline.com/football-jobs/footballjobs/nfl-football-jobs?employment_opportunity_search%5Bquery%5D=&employment_opportunity_search%5Bcategory_id%5D=&employment_opportunity_search%5Borganization_id%5D=28261&employment_opportunity_search%5Bcareer_level_id%5D=",
         "label": "AVAILABLE POSITIONS",
-        "source_key": "tw:football-jobs/footballjobs/nfl-football-jobs:org:28261"
+        "source_key": "tw:football-jobs/footballjobs/nfl-football-jobs:org:28261",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.jaguars.com/careers",
+          "destination": "https://www.teamworkonline.com/football-jobs/footballjobs/nfl-football-jobs?employment_opportunity_search%5Bquery%5D=&employment_opportunity_search%5Bcategory_id%5D=&employment_opportunity_search%5Borganization_id%5D=28261&employment_opportunity_search%5Bcareer_level_id%5D="
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/footballjobs/nfl-football-jobs:org:28261"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1759,19 +2534,26 @@
         "official_page": "https://www.chiefs.com/",
         "board_url": "https://dayforcehcm.com/CandidatePortal/en-US/kccfc",
         "label": "Careers",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.chiefs.com/",
         "board_url": "https://jobs.dayforcehcm.com/en-US/kccfc/CANDIDATEPORTAL",
         "label": "Reviewed official link",
-        "source_key": "dayforce:kccfc/CANDIDATEPORTAL"
+        "source_key": "dayforce:kccfc/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.chiefs.com/",
+          "destination": "https://dayforcehcm.com/CandidatePortal/en-US/kccfc"
+        }
       }
     ],
     "source_keys": [
       "dayforce:kccfc/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1783,13 +2565,19 @@
         "official_page": "https://www.allegiantstadium.com/connect/employment-opportunities",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=58d2d945-3a8e-4bea-81f1-e18a4a93c137&ccId=19000101_000001&type=MP&lang=en_US",
         "label": "More Info",
-        "source_key": "adp:58d2d945-3a8e-4bea-81f1-e18a4a93c137"
+        "source_key": "adp:58d2d945-3a8e-4bea-81f1-e18a4a93c137",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.allegiantstadium.com/connect/employment-opportunities",
+          "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=58d2d945-3a8e-4bea-81f1-e18a4a93c137&ccId=19000101_000001&type=MP&lang=en_US"
+        }
       }
     ],
     "source_keys": [
       "adp:58d2d945-3a8e-4bea-81f1-e18a4a93c137"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1801,13 +2589,19 @@
         "official_page": "https://www.chargers.com/contact-us/careers",
         "board_url": "https://www.teamworkonline.com/football-jobs/los-angeles-chargers-jobs/los-angeles-chargers",
         "label": "VIEW JOBS",
-        "source_key": "tw:football-jobs/los-angeles-chargers-jobs/los-angeles-chargers"
+        "source_key": "tw:football-jobs/los-angeles-chargers-jobs/los-angeles-chargers",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.chargers.com/contact-us/careers",
+          "destination": "https://www.teamworkonline.com/football-jobs/los-angeles-chargers-jobs/los-angeles-chargers"
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/los-angeles-chargers-jobs/los-angeles-chargers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1819,19 +2613,26 @@
         "official_page": "https://www.therams.com/",
         "board_url": "https://sites.teamworkonline.com/los-angeles-rams/",
         "label": "Careers",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://sites.teamworkonline.com/los-angeles-rams/",
         "board_url": "https://www.teamworkonline.com/football-jobs/la-rams-careers/los-angeles-rams",
         "label": "Reviewed official link",
-        "source_key": "tw:football-jobs/la-rams-careers/los-angeles-rams"
+        "source_key": "tw:football-jobs/la-rams-careers/los-angeles-rams",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://sites.teamworkonline.com/los-angeles-rams/",
+          "destination": "https://www.teamworkonline.com/football-jobs/la-rams-careers/los-angeles-rams"
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/la-rams-careers/los-angeles-rams"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1843,20 +2644,31 @@
         "official_page": "https://www.hardrockstadium.com/careers/",
         "board_url": "https://www.teamworkonline.com/multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs",
         "label": "",
-        "source_key": "tw:multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs"
+        "source_key": "tw:multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.hardrockstadium.com/careers/",
+          "destination": "https://www.teamworkonline.com/multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs"
+        }
       },
       {
         "official_page": "https://www.miamidolphins.com/careers/internship",
         "board_url": "https://www.teamworkonline.com/football-jobs/miami-dolphins-jobs/miami-dolphins/2027-miami-dolphins-and-hard-rock-stadium-summer-internship-program-2192166",
         "label": "APPLY NOW",
-        "source_key": "tw:football-jobs/miami-dolphins-jobs/miami-dolphins"
+        "source_key": "tw:football-jobs/miami-dolphins-jobs/miami-dolphins",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.miamidolphins.com/careers/internship",
+          "destination": "https://www.teamworkonline.com/football-jobs/miami-dolphins-jobs/miami-dolphins/2027-miami-dolphins-and-hard-rock-stadium-summer-internship-program-2192166"
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/miami-dolphins-jobs/miami-dolphins",
       "tw:multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1868,13 +2680,19 @@
         "official_page": "https://www.vikings.com/",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=79875354-b46d-4cef-b74b-aff52f5942af&ccId=19000101_000001&lang=en_US",
         "label": "Jobs",
-        "source_key": "adp:79875354-b46d-4cef-b74b-aff52f5942af"
+        "source_key": "adp:79875354-b46d-4cef-b74b-aff52f5942af",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.vikings.com/",
+          "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=79875354-b46d-4cef-b74b-aff52f5942af&ccId=19000101_000001&lang=en_US"
+        }
       }
     ],
     "source_keys": [
       "adp:79875354-b46d-4cef-b74b-aff52f5942af"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1886,20 +2704,31 @@
         "official_page": "https://www.thekraftgroup.com/careers/full-time-positions-benefits/",
         "board_url": "https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=6DD6A10BA4EC7EF602C48467CF1F44D5",
         "label": "Kraft Sports + Entertainment",
-        "source_key": "paycom:6DD6A10BA4EC7EF602C48467CF1F44D5"
+        "source_key": "paycom:6DD6A10BA4EC7EF602C48467CF1F44D5",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.thekraftgroup.com/careers/full-time-positions-benefits/",
+          "destination": "https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=6DD6A10BA4EC7EF602C48467CF1F44D5&session_nonce=304f2f905d7ac8fdf50567492bd93781"
+        }
       },
       {
         "official_page": "https://www.thekraftgroup.com/careers/full-time-positions-benefits/",
         "board_url": "https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=E5610D2EE813CB667DFB4474CE51F738",
         "label": "New England Patriots",
-        "source_key": "paycom:E5610D2EE813CB667DFB4474CE51F738"
+        "source_key": "paycom:E5610D2EE813CB667DFB4474CE51F738",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.thekraftgroup.com/careers/full-time-positions-benefits/",
+          "destination": "https://www.paycomonline.net/v4/ats/web.php/jobs?clientkey=E5610D2EE813CB667DFB4474CE51F738&session_nonce=304f2f905d7ac8fdf50567492bd93781"
+        }
       }
     ],
     "source_keys": [
       "paycom:6DD6A10BA4EC7EF602C48467CF1F44D5",
       "paycom:E5610D2EE813CB667DFB4474CE51F738"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1911,19 +2740,26 @@
         "official_page": "https://www.neworleanssaints.com/team/careers/",
         "board_url": "http://dayforcehcm.com/CandidatePortal/en-US/bensonenterprises/SITE/SAINTSPELSCAREERS",
         "label": "APPLY HERE",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.neworleanssaints.com/team/careers/",
         "board_url": "https://jobs.dayforcehcm.com/en-US/bensonenterprises/SAINTSPELSCAREERS",
         "label": "Reviewed official link",
-        "source_key": "dayforce:bensonenterprises/SAINTSPELSCAREERS"
+        "source_key": "dayforce:bensonenterprises/SAINTSPELSCAREERS",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.neworleanssaints.com/team/careers/",
+          "destination": "http://dayforcehcm.com/CandidatePortal/en-US/bensonenterprises/SITE/SAINTSPELSCAREERS"
+        }
       }
     ],
     "source_keys": [
       "dayforce:bensonenterprises/SAINTSPELSCAREERS"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1935,13 +2771,15 @@
         "official_page": "https://www.teamworkonline.com/football-jobs/new-york-giants-jobs/new-york-giants",
         "board_url": "https://www.teamworkonline.com/football-jobs/new-york-giants-jobs/new-york-giants",
         "label": "Reviewed official link",
-        "source_key": "tw:football-jobs/new-york-giants-jobs/new-york-giants"
+        "source_key": "tw:football-jobs/new-york-giants-jobs/new-york-giants",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "tw:football-jobs/new-york-giants-jobs/new-york-giants"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NFL",
@@ -1953,13 +2791,19 @@
         "official_page": "https://www.newyorkjets.com/careers/",
         "board_url": "https://www.teamworkonline.com/football-jobs/footballjobs/nfl-football-jobs?employment_opportunity_search%5Bquery%5D=&employment_opportunity_search%5Bcategory_id%5D=&employment_opportunity_search%5Borganization_id%5D=28617&employment_opportunity_search%5Bcareer_level_id%5D=",
         "label": "CURRENT EMPLOYMENT OPPORTUNITIES",
-        "source_key": "tw:football-jobs/footballjobs/nfl-football-jobs:org:28617"
+        "source_key": "tw:football-jobs/footballjobs/nfl-football-jobs:org:28617",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.newyorkjets.com/careers/",
+          "destination": "https://www.teamworkonline.com/football-jobs/footballjobs/nfl-football-jobs?employment_opportunity_search%5Bquery%5D=&employment_opportunity_search%5Bcategory_id%5D=&employment_opportunity_search%5Borganization_id%5D=28617&employment_opportunity_search%5Bcareer_level_id%5D="
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/footballjobs/nfl-football-jobs:org:28617"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1971,13 +2815,19 @@
         "official_page": "https://www.philadelphiaeagles.com/careers/employment-opportunities",
         "board_url": "https://boards.greenhouse.io/philadelphiaeagles",
         "label": "CURRENT OPENINGS",
-        "source_key": "gh:philadelphiaeagles"
+        "source_key": "gh:philadelphiaeagles",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.philadelphiaeagles.com/careers/employment-opportunities",
+          "destination": "https://boards.greenhouse.io/philadelphiaeagles"
+        }
       }
     ],
     "source_keys": [
       "gh:philadelphiaeagles"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -1989,13 +2839,19 @@
         "official_page": "https://www.nfl.com/careers/clubs",
         "board_url": "https://www.teamworkonline.com/football-jobs/footballjobs/pittsburgh-steelers-",
         "label": "Reviewed official link",
-        "source_key": "tw:football-jobs/footballjobs/pittsburgh-steelers-"
+        "source_key": "tw:football-jobs/footballjobs/pittsburgh-steelers-",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.nfl.com/careers/clubs",
+          "destination": "https://www.teamworkonline.com/football-jobs/footballjobs/pittsburgh-steelers-"
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/footballjobs/pittsburgh-steelers-"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -2007,37 +2863,48 @@
         "official_page": "https://www.49ers.com/employment/",
         "board_url": "https://career4.successfactors.com/sfcareer/jobreqcareerpvt?jobId=6906&company=SF49SP&st=F6FB393AE525FCBEB3649CC74695B67913071D9A",
         "label": "Network Engineer 1",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.49ers.com/employment/",
         "board_url": "https://career4.successfactors.com/sfcareer/jobreqcareerpvt?jobId=6908&company=SF49SP&st=52B8CA55FBA4C732A171B8FC325858E58D08AF4B",
         "label": "Network Architect",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.49ers.com/employment/",
         "board_url": "https://career4.successfactors.com/sfcareer/jobreqcareerpvt?jobId=6907&company=SF49SP&st=B69C4FF08AF879518CC6A155516E00C996F96079",
         "label": "Senior Analyst, Performance Marketing",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.49ers.com/employment/",
         "board_url": "https://career4.successfactors.com/sfcareer/jobreqcareerpvt?jobId=6807&company=SF49SP&st=BC928F2413067F48A948DD41DD93E5792C685DB9",
         "label": "Parking & Transportation Operations",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.49ers.com/employment/",
         "board_url": "https://career4.successfactors.com/sfcareer/jobreqcareerpvt?jobId=6809&company=SF49SP&st=759819EABCCD0FC01ECBB358BCCFCB36C3F8480C",
         "label": "Logistics Team Member",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "official:49ers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true,
+    "direct_listing_evidence": {
+      "page": "https://www.49ers.com/employment/",
+      "source_key": "official:49ers",
+      "kind": "official_page_job_links"
+    }
   },
   {
     "league": "NFL",
@@ -2049,13 +2916,19 @@
         "official_page": "https://www2.seahawks.com/employment/openings/",
         "board_url": "https://seattleseahawks.applytojob.com/apply/jobs/?s_keywords=company%3A%20fnw",
         "label": "Reviewed official link",
-        "source_key": "jazzhr:seattleseahawks.applytojob.com"
+        "source_key": "jazzhr:seattleseahawks.applytojob.com",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www2.seahawks.com/employment/openings/",
+          "destination": "https://seattleseahawks.applytojob.com/apply/jobs/?s_keywords=company%3A%20fnw"
+        }
       }
     ],
     "source_keys": [
       "jazzhr:seattleseahawks.applytojob.com"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -2067,13 +2940,19 @@
         "official_page": "https://www.buccaneers.com/team/careers",
         "board_url": "https://jobs.dayforcehcm.com/en-US/tbb/CANDIDATEPORTALTBB?payClass=1",
         "label": "",
-        "source_key": "dayforce:tbb/CANDIDATEPORTALTBB"
+        "source_key": "dayforce:tbb/CANDIDATEPORTALTBB",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.buccaneers.com/team/careers",
+          "destination": "https://jobs.dayforcehcm.com/en-US/tbb/CANDIDATEPORTALTBB?payClass=1"
+        }
       }
     ],
     "source_keys": [
       "dayforce:tbb/CANDIDATEPORTALTBB"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -2085,19 +2964,26 @@
         "official_page": "https://www.tennesseetitans.com/about-us/employment",
         "board_url": "https://us59.dayforcehcm.com/CandidatePortal/en-US/titans",
         "label": "See Job Openings",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.tennesseetitans.com/about-us/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/titans/CANDIDATEPORTAL",
         "label": "Reviewed official link",
-        "source_key": "dayforce:titans/CANDIDATEPORTAL"
+        "source_key": "dayforce:titans/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.tennesseetitans.com/about-us/employment",
+          "destination": "https://us59.dayforcehcm.com/CandidatePortal/en-US/titans"
+        }
       }
     ],
     "source_keys": [
       "dayforce:titans/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -2109,13 +2995,22 @@
         "official_page": "https://www.nfl.com/careers/clubs",
         "board_url": "https://www.teamworkonline.com/football-jobs/washington-commanders-jobs/washington-commanders-jobs",
         "label": "Reviewed official link",
-        "source_key": "tw:football-jobs/washington-commanders-jobs/washington-commanders-jobs"
+        "source_key": "tw:football-jobs/washington-commanders-jobs/washington-commanders-jobs",
+        "career_link_evidence": {
+          "team": "Washington Commanders",
+          "page": "https://www.nfl.com/careers/clubs",
+          "destination": "https://www.teamworkonline.com/football-jobs/washington-commanders-jobs/washington-commanders-jobs",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/washington-commanders-jobs/washington-commanders-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2127,13 +3022,19 @@
         "official_page": "https://www.nhl.com/ducks/",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/anaheim-ducks-hockey-club",
         "label": "Careers",
-        "source_key": "tw:hockey-jobs/hockeyjobs/anaheim-ducks-hockey-club"
+        "source_key": "tw:hockey-jobs/hockeyjobs/anaheim-ducks-hockey-club",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/ducks/",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/anaheim-ducks-hockey-club"
+        }
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/hockeyjobs/anaheim-ducks-hockey-club"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2145,13 +3046,15 @@
         "official_page": "https://www.teamworkonline.com/hockey-jobs/boston-bruins-jobs/boston-bruins-jobs",
         "board_url": "https://careers.delawarenorth.com/bruins-jobs/",
         "label": "Reviewed official link",
-        "source_key": "official:bruins"
+        "source_key": "official:bruins",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "official:bruins"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NHL",
@@ -2163,25 +3066,45 @@
         "official_page": "https://www.nhl.com/sabres/team/career-opportunities",
         "board_url": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/4d61dcfa-1b56-4c81-b31a-0e36b69a57fa/?q=&o=postedDateDesc&w=&wc=&we=&wpst=",
         "label": "Apply Now WorkIcon",
-        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/4d61dcfa-1b56-4c81-b31a-0e36b69a57fa"
+        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/4d61dcfa-1b56-4c81-b31a-0e36b69a57fa",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/sabres/team/career-opportunities",
+          "destination": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/4d61dcfa-1b56-4c81-b31a-0e36b69a57fa/?q=&o=postedDateDesc&w=&wc=&we=&wpst="
+        }
       },
       {
         "official_page": "https://www.nhl.com/sabres/team/career-opportunities",
         "board_url": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/21121b32-5e02-47fe-b087-ed7f2f363892/?q=&o=postedDateDesc&f6=1",
         "label": "View Opportunities",
-        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/21121b32-5e02-47fe-b087-ed7f2f363892"
+        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/21121b32-5e02-47fe-b087-ed7f2f363892",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/sabres/team/career-opportunities",
+          "destination": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/21121b32-5e02-47fe-b087-ed7f2f363892/?q=&o=postedDateDesc&f6=1"
+        }
       },
       {
         "official_page": "https://www.nhl.com/sabres/team/career-opportunities",
         "board_url": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/5b8abe93-05ee-47c8-9bc5-5967bb7d390e/?q=&o=postedDateDesc",
         "label": "View Opportunities",
-        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/5b8abe93-05ee-47c8-9bc5-5967bb7d390e"
+        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/5b8abe93-05ee-47c8-9bc5-5967bb7d390e",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/sabres/team/career-opportunities",
+          "destination": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/5b8abe93-05ee-47c8-9bc5-5967bb7d390e/?q=&o=postedDateDesc"
+        }
       },
       {
         "official_page": "https://www.nhl.com/sabres/team/career-opportunities",
         "board_url": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/175b59ed-a8a8-4d25-ba52-3ac0e913e2e6/?q=&o=postedDateDesc",
         "label": "View Opportunities",
-        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/175b59ed-a8a8-4d25-ba52-3ac0e913e2e6"
+        "source_key": "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/175b59ed-a8a8-4d25-ba52-3ac0e913e2e6",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/sabres/team/career-opportunities",
+          "destination": "https://recruiting.ultipro.com/HOC10001BFLO/JobBoard/175b59ed-a8a8-4d25-ba52-3ac0e913e2e6/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
@@ -2190,7 +3113,8 @@
       "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/4d61dcfa-1b56-4c81-b31a-0e36b69a57fa",
       "ukg:recruiting.ultipro.com/HOC10001BFLO/JobBoard/5b8abe93-05ee-47c8-9bc5-5967bb7d390e"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2202,13 +3126,19 @@
         "official_page": "https://csecjobs.com/head-office.html",
         "board_url": "https://recruiting.ultipro.ca/CAL5002/JobBoard/5f9649eb-fe0e-95eb-07f5-9ac9b3ae6647",
         "label": "Reviewed official link",
-        "source_key": "ukg:recruiting.ultipro.ca/CAL5002/JobBoard/5f9649eb-fe0e-95eb-07f5-9ac9b3ae6647"
+        "source_key": "ukg:recruiting.ultipro.ca/CAL5002/JobBoard/5f9649eb-fe0e-95eb-07f5-9ac9b3ae6647",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://csecjobs.com/head-office.html",
+          "destination": "https://recruiting.ultipro.ca/CAL5002/JobBoard/5f9649eb-fe0e-95eb-07f5-9ac9b3ae6647"
+        }
       }
     ],
     "source_keys": [
       "ukg:recruiting.ultipro.ca/CAL5002/JobBoard/5f9649eb-fe0e-95eb-07f5-9ac9b3ae6647"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2220,91 +3150,158 @@
         "official_page": "https://www.nhl.com/hurricanes/",
         "board_url": "https://www.teamworkonline.com/jobs-in-sports?employment_opportunity_search%5Bquery%5D=Carolina+Hurricanes&employment_opportunity_search%5Bexclude_united_states_opportunities%5D=0&employment_opportunity_search%5Bopen_to_remote_opportunities_only%5D=0&commit=Search",
         "label": "Employment",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/part-time-concessions-cook-2197413",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/part-time-catering-service-staff-2197412",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/part-time-operations-changeover-crew-2196262",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/part-time-line-cook-the-local-2194710",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/part-time-suite-runner-2194285",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/part-time-day-commissary-porter-2194271",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-full-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/manager-security-and-guest-experience-2198683",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-full-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/general-manager-2198091",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-full-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/facilities-maintenance-technician-2198484",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-full-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/facilities-maintenance-technician-ii-2196931",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-full-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/control-room-manager-2196272",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       },
       {
         "official_page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-full-time-positions",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/control-room-coordinator-2196269",
         "label": "Apply",
-        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
+        "source_key": "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.lenovocenter.com/connect-with-us/job-opportunities/available-part-time-positions",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes/security-guest-experience-intern-2198017"
+        }
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/carolina-hurricanes-jobs/carolina-hurricanes"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2316,31 +3313,40 @@
         "official_page": "https://www.nhl.com/blackhawks/info/employment",
         "board_url": "https://wirtzcorp.hrmdirect.com/employment/job-openings.php?search=true&dept=-1&city=-1&state=-1&cust_sort1=245161",
         "label": "Chicago Blackhawks",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.nhl.com/blackhawks/info/employment",
         "board_url": "https://rockfordicehogs.hrmdirect.com/employment/job-openings.php?search=true&dept=-1&city=-1&state=-1&cust_sort1=245162",
         "label": "Rockford IceHogs (AHL)",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.nhl.com/blackhawks/info/employment",
         "board_url": "https://chicagosteel.hrmdirect.com/employment/job-openings.php?search=true&dept=-1&city=-1&state=-1&cust_sort1=245163",
         "label": "Chicago Steel (USHL)",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://wirtzcorp.hrmdirect.com/employment/job-openings.php?search=true&dept=-1&city=-1&state=-1&cust_sort1=245161",
         "board_url": "https://apply.clearcompany.com/wirtzcorp?noheader=False",
         "label": "Reviewed official link",
-        "source_key": "clearcompany:wirtzcorp"
+        "source_key": "clearcompany:wirtzcorp",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://wirtzcorp.hrmdirect.com/employment/job-openings.php?search=true&dept=-1&city=-1&state=-1&cust_sort1=245161",
+          "destination": "http://apply.clearcompany.com/wirtzcorp"
+        }
       }
     ],
     "source_keys": [
       "clearcompany:wirtzcorp"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2352,13 +3358,19 @@
         "official_page": "https://www.ballarena.com/careers",
         "board_url": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883c693dc38f10193f3d11bba0774",
         "label": "Reviewed official link",
-        "source_key": "paycor:8a7883c693dc38f10193f3d11bba0774"
+        "source_key": "paycor:8a7883c693dc38f10193f3d11bba0774",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.ballarena.com/careers",
+          "destination": "https://recruitingbypaycor.com/career/iframe.action?clientId=8a7883c693dc38f10193f3d11bba0774"
+        }
       }
     ],
     "source_keys": [
       "paycor:8a7883c693dc38f10193f3d11bba0774"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2370,19 +3382,22 @@
         "official_page": "https://www.nhl.com/bluejackets/team/employment",
         "board_url": "https://www.teamworkonline.com/jobs-in-sports?employment_opportunity_search%5Bquery%5D=Columbus+Blue+Jackets&commit=Search",
         "label": "they will be posted at TeamWork Online",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://www.nhl.com/bluejackets/team/employment",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/columbus-blue-jackets",
         "label": "Reviewed official link",
-        "source_key": "tw:hockey-jobs/hockeyjobs/columbus-blue-jackets"
+        "source_key": "tw:hockey-jobs/hockeyjobs/columbus-blue-jackets",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/hockeyjobs/columbus-blue-jackets"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NHL",
@@ -2394,19 +3409,26 @@
         "official_page": "https://www.nhl.com/stars/",
         "board_url": "https://sites.teamworkonline.com/dallas-stars/index",
         "label": "Job Opportunities",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       },
       {
         "official_page": "https://sites.teamworkonline.com/dallas-stars/index",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/dallas-stars-jobs/dallas-stars",
         "label": "Reviewed official link",
-        "source_key": "tw:hockey-jobs/dallas-stars-jobs/dallas-stars"
+        "source_key": "tw:hockey-jobs/dallas-stars-jobs/dallas-stars",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://sites.teamworkonline.com/dallas-stars/index",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/dallas-stars-jobs/dallas-stars"
+        }
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/dallas-stars-jobs/dallas-stars"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2418,20 +3440,27 @@
         "official_page": "https://www.nhl.com/redwings/",
         "board_url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings",
         "label": "Careers",
-        "source_key": "tw:multiple-properties/ilitch-sports/detroit-red-wings"
+        "source_key": "tw:multiple-properties/ilitch-sports/detroit-red-wings",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/redwings/",
+          "destination": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings"
+        }
       },
       {
         "official_page": "https://careersatilitchcompanies.com/en-us",
         "board_url": "https://ilitch.wd5.myworkdayjobs.com/Detroit-Red-Wings",
         "label": "Reviewed official link",
-        "source_key": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Red-Wings"
+        "source_key": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Red-Wings",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "tw:multiple-properties/ilitch-sports/detroit-red-wings",
       "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Red-Wings"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2443,13 +3472,19 @@
         "official_page": "https://www.nhl.com/oilers/",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/edmontonoilers/edmonton-oilers-29182",
         "label": "Careers",
-        "source_key": "tw:hockey-jobs/edmontonoilers/edmonton-oilers-29182"
+        "source_key": "tw:hockey-jobs/edmontonoilers/edmonton-oilers-29182",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/oilers/",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/edmontonoilers/edmonton-oilers-29182"
+        }
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/edmontonoilers/edmonton-oilers-29182"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2461,13 +3496,19 @@
         "official_page": "https://www.nhl.com/panthers/team/careers",
         "board_url": "https://boards.greenhouse.io/thefloridapanthers",
         "label": "Job Opportunities",
-        "source_key": "gh:thefloridapanthers"
+        "source_key": "gh:thefloridapanthers",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/panthers/team/careers",
+          "destination": "https://boards.greenhouse.io/thefloridapanthers"
+        }
       }
     ],
     "source_keys": [
       "gh:thefloridapanthers"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2479,13 +3520,19 @@
         "official_page": "https://www.aegworldwide.com/careers/job-search?field_job_locations_target_id%5B%5D=487286&title=",
         "board_url": "https://www.aegworldwide.com/careers/job-search?field_job_locations_target_id%5B%5D=487286&title=",
         "label": "Reviewed official link",
-        "source_key": "official:aeg_kings"
+        "source_key": "official:aeg_kings",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.aegworldwide.com/careers/job-search?field_job_locations_target_id%5B%5D=487286&title=",
+          "destination": "https://aegworldwide.com/careers/job-search?field_job_locations_target_id%5B%5D=487286&title=#main-content"
+        }
       }
     ],
     "source_keys": [
       "official:aeg_kings"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2497,37 +3544,59 @@
         "official_page": "https://www.nhl.com/wild/team/employment-opportunities",
         "board_url": "https://jobs.dayforcehcm.com/en-US/mse/CANDIDATEPORTAL",
         "label": "SEE CURRENT OPENINGS Search",
-        "source_key": "dayforce:mse/CANDIDATEPORTAL"
+        "source_key": "dayforce:mse/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/wild/team/employment-opportunities",
+          "destination": "https://jobs.dayforcehcm.com/en-US/mse/CANDIDATEPORTAL"
+        }
       },
       {
         "official_page": "https://www.nhl.com/wild/team/employment-opportunities",
         "board_url": "https://jobs.dayforcehcm.com/en-US/mse/CANDIDATEPORTAL?payClass=1",
         "label": "Full Time",
-        "source_key": "dayforce:mse/CANDIDATEPORTAL"
+        "source_key": "dayforce:mse/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/wild/team/employment-opportunities",
+          "destination": "https://jobs.dayforcehcm.com/en-US/mse/CANDIDATEPORTAL"
+        }
       },
       {
         "official_page": "https://www.nhl.com/wild/team/employment-opportunities",
         "board_url": "https://jobs.dayforcehcm.com/en-US/mse/CANDIDATEPORTAL?payClass=2",
         "label": "Part Time",
-        "source_key": "dayforce:mse/CANDIDATEPORTAL"
+        "source_key": "dayforce:mse/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/wild/team/employment-opportunities",
+          "destination": "https://jobs.dayforcehcm.com/en-US/mse/CANDIDATEPORTAL"
+        }
       },
       {
         "official_page": "https://www.nhl.com/wild/team/employment-opportunities",
         "board_url": "https://jobs.dayforcehcm.com/en-US/mse/CANDIDATEPORTAL?searchText=intern",
         "label": "Internships",
-        "source_key": "dayforce:mse/CANDIDATEPORTAL"
+        "source_key": "dayforce:mse/CANDIDATEPORTAL",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/wild/team/employment-opportunities",
+          "destination": "https://jobs.dayforcehcm.com/en-US/mse/CANDIDATEPORTAL"
+        }
       },
       {
         "official_page": "https://www.nhl.com/wild/team/employment-opportunities",
         "board_url": "https://jobs.dayforcehcm.com/mse/CANDIDATEPORTAL?searchText=Volleyball",
         "label": "MLV Minnesota",
-        "source_key": null
+        "source_key": null,
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "dayforce:mse/CANDIDATEPORTAL"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2539,20 +3608,23 @@
         "official_page": "https://jobs.dayforcehcm.com/fr-CA/groupech/CANDIDATEPORTAL/jobs/1067",
         "board_url": "https://jobs.dayforcehcm.com/fr-CA/groupech/CANDIDATEPORTAL",
         "label": "Reviewed official link",
-        "source_key": "dayforce:groupech/CANDIDATEPORTAL:fr-CA"
+        "source_key": "dayforce:groupech/CANDIDATEPORTAL:fr-CA",
+        "career_link_evidence": null
       },
       {
         "official_page": "https://jobs.dayforcehcm.com/fr-CA/groupech/CANDIDATEPORTAL/jobs/1067",
         "board_url": "https://jobs.dayforcehcm.com/en-US/groupech/CANDIDATEPORTAL",
         "label": "Reviewed official link",
-        "source_key": "dayforce:groupech/CANDIDATEPORTAL"
+        "source_key": "dayforce:groupech/CANDIDATEPORTAL",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "dayforce:groupech/CANDIDATEPORTAL",
       "dayforce:groupech/CANDIDATEPORTAL:fr-CA"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NHL",
@@ -2564,31 +3636,56 @@
         "official_page": "https://www.nhl.com/predators/team/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/NASHVILLEPRED",
         "label": "Nashville Predators",
-        "source_key": "dayforce:nashhockeyclub/NASHVILLEPRED"
+        "source_key": "dayforce:nashhockeyclub/NASHVILLEPRED",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/predators/team/employment",
+          "destination": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/NASHVILLEPRED"
+        }
       },
       {
         "official_page": "https://www.nhl.com/predators/team/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/ARENA",
         "label": "Bridgestone Arena",
-        "source_key": "dayforce:nashhockeyclub/ARENA"
+        "source_key": "dayforce:nashhockeyclub/ARENA",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/predators/team/employment",
+          "destination": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/ARENA"
+        }
       },
       {
         "official_page": "https://www.nhl.com/predators/team/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/SSE",
         "label": "F&M Bank Arena and Ford Ice Center (Clarksville)",
-        "source_key": "dayforce:nashhockeyclub/SSE"
+        "source_key": "dayforce:nashhockeyclub/SSE",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/predators/team/employment",
+          "destination": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/SSE"
+        }
       },
       {
         "official_page": "https://www.nhl.com/predators/team/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/FIC",
         "label": "Ford Ice Center (Antioch & Bellevue)",
-        "source_key": "dayforce:nashhockeyclub/FIC"
+        "source_key": "dayforce:nashhockeyclub/FIC",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/predators/team/employment",
+          "destination": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/FIC"
+        }
       },
       {
         "official_page": "https://www.nhl.com/predators/team/employment",
         "board_url": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/CENTENNIALICERINK",
         "label": "Centennial Ice Rink",
-        "source_key": "dayforce:nashhockeyclub/CENTENNIALICERINK"
+        "source_key": "dayforce:nashhockeyclub/CENTENNIALICERINK",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/predators/team/employment",
+          "destination": "https://jobs.dayforcehcm.com/en-US/nashhockeyclub/CENTENNIALICERINK"
+        }
       }
     ],
     "source_keys": [
@@ -2598,7 +3695,8 @@
       "dayforce:nashhockeyclub/NASHVILLEPRED",
       "dayforce:nashhockeyclub/SSE"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2610,13 +3708,19 @@
         "official_page": "https://www.nhl.com/devils/",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search[organization_id]=28286",
         "label": "Devils Employment",
-        "source_key": "tw:multiple-properties/harris-blitzer-sports-entertainment-jobs/new-jersey-devils-jobs"
+        "source_key": "tw:multiple-properties/harris-blitzer-sports-entertainment-jobs/new-jersey-devils-jobs",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/devils/",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search[organization_id]=28286"
+        }
       }
     ],
     "source_keys": [
       "tw:multiple-properties/harris-blitzer-sports-entertainment-jobs/new-jersey-devils-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2628,13 +3732,19 @@
         "official_page": "https://www.nhl.com/islanders/",
         "board_url": "https://recruiting.paylocity.com/recruiting/jobs/All/e0a4a6d2-e64b-4164-af58-9c65d5c42821/New-York-Islanders-Hockey-Club",
         "label": "Employment",
-        "source_key": "paylocity:e0a4a6d2-e64b-4164-af58-9c65d5c42821"
+        "source_key": "paylocity:e0a4a6d2-e64b-4164-af58-9c65d5c42821",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/islanders/",
+          "destination": "https://recruiting.paylocity.com/recruiting/jobs/All/e0a4a6d2-e64b-4164-af58-9c65d5c42821/New-York-Islanders-Hockey-Club"
+        }
       }
     ],
     "source_keys": [
       "paylocity:e0a4a6d2-e64b-4164-af58-9c65d5c42821"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2646,13 +3756,22 @@
         "official_page": "https://www.msgknicks.com/jobs/",
         "board_url": "https://www.msgrangers.com/jobs/",
         "label": "Reviewed official link",
-        "source_key": "official:www.msgrangers.com"
+        "source_key": "official:www.msgrangers.com",
+        "career_link_evidence": {
+          "team": "New York Rangers",
+          "page": "https://www.msgrangers.com/careers/",
+          "destination": "https://www.msgrangers.com/jobs/",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "official:www.msgrangers.com"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2664,13 +3783,19 @@
         "official_page": "https://www.nhl.com/senators/team/employment-opportunities",
         "board_url": "https://ottawasenators.bamboohr.com/careers",
         "label": "See All Positions",
-        "source_key": "bamboohr:ottawasenators.bamboohr.com"
+        "source_key": "bamboohr:ottawasenators.bamboohr.com",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/senators/team/employment-opportunities",
+          "destination": "https://ottawasenators.bamboohr.com/careers"
+        }
       }
     ],
     "source_keys": [
       "bamboohr:ottawasenators.bamboohr.com"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2682,13 +3807,19 @@
         "official_page": "https://www.nhl.com/flyers/",
         "board_url": "https://www.teamworkonline.com/arenas-facilities-jobs/comcast-spectacor/comcast-spectacor-jobs",
         "label": "Employment",
-        "source_key": "tw:arenas-facilities-jobs/comcast-spectacor/comcast-spectacor-jobs"
+        "source_key": "tw:arenas-facilities-jobs/comcast-spectacor/comcast-spectacor-jobs",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/flyers/",
+          "destination": "https://www.teamworkonline.com/arenas-facilities-jobs/comcast-spectacor/comcast-spectacor-jobs"
+        }
       }
     ],
     "source_keys": [
       "tw:arenas-facilities-jobs/comcast-spectacor/comcast-spectacor-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2700,13 +3831,15 @@
         "official_page": "https://www.teamworkonline.com/hockey-jobs/pittsburgh-penguins/pittsburgh-penguins",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/pittsburgh-penguins/pittsburgh-penguins",
         "label": "Reviewed official link",
-        "source_key": "tw:hockey-jobs/pittsburgh-penguins/pittsburgh-penguins"
+        "source_key": "tw:hockey-jobs/pittsburgh-penguins/pittsburgh-penguins",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/pittsburgh-penguins/pittsburgh-penguins"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": false
   },
   {
     "league": "NHL",
@@ -2718,20 +3851,31 @@
         "official_page": "https://www.nhl.com/sharks/",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/sharkssports/sharks-sports-and-entertainment",
         "label": "Employment",
-        "source_key": "tw:hockey-jobs/sharkssports/sharks-sports-and-entertainment"
+        "source_key": "tw:hockey-jobs/sharkssports/sharks-sports-and-entertainment",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/sharks/",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/sharkssports/sharks-sports-and-entertainment"
+        }
       },
       {
         "official_page": "https://www.nhl.com/sharks/",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/sharkssports/san-jose-sharks-careers",
         "label": "CAREERS @ SSE",
-        "source_key": "tw:hockey-jobs/sharkssports/san-jose-sharks"
+        "source_key": "tw:hockey-jobs/sharkssports/san-jose-sharks",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/sharks/",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/sharkssports/san-jose-sharks-careers"
+        }
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/sharkssports/san-jose-sharks",
       "tw:hockey-jobs/sharkssports/sharks-sports-and-entertainment"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2743,20 +3887,31 @@
         "official_page": "https://www.nhl.com/kraken/team/careers",
         "board_url": "https://recruiting2.ultipro.com/CLI1008CLDG/JobBoard/d0b2b5c0-9c3c-481f-89be-4725a918070f/?q=&o=postedDateDesc",
         "label": "View All Seattle Kraken Openings",
-        "source_key": "ukg:recruiting2.ultipro.com/CLI1008CLDG/JobBoard/d0b2b5c0-9c3c-481f-89be-4725a918070f"
+        "source_key": "ukg:recruiting2.ultipro.com/CLI1008CLDG/JobBoard/d0b2b5c0-9c3c-481f-89be-4725a918070f",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/kraken/team/careers",
+          "destination": "https://recruiting2.ultipro.com/CLI1008CLDG/JobBoard/d0b2b5c0-9c3c-481f-89be-4725a918070f/?q=&o=postedDateDesc"
+        }
       },
       {
         "official_page": "https://www.nhl.com/kraken/team/careers",
         "board_url": "https://recruiting2.ultipro.com/CLI1008CLDG/JobBoard/6ac22da3-de36-4665-9aa7-6aa44b68601e/?q=&o=postedDateDesc",
         "label": "View All KCI Openings",
-        "source_key": "ukg:recruiting2.ultipro.com/CLI1008CLDG/JobBoard/6ac22da3-de36-4665-9aa7-6aa44b68601e"
+        "source_key": "ukg:recruiting2.ultipro.com/CLI1008CLDG/JobBoard/6ac22da3-de36-4665-9aa7-6aa44b68601e",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/kraken/team/careers",
+          "destination": "https://recruiting2.ultipro.com/CLI1008CLDG/JobBoard/6ac22da3-de36-4665-9aa7-6aa44b68601e/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
       "ukg:recruiting2.ultipro.com/CLI1008CLDG/JobBoard/6ac22da3-de36-4665-9aa7-6aa44b68601e",
       "ukg:recruiting2.ultipro.com/CLI1008CLDG/JobBoard/d0b2b5c0-9c3c-481f-89be-4725a918070f"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2768,13 +3923,19 @@
         "official_page": "https://www.enterprisecenter.com/about-us/employment/open-positions",
         "board_url": "https://newton.newtonsoftware.com/career/iframe.action?clientId=8a7882675620406a015628f4391205a6",
         "label": "Reviewed official link",
-        "source_key": "paycor:8a7882675620406a015628f4391205a6"
+        "source_key": "paycor:8a7882675620406a015628f4391205a6",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://www.enterprisecenter.com/about-us/employment/open-positions",
+          "destination": "https://newton.newtonsoftware.com/career/iframe.action?clientId=8a7882675620406a015628f4391205a6"
+        }
       }
     ],
     "source_keys": [
       "paycor:8a7882675620406a015628f4391205a6"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2786,13 +3947,19 @@
         "official_page": "https://www.nhl.com/lightning/",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/tampanhl/vinik-sports-group-jobs",
         "label": "Employment Opportunities",
-        "source_key": "tw:hockey-jobs/tampanhl/vinik-sports-group-jobs"
+        "source_key": "tw:hockey-jobs/tampanhl/vinik-sports-group-jobs",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/lightning/",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/tampanhl/vinik-sports-group-jobs"
+        }
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/tampanhl/vinik-sports-group-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2804,13 +3971,19 @@
         "official_page": "https://www.nhl.com/mapleleafs/",
         "board_url": "https://mlse.wd3.myworkdayjobs.com/MLSE",
         "label": "Careers",
-        "source_key": "wd:mlse.wd3.myworkdayjobs.com/MLSE"
+        "source_key": "wd:mlse.wd3.myworkdayjobs.com/MLSE",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/mapleleafs/",
+          "destination": "https://mlse.wd3.myworkdayjobs.com/MLSE"
+        }
       }
     ],
     "source_keys": [
       "wd:mlse.wd3.myworkdayjobs.com/MLSE"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2822,13 +3995,19 @@
         "official_page": "https://www.nhl.com/utah/",
         "board_url": "https://www.teamworkonline.com/hockey-jobs/utah-nhl-jobs/utah-nhl-jobs",
         "label": "Careers",
-        "source_key": "tw:hockey-jobs/utah-nhl-jobs/utah-nhl-jobs"
+        "source_key": "tw:hockey-jobs/utah-nhl-jobs/utah-nhl-jobs",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/utah/",
+          "destination": "https://www.teamworkonline.com/hockey-jobs/utah-nhl-jobs/utah-nhl-jobs"
+        }
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/utah-nhl-jobs/utah-nhl-jobs"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2840,19 +4019,34 @@
         "official_page": "https://jobs.canucks.com/head-office/",
         "board_url": "https://recruiting.ultipro.ca/CAN5003AQG/JobBoard/ef431574-c057-4f55-95ac-f11092acb8de/",
         "label": "Reviewed official link",
-        "source_key": "ukg:recruiting.ultipro.ca/CAN5003AQG/JobBoard/ef431574-c057-4f55-95ac-f11092acb8de"
+        "source_key": "ukg:recruiting.ultipro.ca/CAN5003AQG/JobBoard/ef431574-c057-4f55-95ac-f11092acb8de",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://jobs.canucks.com/head-office/",
+          "destination": "https://recruiting.ultipro.ca/CAN5003AQG/JobBoard/ef431574-c057-4f55-95ac-f11092acb8de/?q=&o=postedDateDesc"
+        }
       },
       {
         "official_page": "https://jobs.canucks.com/event-staff/",
         "board_url": "https://recruiting.ultipro.ca/CAN5003AQG/JobBoard/d2174548-520b-4418-aace-580a1849fa4a/",
         "label": "Reviewed official link",
-        "source_key": "ukg:recruiting.ultipro.ca/CAN5003AQG/JobBoard/d2174548-520b-4418-aace-580a1849fa4a"
+        "source_key": "ukg:recruiting.ultipro.ca/CAN5003AQG/JobBoard/d2174548-520b-4418-aace-580a1849fa4a",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://jobs.canucks.com/event-staff/",
+          "destination": "https://recruiting.ultipro.ca/CAN5003AQG/JobBoard/d2174548-520b-4418-aace-580a1849fa4a/?q=&o=postedDateDesc"
+        }
       },
       {
         "official_page": "https://jobs.canucks.com/top-prospects/",
         "board_url": "https://recruiting.ultipro.ca/CAN5003AQG/JobBoard/55e4af6e-83f1-4c18-b28a-3804912f0b6e/",
         "label": "Reviewed official link",
-        "source_key": "ukg:recruiting.ultipro.ca/CAN5003AQG/JobBoard/55e4af6e-83f1-4c18-b28a-3804912f0b6e"
+        "source_key": "ukg:recruiting.ultipro.ca/CAN5003AQG/JobBoard/55e4af6e-83f1-4c18-b28a-3804912f0b6e",
+        "career_link_evidence": {
+          "kind": "official_page_link",
+          "page": "https://jobs.canucks.com/top-prospects/",
+          "destination": "https://recruiting.ultipro.ca/CAN5003AQG/JobBoard/55e4af6e-83f1-4c18-b28a-3804912f0b6e/?q=&o=postedDateDesc"
+        }
       }
     ],
     "source_keys": [
@@ -2860,7 +4054,8 @@
       "ukg:recruiting.ultipro.ca/CAN5003AQG/JobBoard/d2174548-520b-4418-aace-580a1849fa4a",
       "ukg:recruiting.ultipro.ca/CAN5003AQG/JobBoard/ef431574-c057-4f55-95ac-f11092acb8de"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2872,13 +4067,19 @@
         "official_page": "https://www.nhl.com/goldenknights/",
         "board_url": "https://recruiting.paylocity.com/recruiting/jobs/All/9a780808-9aa8-4c2a-98a2-efa454efa722/Foley-Entertainment-Group",
         "label": "Careers",
-        "source_key": "paylocity:9a780808-9aa8-4c2a-98a2-efa454efa722"
+        "source_key": "paylocity:9a780808-9aa8-4c2a-98a2-efa454efa722",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/goldenknights/",
+          "destination": "https://recruiting.paylocity.com/recruiting/jobs/All/9a780808-9aa8-4c2a-98a2-efa454efa722/Foley-Entertainment-Group"
+        }
       }
     ],
     "source_keys": [
       "paylocity:9a780808-9aa8-4c2a-98a2-efa454efa722"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2890,20 +4091,27 @@
         "official_page": "https://www.nhl.com/capitals/",
         "board_url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/monumental-sports",
         "label": "Careers",
-        "source_key": "tw:multiple-properties/monumentalsports/monumental-sports"
+        "source_key": "tw:multiple-properties/monumentalsports/monumental-sports",
+        "career_link_evidence": {
+          "kind": "official_team_career_chain",
+          "page": "https://www.nhl.com/capitals/",
+          "destination": "https://www.teamworkonline.com/multiple-properties/monumentalsports/monumental-sports"
+        }
       },
       {
         "official_page": "https://job-boards.greenhouse.io/monumentalsports",
         "board_url": "https://job-boards.greenhouse.io/monumentalsports",
         "label": "Reviewed official link",
-        "source_key": "gh:monumentalsports"
+        "source_key": "gh:monumentalsports",
+        "career_link_evidence": null
       }
     ],
     "source_keys": [
       "gh:monumentalsports",
       "tw:multiple-properties/monumentalsports/monumental-sports"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -2915,12 +4123,21 @@
         "official_page": "https://www.nhl.com/jets/",
         "board_url": "https://www.tnse.com/join-our-team/",
         "label": "Reviewed official link",
-        "source_key": "official:tnse"
+        "source_key": "official:tnse",
+        "career_link_evidence": {
+          "team": "Winnipeg Jets",
+          "page": "https://www.nhl.com/jets/",
+          "destination": "https://www.tnse.com/join-our-team/",
+          "method": "Followed link on official careers page with web tool",
+          "checked_at": "2026-11-10",
+          "kind": "reviewed_official_page_link"
+        }
       }
     ],
     "source_keys": [
       "official:tnse"
     ],
-    "verification_status": "awaiting_live_check"
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true
   }
 ]
