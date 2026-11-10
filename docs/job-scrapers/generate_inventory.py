@@ -139,6 +139,8 @@ def write(sources):
  print('Inventory:',sum(len(s['files']) for s in sources),'files;',sum(r.get('lines') or 0 for s in sources for r in s['files']),'physical lines',flush=True)
 
 def main():
+ prior_path=OUT/'source_inventory.json'
+ prior=json.loads(prior_path.read_text(encoding='utf-8')) if prior_path.exists() else {}
  sources=[]
  configurations=[('robotics-and-teams','misterplusev/job-radar',r'D:\abet\job-radar','origin/master'),('tech','misterplusev/job-radar-tech',r'D:\abet\job-radar-tech','origin/master'),('sportsbook-runtime','misterplusev/sportsbook-jobs-dashboard',r'D:\abet\sportsbook-jobs-runtime','origin/prod/sportsbook-jobs'),('sportsbook-frontend','misterplusev/sportsbook-jobs-dashboard',r'D:\abet\sportsbook-jobs-runtime','origin/main'),('abet-dashboard','misterplusev/abet-mlb-monitor-widgets',r'D:\abet_ops\abet-dashboard','origin/main')]
  for args in configurations:
@@ -146,6 +148,14 @@ def main():
  for id,repo in [('robotics-standalone','misterplusev/robotics-jobradar-board'),('tech-standalone','misterplusev/jobradar-tech-board')]:
   source=remote_inventory(id,repo,'main');sources.append(source);print(id,len(source['files']),flush=True)
  sources.append(local_helpers())
+ # Preserve separately inspected cloud/runtime snapshots. This local/GitHub
+ # generator must not silently discard those entries or imply it refreshed them.
+ refreshed={s['id'] for s in sources}
+ for source in prior.get('sources',[]):
+  if source['id'] not in refreshed:
+   source['retained_snapshot_at']=source.get('retained_snapshot_at',prior.get('generated_at'))
+   sources.append(source)
+   print('Retained separate snapshot:',source['id'],source['retained_snapshot_at'],flush=True)
  write(sources)
 
 if __name__=='__main__':main()

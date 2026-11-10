@@ -1,0 +1,42 @@
+{
+  "robotics": {
+    "rows": 25934,
+    "defaultMatches": 16686,
+    "undatedMatches": 5177,
+    "geography": {
+      "us": 20660,
+      "international": 4358,
+      "unspecified": 916
+    }
+  },
+  "tech": {
+    "rows": 5199,
+    "defaultMatches": 1716,
+    "undatedMatches": 0,
+    "geography": {
+      "unspecified": 726,
+      "international": 2021,
+      "us": 2452
+    }
+  },
+  "sportsbook": {
+    "rows": 5420,
+    "defaultMatches": 494,
+    "undatedMatches": 203,
+    "geography": {
+      "unspecified": 1576,
+      "us": 2733,
+      "international": 1111
+    }
+  },
+  "teams": {
+    "rows": 2128,
+    "defaultMatches": 1396,
+    "undatedMatches": 197,
+    "geography": {
+      "us": 1425,
+      "international": 269,
+      "unspecified": 434
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-11-10T20:36:59.959841+00:00",
+  "browser_visual_check": false,
+  "standalone": [
+    {
+      "id": "robotics",
+      "url": "https://misterplusev.github.io/robotics-jobradar-board/",
+      "http": 200,
+      "core_sha256": "7aaf83c27776c9593bcf450c5cace871c0852b8aa04fc2ad30783598f90cfef9",
+      "controls": true,
+      "chip": true,
+      "core_mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "id": "tech",
+      "url": "https://misterplusev.github.io/jobradar-tech-board/",
+      "http": 200,
+      "core_sha256": "7aaf83c27776c9593bcf450c5cace871c0852b8aa04fc2ad30783598f90cfef9",
+      "controls": true,
+      "chip": true,
+      "core_mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "id": "teams",
+      "url": "https://misterplusev.github.io/job-radar/",
+      "http": 200,
+      "core_sha256": "7aaf83c27776c9593bcf450c5cace871c0852b8aa04fc2ad30783598f90cfef9",
+      "controls": true,
+      "chip": true,
+      "core_mime": "text/javascript; charset=utf-8"
+    },
+    {
+      "id": "sportsbook",
+      "url": "https://sportsbook-jobs-dashboard.vercel.app/",
+      "http": 200,
+      "bundle_contract": true,
+      "chip": true
+    }
+  ],
+  "dashboard": {
+    "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=robotics-jobs",
+    "http": 200,
+    "bundle": "/assets/main-CtD5hInI.js",
+    "four_routes": true,
+    "logo_renderer": true,
+    "filter_contract": true
+  },
+  "representative_logos_http": 200
+}
