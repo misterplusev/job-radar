@@ -306,9 +306,7 @@ def notify(webhook_url: str, payload: dict, attempts: int = 8) -> bool:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--dry-run', action='store_true')
-    ap.add_argument('--seed', action='store_true')
     ap.add_argument('--post', action='store_true')
-    ap.add_argument('--baseline', action='store_true',help='Explicit one-time catch-up summary; archive existing URLs as seeded, not individually delivered')
     ap.add_argument('--preview', action='store_true', help='post the newest N regardless of state')
     ap.add_argument('--limit', type=int, default=0,help='Job limit; 0 processes every eligible job within the delivery time budget')
     ap.add_argument('--show-payload', action='store_true')
@@ -317,20 +315,6 @@ def main():
     rows = load_rows()
     state = load_state()
     seen = set(state.get('seen') or [])
-    if args.baseline:
-        payload={'content':('**Sports Teams Jobs — coverage repaired**\n'
-            f'{len(rows):,} active listings are available on the [full job board](https://misterplusev.github.io/job-radar/). '
-            'The scraper now has a working employer source for all 124 NFL, NBA, MLB and NHL teams. '
-            '[Review coverage and remaining alternate-link errors](https://misterplusev.github.io/job-radar/coverage.html).\n'
-            'Existing listings remain searchable on the board. Individual alerts will cover newly discovered jobs from here forward.')}
-        if args.dry_run:
-            print(json.dumps(payload,ensure_ascii=False));print('Would baseline',len({r['url'] for r in rows}-seen),'existing URLs; no messages sent.');return 0
-        guard()
-        if not notify(webhook(),payload):return 1
-        baseline={r['url'] for r in rows}-seen
-        state.update(seen=sorted(seen|baseline),baseline_urls=sorted(baseline),posted_at=now_iso(),posts=int(state.get('posts') or 0)+1)
-        save_state(state)
-        print('Catch-up summary delivered; existing jobs recorded as seeded, not individually delivered.');return 0
     pending=set(state.get('pending',[]))
     fresh = [r for r in rows if r['url'] in pending and r['url'] not in seen]
     fresh.sort(key=lambda r: (str(r.get('posted_at') or r.get('first_seen_at') or ''),r['url']), reverse=True)
@@ -361,7 +345,7 @@ def main():
         print(f'{len(to_post)} would post; {len(fresh) - len(to_post)} held back by --limit')
         return 0
 
-    if not (args.post or args.seed or args.preview):
+    if not (args.post or args.preview):
         print('No publishing mode selected; use --dry-run or explicitly --post.')
         return 0
 
@@ -369,19 +353,8 @@ def main():
     hook = webhook()
     ok = 0
     delivered = set()
-    summary_ok = False
     starting_posts=int(state.get('posts') or 0)
     delivery_started=time.monotonic()
-    if args.seed:
-        summary = (f'**Sports Teams Jobs — scraper online**\n'
-                   f'{len(rows)} active postings across {len({r.get("team") for r in rows})} team sources. '
-                   f'Announcing the {len(to_post)} newest now; from here only genuinely new postings.')
-        if notify(hook, {'content': summary}):
-            summary_ok = True
-            ok += 1
-            print('  posted summary')
-        time.sleep(PACE_SECONDS)
-
     for idx in range(0, len(to_post), CHUNK_SIZE):
         if time.monotonic()-delivery_started>=600:
             print('Delivery time budget reached; unsent URLs remain queued.');break
@@ -403,13 +376,9 @@ def main():
         print('preview mode: state not modified')
         return 0
     if delivered:
-        # Deliberate seed suppresses the initial backlog only after every selected
-        # notification succeeded. Normal runs record delivered URLs, never the backlog.
-        seed_complete = args.seed and summary_ok and len(delivered) == len({r['url'] for r in to_post})
-        state['seen'] = sorted(seen | ({r['url'] for r in rows} if seed_complete else delivered))
+        state['seen'] = sorted(seen | delivered)
         state['posted_at'] = now_iso()
         state['posts'] = starting_posts + ok
-        if seed_complete:state['baseline_urls']=sorted({r['url'] for r in rows}-seen-delivered)
         save_state(state)
         print(f'state updated: {len(state["seen"])} urls recorded')
     else:

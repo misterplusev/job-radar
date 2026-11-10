@@ -95,9 +95,9 @@ class OfficialRoutes(unittest.TestCase):
             s.save_notification_state({'seen':['existing','announced'],'baseline_urls':['existing'],'posted_at':'now'})
         self.assertEqual(up.call_args.args[1],[{'url':'existing','status':'seeded','delivered_at':None},{'url':'announced','status':'delivered','delivered_at':'now'}])
 
-    def test_failed_baseline_summary_keeps_existing_queue(self):
-        with patch.object(pub,'load_rows',return_value=[{'url':'https://example.com/job'}]),patch.object(pub,'load_state',return_value={'seen':[]}),patch.object(pub,'guard'),patch.object(pub,'webhook',return_value='mock'),patch.object(pub,'notify',return_value=False),patch.object(pub,'save_state') as save,patch.object(sys,'argv',['publish_teams.py','--baseline']):
-            self.assertEqual(pub.main(),1);save.assert_not_called()
+    def test_old_database_rows_are_not_implicitly_queued(self):
+        with patch.object(pub,'load_rows',return_value=[{'url':'https://example.com/job','posted_at':pub.now_iso()}]),patch.object(pub,'load_state',return_value={'seen':[]}),patch.object(pub,'notify') as send,patch.object(pub,'save_state') as save,patch.object(sys,'argv',['publish_teams.py','--post']):
+            self.assertEqual(pub.main(),0);save.assert_not_called();send.assert_not_called()
 
     def test_zero_limit_delivers_all_and_acknowledges_each_chunk(self):
         rows=[{'url':'https://example.com/'+str(i),'title':'Role','posted_at':pub.now_iso()} for i in range(27)];snapshots=[]

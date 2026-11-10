@@ -22,7 +22,7 @@ def build(results):
              'all_configured_routes_verified':sum(t['verification_status']=='verified' for t in teams),
              'partial':sum(t['verification_status']=='partial' for t in teams),'unverified':sum(t['verification_status']=='unverified' for t in teams)}
     return {'generated_at':datetime.now(timezone.utc).isoformat(),'summary':summary,'teams':teams,
-            'scope':'124 NFL, NBA, MLB and NHL teams. Shared ownership boards may include affiliated businesses. A verified source means its live listing fetched completely; it does not claim every linked vendor or alternate career page works.',
+            'scope':'124 NFL, NBA, MLB and NHL teams. Shared ownership boards may include affiliated businesses. with_verified_source counts functioning feeds; official_career_links_verified counts teams with separately retained career-link evidence. These are different checks.',
             'proof_note':'Career-link evidence and live feed checks are separate. A branded employer board alone does not prove that the official team careers page links to it. Missing link evidence remains flagged in the full JSON report.'}
 
 def write(report,directory):
@@ -33,7 +33,8 @@ def write(report,directory):
         boards=list(dict.fromkeys(x['board_url'] for x in t['routes'] if x.get('source_key')))
         links='<br>'.join('<a href="'+e(u,quote=True)+'">'+e(u)+'</a>' for u in boards)
         checks='<br>'.join(e(x['source_key'])+': '+e(x['status'])+' ('+str(x.get('job_count'))+' jobs)'+(' — '+e(x['error']) if x.get('error') else '') for x in t['live_checks'])
-        rows.append('<tr><td>'+e(t['league'])+'</td><td><a href="'+e(t['official_entry_url'],quote=True)+'">'+e(t['team'])+'</a></td><td>'+e(t['verification_status'])+'</td><td>'+links+'</td><td>'+checks+'</td></tr>')
+        proof='Official career link confirmed' if t.get('career_link_verified') else 'Official career link NOT YET PROVEN'
+        rows.append('<tr><td>'+e(t['league'])+'</td><td><a href="'+e(t['official_entry_url'],quote=True)+'">'+e(t['team'])+'</a></td><td>'+e(t['verification_status'])+'<br>'+proof+'</td><td>'+links+'</td><td>'+checks+'</td></tr>')
     text='<!doctype html><html><meta charset="utf-8"><title>Sports team career coverage</title><style>body{font:15px system-ui;margin:2rem;color:#152238}table{border-collapse:collapse;width:100%}td,th{padding:12px;border:1px solid #ccd5df;text-align:left;vertical-align:top;overflow-wrap:anywhere}td:nth-child(4){max-width:350px}input{padding:10px;width:300px}a{color:#1260a8}</style><h1>Sports team career coverage</h1><p>'+e(report['generated_at'])+'</p><p>'+e(str(report['summary']))+'</p><p>'+e(report['scope'])+'</p><p>'+e(report['proof_note'])+'</p><input id="filter" placeholder="Filter by team, league, or status"><p><a href="coverage.json">Full JSON evidence</a> · <a href="index.html">Job board</a></p><table><thead><tr><th>League</th><th>Official team entry</th><th>Status</th><th>Employer boards</th><th>Live checks</th></tr></thead><tbody>'+''.join(rows)+'</tbody></table><script>document.getElementById("filter").oninput=e=>{for(const r of document.querySelectorAll("tbody tr"))r.hidden=!r.textContent.toLowerCase().includes(e.target.value.toLowerCase())}</script></html>'
     (directory/'coverage.html').write_text(text,encoding='utf-8')
 
