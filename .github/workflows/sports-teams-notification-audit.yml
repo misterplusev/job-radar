@@ -12,6 +12,9 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r sports_teams/requirements.txt
+      - name: Regression checks without publishing
+        working-directory: sports_teams
+        run: python -m unittest discover -p 'test_*.py'
       - name: Inspect delivery state without publishing
         working-directory: sports_teams
         env:
