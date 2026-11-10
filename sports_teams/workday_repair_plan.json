@@ -1,0 +1,472 @@
+[
+  {
+    "old_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/job/US-Warehouse/Retail-Truck-Driver_R2095",
+    "canonical_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves/job/US-Warehouse/Retail-Truck-Driver_R2095",
+    "old_id": 245,
+    "first_seen_at": "2026-10-09T21:02:25.376724+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-08-21",
+    "req_id": "R2095",
+    "source_id": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+  },
+  {
+    "old_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/job/Atlanta-GA/Event-Captain_R2107",
+    "canonical_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves/job/Atlanta-GA/Event-Captain_R2107",
+    "old_id": 244,
+    "first_seen_at": "2026-10-13T21:02:25.376612+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-12",
+    "req_id": "R2107",
+    "source_id": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Associate--Performance-Science---MLB_R1523",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Associate--Performance-Science---MLB_R1523",
+    "old_id": 261,
+    "first_seen_at": "2026-10-09T21:02:25.379383+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-08",
+    "req_id": "R1523",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Senior-Data-Scientist--Baseball-Analytics_R1415",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Senior-Data-Scientist--Baseball-Analytics_R1415",
+    "old_id": 262,
+    "first_seen_at": "2026-10-09T21:02:25.379612+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-05",
+    "req_id": "R1415",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Data-Scientist_R1521",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Data-Scientist_R1521",
+    "old_id": 263,
+    "first_seen_at": "2026-10-09T21:02:25.379847+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-05",
+    "req_id": "R1521",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Intern--Data-Science_R1508",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Intern--Data-Science_R1508",
+    "old_id": 264,
+    "first_seen_at": "2026-10-09T21:02:25.380085+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-05",
+    "req_id": "R1508",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Associate--Performance-Science---Port-St-Lucie_R1524",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Associate--Performance-Science---Port-St-Lucie_R1524",
+    "old_id": 260,
+    "first_seen_at": "2026-10-09T21:02:25.379128+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-08",
+    "req_id": "R1524",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Clover-Park--Port-Saint-Lucie-Florida/Associate--Minor-League-Strength---Conditioning-Coach_R1507",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Clover-Park--Port-Saint-Lucie-Florida/Associate--Minor-League-Strength---Conditioning-Coach_R1507",
+    "old_id": 269,
+    "first_seen_at": "2026-10-09T21:02:25.380933+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-09-18",
+    "req_id": "R1507",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Clover-Park--Port-Saint-Lucie-Florida/Associate--Minor-League-Athletic-Trainer_R1506",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Clover-Park--Port-Saint-Lucie-Florida/Associate--Minor-League-Athletic-Trainer_R1506",
+    "old_id": 270,
+    "first_seen_at": "2026-10-09T21:02:25.381056+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-09-18",
+    "req_id": "R1506",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Database-Administrator_R2432",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Database-Administrator_R2432",
+    "old_id": 271,
+    "first_seen_at": "2026-11-04T21:02:25.381187+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-11-03",
+    "req_id": "R2432",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/job/US-Warehouse/Offsite-Retail-Warehouse-Keyholder_R1936",
+    "canonical_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves/job/US-Warehouse/Offsite-Retail-Warehouse-Keyholder_R1936",
+    "old_id": 246,
+    "first_seen_at": "2026-10-09T21:02:25.376816+00:00",
+    "detail_http": 200,
+    "posted_at": "2025-12-19",
+    "req_id": "R1936",
+    "source_id": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves"
+  },
+  {
+    "old_url": "https://my1060wd.wd5.myworkdayjobs.com/job/Dominican-Academy/Minor-League-Athletic-Trainer---Dominican-Republic_R001452-1",
+    "canonical_url": "https://my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO/job/Dominican-Academy/Minor-League-Athletic-Trainer---Dominican-Republic_R001452-1",
+    "old_id": 247,
+    "first_seen_at": "2026-10-23T21:02:25.376915+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-22",
+    "req_id": "R001452",
+    "source_id": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO"
+  },
+  {
+    "old_url": "https://mariners.wd5.myworkdayjobs.com/job/Peoria-Arizona/Athletic-Training-Diversity-Fellowship_REQ2026-000044",
+    "canonical_url": "https://mariners.wd5.myworkdayjobs.com/Mariners/job/Peoria-Arizona/Athletic-Training-Diversity-Fellowship_REQ2026-000044",
+    "old_id": 248,
+    "first_seen_at": "2026-10-31T21:02:25.377034+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-30",
+    "req_id": "REQ2026-000044",
+    "source_id": "wd:mariners.wd5.myworkdayjobs.com/Mariners"
+  },
+  {
+    "old_url": "https://mariners.wd5.myworkdayjobs.com/job/Peoria-Sports-Complex/Athletic-Training-Fellowship_REQ2026-000043",
+    "canonical_url": "https://mariners.wd5.myworkdayjobs.com/Mariners/job/Peoria-Sports-Complex/Athletic-Training-Fellowship_REQ2026-000043",
+    "old_id": 249,
+    "first_seen_at": "2026-10-31T21:02:25.377152+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-30",
+    "req_id": "REQ2026-000043",
+    "source_id": "wd:mariners.wd5.myworkdayjobs.com/Mariners"
+  },
+  {
+    "old_url": "https://mariners.wd5.myworkdayjobs.com/job/Peoria-Arizona/Minor-League-Strength---Conditioning-Coordinator_REQ2026-000038",
+    "canonical_url": "https://mariners.wd5.myworkdayjobs.com/Mariners/job/Peoria-Arizona/Minor-League-Strength---Conditioning-Coordinator_REQ2026-000038",
+    "old_id": 250,
+    "first_seen_at": "2026-10-13T21:02:25.377285+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-12",
+    "req_id": "REQ2026-000038",
+    "source_id": "wd:mariners.wd5.myworkdayjobs.com/Mariners"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Director--Systems-Engineering_R1537",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Director--Systems-Engineering_R1537",
+    "old_id": 251,
+    "first_seen_at": "2026-10-31T21:02:25.377397+00:00",
+    "detail_http": 403,
+    "posted_at": null,
+    "req_id": null,
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Manager--Technology-Solutions_R1536",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Manager--Technology-Solutions_R1536",
+    "old_id": 252,
+    "first_seen_at": "2026-10-31T21:02:25.377508+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-30",
+    "req_id": "R1536",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Coordinator--Building-Operations_R1534-1",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Coordinator--Building-Operations_R1534-1",
+    "old_id": 253,
+    "first_seen_at": "2026-10-28T21:02:25.377618+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-27",
+    "req_id": "R1534",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Director--Partnership-Development_R1532",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Director--Partnership-Development_R1532",
+    "old_id": 254,
+    "first_seen_at": "2026-10-28T21:02:25.377727+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-27",
+    "req_id": "R1532",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/NYSEG-Stadium--Binghamton-New-York/Affiliate-Bench-Coach-and-Assistant-Coach_R1533",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/NYSEG-Stadium--Binghamton-New-York/Affiliate-Bench-Coach-and-Assistant-Coach_R1533",
+    "old_id": 255,
+    "first_seen_at": "2026-10-24T21:02:25.377857+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-23",
+    "req_id": "R1533",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Associate--Amateur-Scouting_R1530",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Associate--Amateur-Scouting_R1530",
+    "old_id": 256,
+    "first_seen_at": "2026-10-24T21:02:25.378132+00:00",
+    "detail_http": 403,
+    "posted_at": null,
+    "req_id": null,
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Manager--Partnership-Engagement_R1528",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Manager--Partnership-Engagement_R1528",
+    "old_id": 257,
+    "first_seen_at": "2026-10-10T21:02:25.378372+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-09",
+    "req_id": "R1528",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Clover-Park--Port-Saint-Lucie-Florida/Life-Skills---Minor-League-Operations-Assistant_R1526",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Clover-Park--Port-Saint-Lucie-Florida/Life-Skills---Minor-League-Operations-Assistant_R1526",
+    "old_id": 258,
+    "first_seen_at": "2026-10-09T21:02:25.378614+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-08",
+    "req_id": "R1526",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/New-York-Mets-Complex--Dominican-Republic/Associate--Performance-Science---Dominican-Republic_R1527",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/New-York-Mets-Complex--Dominican-Republic/Associate--Performance-Science---Dominican-Republic_R1527",
+    "old_id": 259,
+    "first_seen_at": "2026-10-09T21:02:25.378858+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-08",
+    "req_id": "R1527",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Associate-Analyst--Integration_R1519",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Associate-Analyst--Integration_R1519",
+    "old_id": 266,
+    "first_seen_at": "2026-10-09T21:02:25.38042+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-05",
+    "req_id": "R1519",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Associate-Hitting-Analyst--Baseball-Analytics_R1518",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Associate-Hitting-Analyst--Baseball-Analytics_R1518",
+    "old_id": 267,
+    "first_seen_at": "2026-10-09T21:02:25.380628+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-02",
+    "req_id": "R1518",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Associate--Major-League-Strength---Conditioning-Coach_R1512",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Associate--Major-League-Strength---Conditioning-Coach_R1512",
+    "old_id": 268,
+    "first_seen_at": "2026-10-09T21:02:25.380807+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-09-28",
+    "req_id": "R1512",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/HVAC-Technician--Maintenance_R2401",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/HVAC-Technician--Maintenance_R2401",
+    "old_id": 275,
+    "first_seen_at": "2026-10-29T21:02:25.381771+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-28",
+    "req_id": "R2401",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Minor-League-Athletic-Trainer_R2430-1",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Minor-League-Athletic-Trainer_R2430-1",
+    "old_id": 276,
+    "first_seen_at": "2026-10-29T21:02:25.381902+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-28",
+    "req_id": "R2430",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Electrician_R2322-1",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Electrician_R2322-1",
+    "old_id": 277,
+    "first_seen_at": "2026-10-15T21:02:25.382066+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-14",
+    "req_id": "R2322",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Surprise-AZ/Complex-Athletic-Trainer_R2423",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Surprise-AZ/Complex-Athletic-Trainer_R2423",
+    "old_id": 278,
+    "first_seen_at": "2026-10-09T21:02:25.382213+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-02",
+    "req_id": "R2423",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Data-Apprentice_R2405",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Data-Apprentice_R2405",
+    "old_id": 279,
+    "first_seen_at": "2026-10-09T21:02:25.382386+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-09-15",
+    "req_id": "R2405",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Dallas-TX/Part-Time-Youth-Academy-Coach_R2387",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Dallas-TX/Part-Time-Youth-Academy-Coach_R2387",
+    "old_id": 280,
+    "first_seen_at": "2026-10-09T21:02:25.382528+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-09-15",
+    "req_id": "R2387",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Area-Scout--Alabama--Mississippi-and-West-Tennessee-_R2402",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Area-Scout--Alabama--Mississippi-and-West-Tennessee-_R2402",
+    "old_id": 281,
+    "first_seen_at": "2026-10-09T21:02:25.382724+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-09-14",
+    "req_id": "R2402",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Six-Shooter_R2396-1",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Six-Shooter_R2396-1",
+    "old_id": 282,
+    "first_seen_at": "2026-10-09T21:02:25.383017+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-09-14",
+    "req_id": "R2396",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Representative-I--Complex-Maintenance_R2008",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Representative-I--Complex-Maintenance_R2008",
+    "old_id": 283,
+    "first_seen_at": "2026-10-09T21:02:25.383309+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-07-29",
+    "req_id": "R2008",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Event-Security_R2133",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Event-Security_R2133",
+    "old_id": 284,
+    "first_seen_at": "2026-10-09T21:02:25.383527+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-03-05",
+    "req_id": "R2133",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Seasonal-Ballpark-Entertainment-Control-Room_R2005",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Seasonal-Ballpark-Entertainment-Control-Room_R2005",
+    "old_id": 285,
+    "first_seen_at": "2026-10-09T21:02:25.383653+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-03-04",
+    "req_id": "R2005",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Parking-Attendant_R2203",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Parking-Attendant_R2203",
+    "old_id": 286,
+    "first_seen_at": "2026-10-09T21:02:25.383773+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-02-10",
+    "req_id": "R2203",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/ADA-Shuttle-Driver_R2098",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/ADA-Shuttle-Driver_R2098",
+    "old_id": 287,
+    "first_seen_at": "2026-10-09T21:02:25.383916+00:00",
+    "detail_http": 200,
+    "posted_at": "2025-12-08",
+    "req_id": "R2098",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Parking-Security_R2099",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Parking-Security_R2099",
+    "old_id": 288,
+    "first_seen_at": "2026-10-09T21:02:25.384063+00:00",
+    "detail_http": 200,
+    "posted_at": "2025-12-08",
+    "req_id": "R2099",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Toll-Attendant_R2100",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Toll-Attendant_R2100",
+    "old_id": 289,
+    "first_seen_at": "2026-10-09T21:02:25.384197+00:00",
+    "detail_http": 200,
+    "posted_at": "2025-12-08",
+    "req_id": "R2100",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Event-Conversion-Staff---Part-Time_R1969",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Event-Conversion-Staff---Part-Time_R1969",
+    "old_id": 290,
+    "first_seen_at": "2026-10-09T21:02:25.384324+00:00",
+    "detail_http": 200,
+    "posted_at": "2025-09-23",
+    "req_id": "R1969",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/Field-Crew_R2433-1",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Field-Crew_R2433-1",
+    "old_id": 272,
+    "first_seen_at": "2026-11-03T21:02:25.381312+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-11-02",
+    "req_id": "R2433",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/IT-Technical-Administrator_R2436",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/IT-Technical-Administrator_R2436",
+    "old_id": 273,
+    "first_seen_at": "2026-11-03T21:02:25.381478+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-11-02",
+    "req_id": "R2436",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  },
+  {
+    "old_url": "https://sterlingmets.wd5.myworkdayjobs.com/job/Citi-Field--Queens-New-York/Software-Engineer--Baseball-Systems_R1520",
+    "canonical_url": "https://sterlingmets.wd5.myworkdayjobs.com/Mets/job/Citi-Field--Queens-New-York/Software-Engineer--Baseball-Systems_R1520",
+    "old_id": 265,
+    "first_seen_at": "2026-10-09T21:02:25.380293+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-05",
+    "req_id": "R1520",
+    "source_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets"
+  },
+  {
+    "old_url": "https://rangersmlb.wd5.myworkdayjobs.com/job/Arlington-TX/General-Maintenance-Technician_R2365-1",
+    "canonical_url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/General-Maintenance-Technician_R2365-1",
+    "old_id": 274,
+    "first_seen_at": "2026-10-29T21:02:25.381648+00:00",
+    "detail_http": 200,
+    "posted_at": "2026-10-28",
+    "req_id": "R2365",
+    "source_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers"
+  }
+]
