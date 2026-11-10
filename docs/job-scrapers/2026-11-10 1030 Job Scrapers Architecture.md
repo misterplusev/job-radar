@@ -35,7 +35,7 @@ GitHub workflows serialize runs with concurrency groups. Public robotics/tech re
 
 **Observed execution, November 10:** robotics scheduled starts included 01:27, 09:40 and 17:43 UTC; tech 02:53 and 11:40 UTC; teams 04:39 and 13:32 UTC. Recent gaps reached about 7–11 hours. The later teams repair runs were manual. These are not proof of working hourly delivery; the cause is unconfirmed. Sportsbook's 12:00 Eastern slot completed at about 12:04, with the next slot at 14:00 and live health healthy.
 
-Sportsbook's old `scrape.yml` is `disabled_manually`. Its current default-branch file contains only `workflow_dispatch`; older checkouts still contain an hourly cron. Neither is the live schedule. Cloudflare worker `abet-jobs-watchdog` runs its own `0 */2 * * *` UTC monitoring cadence; that is a watchdog, not the scraper scheduler. Sports-team Windows tasks are disabled, and the sports-team Hugging Face/Cloudflare experiment is retired. Do not create a second scheduler alongside production.
+Sportsbook's old `scrape.yml` is `disabled_manually`. Its current default-branch file contains only `workflow_dispatch`; older checkouts still contain an hourly cron. Neither is the live schedule. Cloudflare worker `abet-jobs-watchdog` has `0 */2 * * *` UTC monitoring cadence in versioned configuration; deployed control-plane inspection is currently unavailable with the operator token. That is watchdog configuration, not the scraper schedule. Sports-team Windows tasks are disabled, and the sports-team Hugging Face/Cloudflare experiment is retired. Do not create a second scheduler alongside production.
 
 ## Source and code map
 
@@ -104,3 +104,7 @@ Use names, never values, in documentation. GitHub stores `SUPABASE_URL`, `SUPABA
 Private Space source revision checked: `95db2a29832416e9fc86df276b5e7fce7de88314`. Its launcher and GitHub production launcher have identical text after CRLF/LF normalization (SHA-256 `ce8df4978837c5734ba7f0116e519144a2fc972aed2cf1628ce23f6a245bc28f`). Raw bytes differ by line endings. Scraper SHA-256: `72a43e62f4ce209efb41fac9e555f8fb9c0dc8c26b05592540a4ec0c38524fdb`. Runtime bundle manifest schema is `abet.jobs.hf-bundle.v1`; the manifest checked contains 36 files. Future deployment checks must compare source, manifest and deployed revision again.
 
 Outstanding operational work: explain the GitHub scheduling gaps; finish six official-page linkage proofs and five alternate route repairs; evaluate durable notification queues for the older three modules. The read-only checker verifies configuration and recent run evidence, not every provider, every database row, secret validity, frontend rendering or employer authenticity. These are explicit remaining limits, not completed guarantees.
+
+## Exhaustive source and dashboard expansion
+
+The [itemized source inventory](inventory/README.md) records paths, revisions, line counts, script definitions and workflow metadata. The [live schema dictionary](inventory/DATABASE.md) supersedes assumptions from local SQL files; notably robotics/tech currently lack `first_seen_at`. [Dashboard wiring and all eight URLs](2026-11-10%201145%20Dashboard%20Jobs%20Wiring%20and%20Inventory%20Guide.md) document the three modules added to the existing sportsbook dashboard.

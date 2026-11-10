@@ -1,0 +1,81 @@
+{
+  "checked_at": "2026-11-10T19:16:14.576324+00:00",
+  "browser_visual_check": false,
+  "read_only": true,
+  "standalone": [
+    {
+      "id": "sportsbook",
+      "url": "https://sportsbook-jobs-dashboard.vercel.app/",
+      "http": 200,
+      "app_core_project_in_frontend_bundle": true
+    },
+    {
+      "id": "robotics",
+      "url": "https://misterplusev.github.io/robotics-jobradar-board/",
+      "http": 200,
+      "embedded_config_data_http": 200
+    },
+    {
+      "id": "tech",
+      "url": "https://misterplusev.github.io/jobradar-tech-board/",
+      "http": 200,
+      "embedded_config_data_http": 200
+    },
+    {
+      "id": "teams",
+      "url": "https://misterplusev.github.io/job-radar/",
+      "http": 200,
+      "feed_http": 200,
+      "feed_jobs": 2092,
+      "feed_declared_count": 2092
+    }
+  ],
+  "dashboard": [
+    {
+      "id": "sportsbook",
+      "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=jobs-browser",
+      "http": 200,
+      "table": "jobs",
+      "database_http": 206,
+      "active_jobs": 856,
+      "cors": "*",
+      "bundle_contains_route": true
+    },
+    {
+      "id": "robotics",
+      "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=robotics-jobs",
+      "http": 200,
+      "table": "robotics_jobs",
+      "database_http": 206,
+      "active_jobs": 20697,
+      "cors": "*",
+      "bundle_contains_route": true
+    },
+    {
+      "id": "tech",
+      "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=tech-jobs",
+      "http": 200,
+      "table": "tech_jobs",
+      "database_http": 206,
+      "active_jobs": 3737,
+      "cors": "*",
+      "bundle_contains_route": true
+    },
+    {
+      "id": "teams",
+      "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=teams-jobs",
+      "http": 200,
+      "table": "team_jobs",
+      "database_http": 206,
+      "active_jobs": 2092,
+      "cors": "*",
+      "bundle_contains_route": true
+    }
+  ],
+  "deployment": {
+    "id": "dpl_GMh1ojskpc1pL8MP1WapNFKzoGer",
+    "state": "READY",
+    "source_commit": "b8bb117b88107ce919d95496ce60c1cfd8f0f126",
+    "bundle_url": "https://abet-dashboard.vercel.app/assets/main-C6ZE7tcB.js"
+  }
+}
