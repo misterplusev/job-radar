@@ -1,0 +1,23 @@
+name: sports-teams-workday-repair
+on: workflow_dispatch
+permissions:
+  contents: read
+concurrency:
+  group: sports-teams-jobs
+  cancel-in-progress: false
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests
+      - name: Back up and atomically repair legacy URLs
+        working-directory: sports_teams
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: python repair_workday_cloud.py
