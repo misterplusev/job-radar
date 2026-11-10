@@ -866,7 +866,7 @@
     {
       "league": "NBA",
       "team": "Houston Rockets",
-      "careers_url": "https://www.toyotacenter.com/arena-info/business-ventures/employment",
+      "careers_url": "https://www.nba.com/rockets/careers",
       "platform": "unknown",
       "league_source": "https://careers.nba.com/",
       "notes": "Phenom People career site; widget API not yet mapped.",
@@ -1203,7 +1203,7 @@
     {
       "league": "MLB",
       "team": "Detroit Tigers",
-      "careers_url": "https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=26290&siteid=6894&PageType=searchResults&SearchType=linkquery&LinkID=933207#home",
+      "careers_url": "https://www.mlb.com/tigers/team/job-opportunities",
       "platform": "unknown",
       "league_source": "https://www.mlb.com/careers/jobs",
       "notes": "Next.js client-side; postings are not in __NEXT_DATA__, API not yet mapped.",

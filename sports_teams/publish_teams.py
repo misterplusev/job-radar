@@ -308,14 +308,29 @@ def main():
     ap.add_argument('--dry-run', action='store_true')
     ap.add_argument('--seed', action='store_true')
     ap.add_argument('--post', action='store_true')
+    ap.add_argument('--baseline', action='store_true',help='Explicit one-time catch-up summary; archive existing URLs as seeded, not individually delivered')
     ap.add_argument('--preview', action='store_true', help='post the newest N regardless of state')
-    ap.add_argument('--limit', type=int, default=10)
+    ap.add_argument('--limit', type=int, default=10,help='Job limit; 0 processes every eligible job within the delivery time budget')
     ap.add_argument('--show-payload', action='store_true')
     args = ap.parse_args()
 
     rows = load_rows()
     state = load_state()
     seen = set(state.get('seen') or [])
+    if args.baseline:
+        payload={'content':('**Sports Teams Jobs — coverage repaired**\n'
+            f'{len(rows):,} active listings are available on the [full job board](https://misterplusev.github.io/job-radar/). '
+            'The scraper now has a working employer source for all 124 NFL, NBA, MLB and NHL teams. '
+            '[Review coverage and remaining alternate-link errors](https://misterplusev.github.io/job-radar/coverage.html).\n'
+            'Existing listings remain searchable on the board. Individual alerts will cover newly discovered jobs from here forward.')}
+        if args.dry_run:
+            print(json.dumps(payload,ensure_ascii=False));print('Would baseline',len({r['url'] for r in rows}-seen),'existing URLs; no messages sent.');return 0
+        guard()
+        if not notify(webhook(),payload):return 1
+        baseline={r['url'] for r in rows}-seen
+        state.update(seen=sorted(seen|baseline),baseline_urls=sorted(baseline),posted_at=now_iso(),posts=int(state.get('posts') or 0)+1)
+        save_state(state)
+        print('Catch-up summary delivered; existing jobs recorded as seeded, not individually delivered.');return 0
     fresh = [r for r in rows if r['url'] not in seen]
     fresh.sort(key=lambda r: (str(r.get('posted_at') or r.get('first_seen_at') or ''),r['url']), reverse=True)
     if args.preview:
@@ -328,7 +343,8 @@ def main():
 
     eligible = fresh if args.preview else [r for r in fresh if _is_recent(r.get('posted_at'))
                   or (not r.get('posted_at') and _is_recent(r.get('first_seen_at')))]
-    to_post = eligible[:args.limit]
+    if args.limit<0:ap.error('--limit must be nonnegative')
+    to_post = eligible if args.limit==0 else eligible[:args.limit]
     if not to_post:
         print('No newly observed/recently posted jobs eligible for notification.')
         return 0
@@ -353,6 +369,8 @@ def main():
     ok = 0
     delivered = set()
     summary_ok = False
+    starting_posts=int(state.get('posts') or 0)
+    delivery_started=time.monotonic()
     if args.seed:
         summary = (f'**Sports Teams Jobs — scraper online**\n'
                    f'{len(rows)} active postings across {len({r.get("team") for r in rows})} team sources. '
@@ -364,6 +382,8 @@ def main():
         time.sleep(PACE_SECONDS)
 
     for idx in range(0, len(to_post), CHUNK_SIZE):
+        if time.monotonic()-delivery_started>=600:
+            print('Delivery time budget reached; unsent URLs remain queued.');break
         chunk = to_post[idx:idx + CHUNK_SIZE]
         payload = {'content': f'New team jobs discovered: {len(chunk)}',
                    'embeds': [embed(r) for r in chunk]}
@@ -371,6 +391,9 @@ def main():
             delivered.update(r['url'] for r in chunk)
             ok += 1
             print(f'  posted chunk {idx // CHUNK_SIZE + 1} ({len(chunk)} embeds)')
+            if not args.preview:
+                state.update(seen=sorted(seen|delivered),posted_at=now_iso(),posts=starting_posts+ok)
+                save_state(state)
         else:
             print(f'  chunk {idx // CHUNK_SIZE + 1} failed')
         time.sleep(PACE_SECONDS)
@@ -384,7 +407,8 @@ def main():
         seed_complete = args.seed and summary_ok and len(delivered) == len({r['url'] for r in to_post})
         state['seen'] = sorted(seen | ({r['url'] for r in rows} if seed_complete else delivered))
         state['posted_at'] = now_iso()
-        state['posts'] = int(state.get('posts') or 0) + ok
+        state['posts'] = starting_posts + ok
+        if seed_complete:state['baseline_urls']=sorted({r['url'] for r in rows}-seen-delivered)
         save_state(state)
         print(f'state updated: {len(state["seen"])} urls recorded')
     else:

@@ -104,4 +104,6 @@ class CloudStorage:
 
     def save_notification_state(self,state):
         prior={r['url'] for r in self.rows('team_job_notifications') if r['status'] in ('seeded','delivered')}
-        self.upsert('team_job_notifications',[{'url':u,'status':'delivered','delivered_at':state.get('posted_at')} for u in state['seen'] if u not in prior], 'url')
+        baseline=set(state.get('baseline_urls',[]))
+        self.upsert('team_job_notifications',[{'url':u,'status':'seeded' if u in baseline else 'delivered',
+                     'delivered_at':None if u in baseline else state.get('posted_at')} for u in state['seen'] if u not in prior], 'url')

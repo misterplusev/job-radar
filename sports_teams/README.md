@@ -39,7 +39,14 @@ from the current run, not the number of sources. A successful source does not
 imply every alternate link works; blocked and missing routes remain visible.
 Shared ownership boards retain the actual parent business name.
 
-Tests: `python -m unittest discover -p "test_*.py"` (49 regression checks).
+The prepared restart supports one explicit `--baseline` summary, retaining all
+existing listings on the board and recording them as seeded, never delivered.
+Normal publishing uses `--limit 0`: all eligible new jobs, five embeds per message,
+with rate-limit pacing and a 10-minute delivery budget. Each successful chunk is
+acknowledged immediately; unsent jobs remain queued. Removing the existing hold
+and sending the catch-up summary still require the operator's approval.
+
+Tests: `python -m unittest discover -p "test_*.py"` (52 regression checks).
 `node test_worker.mjs` covers the retired relay experiment (7 safety checks).
 The local operator helper `verify_deployment.py` checks board/database counts, duplicate URLs and
 preservation of the original observation dates without modifying production.

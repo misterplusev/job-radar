@@ -1,5 +1,5 @@
 """Offline regressions for discovered coverage gaps and notification history."""
-import json,os,sqlite3,unittest
+import json,os,sqlite3,unittest,sys,contextlib,io
 from unittest.mock import Mock,patch
 import live_refresh as live
 import publish_teams as pub
@@ -88,6 +88,22 @@ class OfficialRoutes(unittest.TestCase):
         with patch.object(s,'rows',return_value=[{'url':'old','status':'seeded'}]),patch.object(s,'upsert') as up:
             s.save_notification_state({'seen':['old','new'],'posted_at':'now'})
         self.assertEqual(up.call_args.args[1],[{'url':'new','status':'delivered','delivered_at':'now'}])
+
+    def test_baseline_rows_are_never_marked_delivered(self):
+        with patch.dict(os.environ,{'SUPABASE_URL':'https://example.com','SUPABASE_SERVICE_ROLE_KEY':'mock'}):s=cloud_storage.CloudStorage()
+        with patch.object(s,'rows',return_value=[]),patch.object(s,'upsert') as up:
+            s.save_notification_state({'seen':['existing','announced'],'baseline_urls':['existing'],'posted_at':'now'})
+        self.assertEqual(up.call_args.args[1],[{'url':'existing','status':'seeded','delivered_at':None},{'url':'announced','status':'delivered','delivered_at':'now'}])
+
+    def test_failed_baseline_summary_keeps_existing_queue(self):
+        with patch.object(pub,'load_rows',return_value=[{'url':'https://example.com/job'}]),patch.object(pub,'load_state',return_value={'seen':[]}),patch.object(pub,'guard'),patch.object(pub,'webhook',return_value='mock'),patch.object(pub,'notify',return_value=False),patch.object(pub,'save_state') as save,patch.object(sys,'argv',['publish_teams.py','--baseline']):
+            self.assertEqual(pub.main(),1);save.assert_not_called()
+
+    def test_zero_limit_delivers_all_and_acknowledges_each_chunk(self):
+        rows=[{'url':'https://example.com/'+str(i),'title':'Role','posted_at':pub.now_iso()} for i in range(27)];snapshots=[]
+        with patch.object(pub,'load_rows',return_value=rows),patch.object(pub,'load_state',return_value={'seen':[]}),patch.object(pub,'guard'),patch.object(pub,'webhook',return_value='mock'),patch.object(pub,'notify',return_value=True) as send,patch.object(pub,'save_state',side_effect=lambda s:snapshots.append(json.loads(json.dumps(s)))),patch.object(pub.time,'sleep'),patch.object(sys,'argv',['publish_teams.py','--post','--limit','0']),contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(pub.main(),0)
+        self.assertEqual(send.call_count,6);self.assertEqual(len(snapshots[0]['seen']),5);self.assertEqual(len(snapshots[-1]['seen']),27)
 
     def test_alias_restore_drops_only_stale_local_copy(self):
         con=sqlite3.connect(':memory:');con.executescript(pipeline_local.SCHEMA);self.addCleanup(con.close)
