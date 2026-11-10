@@ -1,5 +1,7 @@
 # Sports teams jobs scraper
 
+**Shared documentation:** [architecture, operations and new-industry build guide](https://github.com/misterplusev/job-radar/tree/master/docs/job-scrapers). Verified November 10, 2026; includes a machine inventory and read-only checker. The hourly schedule below is configuration; recent GitHub scheduled runs have multi-hour gaps.
+
 Production matches the robotics/tech jobs pipeline: GitHub Actions -> shared
 Supabase database -> live searchable board and deduplicated Discord publisher.
 
