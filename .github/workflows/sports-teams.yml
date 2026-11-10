@@ -47,6 +47,8 @@ jobs:
         id: scrape
         run: python -u pipeline_local.py --cloud --trigger '${{ github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}' ${{ github.event.inputs.recover_pending == 'true' && '--recover-pending' || '' }}
       - name: Notification guard and delivery
+        id: delivery
+        continue-on-error: true
         run: |
           if [ "$NOTIFICATIONS_PAUSED" = "0" ]; then
             python publish_teams.py --post --limit 0
@@ -64,7 +66,8 @@ jobs:
           shutil.copy2('board/coverage.json',out/'coverage.json')
           shutil.copy2('board/coverage.html',out/'coverage.html')
           m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
-          health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'],'last_run_end':m['generated_at'],'notifications_paused':False,'schedule':{'cron':'23 * * * *','timezone':'UTC'},'latest_manifest':m}
+          delivery='${{ steps.delivery.outcome }}'
+          health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'] if delivery=='success' else 'degraded','last_run_end':m['generated_at'],'notifications_paused':False,'delivery_status':delivery,'schedule':{'cron':'23 * * * *','timezone':'UTC'},'latest_manifest':m}
           out.joinpath('health.json').write_text(json.dumps(health,indent=2))
           PY
       - uses: actions/configure-pages@v5
@@ -86,4 +89,5 @@ jobs:
           m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
           print(json.dumps(m['totals']))
           if m['overall_status']!='healthy':raise SystemExit('Source failures: see published health receipt')
+          if '${{ steps.delivery.outcome }}'!='success':raise SystemExit('Delivery incomplete; unsent jobs remain queued')
           PY
