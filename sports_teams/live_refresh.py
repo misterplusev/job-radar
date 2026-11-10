@@ -18,7 +18,7 @@ from urllib.parse import urlsplit, parse_qs
 
 import requests
 
-from providers import nba, nfl, teamwork, teamwork_vertical, adp, ultipro
+from providers import nba, nfl, teamwork, teamwork_vertical, adp, ultipro, official_ats
 
 MAX_WORKERS = 3
 MAX_REQUESTS = 80
@@ -26,6 +26,9 @@ SOURCE_SECONDS = 240
 SOURCE_ALIASES = {
     'football-jobs/la-rams-careers/la-rams-micro':
         'football-jobs/la-rams-careers/los-angeles-rams',
+    'basketball-jobs/warriors/golden-state-warriors-jobs':'basketball-jobs/warriors/golden-state-warriors-careers',
+    'baseball-jobs/milwaukeebaseball/milwaukee-brewers-micro':'baseball-jobs/milwaukeebaseball/milwaukee-brewers',
+    'hockey-jobs/sharkssports/san-jose-sharks-careers':'hockey-jobs/sharkssports/san-jose-sharks',
 }
 
 
@@ -89,10 +92,61 @@ def source_from_row(row):
     parts = [x for x in p.path.split('/') if x]
     team, league = row.get('team', ''), row.get('league', '')
     base = {'team': team, 'league': league}
-    if 'teamworkonline.com' in p.netloc and len(parts) >= 3:
+    if p.netloc=='careers.delawarenorth.com' and p.path=='/bruins-jobs/':
+        return dict(base,kind='bruins',key='official:bruins',url=url)
+    if p.netloc=='www.teamworkonline.com' and len(parts) >= 3:
         path = '/'.join(parts[:3])
         path = SOURCE_ALIASES.get(path,path)
-        return dict(base, kind='teamworkonline', key='tw:' + path, path=path)
+        org_id=parse_qs(p.query).get('employment_opportunity_search[organization_id]',[''])[0]
+        return dict(base, kind='teamworkonline', key='tw:' + path + (':org:'+org_id if org_id else ''), path=path,org_id=org_id)
+    if p.netloc=='jobs.lever.co' and parts:
+        return dict(base,kind='lever',key='lever:'+parts[0],board=parts[0])
+    if p.netloc=='jobs.jobvite.com' and parts:
+        board=parts[1] if parts[0]=='careers' else parts[0]
+        return dict(base,kind='jobvite',key='jobvite:'+board,url=f'https://jobs.jobvite.com/{board}/jobs')
+    if p.netloc in ('recruitingbypaycor.com','newton.newtonsoftware.com'):
+        cid=parse_qs(p.query).get('clientId',[''])[0]
+        if cid:return dict(base,kind='paycor',key='paycor:'+cid,url='https://recruitingbypaycor.com/career/CareerHome.action?clientId='+cid)
+    if p.netloc.endswith('.applytojob.com') and p.path.startswith('/apply/jobs'):
+        return dict(base,kind='jazzhr',key='jazzhr:'+p.netloc,url=url)
+    if p.netloc=='www.tnse.com' and p.path=='/join-our-team/':
+        return dict(base,kind='tnse',key='official:tnse',url=url,team='True North Sports & Entertainment')
+    if p.netloc=='apply.clearcompany.com':
+        return dict(base,kind='clearcompany',key='clearcompany:'+p.path.strip('/'),url=url)
+    if p.netloc.endswith(('.aaimtrack.com','.isolvedhire.com')):
+        return dict(base,kind='applicantpro',key='applicantpro:'+p.netloc,url=f'https://{p.netloc}/jobs/')
+    if p.netloc.endswith('.icims.com') and p.path=='/jobs/search':
+        return dict(base,kind='icims',key='icims:'+p.netloc,url=url)
+    if p.netloc in ('www.msgknicks.com','www.msgrangers.com'):
+        return dict(base,kind='msg',key='official:'+p.netloc,url=f'https://{p.netloc}/jobs/')
+    if p.netloc=='bkse.com' and p.path=='/careers':
+        return dict(base,kind='bkse',key='official:bkse',url=url)
+    if p.netloc=='careers.hireology.com' and parts:
+        return dict(base,kind='hireology',key='hireology:'+parts[0],url='https://careers.hireology.com/'+parts[0])
+    if p.netloc=='recruit.hirebridge.com':
+        cid=parse_qs(p.query).get('cid',[''])[0]
+        if cid:return dict(base,kind='hirebridge',key='hirebridge:'+cid,cid=cid,url=url)
+    if p.netloc in ('aegworldwide.com','www.aegworldwide.com') and p.path=='/careers/job-search':
+        return dict(base,kind='aeg_kings',key='official:aeg_kings',url=url)
+    if p.netloc in ('www.paycomonline.net','paycomonline.net'):
+        m=re.search(r'/portal/([A-Fa-f0-9]{32})',p.path)
+        board=m[1] if m else parse_qs(p.query).get('clientkey',[''])[0]
+        if board:return dict(base,kind='paycom',key='paycom:'+board,board=board,url=url)
+    if p.netloc.endswith('.bamboohr.com') and parts and parts[0]=='careers':
+        return dict(base,kind='bamboohr',key='bamboohr:'+p.netloc,url=f'https://{p.netloc}/careers')
+    if p.netloc=='recruiting.paylocity.com' and len(parts)>=4 and parts[2].lower()=='all':
+        return dict(base,kind='paylocity',key='paylocity:'+parts[3],url=url)
+    if p.netloc=='jobs.dayforcehcm.com' and len(parts)>=3:
+        culture='en-US'
+        if re.fullmatch(r'[a-z]{2}-[A-Z]{2}',parts[0]):culture=parts[0];parts=parts[1:]
+        tenant,board=parts[:2]
+        suffix=':'+culture if culture!='en-US' else ''
+        return dict(base,kind='dayforce',key=f'dayforce:{tenant}/{board}'+suffix,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}')
+    if p.netloc.endswith('.myworkdaysite.com') and 'recruiting' in parts:
+        i=parts.index('recruiting');tenant,site=parts[i+1:i+3]
+        # Same public Workday CXS API, hosted on the explicitly linked site.
+        return dict(base,kind='workday',key='wd:'+p.netloc+'/'+tenant+'/'+site,host=p.netloc,tenant=tenant,site=site,
+                    public_base=f'https://{p.netloc}/en-US/recruiting/{tenant}/{site}')
     if 'greenhouse.io' in p.netloc and parts:
         board = parts[0]
         return dict(base, kind='greenhouse', key='gh:' + board, board=board)
@@ -103,13 +157,14 @@ def source_from_row(row):
         tenant = p.netloc.split('.')[0]
         return dict(base, kind='workday', key='wd:' + p.netloc + '/' + site,
                     host=p.netloc, tenant=tenant, site=site)
-    if 'ultipro.com' in p.netloc and len(parts) >= 3 and parts[1] == 'JobBoard':
+    if ('ultipro.com' in p.netloc or 'ultipro.ca' in p.netloc or p.netloc.endswith('.rec.pro.ukg.net')) and len(parts) >= 3 and parts[1] == 'JobBoard':
         return dict(base, kind='ultipro', key='ukg:' + p.netloc + '/' + '/'.join(parts[:3]),
                     host=p.netloc, company_id=parts[0], board_guid=parts[2])
     if 'adp.com' in p.netloc:
         cid = parse_qs(p.query).get('cid', [''])[0]
         if cid:
-            return dict(base, kind='adp', key='adp:' + cid, cid=cid)
+            ccid=parse_qs(p.query).get('ccId',['19000101_000001'])[0]
+            return dict(base, kind='adp', key='adp:' + cid+(':'+ccid if ccid!='19000101_000001' else ''), cid=cid,ccid=ccid)
     return None
 
 
@@ -138,6 +193,7 @@ def build_sources(pt):
         if key.startswith('wd:nba.'):
             del sources[key]
     sources['nba:league'] = {'kind': 'nba', 'key': 'nba:league', 'league': 'NBA', 'team': 'NBA League Office'}
+    for old in SOURCE_ALIASES:sources.pop('tw:'+old,None)
     for retired in ('tw:football-jobs/minnesota-vikings-jobs/vikings','tw:football-jobs/49ers/san-francisco-49ers',
                     'tw:football-jobs/la-rams-careers/la-rams-micro'):
         sources.pop(retired,None)
@@ -149,14 +205,16 @@ def fetch_source(source):
     try:
         with BoundedSession() as client:
             kind = source['kind']
-            if kind == 'teamworkonline':
+            if kind in official_ats.SCRAPERS:
+                jobs=official_ats.SCRAPERS[kind](source,client)
+            elif kind == 'teamworkonline':
                 jobs = teamwork.scrape_org(teamwork.TeamWorkOrg(source['league'], source['team'], source['path'], source.get('org_id','')), session=client)
             elif kind == 'nba':
                 jobs = nba.scrape(session=client)
             elif kind == 'ultipro':
                 jobs = ultipro.scrape(source['league'], source['team'], source['company_id'], source['board_guid'], host=source['host'], session=client)
             elif kind == 'adp':
-                jobs = adp.scrape(source['league'], source['team'], source['cid'], session=client)
+                jobs = adp.scrape(source['league'], source['team'], source['cid'], session=client,ccid=source.get('ccid','19000101_000001'))
             elif kind == 'official_links':
                 from bs4 import BeautifulSoup
                 response=client.get(source['url']);response.raise_for_status()
@@ -189,7 +247,8 @@ def fetch_source(source):
                         if not path or path in seen:
                             raise ValueError('missing or repeated Workday job path')
                         seen.add(path)
-                        jobs.append(dict(title=j.get('title'), url=f'https://{source["host"]}/{source["site"]}{path}', location=j.get('locationsText')))
+                        public_base=source.get('public_base') or f'https://{source["host"]}/{source["site"]}'
+                        jobs.append(dict(title=j.get('title'), url=public_base+path, location=j.get('locationsText')))
                     if offset + len(batch) >= int(data.get('total', 0)):
                         break
                     if not batch:

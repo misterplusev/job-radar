@@ -20,7 +20,7 @@ from providers.base import Job
 BASE = ('https://workforcenow.adp.com/mascsr/default/careercenter/public/events/staffing/v1/'
         'job-requisitions')
 PORTAL = ('https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html'
-          '?cid={cid}&ccId=19000101_000001&lang=en_US&jobId={job}')
+          '?cid={cid}&ccId={ccid}&lang=en_US&jobId={job}')
 UA = {'User-Agent': 'ABET-TeamsJobs/1.0 (+https://abet-dashboard.vercel.app)',
       'Accept': 'application/json'}
 
@@ -37,13 +37,13 @@ def _loc(item: dict) -> Optional[str]:
 
 
 def scrape(league: str, team: str, cid: str, session: Optional[requests.Session] = None,
-           timeout: int = 45, page_size: int = 50) -> list[Job]:
+           timeout: int = 45, page_size: int = 50, ccid: str = '19000101_000001') -> list[Job]:
     client = session or requests.Session()
     out: list[Job] = []
     start = 1
     total = None
     for _ in range(100):
-        url = f'{BASE}?cid={cid}&ccId=19000101_000001&lang=en_US&$top={page_size}&$startSequence={start}'
+        url = f'{BASE}?cid={cid}&ccId={ccid}&lang=en_US&$top={page_size}&$startSequence={start}'
         resp = client.get(url, headers=UA, timeout=timeout)
         resp.raise_for_status()
         data = resp.json() or {}
@@ -62,7 +62,7 @@ def scrape(league: str, team: str, cid: str, session: Optional[requests.Session]
                 league=league,
                 team=team,
                 title=title,
-                url=PORTAL.format(cid=cid, job=rid),
+                url=PORTAL.format(cid=cid, ccid=ccid, job=rid),
                 location=_loc(r),
                 description_clean=(r.get('requisitionDescription') or ''),
                 posted_at=r.get('postDate') or r.get('requisitionOpenDate'),
