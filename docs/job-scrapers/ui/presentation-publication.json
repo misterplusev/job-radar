@@ -1,0 +1,80 @@
+[
+  {
+    "repo": "sportsbook-jobs-dashboard",
+    "branch": "main",
+    "before": "a825c124e6521d28efa48c8a4c2d36941e16f9d6",
+    "commit": "aa9926d885c33c164ac6780e6616dc00cea70007",
+    "paths": [
+      "app/layout.tsx",
+      "app/standalone.css",
+      "app/components/JobsBoard.tsx",
+      "app/components/DashboardClient.tsx",
+      "app/components/StandaloneHeader.tsx",
+      "app/components/BoardOverview.tsx"
+    ],
+    "blob_hashes": {
+      "app/layout.tsx": "df21b73a06c6a1048a5aa1a73cb9a83df318e006",
+      "app/standalone.css": "e047b4ab9596c332943f6827194709b9ee8d6c1a",
+      "app/components/JobsBoard.tsx": "0f267f8a27f672277a0f785201f290d79724219c",
+      "app/components/DashboardClient.tsx": "c3363974dd051e5168e0eebc228c818d49e92f58",
+      "app/components/StandaloneHeader.tsx": "f7aa66960346a2dd2738705535e231ab7dec2089",
+      "app/components/BoardOverview.tsx": "4d76ee20a3963f4e49fd272fd750c3831e6732cc"
+    }
+  },
+  {
+    "repo": "robotics-jobradar-board",
+    "branch": "main",
+    "before": "6297323c7eb8a5df354c2b3824d86ce806b6931c",
+    "commit": "bd4969e1d826191f03edfe2d06c75ac8d7ced2df",
+    "paths": [
+      "index.html",
+      "standalone.css",
+      "standalone-ui.mjs"
+    ],
+    "blob_hashes": {
+      "index.html": "ee43e21ef17021204fe81f05deae22647f71abf3",
+      "standalone.css": "e047b4ab9596c332943f6827194709b9ee8d6c1a",
+      "standalone-ui.mjs": "d9a9240f6d6da53e243843d053120c93d8f8f556"
+    }
+  },
+  {
+    "repo": "jobradar-tech-board",
+    "branch": "main",
+    "before": "0b7e456fbfff9338733952de189dca245878b1e6",
+    "commit": "f4787dce83860e2ebdb4d8a3e3509458d9d40790",
+    "paths": [
+      "index.html",
+      "standalone.css",
+      "standalone-ui.mjs"
+    ],
+    "blob_hashes": {
+      "index.html": "13b835aa0248cb2308e6ae7a5e2a5a882c7c6078",
+      "standalone.css": "e047b4ab9596c332943f6827194709b9ee8d6c1a",
+      "standalone-ui.mjs": "d9a9240f6d6da53e243843d053120c93d8f8f556"
+    }
+  },
+  {
+    "repo": "job-radar",
+    "branch": "master",
+    "before": "1b6f7c1947fc3bbf460d83a443112fea8313638a",
+    "commit": "5668370fcc6b9f158b6ec746900a3b29ea19aa2e",
+    "paths": [
+      "sports_teams/board/live.html",
+      "sports_teams/board/standalone.css",
+      "sports_teams/board/standalone-ui.mjs",
+      ".github/workflows/sports-teams.yml",
+      ".github/workflows/sports-teams-board.yml",
+      "docs/job-scrapers/ui/standalone.css",
+      "docs/job-scrapers/ui/standalone-ui.mjs"
+    ],
+    "blob_hashes": {
+      "sports_teams/board/live.html": "ac8d41b40a4d71239276f3cf66cfb3a32e4d439a",
+      "sports_teams/board/standalone.css": "e047b4ab9596c332943f6827194709b9ee8d6c1a",
+      "sports_teams/board/standalone-ui.mjs": "d9a9240f6d6da53e243843d053120c93d8f8f556",
+      ".github/workflows/sports-teams.yml": "0dab8faf0fddfda08b84d26d4365464b19e33128",
+      ".github/workflows/sports-teams-board.yml": "a202b71a3856b89b929740aa6f333bcccc444617",
+      "docs/job-scrapers/ui/standalone.css": "e047b4ab9596c332943f6827194709b9ee8d6c1a",
+      "docs/job-scrapers/ui/standalone-ui.mjs": "d9a9240f6d6da53e243843d053120c93d8f8f556"
+    }
+  }
+]
