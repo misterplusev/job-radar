@@ -1,0 +1,106 @@
+[
+  {
+    "repo": "abet-mlb-monitor-widgets",
+    "branch": "main",
+    "before": "b8bb117b88107ce919d95496ce60c1cfd8f0f126",
+    "commit": "cc6d89adc9e8e8b197ae2cd223dde7bd8c2c8bed",
+    "paths": [
+      "package.json",
+      "src/lib/jobModules.js",
+      "src/lib/jobBoardCore.mjs",
+      "src/lib/useJobVisibility.js",
+      "src/lib/industryJobLogos.js",
+      "src/widgets/IndustryJobsWidget.jsx",
+      "src/widgets/IndustryJobsWidget.css",
+      "src/widgets/JobsBrowserWidget.jsx",
+      "tests/job_board_core.test.mjs",
+      "scripts/verify-job-ui-render.mjs"
+    ],
+    "blob_hashes": {
+      "package.json": "d5462a255b562264c576538caaa2e921ab75c8f5",
+      "src/lib/jobModules.js": "08c8657ade1b8d60c3b3478b4e1b483510bfd2d3",
+      "src/lib/jobBoardCore.mjs": "f5836936ba78a0a39d166719da3fd0fdda4fb7e8",
+      "src/lib/useJobVisibility.js": "5350f2ce03c0c2ef3d4bec24e4d255946b4d0539",
+      "src/lib/industryJobLogos.js": "3c6011276e91a89310ba6860736ca7345a6c1211",
+      "src/widgets/IndustryJobsWidget.jsx": "46e0e55ddb05f82e728e615a01243acf8e17d54d",
+      "src/widgets/IndustryJobsWidget.css": "dd138e0a1e03eefc22084dc3b9e0e1648ee18d41",
+      "src/widgets/JobsBrowserWidget.jsx": "18507e9d982097a127fcc30d9055601f13d7ca04",
+      "tests/job_board_core.test.mjs": "6e1a14ac50bb35fd314da534f7185967aa2ed772",
+      "scripts/verify-job-ui-render.mjs": "8740662617e28bf3dc8b5ed31500900742712845"
+    }
+  },
+  {
+    "repo": "sportsbook-jobs-dashboard",
+    "branch": "main",
+    "before": "d7083cf8c21c0f7989d4c6104ce752d61e74b31f",
+    "commit": "a825c124e6521d28efa48c8a4c2d36941e16f9d6",
+    "paths": [
+      "app/components/JobsBoard.tsx",
+      "app/components/DashboardClient.tsx",
+      "app/components/AbetChipLoader.jsx",
+      "app/lib/job-board-core.mjs"
+    ],
+    "blob_hashes": {
+      "app/components/JobsBoard.tsx": "fbd75203872bab87bd674dd4afd47102e48e5775",
+      "app/components/DashboardClient.tsx": "e2ec48a9c1ce6e389fb3df7b4f21526c0b1149d7",
+      "app/components/AbetChipLoader.jsx": "96d282aa2fcaf5c8f6d7452491a452504887fe1d",
+      "app/lib/job-board-core.mjs": "f5836936ba78a0a39d166719da3fd0fdda4fb7e8"
+    }
+  },
+  {
+    "repo": "robotics-jobradar-board",
+    "branch": "main",
+    "before": "b1a5f482c77cbe072a4bd4c0196f543f6289b94d",
+    "commit": "6297323c7eb8a5df354c2b3824d86ce806b6931c",
+    "paths": [
+      "index.html",
+      "browse_all.html",
+      "job-board-core.mjs"
+    ],
+    "blob_hashes": {
+      "index.html": "56011f80c08eda5ac1a59158793a44533a9d7816",
+      "browse_all.html": "ac212371c21f00b213b941535ce3f5a4febcc696",
+      "job-board-core.mjs": "f5836936ba78a0a39d166719da3fd0fdda4fb7e8"
+    }
+  },
+  {
+    "repo": "jobradar-tech-board",
+    "branch": "main",
+    "before": "fb0435a30c628648be19a3af2c3e116e6d8acbef",
+    "commit": "0b7e456fbfff9338733952de189dca245878b1e6",
+    "paths": [
+      "index.html",
+      "browse_all.html",
+      "job-board-core.mjs"
+    ],
+    "blob_hashes": {
+      "index.html": "34817e996f1a04d58cc8c638fdb350d832ef5c7b",
+      "browse_all.html": "ac212371c21f00b213b941535ce3f5a4febcc696",
+      "job-board-core.mjs": "f5836936ba78a0a39d166719da3fd0fdda4fb7e8"
+    }
+  },
+  {
+    "repo": "job-radar",
+    "branch": "master",
+    "before": "b346ca1a071fe43fdee84c0fffe15751221ccc9c",
+    "commit": "f46b215e3bb961fb1059f67c16757d4ed4f684f9",
+    "paths": [
+      "sports_teams/board/live.html",
+      "sports_teams/board/job-board-core.mjs",
+      ".github/workflows/sports-teams.yml",
+      ".github/workflows/sports-teams-board.yml",
+      "docs/job-scrapers/README.md",
+      "docs/job-scrapers/2026-11-10 1235 Jobs Board UI Contract.md",
+      "docs/job-scrapers/ui/job-board-core.mjs"
+    ],
+    "blob_hashes": {
+      "sports_teams/board/live.html": "af897cc9d5da5f60abce792c384950523f2159c1",
+      "sports_teams/board/job-board-core.mjs": "f5836936ba78a0a39d166719da3fd0fdda4fb7e8",
+      ".github/workflows/sports-teams.yml": "b1b3eec3ae10c0ca0f137df7ae5f612e0ab9eaad",
+      ".github/workflows/sports-teams-board.yml": "849d6c902171ef36365ff232942c28b1ed52e318",
+      "docs/job-scrapers/README.md": "db09f284e552a6bb5092bbe055d842e2c7338231",
+      "docs/job-scrapers/2026-11-10 1235 Jobs Board UI Contract.md": "ea3858397259ffdc6f3f6736ccc6afe316b39e0e",
+      "docs/job-scrapers/ui/job-board-core.mjs": "f5836936ba78a0a39d166719da3fd0fdda4fb7e8"
+    }
+  }
+]

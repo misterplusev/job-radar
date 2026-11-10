@@ -39,7 +39,7 @@ flowchart TD
   NEW --> CLIENT[createJobsClient: bounded GET requests]
   CLIENT --> JOBS[(Namespaced public jobs table)]
   CLIENT --> RUNS[(Namespaced scrape runs table)]
-  JOBS --> FILTER[Server filters + 50-row pages + exact count]
+  JOBS --> FILTER[Metadata keyset fetch + shared local filters + 100/200/500/All]
   FILTER --> CARD[Job cards and lazy description request]
   CARD --> EMPLOYER[Direct employer application URL]
 ```
@@ -49,8 +49,8 @@ flowchart TD
 | `src/App.jsx` | Jobs section, four tabs, original sportsbook widget, three new industry widget mounts |
 | `src/components/HomePage.jsx` | Jobs landing navigation and four-industry description |
 | `src/lib/appNavigation.js` | URL persistence, back/forward navigation; old `teamsjobs` bookmark maps to Jobs/teams |
-| `src/lib/jobModules.js` | Module/table/run-table/URL registry, schema-aware selects, server pagination, filters, abort/deadline handling, HTTP failures, safe employer URLs |
-| `src/widgets/IndustryJobsWidget.jsx` | Search/location/company/league controls, 50-row pages, clear errors/empty states, descriptions, observed dates and run metadata |
+| `src/lib/jobModules.js` | Module/table/run-table/URL registry, schema-aware metadata retrieval, retained server-page helper, abort/deadline handling, HTTP failures, safe employer URLs |
+| `src/widgets/IndustryJobsWidget.jsx` | Search/location/company/league/status/geography controls, shared date sorting, progressive 100/200/500/All display, brand logos, canonical chip, descriptions and run metadata |
 | `src/widgets/IndustryJobsWidget.css` | Responsive jobs layout, controls, status, results and descriptions |
 | `src/widgets/JobsBrowserWidget.jsx` | Existing sportsbook experience, original app tracking and runtime-health presentation |
 | `src/widgets/JobsBrowserWidget.css` | Existing sportsbook styles |
@@ -84,3 +84,7 @@ Browser automation was not started: the operator's machine-wide stop switch rema
 `generate_inventory.py` reads pinned Git objects from the explicit checkouts and GETs the two standalone board repositories. It never imports providers. `inventory_runtimes.py` adds the deployed Space inventory and watchdog inspection result without recording credential values. `export_job_schema.sql` is a read-only PostgreSQL catalog query; `build_schema_dictionary.py` converts its saved artifact and local SQLite metadata into the dictionary. `verify_scrapers.py` checks scheduler declarations and recent execution evidence; `scripts/verify-job-modules-live.mjs` checks dashboard data behavior.
 
 Read the scripts before running, update source refs intentionally, and preserve uncommitted work. Regenerate after runtime/schema/navigation changes, then check links, hashes, secret exclusions and the affected module's live behavior. Record source/deployment drift explicitly. Do not run historical `wire_dashboard.py` or `verify_jobs_expansion.py` as production proof: they reference obsolete paths and may have unrelated runtime side effects.
+
+## Shared UI update, 12:35 Pacific
+
+See [the UI contract](2026-11-10%201235%20Jobs%20Board%20UI%20Contract.md) for current active/U.S./newest defaults, undated-last sorting, result-count choices, logo sources and chip loading. [Live UI proof](ui/live-ui-verification.json) verifies all eight production views. Metadata is now loaded with bounded keyset pagination and filtered across the complete result set; the former 50-row client remains only as a compatibility/diagnostic helper.

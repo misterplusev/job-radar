@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-10T19:16:14.576324+00:00",
+  "checked_at": "2026-11-10T20:38:18.336342+00:00",
   "browser_visual_check": false,
   "read_only": true,
   "standalone": [
@@ -57,7 +57,7 @@
       "http": 200,
       "table": "tech_jobs",
       "database_http": 206,
-      "active_jobs": 3737,
+      "active_jobs": 3735,
       "cors": "*",
       "bundle_contains_route": true
     },
@@ -73,9 +73,9 @@
     }
   ],
   "deployment": {
-    "id": "dpl_GMh1ojskpc1pL8MP1WapNFKzoGer",
+    "id": "dpl_218oFDtJVdsmzASioHBiHESDGtXt",
     "state": "READY",
-    "source_commit": "b8bb117b88107ce919d95496ce60c1cfd8f0f126",
-    "bundle_url": "https://abet-dashboard.vercel.app/assets/main-C6ZE7tcB.js"
+    "source_commit": "cc6d89adc9e8e8b197ae2cd223dde7bd8c2c8bed",
+    "bundle_url": "https://abet-dashboard.vercel.app/assets/main-CtD5hInI.js"
   }
 }
