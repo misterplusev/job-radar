@@ -273,7 +273,7 @@
   {
     "league": "MLB",
     "team": "Detroit Tigers",
-    "official_entry_url": "https://sjobs.brassring.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=26290&siteid=6894&PageType=searchResults&SearchType=linkquery&LinkID=933207#home",
+    "official_entry_url": "https://www.mlb.com/tigers/team/job-opportunities",
     "directory_url": "https://www.mlb.com/player-resource-center/work-opportunities",
     "routes": [
       {
@@ -969,7 +969,7 @@
   {
     "league": "NBA",
     "team": "Houston Rockets",
-    "official_entry_url": "https://www.toyotacenter.com/arena-info/business-ventures/employment",
+    "official_entry_url": "https://www.nba.com/rockets/careers",
     "directory_url": "https://careers.nba.com/teams/",
     "routes": [
       {
