@@ -42,8 +42,11 @@ def scrape(league: str, team: str, cid: str, session: Optional[requests.Session]
     out: list[Job] = []
     start = 1
     total = None
+    seen = set()
     for _ in range(100):
-        url = f'{BASE}?cid={cid}&ccId={ccid}&lang=en_US&$top={page_size}&$startSequence={start}'
+        # This public endpoint uses one-based $skip (meta.startSequence), not
+        # $startSequence; the latter is ignored and repeats page one.
+        url = f'{BASE}?cid={cid}&ccId={ccid}&lang=en_US&$top={page_size}&$skip={start}'
         resp = client.get(url, headers=UA, timeout=timeout)
         resp.raise_for_status()
         data = resp.json() or {}
@@ -51,13 +54,15 @@ def scrape(league: str, team: str, cid: str, session: Optional[requests.Session]
             raise ValueError('Unrecognized ADP jobs response')
         reqs = data.get('jobRequisitions') or []
         meta = data.get('meta') or {}
-        if total is None:
-            total = int(meta.get('totalNumber') or 0)
+        count=int(meta['totalNumber'])
+        if total is not None and count!=total:raise ValueError('ADP total changed during pagination')
+        total=count
         for r in reqs:
             rid = r.get('requisitionId') or r.get('clientRequisitionID') or ''
             title = (r.get('requisitionTitle') or '').strip()
-            if not title:
-                continue
+            if not title or not rid or rid in seen:
+                raise ValueError('Missing/repeated ADP requisition or title')
+            seen.add(rid)
             out.append(Job(
                 league=league,
                 team=team,
@@ -68,9 +73,12 @@ def scrape(league: str, team: str, cid: str, session: Optional[requests.Session]
                 posted_at=r.get('postDate') or r.get('requisitionOpenDate'),
                 platform='adp',
             ))
-        start += page_size
+        # Some centers cap $top below the requested page size. Advance by the
+        # received count, otherwise the Bucks feed silently skips requisitions.
+        start += len(reqs)
         if not reqs and len(out)<total:raise ValueError('Incomplete ADP pagination')
         if not reqs or start > total:
+            if len(out)!=total:raise ValueError('Incomplete ADP result count')
             break
     else:raise ValueError('ADP pagination limit reached')
     return out

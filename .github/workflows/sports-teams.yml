@@ -45,7 +45,7 @@ jobs:
       - name: Notification guard and delivery
         run: |
           if [ "$NOTIFICATIONS_PAUSED" = "0" ]; then
-            python publish_teams.py --post --limit 100
+            python publish_teams.py --post --limit 20
           else
             echo "Notifications remain paused by the operator hold."
           fi

@@ -204,7 +204,7 @@
     "directory_url": "https://www.mlb.com/player-resource-center/work-opportunities",
     "routes": [
       {
-        "official_page": "https://www.mlb.com/reds/team/jobs",
+        "official_page": "https://www.mlb.com/reds/team/job-opportunities",
         "board_url": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883d07c5da337017c9998a2cb1623",
         "label": "Reviewed official link",
         "source_key": "paycor:8a7883d07c5da337017c9998a2cb1623"
@@ -2476,7 +2476,7 @@
     "directory_url": "https://www.nhl.com/info/teams/",
     "routes": [
       {
-        "official_page": "https://www.nhl.com/kings/team/careers",
+        "official_page": "https://www.aegworldwide.com/careers/job-search?field_job_locations_target_id%5B%5D=487286&title=",
         "board_url": "https://www.aegworldwide.com/careers/job-search?field_job_locations_target_id%5B%5D=487286&title=",
         "label": "Reviewed official link",
         "source_key": "official:aeg_kings"

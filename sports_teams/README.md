@@ -8,6 +8,7 @@ Supabase database -> live searchable board and deduplicated Discord publisher.
 - Schedule: hourly at minute 23 UTC; one run at a time, 45-minute timeout.
 - Board: https://misterplusev.github.io/job-radar/
 - Health: https://misterplusev.github.io/job-radar/health.json
+- Team-by-team coverage: https://misterplusev.github.io/job-radar/coverage.html
 - Storage: `team_jobs`, `team_job_observations`, `team_job_scrape_runs`,
   `team_job_notifications`, owner-scoped `team_applications`.
 
@@ -18,7 +19,9 @@ The scheduled workflow runs `pipeline_local.py --cloud` directly.
 
 Teamwork follows real pagination links and discovers NFL/NHL/MLB/NBA portals.
 Workday, Greenhouse, ADP, UKG, the NBA frontend and official 49ers links are
-supported. Failures preserve existing jobs; only verified complete observations
+supported, alongside Dayforce, Paycor, Paylocity, Paycom, BambooHR, Lever,
+Jobvite, ClearCompany, ApplicantPro, Hireology, Hirebridge, iCIMS and official
+team-specific listing pages. Failures preserve existing jobs; only verified complete observations
 can retire missing jobs. First-seen dates are immutable across upserts/rebuilds.
 Full details refresh in bounded batches (250 pages/run, 15-minute detail budget).
 The health receipt exposes remaining details and every source failure.
@@ -31,7 +34,12 @@ the pre-existing operator hold. Tests mock delivery; no messages were sent.
 Normal delivery acknowledges only successful chunks; old unannounced listings
 are not represented as newly posted. Existing delivery history is in Supabase.
 
-Tests: `python -m unittest discover -p "test_*.py"` (33 regression checks).
+The official registry contains all 124 NFL/NBA/MLB/NHL teams. Coverage is computed
+from the current run, not the number of sources. A successful source does not
+imply every alternate link works; blocked and missing routes remain visible.
+Shared ownership boards retain the actual parent business name.
+
+Tests: `python -m unittest discover -p "test_*.py"` (49 regression checks).
 `node test_worker.mjs` covers the retired relay experiment (7 safety checks).
 The local operator helper `verify_deployment.py` checks board/database counts, duplicate URLs and
 preservation of the original observation dates without modifying production.
