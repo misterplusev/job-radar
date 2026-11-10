@@ -1,0 +1,48 @@
+{
+  "checked_at": "2026-11-10T21:12:49.411038+00:00",
+  "browser_visual_check": false,
+  "boards": [
+    {
+      "id": "robotics",
+      "url": "https://misterplusev.github.io/robotics-jobradar-board/",
+      "http": 200,
+      "shared_css_sha256": "bc31b9f215462cbd17ccd6864b98d66b5d2959e7e3eeb08252f07dd0aeb473cb",
+      "shared_renderer_sha256": "3e5f8594907f4efa403c9f4f760b534f198e20fc0a1dc9f9ddc60579f647bba3",
+      "branded_header": true,
+      "collapsible_overview": true,
+      "cards": true
+    },
+    {
+      "id": "tech",
+      "url": "https://misterplusev.github.io/jobradar-tech-board/",
+      "http": 200,
+      "shared_css_sha256": "bc31b9f215462cbd17ccd6864b98d66b5d2959e7e3eeb08252f07dd0aeb473cb",
+      "shared_renderer_sha256": "3e5f8594907f4efa403c9f4f760b534f198e20fc0a1dc9f9ddc60579f647bba3",
+      "branded_header": true,
+      "collapsible_overview": true,
+      "cards": true
+    },
+    {
+      "id": "teams",
+      "url": "https://misterplusev.github.io/job-radar/",
+      "http": 200,
+      "shared_css_sha256": "bc31b9f215462cbd17ccd6864b98d66b5d2959e7e3eeb08252f07dd0aeb473cb",
+      "shared_renderer_sha256": "3e5f8594907f4efa403c9f4f760b534f198e20fc0a1dc9f9ddc60579f647bba3",
+      "branded_header": true,
+      "collapsible_overview": true,
+      "cards": true
+    },
+    {
+      "id": "sportsbook",
+      "url": "https://sportsbook-jobs-dashboard.vercel.app/",
+      "http": 200,
+      "branded_header": true,
+      "collapsible_overview": true,
+      "two_row_horizontal_companies": true,
+      "cards": true,
+      "css_urls": [
+        "/_next/static/css/50317f2e88fe887e.css"
+      ]
+    }
+  ]
+}

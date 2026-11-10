@@ -1,6 +1,6 @@
 # Jobs board UI contract — November 10, 2026
 
-All four standalone boards and four ABET dashboard modules use the same core filtering and sorting behavior. Their layouts evolved independently: robotics/tech use HTML tables, teams uses HTML cards, sportsbook uses Next/React, and ABET uses React widgets. Different ATS providers do not require different default filters. This change normalizes behavior while retaining application marking and existing source-health links.
+All four standalone boards and four ABET dashboard modules use the same core filtering and sorting behavior. As of the 13:15 Pacific presentation update, all four standalone boards also share the ABET header, compact company overview and job-card layout. Robotics/tech tables have been replaced with cards. Teams, robotics and tech use one shared card renderer; Next/React sportsbook produces the same card structure and uses the identical stylesheet. ABET dashboard widgets retain their existing presentation.
 
 ## Defaults and semantics
 
@@ -43,3 +43,17 @@ The normal sports-teams workflow copies the shared `.mjs` asset alongside `index
 - Verify live HTTP pages, shared asset hashes, compiled bundles and representative logo URLs after publishing. Browser visual QA was not performed because the operator's machine-wide stop switch forbids browser launches.
 
 For rollback, restore the previous frontend files and their matching core copies together using the publication receipt's before/after commits. No database migrations are part of this change. Do not roll back unrelated scraper changes or remove notification receipts.
+
+## Standalone presentation contract — 13:15 Pacific update
+
+Canonical presentation sources are `ui/standalone.css` and `ui/standalone-ui.mjs` beside this documentation. The stylesheet is copied byte-for-byte to robotics/tech repository roots, `sports_teams/board/standalone.css`, and sportsbook `app/standalone.css`. The three static boards also copy `standalone-ui.mjs`; Next implements equivalent React markup in `JobsBoard.tsx`, `StandaloneHeader.tsx` and `BoardOverview.tsx`. The two teams publication workflows copy both presentation assets with the HTML.
+
+Every header uses the existing gold alpha + white “bet” wordmark, a full industry title (Robotics Jobs, Tech Jobs, Sportsbook Jobs, Sports Teams Jobs), the same subtitle, and board/health links. The sportsbook document title is `ABET | Sportsbook Jobs`; neither its header nor loading/error state uses SB-JOBS.
+
+Every overview is a native collapsible `details.board-overview`. The summary and active count remain visible when collapsed. Company pills use `grid-template-rows:repeat(2,34px)` and column flow with horizontal overflow; they never grow into an unlimited vertical list. Arrow buttons, keyboard focus and native horizontal/touch scrolling remain available. Sportsbook pills and its company dropdown share the same selected-company state, so clicking a pill actually filters the cards. Robotics/tech retain their existing multi-company selection; teams pills select the existing team dropdown.
+
+Every posting uses `article.job-card` containing the same logo, employer/title, Open listing and application controls, location, posting date/source/status row, and expandable description. Robotics/tech now fetch descriptions on expansion. Static descriptions are cached to a maximum of 300 entries with a 15-second request timeout and rendered as escaped text. Existing application tracking destinations are preserved; teams marks stay browser-local. Default filters and the 100/200/500/All behavior are unchanged.
+
+Validation: sportsbook production build, existing core/default render tests, and Node DOM simulations of all four views passed. Simulations cover collapse, scroll arrows, company selection, result quantities, description expansion and mocked application controls. No real application write, browser launch or Discord delivery occurs during these checks. See `ui/presentation-dom-proof.json` and `ui/presentation-live-proof.json`. The live verifier is `verify_standalone_presentation.py` (bounded read-only HTTP requests). Visual browser QA remains unperformed under the machine stop rule.
+
+The operator DOM checker is `ui/verify_standalone_presentation.mjs`. It uses the existing sportsbook/dashboard checkouts and an isolated jsdom installation; its paths can be supplied through `JOBS_UI_ROOT`, `SPORTSBOOK_FRONTEND_ROOT`, `ABET_DASHBOARD_ROOT` and `JOBS_UI_DOM_PACKAGE`. Defaults match this Windows operator environment. Install jsdom only in a scratch directory, e.g. `npm install --prefix E:/abet/.cache/tmp/opencode/jobs-ui-dom --no-audit --no-fund jsdom`. The fixture network is mocked, including application writes.

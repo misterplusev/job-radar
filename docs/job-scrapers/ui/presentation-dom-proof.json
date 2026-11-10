@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-11-10T21:13:27.066Z",
+  "browser_visual_check": false,
+  "static": [
+    {
+      "industry": "robotics",
+      "header": true,
+      "sharedCards": true,
+      "collapse": true,
+      "horizontalScroll": true,
+      "resultCounts": true,
+      "description": true,
+      "applicationControl": true,
+      "mockedApplicationWrites": 1
+    },
+    {
+      "industry": "tech",
+      "header": true,
+      "sharedCards": true,
+      "collapse": true,
+      "horizontalScroll": true,
+      "resultCounts": true,
+      "description": true,
+      "applicationControl": true,
+      "mockedApplicationWrites": 1
+    },
+    {
+      "industry": "teams",
+      "header": true,
+      "sharedCards": true,
+      "collapse": true,
+      "horizontalScroll": true,
+      "resultCounts": true,
+      "description": true,
+      "applicationControl": true,
+      "mockedApplicationWrites": 0
+    }
+  ],
+  "react": {
+    "header": true,
+    "summary": true,
+    "sharedCards": true,
+    "controlledCompanyFilter": true,
+    "companyClick": true,
+    "summaryCollapse": true,
+    "horizontalScroll": true
+  },
+  "styles_identical": true,
+  "descriptionCalls": 3
+}
