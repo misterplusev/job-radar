@@ -317,7 +317,7 @@ def main():
     state = load_state()
     seen = set(state.get('seen') or [])
     fresh = [r for r in rows if r['url'] not in seen]
-    fresh.sort(key=lambda r: str(r.get('posted_at') or ''), reverse=True)
+    fresh.sort(key=lambda r: (str(r.get('posted_at') or r.get('first_seen_at') or ''),r['url']), reverse=True)
     if args.preview:
         fresh = sorted(rows, key=lambda r: str(r.get('posted_at') or ''), reverse=True)
 

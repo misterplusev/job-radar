@@ -234,13 +234,19 @@ def fetch_source(source):
                              description=j.get('content'), posted_at=j.get('first_published')) for j in data['jobs']]
             elif kind == 'workday':
                 jobs, seen = [], set()
+                total=None
                 for offset in range(0, 1000, 20):
                     response = client.post(f'https://{source["host"]}/wday/cxs/{source["tenant"]}/{source["site"]}/jobs',
                                            json={'appliedFacets': {}, 'limit': 20, 'offset': offset, 'searchText': ''})
                     response.raise_for_status()
                     data = response.json()
-                    if not isinstance(data.get('jobPostings'), list):
-                        raise ValueError('missing Workday jobPostings array')
+                    if not isinstance(data.get('jobPostings'), list) or 'total' not in data:
+                        raise ValueError('missing Workday jobPostings array or total')
+                    count=int(data['total'])
+                    # CXS returns the total on page one; some tenants return 0
+                    # on later pages even when that page contains jobs (Mets).
+                    if total is not None and count not in (0,total):raise ValueError('Workday total changed during pagination')
+                    if total is None:total=count
                     batch = data['jobPostings']
                     for j in batch:
                         path = j.get('externalPath')
@@ -249,9 +255,9 @@ def fetch_source(source):
                         seen.add(path)
                         public_base=source.get('public_base') or f'https://{source["host"]}/{source["site"]}'
                         jobs.append(dict(title=j.get('title'), url=public_base+path, location=j.get('locationsText')))
-                    if offset + len(batch) >= int(data.get('total', 0)):
+                    if len(jobs) == total:
                         break
-                    if not batch:
+                    if not batch or len(jobs)>total:
                         raise ValueError('incomplete Workday pagination')
                 else:
                     raise ValueError('Workday pagination cap reached')

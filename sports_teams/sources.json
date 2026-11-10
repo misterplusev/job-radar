@@ -742,7 +742,7 @@
     ]
   },
   {
-    "team": "Chicago Cubs",
+    "team": "Marquee 360",
     "league": "MLB",
     "kind": "workday",
     "key": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_360",
@@ -754,7 +754,7 @@
     ]
   },
   {
-    "team": "Chicago Cubs",
+    "team": "Marquee Development",
     "league": "MLB",
     "kind": "workday",
     "key": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_Development",
@@ -1555,7 +1555,7 @@
     ]
   },
   {
-    "team": "Vegas Golden Knights",
+    "team": "Foley Entertainment Group",
     "league": "NHL",
     "kind": "paylocity",
     "key": "paylocity:9a780808-9aa8-4c2a-98a2-efa454efa722",
@@ -1582,6 +1582,7 @@
     "key": "paycor:8a7883d07c5da337017c9998a2cb1623",
     "url": "https://recruitingbypaycor.com/career/CareerHome.action?clientId=8a7883d07c5da337017c9998a2cb1623",
     "official_pages": [
+      "https://www.mlb.com/reds/team/job-opportunities",
       "https://www.mlb.com/reds/team/jobs"
     ]
   },
@@ -1863,6 +1864,7 @@
     "key": "official:aeg_kings",
     "url": "https://www.aegworldwide.com/careers/job-search?field_job_locations_target_id%5B%5D=487286&title=",
     "official_pages": [
+      "https://www.aegworldwide.com/careers/job-search?field_job_locations_target_id%5B%5D=487286&title=",
       "https://www.nhl.com/kings/team/careers"
     ]
   },

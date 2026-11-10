@@ -48,6 +48,27 @@ class OfficialRoutes(unittest.TestCase):
         b=live.source_from_row({'url':'https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl?employment_opportunity_search[organization_id]=456'})
         self.assertNotEqual(a['key'],b['key']);self.assertEqual(a['org_id'],'123')
 
+    def test_adp_truncated_final_page_fails(self):
+        c=Mock();c.get.side_effect=[response({'jobRequisitions':[{'requisitionId':'1','requisitionTitle':'Manager'}],'meta':{'totalNumber':2}}),response({'jobRequisitions':[],'meta':{'totalNumber':2}})]
+        with self.assertRaisesRegex(ValueError,'Incomplete'):adp.scrape('NBA','Team','test',session=c)
+
+    def test_adp_server_page_cap_does_not_skip_jobs(self):
+        c=Mock();c.get.side_effect=[response({'jobRequisitions':[{'requisitionId':'1','requisitionTitle':'A'}],'meta':{'totalNumber':2}}),response({'jobRequisitions':[{'requisitionId':'2','requisitionTitle':'B'}],'meta':{'totalNumber':2}})]
+        self.assertEqual(len(adp.scrape('NBA','Team','test',session=c)),2)
+        self.assertIn('$skip=2',c.get.call_args.args[0])
+
+    def test_workday_missing_total_cannot_close_jobs(self):
+        with patch.object(live.BoundedSession,'post',return_value=response({'jobPostings':[]})):
+            r=live.fetch_source({'key':'wd:test','kind':'workday','host':'example.com','tenant':'test','site':'Careers'})
+        self.assertEqual(r['status'],'error');self.assertIn('total',r['error'])
+
+    def test_workday_later_page_zero_total_keeps_first_page_total(self):
+        first=[{'title':'Role','externalPath':'/job/NY/'+str(i)} for i in range(20)]
+        pages=[response({'total':22,'jobPostings':first}),response({'total':0,'jobPostings':[{'title':'Role','externalPath':'/job/NY/20'},{'title':'Role','externalPath':'/job/NY/21'}]})]
+        with patch.object(live.BoundedSession,'post',side_effect=pages):
+            r=live.fetch_source({'key':'wd:test','kind':'workday','host':'example.com','tenant':'test','site':'Careers','team':'Mets','league':'MLB'})
+        self.assertEqual(r['status'],'success');self.assertEqual(len(r['rows']),22)
+
     def test_jobvite_loading_page_is_error_not_zero_jobs(self):
         c=Mock();c.get.return_value=response(text='<h1>Loading...</h1>')
         with self.assertRaises(ValueError):ats.jobvite({'url':'https://example.com'},c)
