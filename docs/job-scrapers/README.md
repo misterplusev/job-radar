@@ -12,6 +12,8 @@ Verified against deployed configuration and recent executions on **November 10, 
 
 8. [Shared jobs UI defaults and maintenance contract](2026-11-10%201235%20Jobs%20Board%20UI%20Contract.md) — filters, dates, logos, loaders, source map and deployment checks.
 
+9. [Dashboard presentation parity proof](2026-11-10%201345%20Dashboard%20Presentation%20Parity%20Proof.md) — shared components, live links, comparison preview and deployment evidence.
+
 Canonical version-controlled copy: [job-radar/docs/job-scrapers](https://github.com/misterplusev/job-radar/tree/master/docs/job-scrapers). Local operator copy: `D:\abet_ops\jobs_scrapers`. The four module READMEs link here. Consult live source and a fresh verification receipt when these documents disagree with production; update both the inventory and the prose after a change.
 
 ```powershell

@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-11-10T21:43:54.434351+00:00",
+  "browser_visual_check": false,
+  "deployment": {
+    "id": "dpl_Dtp6fRRjAZ1riqN7mnd5QCnkLr3S",
+    "state": "READY",
+    "source_commit": "6127ab09ab129d88eaea64fbc8890ed6e529cc43"
+  },
+  "version": "2026-11-10.3",
+  "bundle": "https://abet-dashboard.vercel.app/assets/main-BP_CrYWH.js",
+  "supporting_chunks_inspected": [
+    "https://abet-dashboard.vercel.app/assets/AbetChipLoader-HVMBRApN.js",
+    "https://abet-dashboard.vercel.app/assets/ApiKeyWidget-5fcvHAcA.js",
+    "https://abet-dashboard.vercel.app/assets/DiscordFeedWidget-CoeEl-f_.js",
+    "https://abet-dashboard.vercel.app/assets/EventTimelineWidget-CQjO8orA.js",
+    "https://abet-dashboard.vercel.app/assets/MLBLeadersWidget-CpnFEFJY.js",
+    "https://abet-dashboard.vercel.app/assets/MonitorHealthWidget-yC_T4VD_.js",
+    "https://abet-dashboard.vercel.app/assets/OddsChartsWidget-M1TvUF6X.js",
+    "https://abet-dashboard.vercel.app/assets/OddsMonitorsPage-Bw4sWqi-.js",
+    "https://abet-dashboard.vercel.app/assets/WeatherForecastWidget-Bvn77p9t.js"
+  ],
+  "routes": [
+    {
+      "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=jobs-browser",
+      "http": 200
+    },
+    {
+      "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=robotics-jobs",
+      "http": 200
+    },
+    {
+      "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=tech-jobs",
+      "http": 200
+    },
+    {
+      "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=teams-jobs",
+      "http": 200
+    }
+  ],
+  "shared_stylesheet_sha256": "bc31b9f215462cbd17ccd6864b98d66b5d2959e7e3eeb08252f07dd0aeb473cb",
+  "shared_header_overview_card_in_live_bundle": true,
+  "two_row_scroll_css_in_live_bundle": true,
+  "interaction_proof": "https://abet-dashboard.vercel.app/jobs-standard-proof.json",
+  "preview": "https://abet-dashboard.vercel.app/jobs-standard-proof.html",
+  "preview_type": "Static rendering of actual components with sampled public records; not a browser screenshot"
+}

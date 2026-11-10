@@ -1,6 +1,6 @@
 # Jobs board UI contract — November 10, 2026
 
-All four standalone boards and four ABET dashboard modules use the same core filtering and sorting behavior. As of the 13:15 Pacific presentation update, all four standalone boards also share the ABET header, compact company overview and job-card layout. Robotics/tech tables have been replaced with cards. Teams, robotics and tech use one shared card renderer; Next/React sportsbook produces the same card structure and uses the identical stylesheet. ABET dashboard widgets retain their existing presentation.
+All four standalone boards and four ABET dashboard modules use the same core filtering and sorting behavior. As of the 13:15 Pacific presentation update, all four standalone boards also share the ABET header, compact company overview and job-card layout. Robotics/tech tables have been replaced with cards. Teams, robotics and tech use one shared card renderer; Next/React sportsbook produces the same card structure and uses the identical stylesheet. ABET dashboard modules now use the same presentation through the shared React components described in the 13:45 parity proof below.
 
 ## Defaults and semantics
 
@@ -57,3 +57,15 @@ Every posting uses `article.job-card` containing the same logo, employer/title, 
 Validation: sportsbook production build, existing core/default render tests, and Node DOM simulations of all four views passed. Simulations cover collapse, scroll arrows, company selection, result quantities, description expansion and mocked application controls. No real application write, browser launch or Discord delivery occurs during these checks. See `ui/presentation-dom-proof.json` and `ui/presentation-live-proof.json`. The live verifier is `verify_standalone_presentation.py` (bounded read-only HTTP requests). Visual browser QA remains unperformed under the machine stop rule.
 
 The operator DOM checker is `ui/verify_standalone_presentation.mjs`. It uses the existing sportsbook/dashboard checkouts and an isolated jsdom installation; its paths can be supplied through `JOBS_UI_ROOT`, `SPORTSBOOK_FRONTEND_ROOT`, `ABET_DASHBOARD_ROOT` and `JOBS_UI_DOM_PACKAGE`. Defaults match this Windows operator environment. Install jsdom only in a scratch directory, e.g. `npm install --prefix E:/abet/.cache/tmp/opencode/jobs-ui-dom --no-audit --no-fund jsdom`. The fixture network is mocked, including application writes.
+
+## Dashboard parity — 13:45 Pacific update
+
+All four dashboard modules now call the same `JobBoardHeader`, `JobBoardOverview` and `JobPostingCard` from `src/widgets/shared/JobBoardPresentation.jsx`. Version: `2026-11-10.3`. Their data retrieval remains separate where needed; sportsbook keeps its existing authenticated application handlers and source-health history.
+
+`src/widgets/shared/jobBoardStandalone.css` is the exact standalone stylesheet. `scripts/sync-job-board-presentation.mjs` derives `jobBoardPresentation.css` by scoping selectors to `.jobs-board`, preventing global dashboard/chart styling changes. The jobs test gate verifies the original stylesheet hash and reproducible scoped output. Both widget shells import the shared components. The old IndustryJobsWidget stylesheet is no longer imported; sportsbook retains its legacy stylesheet for source-health and authenticated application controls, not its retired header/card layout.
+
+The dashboard source stylesheet SHA-256, normalized to LF, equals all four standalone sources: `bc31b9f215462cbd17ccd6864b98d66b5d2959e7e3eeb08252f07dd0aeb473cb`.
+
+Run `npm run test:job-modules` (18 checks), the existing full build, and `node scripts/verify-job-dashboard-presentation.mjs` for Node DOM interaction proof of all four widgets. The last command uses isolated jsdom, mocks every network request and authentication session, reads public job samples from the operator UI folder, and generates clearly labelled HTML/JSON previews under `public/jobs-standard-proof.*`. It never writes actual application records. `verify_dashboard_presentation.py` checks the published revision, module routes, real JavaScript import chunks, scoped CSS and published proof artifacts. Vite currently places some shared jobs exports in a chunk named WeatherForecastWidget; do not assume a chunk's filename determines all its contents.
+
+See [Dashboard Presentation Parity Proof](2026-11-10%201345%20Dashboard%20Presentation%20Parity%20Proof.md) for deployment and evidence links. The preview is a static rendering of actual components with sampled public records, not a production browser screenshot. Browser visual inspection remains unavailable under the operator stop rule.
