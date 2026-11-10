@@ -10,6 +10,8 @@ Verified against deployed configuration and recent executions on **November 10, 
 6. [File-by-file inventory and live database dictionary](inventory/README.md) — paths, revisions, line counts, definitions, workflows and schema objects.
 7. [Dashboard module URLs, wiring and inventory guide](2026-11-10%201145%20Dashboard%20Jobs%20Wiring%20and%20Inventory%20Guide.md) — all eight standalone/dashboard links and the actual data flow.
 
+8. [Shared jobs UI defaults and maintenance contract](2026-11-10%201235%20Jobs%20Board%20UI%20Contract.md) — filters, dates, logos, loaders, source map and deployment checks.
+
 Canonical version-controlled copy: [job-radar/docs/job-scrapers](https://github.com/misterplusev/job-radar/tree/master/docs/job-scrapers). Local operator copy: `D:\abet_ops\jobs_scrapers`. The four module READMEs link here. Consult live source and a fresh verification receipt when these documents disagree with production; update both the inventory and the prose after a change.
 
 ```powershell

@@ -1,0 +1,37 @@
+name: sports-teams-board-only
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: sports-teams-jobs
+  cancel-in-progress: false
+jobs:
+  board:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare UI and preserve latest public scrape receipts
+        shell: python
+        run: |
+          import shutil, urllib.request
+          from pathlib import Path
+          out=Path('sports_teams/out');out.mkdir(exist_ok=True)
+          board=Path('sports_teams/board')
+          out.joinpath('index.html').write_text(board.joinpath('live.html').read_text().replace('api/health','health.json'))
+          shutil.copy2(board/'job-board-core.mjs',out/'job-board-core.mjs')
+          for name in ['team_jobs.json','coverage.json','coverage.html','health.json']:
+              with urllib.request.urlopen('https://misterplusev.github.io/job-radar/'+name,timeout=40) as response:
+                  out.joinpath(name).write_bytes(response.read())
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: sports_teams/out
+      - uses: actions/deploy-pages@v4
+        id: deployment
