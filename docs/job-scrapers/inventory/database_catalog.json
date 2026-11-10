@@ -1,0 +1,6735 @@
+{
+  "views": [
+    {
+      "name": "jobs_with_applied",
+      "definition": " SELECT j.id,\n    j.company,\n    j.title,\n    j.url,\n    j.location,\n    j.description,\n    j.is_active,\n    j.first_seen_at,\n    j.last_seen_at,\n    j.scraped_at,\n    j.source_payload,\n    j.ats,\n    j.posted_at,\n    j.closed_at,\n    j.description_raw,\n    j.description_clean,\n    a.id IS NOT NULL AS is_applied,\n    a.status AS applied_status,\n    a.applied_at\n   FROM jobs j\n     LEFT JOIN applications a ON a.company = j.company AND a.job_url = j.url;"
+    },
+    {
+      "name": "robotics_jobs_with_applied",
+      "definition": " SELECT j.id,\n    j.company,\n    j.title,\n    j.url,\n    j.location,\n    j.description,\n    j.is_active,\n    j.last_seen_at,\n    j.scraped_at,\n    j.ats,\n    j.posted_at,\n    j.closed_at,\n    j.source_payload,\n    a.id IS NOT NULL AS is_applied,\n    a.status AS applied_status,\n    a.applied_at\n   FROM robotics_jobs j\n     LEFT JOIN robotics_applications a ON a.company = j.company AND a.job_url = j.url;"
+    },
+    {
+      "name": "team_jobs_with_applied",
+      "definition": " SELECT j.id,\n    j.league,\n    j.team,\n    j.company,\n    j.title,\n    j.url,\n    j.location,\n    j.description,\n    j.platform,\n    j.ats,\n    j.posted_at,\n    j.first_seen_at,\n    j.last_seen_at,\n    j.scraped_at,\n    j.is_active,\n    j.closed_at,\n    j.logo_url,\n    j.source_id,\n    j.salary,\n    j.detail_status,\n    j.detail_checked_at,\n    a.id IS NOT NULL AS is_applied,\n    a.status AS applied_status,\n    a.applied_at\n   FROM team_jobs j\n     LEFT JOIN team_applications a ON a.job_url = j.url AND a.company = j.company AND a.user_id = auth.uid();"
+    },
+    {
+      "name": "tech_jobs_with_applied",
+      "definition": " SELECT j.id,\n    j.company,\n    j.title,\n    j.url,\n    j.location,\n    j.description,\n    j.is_active,\n    j.last_seen_at,\n    j.scraped_at,\n    j.ats,\n    j.posted_at,\n    j.closed_at,\n    j.source_payload,\n    a.id IS NOT NULL AS is_applied,\n    a.status AS applied_status,\n    a.applied_at\n   FROM tech_jobs j\n     LEFT JOIN tech_applications a ON a.company = j.company AND a.job_url = j.url;"
+    }
+  ],
+  "grants": [
+    {
+      "grantee": "anon",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "applications",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "applications",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "applications",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "applications",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "applications",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "applications",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "applications",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_applications",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_applications",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_applications",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_applications",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_applications",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_applications",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_applications",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_applications",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_applications",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_applications",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_applications",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_applications",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_applications",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_applications",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_observations",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_observations",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_observations",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_observations",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_observations",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_observations",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_observations",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_observations",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_job_url_aliases",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "team_workday_repair_backup",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_applications",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_applications",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_applications",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_applications",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_applications",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_applications",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_applications",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_scrape_runs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "anon",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "authenticated",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_jobs_with_applied",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    }
+  ],
+  "schema": "public",
+  "columns": [
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "applications",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('applications_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "applications",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "applications",
+      "column_name": "job_url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "applications",
+      "column_name": "job_title",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "applications",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'applied'::text",
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "applications",
+      "column_name": "notes",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "applications",
+      "column_name": "applied_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "applications",
+      "column_name": "updated_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "job_scrape_runs",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('job_scrape_runs_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "job_scrape_runs",
+      "column_name": "provider",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "job_scrape_runs",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'unknown'::text",
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int4",
+      "data_type": "integer",
+      "table_name": "job_scrape_runs",
+      "column_name": "job_count",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "job_scrape_runs",
+      "column_name": "error_summary",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "job_scrape_runs",
+      "column_name": "trigger_source",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "job_scrape_runs",
+      "column_name": "started_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "job_scrape_runs",
+      "column_name": "finished_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "job_scrape_runs",
+      "column_name": "metadata",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'{}'::jsonb",
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "jobs",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('jobs_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "title",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "location",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "description",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "jobs",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "jobs",
+      "column_name": "first_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "jobs",
+      "column_name": "last_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "jobs",
+      "column_name": "scraped_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "jobs",
+      "column_name": "source_payload",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'{}'::jsonb",
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "ats",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 12,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "posted_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 13,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "closed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 14,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "description_raw",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 15,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs",
+      "column_name": "description_clean",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 16,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "jobs_with_applied",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "title",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "location",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "description",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "jobs_with_applied",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "jobs_with_applied",
+      "column_name": "first_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "jobs_with_applied",
+      "column_name": "last_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "jobs_with_applied",
+      "column_name": "scraped_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "jobs_with_applied",
+      "column_name": "source_payload",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "ats",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 12,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "posted_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 13,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "closed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 14,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "description_raw",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 15,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "description_clean",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 16,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "jobs_with_applied",
+      "column_name": "is_applied",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 17,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "jobs_with_applied",
+      "column_name": "applied_status",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 18,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "jobs_with_applied",
+      "column_name": "applied_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 19,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "robotics_applications",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('robotics_applications_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_applications",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_applications",
+      "column_name": "job_url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_applications",
+      "column_name": "job_title",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_applications",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'applied'::text",
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_applications",
+      "column_name": "applied_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_applications",
+      "column_name": "updated_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_applications",
+      "column_name": "notes",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "robotics_job_scrape_runs",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('robotics_job_scrape_runs_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_job_scrape_runs",
+      "column_name": "provider",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_job_scrape_runs",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int4",
+      "data_type": "integer",
+      "table_name": "robotics_job_scrape_runs",
+      "column_name": "job_count",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_job_scrape_runs",
+      "column_name": "trigger_source",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_job_scrape_runs",
+      "column_name": "error_summary",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_job_scrape_runs",
+      "column_name": "created_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "robotics_jobs",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('robotics_jobs_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs",
+      "column_name": "title",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs",
+      "column_name": "location",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs",
+      "column_name": "description",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "robotics_jobs",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_jobs",
+      "column_name": "last_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_jobs",
+      "column_name": "scraped_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs",
+      "column_name": "ats",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs",
+      "column_name": "posted_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_jobs",
+      "column_name": "closed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 12,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "robotics_jobs",
+      "column_name": "source_payload",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 13,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "title",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "location",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "description",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "last_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "scraped_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "ats",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "posted_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "closed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 12,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "source_payload",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 13,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "is_applied",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 14,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "applied_status",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 15,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_jobs_with_applied",
+      "column_name": "applied_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 16,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_applications",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('team_applications_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "team_applications",
+      "column_name": "user_id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "auth.uid()",
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_applications",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_applications",
+      "column_name": "job_url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_applications",
+      "column_name": "job_title",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_applications",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'applied'::text",
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_applications",
+      "column_name": "applied_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_applications",
+      "column_name": "updated_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_applications",
+      "column_name": "notes",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_job_notifications",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('team_job_notifications_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_notifications",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_notifications",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_job_notifications",
+      "column_name": "delivered_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_job_observations",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('team_job_observations_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_observations",
+      "column_name": "source_id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_observations",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "team_job_observations",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_job_observations",
+      "column_name": "observed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('team_job_scrape_runs_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "uuid",
+      "data_type": "uuid",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "run_id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "provider",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "source",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "platform",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int4",
+      "data_type": "integer",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "job_count",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int4",
+      "data_type": "integer",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "duration_ms",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "error_summary",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "trigger_source",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_job_scrape_runs",
+      "column_name": "created_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_job_url_aliases",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('team_job_url_aliases_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_url_aliases",
+      "column_name": "old_url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_job_url_aliases",
+      "column_name": "canonical_url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_job_url_aliases",
+      "column_name": "original_job_id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_job_url_aliases",
+      "column_name": "repaired_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_jobs",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('team_jobs_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "league",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "team",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "title",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "location",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "description",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "platform",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "ats",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "posted_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs",
+      "column_name": "first_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 12,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs",
+      "column_name": "last_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 13,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs",
+      "column_name": "scraped_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 14,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "team_jobs",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 15,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs",
+      "column_name": "closed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 16,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "logo_url",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 17,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "source_id",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 18,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "salary",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 19,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs",
+      "column_name": "detail_status",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 20,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs",
+      "column_name": "detail_checked_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 21,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "league",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "team",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "title",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "location",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "description",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "platform",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "ats",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "posted_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "first_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 12,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "last_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 13,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "scraped_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 14,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 15,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "closed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 16,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "logo_url",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 17,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "source_id",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 18,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "salary",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 19,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "detail_status",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 20,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "detail_checked_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 21,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "is_applied",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 22,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "applied_status",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 23,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_jobs_with_applied",
+      "column_name": "applied_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 24,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "team_workday_repair_backup",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('team_workday_repair_backup_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "team_workday_repair_backup",
+      "column_name": "captured_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": "now()",
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "team_workday_repair_backup",
+      "column_name": "table_name",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "team_workday_repair_backup",
+      "column_name": "payload",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "tech_applications",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('tech_applications_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_applications",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_applications",
+      "column_name": "job_url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_applications",
+      "column_name": "job_title",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_applications",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'applied'::text",
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_applications",
+      "column_name": "applied_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_applications",
+      "column_name": "updated_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_applications",
+      "column_name": "notes",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "tech_job_scrape_runs",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('tech_job_scrape_runs_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_job_scrape_runs",
+      "column_name": "provider",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_job_scrape_runs",
+      "column_name": "status",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int4",
+      "data_type": "integer",
+      "table_name": "tech_job_scrape_runs",
+      "column_name": "job_count",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "0",
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_job_scrape_runs",
+      "column_name": "trigger_source",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_job_scrape_runs",
+      "column_name": "error_summary",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_job_scrape_runs",
+      "column_name": "created_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "tech_jobs",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "nextval('tech_jobs_id_seq'::regclass)",
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs",
+      "column_name": "title",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs",
+      "column_name": "location",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs",
+      "column_name": "description",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "tech_jobs",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_jobs",
+      "column_name": "last_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_jobs",
+      "column_name": "scraped_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs",
+      "column_name": "ats",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs",
+      "column_name": "posted_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_jobs",
+      "column_name": "closed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 12,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "tech_jobs",
+      "column_name": "source_payload",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 13,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "id",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 1,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "title",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "url",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "location",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "description",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "is_active",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "last_seen_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "scraped_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "ats",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "posted_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 11,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "closed_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 12,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "source_payload",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 13,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "bool",
+      "data_type": "boolean",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "is_applied",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 14,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "applied_status",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 15,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_jobs_with_applied",
+      "column_name": "applied_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 16,
+      "identity_generation": null
+    }
+  ],
+  "indexes": [
+    {
+      "indexdef": "CREATE UNIQUE INDEX applications_pkey ON public.applications USING btree (id)",
+      "indexname": "applications_pkey",
+      "tablename": "applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_applications_applied_at ON public.applications USING btree (applied_at DESC)",
+      "indexname": "idx_applications_applied_at",
+      "tablename": "applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_applications_company ON public.applications USING btree (company)",
+      "indexname": "idx_applications_company",
+      "tablename": "applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX idx_applications_company_url_unique ON public.applications USING btree (company, job_url)",
+      "indexname": "idx_applications_company_url_unique",
+      "tablename": "applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_applications_status ON public.applications USING btree (status, updated_at DESC)",
+      "indexname": "idx_applications_status",
+      "tablename": "applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_job_scrape_runs_provider_started ON public.job_scrape_runs USING btree (provider, started_at DESC)",
+      "indexname": "idx_job_scrape_runs_provider_started",
+      "tablename": "job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_job_scrape_runs_started ON public.job_scrape_runs USING btree (started_at DESC)",
+      "indexname": "idx_job_scrape_runs_started",
+      "tablename": "job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX job_scrape_runs_pkey ON public.job_scrape_runs USING btree (id)",
+      "indexname": "job_scrape_runs_pkey",
+      "tablename": "job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_jobs_company ON public.jobs USING btree (company)",
+      "indexname": "idx_jobs_company",
+      "tablename": "jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_jobs_company_active ON public.jobs USING btree (company, is_active, scraped_at DESC)",
+      "indexname": "idx_jobs_company_active",
+      "tablename": "jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX idx_jobs_company_url_unique ON public.jobs USING btree (company, url)",
+      "indexname": "idx_jobs_company_url_unique",
+      "tablename": "jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_jobs_is_active ON public.jobs USING btree (is_active)",
+      "indexname": "idx_jobs_is_active",
+      "tablename": "jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_jobs_posted_at ON public.jobs USING btree (posted_at DESC)",
+      "indexname": "idx_jobs_posted_at",
+      "tablename": "jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_jobs_scraped_at ON public.jobs USING btree (scraped_at DESC)",
+      "indexname": "idx_jobs_scraped_at",
+      "tablename": "jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_jobs_url ON public.jobs USING btree (url)",
+      "indexname": "idx_jobs_url",
+      "tablename": "jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX jobs_pkey ON public.jobs USING btree (id)",
+      "indexname": "jobs_pkey",
+      "tablename": "jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_robotics_applications_applied_at ON public.robotics_applications USING btree (applied_at DESC)",
+      "indexname": "idx_robotics_applications_applied_at",
+      "tablename": "robotics_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_robotics_applications_company ON public.robotics_applications USING btree (company)",
+      "indexname": "idx_robotics_applications_company",
+      "tablename": "robotics_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX robotics_applications_company_job_url_key ON public.robotics_applications USING btree (company, job_url)",
+      "indexname": "robotics_applications_company_job_url_key",
+      "tablename": "robotics_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX robotics_applications_pkey ON public.robotics_applications USING btree (id)",
+      "indexname": "robotics_applications_pkey",
+      "tablename": "robotics_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_robotics_job_scrape_runs_provider ON public.robotics_job_scrape_runs USING btree (provider)",
+      "indexname": "idx_robotics_job_scrape_runs_provider",
+      "tablename": "robotics_job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX robotics_job_scrape_runs_pkey ON public.robotics_job_scrape_runs USING btree (id)",
+      "indexname": "robotics_job_scrape_runs_pkey",
+      "tablename": "robotics_job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_robotics_jobs_company ON public.robotics_jobs USING btree (company)",
+      "indexname": "idx_robotics_jobs_company",
+      "tablename": "robotics_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_robotics_jobs_is_active ON public.robotics_jobs USING btree (is_active)",
+      "indexname": "idx_robotics_jobs_is_active",
+      "tablename": "robotics_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_robotics_jobs_posted_at ON public.robotics_jobs USING btree (posted_at DESC)",
+      "indexname": "idx_robotics_jobs_posted_at",
+      "tablename": "robotics_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_robotics_jobs_url ON public.robotics_jobs USING btree (url)",
+      "indexname": "idx_robotics_jobs_url",
+      "tablename": "robotics_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX robotics_jobs_company_url_key ON public.robotics_jobs USING btree (company, url)",
+      "indexname": "robotics_jobs_company_url_key",
+      "tablename": "robotics_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX robotics_jobs_pkey ON public.robotics_jobs USING btree (id)",
+      "indexname": "robotics_jobs_pkey",
+      "tablename": "robotics_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_applications_pkey ON public.team_applications USING btree (id)",
+      "indexname": "team_applications_pkey",
+      "tablename": "team_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_applications_user_id_company_job_url_key ON public.team_applications USING btree (user_id, company, job_url)",
+      "indexname": "team_applications_user_id_company_job_url_key",
+      "tablename": "team_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_job_notifications_pkey ON public.team_job_notifications USING btree (id)",
+      "indexname": "team_job_notifications_pkey",
+      "tablename": "team_job_notifications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_job_notifications_url_key ON public.team_job_notifications USING btree (url)",
+      "indexname": "team_job_notifications_url_key",
+      "tablename": "team_job_notifications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_job_observations_pkey ON public.team_job_observations USING btree (id)",
+      "indexname": "team_job_observations_pkey",
+      "tablename": "team_job_observations",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_job_observations_source_id_url_key ON public.team_job_observations USING btree (source_id, url)",
+      "indexname": "team_job_observations_source_id_url_key",
+      "tablename": "team_job_observations",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX team_job_runs_date_idx ON public.team_job_scrape_runs USING btree (created_at DESC)",
+      "indexname": "team_job_runs_date_idx",
+      "tablename": "team_job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_job_scrape_runs_pkey ON public.team_job_scrape_runs USING btree (id)",
+      "indexname": "team_job_scrape_runs_pkey",
+      "tablename": "team_job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_job_scrape_runs_run_id_provider_key ON public.team_job_scrape_runs USING btree (run_id, provider)",
+      "indexname": "team_job_scrape_runs_run_id_provider_key",
+      "tablename": "team_job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_job_url_aliases_old_url_key ON public.team_job_url_aliases USING btree (old_url)",
+      "indexname": "team_job_url_aliases_old_url_key",
+      "tablename": "team_job_url_aliases",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_job_url_aliases_pkey ON public.team_job_url_aliases USING btree (id)",
+      "indexname": "team_job_url_aliases_pkey",
+      "tablename": "team_job_url_aliases",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX team_jobs_active_idx ON public.team_jobs USING btree (is_active)",
+      "indexname": "team_jobs_active_idx",
+      "tablename": "team_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX team_jobs_first_idx ON public.team_jobs USING btree (first_seen_at DESC)",
+      "indexname": "team_jobs_first_idx",
+      "tablename": "team_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_jobs_pkey ON public.team_jobs USING btree (id)",
+      "indexname": "team_jobs_pkey",
+      "tablename": "team_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_jobs_url_key ON public.team_jobs USING btree (url)",
+      "indexname": "team_jobs_url_key",
+      "tablename": "team_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX team_workday_repair_backup_pkey ON public.team_workday_repair_backup USING btree (id)",
+      "indexname": "team_workday_repair_backup_pkey",
+      "tablename": "team_workday_repair_backup",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_tech_applications_applied_at ON public.tech_applications USING btree (applied_at DESC)",
+      "indexname": "idx_tech_applications_applied_at",
+      "tablename": "tech_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_tech_applications_company ON public.tech_applications USING btree (company)",
+      "indexname": "idx_tech_applications_company",
+      "tablename": "tech_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX tech_applications_company_job_url_key ON public.tech_applications USING btree (company, job_url)",
+      "indexname": "tech_applications_company_job_url_key",
+      "tablename": "tech_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX tech_applications_pkey ON public.tech_applications USING btree (id)",
+      "indexname": "tech_applications_pkey",
+      "tablename": "tech_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_tech_job_scrape_runs_provider ON public.tech_job_scrape_runs USING btree (provider)",
+      "indexname": "idx_tech_job_scrape_runs_provider",
+      "tablename": "tech_job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX tech_job_scrape_runs_pkey ON public.tech_job_scrape_runs USING btree (id)",
+      "indexname": "tech_job_scrape_runs_pkey",
+      "tablename": "tech_job_scrape_runs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_tech_jobs_company ON public.tech_jobs USING btree (company)",
+      "indexname": "idx_tech_jobs_company",
+      "tablename": "tech_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_tech_jobs_is_active ON public.tech_jobs USING btree (is_active)",
+      "indexname": "idx_tech_jobs_is_active",
+      "tablename": "tech_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_tech_jobs_posted_at ON public.tech_jobs USING btree (posted_at DESC)",
+      "indexname": "idx_tech_jobs_posted_at",
+      "tablename": "tech_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX idx_tech_jobs_url ON public.tech_jobs USING btree (url)",
+      "indexname": "idx_tech_jobs_url",
+      "tablename": "tech_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX tech_jobs_company_url_key ON public.tech_jobs USING btree (company, url)",
+      "indexname": "tech_jobs_company_url_key",
+      "tablename": "tech_jobs",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX tech_jobs_pkey ON public.tech_jobs USING btree (id)",
+      "indexname": "tech_jobs_pkey",
+      "tablename": "tech_jobs",
+      "schemaname": "public"
+    }
+  ],
+  "database": "postgres",
+  "policies": [
+    {
+      "cmd": "DELETE",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon delete applications",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "anon"
+      ],
+      "tablename": "applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon insert applications",
+      "schemaname": "public",
+      "with_check": "true"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon read applications",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "applications_auth_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "ALL",
+      "qual": "true",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "applications_auth_write",
+      "schemaname": "public",
+      "with_check": "true"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "tablename": "job_scrape_runs",
+      "permissive": "PERMISSIVE",
+      "policyname": "job_scrape_runs_public_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "tablename": "jobs",
+      "permissive": "PERMISSIVE",
+      "policyname": "jobs_public_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "robotics_applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon delete robotics_applications",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "anon"
+      ],
+      "tablename": "robotics_applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon insert robotics_applications",
+      "schemaname": "public",
+      "with_check": "true"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "robotics_applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon read robotics_applications",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "robotics_job_scrape_runs",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon read robotics_job_scrape_runs",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "robotics_jobs",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon read robotics_jobs",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(user_id = auth.uid())",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "team_applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "team_applications_owner",
+      "schemaname": "public",
+      "with_check": "(user_id = auth.uid())"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "tablename": "team_job_scrape_runs",
+      "permissive": "PERMISSIVE",
+      "policyname": "team_runs_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "tablename": "team_job_url_aliases",
+      "permissive": "PERMISSIVE",
+      "policyname": "team_aliases_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "tablename": "team_jobs",
+      "permissive": "PERMISSIVE",
+      "policyname": "team_jobs_read",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "tech_applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon delete tech_applications",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "anon"
+      ],
+      "tablename": "tech_applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon insert tech_applications",
+      "schemaname": "public",
+      "with_check": "true"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "tech_applications",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon read tech_applications",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "tech_job_scrape_runs",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon read Tech_job_scrape_runs",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "true",
+      "roles": [
+        "anon"
+      ],
+      "tablename": "tech_jobs",
+      "permissive": "PERMISSIVE",
+      "policyname": "anon read tech_jobs",
+      "schemaname": "public",
+      "with_check": null
+    }
+  ],
+  "triggers": [
+    {
+      "name": "trg_applications_touch",
+      "table": "applications",
+      "function": "touch_updated_at",
+      "definition": "CREATE TRIGGER trg_applications_touch BEFORE UPDATE ON public.applications FOR EACH ROW EXECUTE FUNCTION touch_updated_at()",
+      "function_definition": "CREATE OR REPLACE FUNCTION public.touch_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nbegin\n  new.updated_at = now();\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "name": "trg_robotics_applications_touch",
+      "table": "robotics_applications",
+      "function": "touch_robotics_updated_at",
+      "definition": "CREATE TRIGGER trg_robotics_applications_touch BEFORE UPDATE ON public.robotics_applications FOR EACH ROW EXECUTE FUNCTION touch_robotics_updated_at()",
+      "function_definition": "CREATE OR REPLACE FUNCTION public.touch_robotics_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nbegin\n  new.updated_at = now();\n  return new;\nend;\n$function$\n"
+    },
+    {
+      "name": "team_keep_first_seen",
+      "table": "team_jobs",
+      "function": "team_keep_first_seen",
+      "definition": "CREATE TRIGGER team_keep_first_seen BEFORE UPDATE ON public.team_jobs FOR EACH ROW EXECUTE FUNCTION team_keep_first_seen()",
+      "function_definition": "CREATE OR REPLACE FUNCTION public.team_keep_first_seen()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nbegin new.first_seen_at=old.first_seen_at; return new; end; $function$\n"
+    },
+    {
+      "name": "trg_tech_applications_touch",
+      "table": "tech_applications",
+      "function": "touch_tech_updated_at",
+      "definition": "CREATE TRIGGER trg_tech_applications_touch BEFORE UPDATE ON public.tech_applications FOR EACH ROW EXECUTE FUNCTION touch_tech_updated_at()",
+      "function_definition": "CREATE OR REPLACE FUNCTION public.touch_tech_updated_at()\n RETURNS trigger\n LANGUAGE plpgsql\nAS $function$\nbegin\n  new.updated_at = now();\n  return new;\nend;\n$function$\n"
+    }
+  ],
+  "relations": [
+    {
+      "oid": "17593",
+      "name": "applications",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": "User-tracked job applications. Current bootstrap is global/shared, not per-user isolated.",
+      "rls_enabled": true
+    },
+    {
+      "oid": "17607",
+      "name": "job_scrape_runs",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": "Execution history for sportsbook jobs scrapers.",
+      "rls_enabled": true
+    },
+    {
+      "oid": "17576",
+      "name": "jobs",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": "Sportsbook jobs scraper output.",
+      "rls_enabled": true
+    },
+    {
+      "oid": "800768",
+      "name": "jobs_with_applied",
+      "schema": "public",
+      "relkind": "v",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": false
+    },
+    {
+      "oid": "1726425",
+      "name": "robotics_applications",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "1726443",
+      "name": "robotics_job_scrape_runs",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "1726409",
+      "name": "robotics_jobs",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "1726456",
+      "name": "robotics_jobs_with_applied",
+      "schema": "public",
+      "relkind": "v",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": false
+    },
+    {
+      "oid": "5755002",
+      "name": "team_applications",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "5754991",
+      "name": "team_job_notifications",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "5754966",
+      "name": "team_job_observations",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "5754977",
+      "name": "team_job_scrape_runs",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "5788349",
+      "name": "team_job_url_aliases",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "5754949",
+      "name": "team_jobs",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "5755024",
+      "name": "team_jobs_with_applied",
+      "schema": "public",
+      "relkind": "v",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": false
+    },
+    {
+      "oid": "5788339",
+      "name": "team_workday_repair_backup",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "2069321",
+      "name": "tech_applications",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "2069339",
+      "name": "tech_job_scrape_runs",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "2069305",
+      "name": "tech_jobs",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
+      "oid": "2069352",
+      "name": "tech_jobs_with_applied",
+      "schema": "public",
+      "relkind": "v",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": false
+    }
+  ],
+  "constraints": [
+    {
+      "name": "applications_pkey",
+      "type": "p",
+      "table": "applications",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "job_scrape_runs_pkey",
+      "type": "p",
+      "table": "job_scrape_runs",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "jobs_pkey",
+      "type": "p",
+      "table": "jobs",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "robotics_applications_company_job_url_key",
+      "type": "u",
+      "table": "robotics_applications",
+      "definition": "UNIQUE (company, job_url)"
+    },
+    {
+      "name": "robotics_applications_pkey",
+      "type": "p",
+      "table": "robotics_applications",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "robotics_job_scrape_runs_pkey",
+      "type": "p",
+      "table": "robotics_job_scrape_runs",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "robotics_jobs_company_url_key",
+      "type": "u",
+      "table": "robotics_jobs",
+      "definition": "UNIQUE (company, url)"
+    },
+    {
+      "name": "robotics_jobs_pkey",
+      "type": "p",
+      "table": "robotics_jobs",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "team_applications_pkey",
+      "type": "p",
+      "table": "team_applications",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "team_applications_user_id_company_job_url_key",
+      "type": "u",
+      "table": "team_applications",
+      "definition": "UNIQUE (user_id, company, job_url)"
+    },
+    {
+      "name": "team_applications_user_id_fkey",
+      "type": "f",
+      "table": "team_applications",
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)"
+    },
+    {
+      "name": "team_job_notifications_pkey",
+      "type": "p",
+      "table": "team_job_notifications",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "team_job_notifications_url_key",
+      "type": "u",
+      "table": "team_job_notifications",
+      "definition": "UNIQUE (url)"
+    },
+    {
+      "name": "team_job_observations_pkey",
+      "type": "p",
+      "table": "team_job_observations",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "team_job_observations_source_id_url_key",
+      "type": "u",
+      "table": "team_job_observations",
+      "definition": "UNIQUE (source_id, url)"
+    },
+    {
+      "name": "team_job_scrape_runs_pkey",
+      "type": "p",
+      "table": "team_job_scrape_runs",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "team_job_scrape_runs_run_id_provider_key",
+      "type": "u",
+      "table": "team_job_scrape_runs",
+      "definition": "UNIQUE (run_id, provider)"
+    },
+    {
+      "name": "team_job_url_aliases_old_url_key",
+      "type": "u",
+      "table": "team_job_url_aliases",
+      "definition": "UNIQUE (old_url)"
+    },
+    {
+      "name": "team_job_url_aliases_pkey",
+      "type": "p",
+      "table": "team_job_url_aliases",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "team_jobs_pkey",
+      "type": "p",
+      "table": "team_jobs",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "team_jobs_url_key",
+      "type": "u",
+      "table": "team_jobs",
+      "definition": "UNIQUE (url)"
+    },
+    {
+      "name": "team_workday_site_required",
+      "type": "c",
+      "table": "team_jobs",
+      "definition": "CHECK ((url !~ '^https://[^/]+\\.myworkdayjobs\\.com/job/'::text))"
+    },
+    {
+      "name": "team_workday_repair_backup_pkey",
+      "type": "p",
+      "table": "team_workday_repair_backup",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "tech_applications_company_job_url_key",
+      "type": "u",
+      "table": "tech_applications",
+      "definition": "UNIQUE (company, job_url)"
+    },
+    {
+      "name": "tech_applications_pkey",
+      "type": "p",
+      "table": "tech_applications",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "tech_job_scrape_runs_pkey",
+      "type": "p",
+      "table": "tech_job_scrape_runs",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "tech_jobs_company_url_key",
+      "type": "u",
+      "table": "tech_jobs",
+      "definition": "UNIQUE (company, url)"
+    },
+    {
+      "name": "tech_jobs_pkey",
+      "type": "p",
+      "table": "tech_jobs",
+      "definition": "PRIMARY KEY (id)"
+    }
+  ],
+  "exported_at": "2026-11-10T18:54:45.378584+00:00"
+}
