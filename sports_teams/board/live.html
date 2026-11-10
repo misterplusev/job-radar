@@ -1,8 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ABET Sports Teams Jobs</title><style>
-:root{color-scheme:dark}body{font:15px system-ui;background:#0c1119;color:#e7edf5;margin:0;padding:24px}header{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}h1{margin:0}a{color:#7cbfff}p,small{color:#9cadbf}.controls{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0;align-items:center}input,select,button{font:inherit;padding:9px;background:#182332;color:inherit;border:1px solid #34475d;border-radius:6px}.card{background:#131e2b;border:1px solid #2a3d52;padding:18px;margin:10px 0;border-radius:8px}.top{display:flex;gap:12px;align-items:center}.logo{height:36px;width:36px;object-fit:contain}.badge{color:#83e3ba;font-size:12px}.description{white-space:pre-wrap;line-height:1.6;margin-top:12px}.meta{margin:8px 0;color:#b1bfd0}.status{color:#ffcc80}.hidden{display:none}button{cursor:pointer}#q{min-width:220px;flex:1}summary{cursor:pointer;color:#7cbfff}footer{margin:24px 0;color:#9cadbf}
-.abet-chip-perspective{perspective:620px;width:76px;height:76px}
+<title>ABET | Sports Teams Jobs</title><link rel="stylesheet" href="standalone.css?v=20261110-2"><style>.abet-chip-perspective{perspective:620px;width:76px;height:76px}
 .abet-chip-spinner{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:abet-chip-flip 2.4s cubic-bezier(.45,.05,.35,1) infinite}
 .abet-chip-face{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;backface-visibility:hidden;border:3px solid #FDB515;outline:1px solid rgba(253,181,21,0.45);outline-offset:-5px;background:radial-gradient(circle at 30% 24%,rgba(255,255,255,0.16),transparent 34%),radial-gradient(circle at 68% 78%,rgba(253,181,21,0.10),transparent 40%),radial-gradient(circle at 34% 30%,#29405a 0%,#16222f 45%,#0d131c 68%,#070B0F 100%);box-shadow:0 0 28px rgba(253,181,21,0.34),0 0 64px rgba(253,181,21,0.12),inset 0 0 18px rgba(253,181,21,0.14),inset 0 2px 6px rgba(0,0,0,0.65)}
 .abet-chip-seg{position:absolute;left:50%;top:2px;width:8px;height:10px;margin-left:-4px;border-radius:3px;background:linear-gradient(180deg,rgba(255,214,102,1) 0%,rgba(253,181,21,0.92) 45%,rgba(180,120,8,0.9) 100%);box-shadow:inset 0 1px 1px rgba(255,255,255,0.45),inset 0 -1px 2px rgba(80,50,0,0.6);transform-origin:50% 36.0px}
@@ -12,9 +10,10 @@
 @keyframes abet-chip-flip{0%{transform:rotateY(0deg) translateY(0)}45%{transform:rotateY(540deg) translateY(-10px)}70%{transform:rotateY(720deg) translateY(0)}78%{transform:rotateY(720deg) translateY(-3px)}86%{transform:rotateY(720deg) translateY(0)}100%{transform:rotateY(720deg) translateY(0)}}
 @media (prefers-reduced-motion:reduce){.abet-chip-spinner{animation:none !important}}
 
-</style></head><body>
-<header><div><h1>Sports Teams Jobs</h1><p>NFL · NBA · MLB · NHL</p></div><div><a href="coverage.html">Team-by-team coverage</a> · <a href="api/health">Scraper health</a><p id="fresh">Loading jobs…</p></div></header>
-<div class="controls">
+</style></head><body><main class="jobs-board">
+<header class="board-header"><a class="abet-wordmark" href="https://abet-dashboard.vercel.app/?section=jobs" aria-label="ABET dashboard"><span class="abet-alpha" aria-hidden="true">α</span><span class="abet-word" aria-hidden="true">bet</span></a><div class="board-heading"><h1>Sports Teams Jobs</h1><p class="board-subtitle">Career opportunities from employer sources.</p></div><nav class="board-links" aria-label="Job board links"><a href="https://abet-dashboard.vercel.app/?section=jobs">All job boards</a><a href="api/health">Scraper health</a><a href="coverage.html">Team coverage</a></nav></header>
+<details class="board-overview" open><summary><span>Summary &amp; teams</span><span id="overview-counts" class="overview-counts">Loading…</span></summary><div class="overview-body"><div class="overview-tools"><div class="overview-stats" id="overview-stats"></div><div class="scroll-buttons"><button id="companies-left" type="button" aria-label="Scroll companies left">←</button><button id="companies-right" type="button" aria-label="Scroll companies right">→</button></div></div><div id="pills" class="company-scroll" role="region" aria-label="Teams filters" tabindex="0"></div></div></details><p id="fresh" class="board-status">Loading jobs…</p>
+<div class="controls board-controls">
 <input id="q" placeholder="Search title, team or location" aria-label="Search">
 <select id="league" aria-label="League"><option value="">All leagues</option></select>
 <select id="team" aria-label="Team"><option value="">All teams</option></select>
@@ -26,42 +25,44 @@
 <label><input type="checkbox" id="remote"> Remote only</label>
 <label><input type="checkbox" id="unapplied"> Hide marked applications</label>
 </div>
-<p id="count" aria-live="polite"></p><p class="status" id="health"></p><div id="loading"> <div class=abet-chip-loader role=status aria-live=polite><div class=abet-chip-perspective><div class=abet-chip-spinner><div class=abet-chip-face><span class=abet-chip-seg style="transform:rotate(0deg)"></span><span class=abet-chip-seg style="transform:rotate(45deg)"></span><span class=abet-chip-seg style="transform:rotate(90deg)"></span><span class=abet-chip-seg style="transform:rotate(135deg)"></span><span class=abet-chip-seg style="transform:rotate(180deg)"></span><span class=abet-chip-seg style="transform:rotate(225deg)"></span><span class=abet-chip-seg style="transform:rotate(270deg)"></span><span class=abet-chip-seg style="transform:rotate(315deg)"></span><span class=abet-chip-txt>α</span></div><div class="abet-chip-face abet-chip-back"><span class=abet-chip-seg style="transform:rotate(0deg)"></span><span class=abet-chip-seg style="transform:rotate(45deg)"></span><span class=abet-chip-seg style="transform:rotate(90deg)"></span><span class=abet-chip-seg style="transform:rotate(135deg)"></span><span class=abet-chip-seg style="transform:rotate(180deg)"></span><span class=abet-chip-seg style="transform:rotate(225deg)"></span><span class=abet-chip-seg style="transform:rotate(270deg)"></span><span class=abet-chip-seg style="transform:rotate(315deg)"></span><span class=abet-chip-txt>α</span></div></div></div></div>
+<p class="board-results" id="count" aria-live="polite"></p><p class="board-status" id="health"></p><div id="loading"> <div class=abet-chip-loader role=status aria-live=polite><div class=abet-chip-perspective><div class=abet-chip-spinner><div class=abet-chip-face><span class=abet-chip-seg style="transform:rotate(0deg)"></span><span class=abet-chip-seg style="transform:rotate(45deg)"></span><span class=abet-chip-seg style="transform:rotate(90deg)"></span><span class=abet-chip-seg style="transform:rotate(135deg)"></span><span class=abet-chip-seg style="transform:rotate(180deg)"></span><span class=abet-chip-seg style="transform:rotate(225deg)"></span><span class=abet-chip-seg style="transform:rotate(270deg)"></span><span class=abet-chip-seg style="transform:rotate(315deg)"></span><span class=abet-chip-txt>α</span></div><div class="abet-chip-face abet-chip-back"><span class=abet-chip-seg style="transform:rotate(0deg)"></span><span class=abet-chip-seg style="transform:rotate(45deg)"></span><span class=abet-chip-seg style="transform:rotate(90deg)"></span><span class=abet-chip-seg style="transform:rotate(135deg)"></span><span class=abet-chip-seg style="transform:rotate(180deg)"></span><span class=abet-chip-seg style="transform:rotate(225deg)"></span><span class=abet-chip-seg style="transform:rotate(270deg)"></span><span class=abet-chip-seg style="transform:rotate(315deg)"></span><span class=abet-chip-txt>α</span></div></div></div></div>
 </div>
-<main id="jobs"></main><div id="sentinel"><button id="more" hidden>Show more</button><span id="more-note"></span></div>
-<footer>Application marks are private to this browser. A mark does not submit an application. Missing posting dates sort last. U.S. only uses the stated job location; include international and unspecified locations to see ambiguous remote listings.</footer>
+<div id="jobs" class="job-list"></div><div id="sentinel" class="board-more"><button id="more" hidden>Show more</button><span id="more-note"></span></div>
+<footer class="board-footer">Application marks are private to this browser. A mark does not submit an application. Missing posting dates sort last. U.S. only uses the stated job location; include international and unspecified locations to see ambiguous remote listings.</footer>
 <script type="module">
+import { jobCardMarkup, wireJobDetails, wireCompanyScroll, escapeHTML } from './standalone-ui.mjs';
 import { filterJobs, postedLabel, initialVisibleCount, nextVisibleCount, fetchAllJobRows, safeJobUrl } from './job-board-core.mjs';
 const SB_URL="https://alxgteasytezekyunyjk.supabase.co", SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFseGd0ZWFzeXRlemVreXVueWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDg0NzgsImV4cCI6MjA5MDUyNDQ3OH0.jpeiWLBepn1O1BeDFJMaM28iWxwRgMA0zIckit6g4Cc", POLL="hourly";
 const el=id=>document.getElementById(id);let jobs=[],shown=100,matching=0,observer;
 const marks=()=>{try{return new Set(JSON.parse(localStorage.getItem('abet.team.applications')||'[]'))}catch{return new Set()}};
 function node(tag,text,cls){const n=document.createElement(tag);if(text!=null)n.textContent=text;if(cls)n.className=cls;return n}
 function fill(id,values){[...new Set(values.filter(Boolean))].sort().forEach(v=>{const o=node('option',v);o.value=v;el(id).append(o)})}
-async function description(j,detail){
- if(detail.dataset.loaded||!detail.open)return;detail.dataset.loaded='true';const content=detail.querySelector('.description');content.textContent='Loading description…';
- try{const r=await fetch(SB_URL+'/rest/v1/team_jobs?select=description&id=eq.'+encodeURIComponent(j.id),{headers:{apikey:SB_ANON,Authorization:'Bearer '+SB_ANON},signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error();const rows=await r.json();content.textContent=String(rows[0]?.description||'Description unavailable. Open the employer listing.').replace(/<[^>]*>/g,' ')}catch{content.textContent='Description unavailable. Open the employer listing.';delete detail.dataset.loaded}
-}
 function render(reset=true){
  if(reset!==false)shown=initialVisibleCount(el('limit').value);
  const marked=marks();let out=filterJobs(jobs,{status:el('status').value,sort:el('sort').value,includeInternational:el('international').checked,search:el('q').value,league:el('league').value,source:el('source').value,remoteOnly:el('remote').checked});
  out=out.filter(j=>(!el('team').value||j.team===el('team').value)&&(!el('unapplied').checked||!marked.has(j.url)));
  matching=out.length;el('count').textContent=`Showing ${Math.min(shown,matching).toLocaleString()} of ${matching.toLocaleString()} matches · ${el('international').checked?'All locations':'U.S. locations only'}`;el('jobs').replaceChildren();
- for(const j of out.slice(0,shown)){
-  const card=node('article',null,'card'),top=node('div',null,'top'),logo=safeJobUrl(j.logo_url);
-  if(logo){const img=node('img');img.className='logo';img.src=logo;img.alt=(j.team||j.company)+' logo';img.loading='lazy';img.addEventListener('error',()=>img.replaceWith(node('span',(j.team||'Team').slice(0,2))));top.append(img)}
-  const link=node('a',j.title);link.href=safeJobUrl(j.url)||'#';link.target='_blank';link.rel='noopener noreferrer';top.append(link);card.append(top,node('div',`${j.team||j.company} · ${j.location||'Location unspecified'} · ${j.ats||'Employer careers'} · ${j.is_active?'Active':'Closed'}`,'meta'),node('small',`Posted: ${postedLabel(j.posted_at)} · First seen: ${postedLabel(j.first_seen_at)}`));
-  if(j.salary)card.append(node('p',j.salary));
-  const detail=node('details');detail.append(node('summary','Job description'),node('div','','description'));detail.addEventListener('toggle',()=>description(j,detail));card.append(detail);
-  const button=node('button',marked.has(j.url)?'Applied ✓':'Mark applied');button.addEventListener('click',()=>{const s=marks();s.has(j.url)?s.delete(j.url):s.add(j.url);try{localStorage.setItem('abet.team.applications',JSON.stringify([...s]));render(false)}catch{button.textContent='Browser storage unavailable'}});card.append(button);el('jobs').append(card)
- }
+ el('jobs').innerHTML=out.slice(0,shown).map(j=>jobCardMarkup(j,{logoUrl:j.logo_url,applied:marked.has(j.url)})).join('');
+ if(!out.length)el('jobs').innerHTML='<p class="muted">No jobs match these filters.</p>';
+ el('pills').querySelectorAll('[data-team]').forEach(p=>p.setAttribute('aria-pressed',String(p.dataset.team===el('team').value)));
  el('more').hidden=shown>=matching;el('more-note').textContent=el('limit').value==='all'&&shown<matching?' All matches — loads as you scroll':'';
  observer?.disconnect();if(el('limit').value==='all'&&shown<matching&&globalThis.IntersectionObserver){observer=new IntersectionObserver(entries=>{if(entries[0].isIntersecting){shown=nextVisibleCount(shown,'all',matching);render(false)}},{rootMargin:'300px'});observer.observe(el('sentinel'))}
+}
+wireJobDetails(el('jobs'),{url:SB_URL,key:SB_ANON,table:'team_jobs'});
+wireCompanyScroll(el('pills'),el('companies-left'),el('companies-right'));
+el('jobs').addEventListener('click',event=>{const button=event.target.closest('.apply-btn');if(!button)return;const url=button.dataset.u,s=marks();s.has(url)?s.delete(url):s.add(url);try{localStorage.setItem('abet.team.applications',JSON.stringify([...s]));render(false)}catch{button.textContent='Browser storage unavailable'}});
+el('pills').addEventListener('click',event=>{const button=event.target.closest('[data-team]');if(!button)return;el('team').value=button.dataset.team;render()});
+function fillOverview(){
+ const active=jobs.filter(j=>j.is_active).length, counts=new Map();
+ for(const j of jobs){if(j.team&&!counts.has(j.team))counts.set(j.team,{active:0,logo:j.logo_url});if(j.team&&j.is_active)counts.get(j.team).active++}
+ el('overview-counts').textContent=active.toLocaleString()+' active';el('overview-stats').textContent=jobs.length.toLocaleString()+' total · '+active.toLocaleString()+' active · '+(jobs.length-active).toLocaleString()+' closed';
+ el('pills').innerHTML='<button type="button" class="company-pill" data-team="" aria-pressed="true">All teams</button>'+[...counts].sort((a,b)=>a[0].localeCompare(b[0])).map(([team,c])=>`<button type="button" class="company-pill" data-team="${escapeHTML(team)}" aria-pressed="false">${safeJobUrl(c.logo)?`<img src="${escapeHTML(c.logo)}" alt="" loading="lazy" onerror="this.hidden=true">`:''}<span>${escapeHTML(team)}</span><span class="cnt">${c.active}</span></button>`).join('');
 }
 ['q','league','team','source','status','sort','limit','international','remote','unapplied'].forEach(id=>el(id).addEventListener(id==='q'?'input':'change',()=>render()));
 el('more').addEventListener('click',()=>{shown=nextVisibleCount(shown,el('limit').value,matching);render(false)});
 async function load(){
- try{jobs=await fetchAllJobRows({url:SB_URL,key:SB_ANON,table:'team_jobs',columns:'id,company,team,league,title,url,location,ats,posted_at,first_seen_at,is_active,salary,logo_url',onProgress:n=>el('fresh').textContent='Loading… '+n.toLocaleString()+' jobs'});fill('league',jobs.map(j=>j.league));fill('team',jobs.map(j=>j.team));fill('source',jobs.map(j=>j.ats));el('fresh').textContent='Loaded '+new Date().toLocaleString();render()}catch(e){el('fresh').textContent=e.message}finally{el('loading').hidden=true}
+ try{jobs=await fetchAllJobRows({url:SB_URL,key:SB_ANON,table:'team_jobs',columns:'id,company,team,league,title,url,location,ats,posted_at,first_seen_at,is_active,salary,logo_url',onProgress:n=>el('fresh').textContent='Loading… '+n.toLocaleString()+' jobs'});fill('league',jobs.map(j=>j.league));fill('team',jobs.map(j=>j.team));fill('source',jobs.map(j=>j.ats));el('fresh').textContent='Loaded '+new Date().toLocaleString();fillOverview();render()}catch(e){el('fresh').textContent=e.message}finally{el('loading').hidden=true}
  try{const r=await fetch('api/health',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)return;const h=await r.json(),m=h.latest_manifest||{},t=m.totals||{};el('health').textContent=`Scraper: ${h.status}. ${t.successful||0}/${t.providers||0} sources successful. Last run: ${h.last_run_end||'unknown'}.${h.notifications_paused?' Notifications paused.':''}`}catch{}
 }
 load();
-</script></body></html>
+</script></main></body></html>

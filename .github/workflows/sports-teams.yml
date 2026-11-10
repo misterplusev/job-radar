@@ -63,6 +63,7 @@ jobs:
           out=Path('out');out.mkdir(exist_ok=True)
           out.joinpath('index.html').write_text(Path('board/live.html').read_text().replace('api/health','health.json'))
           shutil.copy2('board/job-board-core.mjs',out/'job-board-core.mjs')
+          for asset in ['standalone.css','standalone-ui.mjs']:shutil.copy2(Path('board')/asset,out/asset)
           shutil.copy2('board/team_jobs.json',out/'team_jobs.json')
           shutil.copy2('board/coverage.json',out/'coverage.json')
           shutil.copy2('board/coverage.html',out/'coverage.html')

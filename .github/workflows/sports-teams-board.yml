@@ -26,6 +26,7 @@ jobs:
           board=Path('sports_teams/board')
           out.joinpath('index.html').write_text(board.joinpath('live.html').read_text().replace('api/health','health.json'))
           shutil.copy2(board/'job-board-core.mjs',out/'job-board-core.mjs')
+          for asset in ['standalone.css','standalone-ui.mjs']:shutil.copy2(board/asset,out/asset)
           for name in ['team_jobs.json','coverage.json','coverage.html','health.json']:
               with urllib.request.urlopen('https://misterplusev.github.io/job-radar/'+name,timeout=40) as response:
                   out.joinpath(name).write_bytes(response.read())
