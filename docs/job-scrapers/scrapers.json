@@ -1,0 +1,49 @@
+{
+  "schema": "abet.job-scrapers.registry.v1",
+  "verified_date": "2026-11-10",
+  "shared_database_project": "alxgteasytezekyunyjk",
+  "modules": [
+    {
+      "id": "robotics", "repo": "misterplusev/job-radar", "branch": "master",
+      "workflow": "pipeline.yml", "expected_workflow_state": "active", "expected_crons": ["9 * * * *"],
+      "runtime": "github-actions", "entrypoint": "python run.py ingest",
+      "registry": "config/targets.json", "jobs_table": "robotics_jobs", "runs_table": "robotics_job_scrape_runs",
+      "applications_table": "robotics_applications", "webhook_secret": "DISCORD_WEBHOOK_JOBS",
+      "board": "https://misterplusev.github.io/robotics-jobradar-board/",
+      "local_checkout": "D:/abet/job-radar"
+    },
+    {
+      "id": "tech", "repo": "misterplusev/job-radar-tech", "branch": "master",
+      "workflow": "pipeline.yml", "expected_workflow_state": "active", "expected_crons": ["37 * * * *"],
+      "runtime": "github-actions", "entrypoint": "python run.py ingest",
+      "registry": "config/targets.json", "jobs_table": "tech_jobs", "runs_table": "tech_job_scrape_runs",
+      "applications_table": "tech_applications", "webhook_secret": "DISCORD_WEBHOOK_JOBS",
+      "board": "https://misterplusev.github.io/jobradar-tech-board/",
+      "local_checkout": "D:/abet/job-radar-tech"
+    },
+    {
+      "id": "sportsbook", "repo": "misterplusev/sportsbook-jobs-dashboard", "branch": "prod/sportsbook-jobs",
+      "workflow": "scrape.yml", "expected_workflow_state": "disabled_manually", "expected_crons": [],
+      "runtime": "huggingface-space", "space": "abetco/sportsbook-jobs", "space_branch": "main",
+      "entrypoint": "launcher.py -> scripts/scrape.py", "registry": "scripts/providers/__init__.py",
+      "schedule": {"timezone": "America/New_York", "weekday_hours_et": [6,8,10,12,14,16,18,20], "weekend_hours_et": [6,8,10,12,14,16,18,20]},
+      "health": "https://abet-jobs-watchdog.abetco.workers.dev/jobs-health",
+      "jobs_table": "jobs", "runs_table": "job_scrape_runs", "applications_table": "applications",
+      "webhook_secret": "DISCORD_WEBHOOK_JOBS", "board": "https://sportsbook-jobs-dashboard.vercel.app",
+      "local_checkout": "D:/abet/sportsbook-jobs-runtime",
+      "local_checkout_note": "Historical fix/oct05-runtime checkout; production branch and deployed Space take precedence."
+    },
+    {
+      "id": "sports_teams", "repo": "misterplusev/job-radar", "branch": "master",
+      "workflow": "sports-teams.yml", "expected_workflow_state": "active", "expected_crons": ["23 * * * *"],
+      "runtime": "github-actions", "entrypoint": "sports_teams/pipeline_local.py --cloud; sports_teams/publish_teams.py --post --limit 0",
+      "registry": "sports_teams/official_careers_registry.json + sports_teams/sources.json",
+      "jobs_table": "team_jobs", "runs_table": "team_job_scrape_runs", "applications_table": "team_applications",
+      "notifications_table": "team_job_notifications", "observations_table": "team_job_observations",
+      "webhook_secret": "DISCORD_WEBHOOK_TEAMS", "board": "https://misterplusev.github.io/job-radar/",
+      "health": "https://misterplusev.github.io/job-radar/health.json",
+      "coverage": "https://misterplusev.github.io/job-radar/coverage.json",
+      "local_checkout": "D:/abet_ops/sports_teams"
+    }
+  ]
+}
