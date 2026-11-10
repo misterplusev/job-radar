@@ -1,0 +1,36 @@
+{
+  "repo": "abet-mlb-monitor-widgets",
+  "branch": "main",
+  "before": "9bc83a2341c74f82ff19e2b369c8417015636c64",
+  "commit": "6127ab09ab129d88eaea64fbc8890ed6e529cc43",
+  "paths": [
+    "package.json",
+    "src/App.jsx",
+    "src/lib/jobModules.js",
+    "src/widgets/IndustryJobsWidget.jsx",
+    "src/widgets/JobsBrowserWidget.jsx",
+    "src/widgets/shared/JobBoardPresentation.jsx",
+    "src/widgets/shared/jobBoardStandalone.css",
+    "src/widgets/shared/jobBoardPresentation.css",
+    "scripts/sync-job-board-presentation.mjs",
+    "scripts/verify-job-dashboard-presentation.mjs",
+    "tests/job_presentation.test.mjs",
+    "public/jobs-standard-proof.html",
+    "public/jobs-standard-proof.json"
+  ],
+  "blob_hashes": {
+    "package.json": "618b542c4a1e85dfb6b74718adfc3b9ab666f64d",
+    "src/App.jsx": "70e7b0937460444078e252e2edc1d740b20fa08f",
+    "src/lib/jobModules.js": "478064389ed334d147ec799a7090c9d4dc9d1c78",
+    "src/widgets/IndustryJobsWidget.jsx": "c15c78a74375a3bd344471ca6fb28b84d361a8a1",
+    "src/widgets/JobsBrowserWidget.jsx": "5a4458a1cfb2287570aa88215f245f4f8ce55c06",
+    "src/widgets/shared/JobBoardPresentation.jsx": "9fd1cb115e32b1a075a3ecd963ffe9e32d23784a",
+    "src/widgets/shared/jobBoardStandalone.css": "e047b4ab9596c332943f6827194709b9ee8d6c1a",
+    "src/widgets/shared/jobBoardPresentation.css": "fefa8aa02acb827c388860c26b91ad003c6bdc0a",
+    "scripts/sync-job-board-presentation.mjs": "4abd7516bd7843cfa9742006a81d325699b7e1ea",
+    "scripts/verify-job-dashboard-presentation.mjs": "f9c6be3a36bf871d6830d639abb31c21749150e5",
+    "tests/job_presentation.test.mjs": "4e83549ed4d410beb1acede9adfabd42ed3c56dd",
+    "public/jobs-standard-proof.html": "360b466e8bcb7135f91ba713a258691028258352",
+    "public/jobs-standard-proof.json": "5c750468cb261e80cf31465d3da16eda75f0dbc0"
+  }
+}

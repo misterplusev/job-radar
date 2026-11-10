@@ -1,0 +1,70 @@
+{
+  "checked_at": "2026-11-10T21:38:58.000Z",
+  "browser_visual_check": false,
+  "network": "mocked",
+  "modules": [
+    {
+      "id": "sportsbook",
+      "title": "Sportsbook Jobs",
+      "version": "2026-11-10.3",
+      "header": true,
+      "logo": true,
+      "sharedCards": true,
+      "collapse": true,
+      "twoRowScroller": true,
+      "companyFilter": true,
+      "resultCounts": true,
+      "undatedLast": true,
+      "description": true
+    },
+    {
+      "id": "robotics",
+      "title": "Robotics Jobs",
+      "version": "2026-11-10.3",
+      "header": true,
+      "logo": true,
+      "sharedCards": true,
+      "collapse": true,
+      "twoRowScroller": true,
+      "companyFilter": true,
+      "resultCounts": true,
+      "undatedLast": true,
+      "description": true
+    },
+    {
+      "id": "tech",
+      "title": "Tech Jobs",
+      "version": "2026-11-10.3",
+      "header": true,
+      "logo": true,
+      "sharedCards": true,
+      "collapse": true,
+      "twoRowScroller": true,
+      "companyFilter": true,
+      "resultCounts": true,
+      "undatedLast": true,
+      "description": true
+    },
+    {
+      "id": "teams",
+      "title": "Sports Teams Jobs",
+      "version": "2026-11-10.3",
+      "header": true,
+      "logo": true,
+      "sharedCards": true,
+      "collapse": true,
+      "twoRowScroller": true,
+      "companyFilter": true,
+      "resultCounts": true,
+      "undatedLast": true,
+      "description": true
+    }
+  ],
+  "applicationTracking": {
+    "mockedWrite": true,
+    "userIdPreserved": true,
+    "anonymousGatePreserved": true
+  },
+  "descriptionReads": 5,
+  "standaloneCssSha256": "bc31b9f215462cbd17ccd6864b98d66b5d2959e7e3eeb08252f07dd0aeb473cb"
+}
