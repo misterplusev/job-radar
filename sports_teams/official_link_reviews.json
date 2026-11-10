@@ -145,5 +145,55 @@
     "destination": "https://www.teamworkonline.com/football-jobs/washington-commanders-jobs/washington-commanders-jobs",
     "method": "Followed link on official careers page with web tool",
     "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Washington Wizards",
+    "page": "https://monumentalsports.com/",
+    "destination": "https://job-boards.greenhouse.io/monumentalsports/jobs/5287421007",
+    "method": "Official Monumental home > sites.teamworkonline.com/monumental-sports > employer jobs > Wizards job Apply Now > Greenhouse",
+    "checked_at": "2026-11-10",
+    "via": [
+      "https://sites.teamworkonline.com/monumental-sports/",
+      "https://www.teamworkonline.com/multiple-properties/monumentalsports/monumental-sports",
+      "https://www.teamworkonline.com/multiple-properties/monumentalsports/washington-wizards-jobs/youth-basketball-coach-part-time-seasonal-2198647"
+    ]
+  },
+  {
+    "team": "Washington Capitals",
+    "page": "https://monumentalsports.com/",
+    "destination": "https://job-boards.greenhouse.io/monumentalsports/jobs/5287421007",
+    "method": "Official Monumental home > sites.teamworkonline.com/monumental-sports > employer jobs > Wizards job Apply Now > Greenhouse",
+    "checked_at": "2026-11-10",
+    "via": [
+      "https://sites.teamworkonline.com/monumental-sports/",
+      "https://www.teamworkonline.com/multiple-properties/monumentalsports/monumental-sports",
+      "https://www.teamworkonline.com/multiple-properties/monumentalsports/washington-wizards-jobs/youth-basketball-coach-part-time-seasonal-2198647"
+    ]
+  },
+  {
+    "team": "Columbus Blue Jackets",
+    "page": "https://www.nhl.com/bluejackets/team/employment",
+    "destination": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/columbus-blue-jackets/director-corporate-partnership-sales-2198108",
+    "method": "Official careers page > linked TeamWorkOnline search > Columbus job on exact employer board",
+    "checked_at": "2026-11-10"
+  },
+  {
+    "team": "Montreal Canadiens",
+    "page": "https://centrebell.ca/",
+    "destination": "https://can241.dayforcehcm.com/CandidatePortal/fr-CA/groupech/Site/CANDIDATEPORTAL?l=-2111",
+    "method": "Official Bell Centre careers navigation in server-rendered page JSON",
+    "checked_at": "2026-11-10",
+    "evidence_file": "data/official_audit/https___centrebell_ca_.html"
+  },
+  {
+    "team": "Portland Trail Blazers",
+    "page": "https://jobs.ripcity.org/jobs/18455025-manager-inside-sales",
+    "destination": "https://jobs.jobvite.com/ripcity/job/oWX4Afwh",
+    "method": "Official Apply Now redirect uses Jobvite company qh1bVfw8 and job oWX4Afwh; both match the public Rip City board HTML",
+    "checked_at": "2026-11-10",
+    "via": [
+      "https://jobs.ripcity.org/jobs/18455025-manager-inside-sales/apply?tm_src=0",
+      "https://app.jobvite.com/CompanyJobs/Careers.aspx?k=Apply&j=oWX4Afwh&c=qh1bVfw8"
+    ]
   }
 ]

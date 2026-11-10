@@ -35,4 +35,8 @@ class Parity(unittest.TestCase):
         self.assertTrue(req.call_args.kwargs['ignore_duplicates'])
         self.assertEqual(req.call_args.kwargs['json'],[{'url':'new','status':'pending','delivered_at':None}])
 
+    def test_old_dayforce_links_keep_team_tenant_board_and_language(self):
+        s=live.source_from_row({'url':'https://can241.dayforcehcm.com/CandidatePortal/fr-CA/groupech/Site/CANDIDATEPORTAL?l=-2111'})
+        self.assertEqual(s['key'],'dayforce:groupech/CANDIDATEPORTAL:fr-CA')
+
 if __name__=='__main__':unittest.main()

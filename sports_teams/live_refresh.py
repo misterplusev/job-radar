@@ -144,7 +144,7 @@ def source_from_row(row):
         return dict(base,kind='dayforce',key=f'dayforce:{tenant}/{board}'+suffix,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}')
     if p.netloc.endswith('dayforcehcm.com') and len(parts)>=3 and parts[0]=='CandidatePortal':
         culture,tenant=parts[1:3]
-        board=parts[4] if len(parts)>=5 and parts[3]=='SITE' else 'CANDIDATEPORTAL'
+        board=parts[4] if len(parts)>=5 and parts[3].upper()=='SITE' else 'CANDIDATEPORTAL'
         return source_from_row(dict(base,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}'))
     if p.netloc.endswith('.myworkdaysite.com') and 'recruiting' in parts:
         i=parts.index('recruiting');tenant,site=parts[i+1:i+3]
