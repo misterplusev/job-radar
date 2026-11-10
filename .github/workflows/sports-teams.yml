@@ -7,6 +7,10 @@ on:
         type: choice
         options: ['250', '0']
         default: '250'
+      recover_pending:
+        description: 'Recover missed individual alerts from the paused repair runs'
+        type: boolean
+        default: false
   schedule:
     - cron: '23 * * * *'
 permissions:
@@ -30,7 +34,7 @@ jobs:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       DISCORD_WEBHOOK_TEAMS: ${{ secrets.DISCORD_WEBHOOK_TEAMS }}
-      NOTIFICATIONS_PAUSED: '1'
+      NOTIFICATIONS_PAUSED: '0'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -41,13 +45,13 @@ jobs:
         run: python -m unittest discover -p 'test_*.py'
       - name: Scrape and persist all supported sources
         id: scrape
-        run: python -u pipeline_local.py --cloud --trigger '${{ github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}'
+        run: python -u pipeline_local.py --cloud --trigger '${{ github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}' ${{ github.event.inputs.recover_pending == 'true' && '--recover-pending' || '' }}
       - name: Notification guard and delivery
         run: |
           if [ "$NOTIFICATIONS_PAUSED" = "0" ]; then
             python publish_teams.py --post --limit 0
           else
-            echo "Notifications remain paused by the operator hold."
+            echo "Notifications paused by runtime configuration."
           fi
       - name: Prepare live board and health receipt
         run: |
@@ -60,7 +64,7 @@ jobs:
           shutil.copy2('board/coverage.json',out/'coverage.json')
           shutil.copy2('board/coverage.html',out/'coverage.html')
           m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
-          health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'],'last_run_end':m['generated_at'],'notifications_paused':True,'schedule':{'cron':'23 * * * *','timezone':'UTC'},'latest_manifest':m}
+          health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'],'last_run_end':m['generated_at'],'notifications_paused':False,'schedule':{'cron':'23 * * * *','timezone':'UTC'},'latest_manifest':m}
           out.joinpath('health.json').write_text(json.dumps(health,indent=2))
           PY
       - uses: actions/configure-pages@v5

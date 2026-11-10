@@ -22,8 +22,9 @@ class CloudStorage:
             raise ValueError('Supabase configuration missing')
 
     def request(self, method, table, **kwargs):
+        ignore_duplicates=kwargs.pop('ignore_duplicates',False)
         headers = {'apikey':self.key,'Authorization':'Bearer '+self.key,
-                   'Prefer':'resolution=merge-duplicates,return=minimal'}
+                   'Prefer':('resolution=ignore-duplicates' if ignore_duplicates else 'resolution=merge-duplicates')+',return=minimal'}
         for attempt in range(3):
             try:
                 r = requests.request(method,self.url+'/rest/v1/'+table,headers=headers,timeout=45,**kwargs)
@@ -100,7 +101,13 @@ class CloudStorage:
 
     def notification_state(self):
         rows=self.rows('team_job_notifications')
-        return {'schema':'abet.teams.posted.v1','seen':[r['url'] for r in rows if r['status'] in ('delivered','seeded')], 'posts':0}
+        return {'schema':'abet.teams.posted.v1','seen':[r['url'] for r in rows if r['status'] in ('delivered','seeded')],
+                'pending':[r['url'] for r in rows if r['status']=='pending'], 'posts':0}
+
+    def queue_notifications(self,urls):
+        rows=[{'url':u,'status':'pending','delivered_at':None} for u in sorted(set(urls))]
+        for pos in range(0,len(rows),100):
+            self.request('POST','team_job_notifications',params={'on_conflict':'url'},json=rows[pos:pos+100],ignore_duplicates=True)
 
     def save_notification_state(self,state):
         prior={r['url'] for r in self.rows('team_job_notifications') if r['status'] in ('seeded','delivered')}

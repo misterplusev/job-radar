@@ -102,7 +102,7 @@ class PipelineTests(unittest.TestCase):
     def publishing(self, success, count=12, args=None):
         rows = [dict(self.row(str(i)), posted_at=publisher.now_iso()) for i in range(count)]
         saved = []
-        with patch.object(publisher, 'load_rows', return_value=rows), patch.object(publisher,'load_state',return_value={'seen': [],'posts':0}), patch.object(publisher,'save_state',side_effect=saved.append), patch.object(publisher,'guard'), patch.object(publisher,'webhook',return_value='mock-only'), patch.object(publisher,'notify',side_effect=success), patch.object(publisher.time,'sleep'), patch.object(sys,'argv',['publish_teams.py']+(args or ['--post','--limit','10'])), contextlib.redirect_stdout(io.StringIO()):
+        with patch.object(publisher, 'load_rows', return_value=rows), patch.object(publisher,'load_state',return_value={'seen': [],'pending':[r['url'] for r in rows],'posts':0}), patch.object(publisher,'save_state',side_effect=saved.append), patch.object(publisher,'guard'), patch.object(publisher,'webhook',return_value='mock-only'), patch.object(publisher,'notify',side_effect=success), patch.object(publisher.time,'sleep'), patch.object(sys,'argv',['publish_teams.py']+(args or ['--post','--limit','10'])), contextlib.redirect_stdout(io.StringIO()):
             code = publisher.main()
         return saved, code
 

@@ -101,7 +101,7 @@ class OfficialRoutes(unittest.TestCase):
 
     def test_zero_limit_delivers_all_and_acknowledges_each_chunk(self):
         rows=[{'url':'https://example.com/'+str(i),'title':'Role','posted_at':pub.now_iso()} for i in range(27)];snapshots=[]
-        with patch.object(pub,'load_rows',return_value=rows),patch.object(pub,'load_state',return_value={'seen':[]}),patch.object(pub,'guard'),patch.object(pub,'webhook',return_value='mock'),patch.object(pub,'notify',return_value=True) as send,patch.object(pub,'save_state',side_effect=lambda s:snapshots.append(json.loads(json.dumps(s)))),patch.object(pub.time,'sleep'),patch.object(sys,'argv',['publish_teams.py','--post','--limit','0']),contextlib.redirect_stdout(io.StringIO()):
+        with patch.object(pub,'load_rows',return_value=rows),patch.object(pub,'load_state',return_value={'seen':[],'pending':[r['url'] for r in rows]}),patch.object(pub,'guard'),patch.object(pub,'webhook',return_value='mock'),patch.object(pub,'notify',return_value=True) as send,patch.object(pub,'save_state',side_effect=lambda s:snapshots.append(json.loads(json.dumps(s)))),patch.object(pub.time,'sleep'),patch.object(sys,'argv',['publish_teams.py','--post','--limit','0']),contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(pub.main(),0)
         self.assertEqual(send.call_count,6);self.assertEqual(len(snapshots[0]['seen']),5);self.assertEqual(len(snapshots[-1]['seen']),27)
 

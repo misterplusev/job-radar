@@ -174,6 +174,7 @@ def main():
     ap.add_argument('--cloud', action='store_true')
     ap.add_argument('--detail-limit', type=int, default=250)
     ap.add_argument('--trigger', default='manual')
+    ap.add_argument('--recover-pending', action='store_true',help='Recover missed individual alerts from earlier paused scrapes')
     args = ap.parse_args()
     con = connect()
     cloud = None
@@ -194,8 +195,24 @@ def main():
     # This bounded HTTP/data pipeline starts no agents or browsers. The existing
     # machine stop switch continues to govern agents/browsers and publishing.
     import live_refresh
+    prior_urls={r[0] for r in con.execute('select url from team_jobs')}
     results, discovery = live_refresh.collect(pt)
     new, updated, closed = live_refresh.apply_results(con, results, sys.modules[__name__])
+    new_urls={r[0] for r in con.execute('select url from team_jobs')}-prior_urls
+    if args.recover_pending:
+        # Only jobs actually observed on the current organization sources.
+        recovered={j['url'] for r in results if r['status']=='success' for j in r['rows']}
+        state=pt.load_state()
+        new_urls|=recovered-set(state.get('seen',[]))
+        print('Recovered previously unannounced organization jobs:',len(new_urls),flush=True)
+    # Queue only URLs new to the database, as in the other job scrapers.
+    # Persist the queue before the listings so an interrupted write can retry.
+    if cloud:
+        cloud.queue_notifications(new_urls)
+    else:
+        state=pt.load_state()
+        state['pending']=sorted((set(state.get('pending',[]))|new_urls)-set(state.get('seen',[])))
+        pt.save_state(state)
     run_id=str(uuid.uuid4())
     if cloud:
         print('Persisted listings:',cloud.persist(con,results,run_id,args.trigger),flush=True)

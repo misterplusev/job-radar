@@ -15,8 +15,8 @@ Teams follow that exactly. Only the module strings differ, which is true of the 
     color 0x34D399 (the robotics/tech green) · footer "ABET Sports Teams Jobs Monitor"
     fallback "New team job discovered." · content "New team jobs discovered: N"
 
-State: first run seeds (one summary + newest N, records everything as seen); later runs announce
-only URLs not yet seen. DISCORD_WEBHOOK_TEAMS comes from E:\\abet\\.env.
+State: the scrape queues URLs new to the database. Successful delivery acknowledges
+each chunk; unsuccessful deliveries remain pending. No automatic backlog reset.
 """
 from __future__ import annotations
 
@@ -310,7 +310,7 @@ def main():
     ap.add_argument('--post', action='store_true')
     ap.add_argument('--baseline', action='store_true',help='Explicit one-time catch-up summary; archive existing URLs as seeded, not individually delivered')
     ap.add_argument('--preview', action='store_true', help='post the newest N regardless of state')
-    ap.add_argument('--limit', type=int, default=10,help='Job limit; 0 processes every eligible job within the delivery time budget')
+    ap.add_argument('--limit', type=int, default=0,help='Job limit; 0 processes every eligible job within the delivery time budget')
     ap.add_argument('--show-payload', action='store_true')
     args = ap.parse_args()
 
@@ -331,7 +331,8 @@ def main():
         state.update(seen=sorted(seen|baseline),baseline_urls=sorted(baseline),posted_at=now_iso(),posts=int(state.get('posts') or 0)+1)
         save_state(state)
         print('Catch-up summary delivered; existing jobs recorded as seeded, not individually delivered.');return 0
-    fresh = [r for r in rows if r['url'] not in seen]
+    pending=set(state.get('pending',[]))
+    fresh = [r for r in rows if r['url'] in pending and r['url'] not in seen]
     fresh.sort(key=lambda r: (str(r.get('posted_at') or r.get('first_seen_at') or ''),r['url']), reverse=True)
     if args.preview:
         fresh = sorted(rows, key=lambda r: str(r.get('posted_at') or ''), reverse=True)
@@ -392,7 +393,7 @@ def main():
             ok += 1
             print(f'  posted chunk {idx // CHUNK_SIZE + 1} ({len(chunk)} embeds)')
             if not args.preview:
-                state.update(seen=sorted(seen|delivered),posted_at=now_iso(),posts=starting_posts+ok)
+                state.update(seen=sorted(seen|delivered),pending=sorted(pending-delivered),posted_at=now_iso(),posts=starting_posts+ok)
                 save_state(state)
         else:
             print(f'  chunk {idx // CHUNK_SIZE + 1} failed')
