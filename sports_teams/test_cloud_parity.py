@@ -118,7 +118,7 @@ class ParityTests(unittest.TestCase):
         self.addCleanup(con.close)
         row=dict(league='NFL',team='Team',title='Manager',url='https://example.com/1',is_active=False,first_seen_at='2020-01-01T00:00:00Z')
         with patch.dict(os.environ,{'SUPABASE_URL':'https://example.supabase.co','SUPABASE_SERVICE_ROLE_KEY':'test-only'}):store=cloud_storage.CloudStorage()
-        with patch.object(store,'rows',side_effect=[[row],[]]):store.restore(con)
+        with patch.object(store,'rows',side_effect=[[row],[],[]]):store.restore(con)
         self.assertEqual(con.execute('select first_seen_at,is_active from team_jobs').fetchone(),('2020-01-01T00:00:00Z',0))
 
     def test_cloud_notification_guard_never_posts(self):

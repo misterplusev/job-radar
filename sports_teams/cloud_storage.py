@@ -67,6 +67,11 @@ class CloudStorage:
             con.execute(f'insert into team_jobs ({fields}) values ({marks}) on conflict(team,url) do update set {updates}',[row.get(k) for k in JOB_FIELDS])
         for row in self.rows('team_job_observations'):
             con.execute('insert or replace into team_job_observations values(?,?,?,?)',[row.get(k) for k in ('source_id','url','is_active','observed_at')])
+        # Retire stale local copies only after their canonical cloud row was restored.
+        for alias in self.rows('team_job_url_aliases'):
+            if con.execute('select 1 from team_jobs where url=?',(alias['canonical_url'],)).fetchone():
+                con.execute('delete from team_jobs where url=?',(alias['old_url'],))
+                con.execute('delete from team_job_observations where url=?',(alias['old_url'],))
         con.commit()
         # Seed only confirmed historical delivery records, never every scraped URL.
         from pathlib import Path
@@ -98,4 +103,5 @@ class CloudStorage:
         return {'schema':'abet.teams.posted.v1','seen':[r['url'] for r in rows if r['status'] in ('delivered','seeded')], 'posts':0}
 
     def save_notification_state(self,state):
-        self.upsert('team_job_notifications',[{'url':u,'status':'delivered','delivered_at':state.get('posted_at')} for u in state['seen']], 'url')
+        prior={r['url'] for r in self.rows('team_job_notifications') if r['status'] in ('seeded','delivered')}
+        self.upsert('team_job_notifications',[{'url':u,'status':'delivered','delivered_at':state.get('posted_at')} for u in state['seen'] if u not in prior], 'url')

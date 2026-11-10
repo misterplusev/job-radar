@@ -101,19 +101,19 @@ def _clean_text(value) -> str:
 
 
 def _iso(value):
-    """Return an ISO-8601 timestamp, or None. Handles Workday's 'Posted 8 Days Ago'."""
+    """Return an employer-supplied absolute date; relative text is not a timestamp."""
     from datetime import timedelta
     raw = str(value or '').strip()
     if not raw:
         return None
     m = _REL_DAYS.search(raw)
     if m:
-        return (datetime.now(timezone.utc) - timedelta(days=int(m.group(1)))).isoformat()
+        return None
     low = raw.lower()
     if 'today' in low:
-        return datetime.now(timezone.utc).isoformat()
+        return None
     if 'yesterday' in low:
-        return (datetime.now(timezone.utc) - timedelta(days=1)).isoformat()
+        return None
     if re.match(r'^\d{4}-\d{2}-\d{2}', raw):
         return raw
     for fmt in ('%B %d, %Y', '%b %d, %Y', '%m/%d/%Y'):
@@ -242,6 +242,12 @@ def _is_recent(value) -> bool:
 
 def embed(row: dict) -> dict:
     """Field-for-field copy of the three existing scrapers' embed."""
+    from urllib.parse import urlsplit
+    target=urlsplit(str(row.get('url') or ''))
+    if target.scheme not in ('http','https') or not target.netloc:
+        raise ValueError('Refusing notification without a public job URL')
+    if target.netloc.endswith('.myworkdayjobs.com') and re.match(r'^/(?:[a-z]{2}-[A-Z]{2}/)?job/',target.path):
+        raise ValueError('Refusing Workday job URL without its career-site name')
     description = _clean_text(row.get('description'))
     if len(description) > 350:
         description = description[:347] + '...'
@@ -256,7 +262,7 @@ def embed(row: dict) -> dict:
             {'name': 'Location', 'value': _clean_text(row.get('location'))[:1024] or 'Unknown', 'inline': True},
         ],
         'footer': {'text': FOOTER},
-        'timestamp': posted_iso or _iso(row.get('scraped_at')) or now_iso(),
+        'timestamp': now_iso(),
     }
     platform = row.get('platform')
     if platform:

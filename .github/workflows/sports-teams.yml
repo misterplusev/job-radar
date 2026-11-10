@@ -57,6 +57,8 @@ jobs:
           out=Path('out');out.mkdir(exist_ok=True)
           out.joinpath('index.html').write_text(Path('board/live.html').read_text().replace('api/health','health.json'))
           shutil.copy2('board/team_jobs.json',out/'team_jobs.json')
+          shutil.copy2('board/coverage.json',out/'coverage.json')
+          shutil.copy2('board/coverage.html',out/'coverage.html')
           m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
           health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'],'last_run_end':m['generated_at'],'notifications_paused':True,'schedule':{'cron':'23 * * * *','timezone':'UTC'},'latest_manifest':m}
           out.joinpath('health.json').write_text(json.dumps(health,indent=2))

@@ -212,8 +212,12 @@ def main():
     jobs = snapshot(con)
     payload = write_outputs(jobs)
     failed = sum(r['status'] != 'success' for r in results)
+    import coverage_report
+    coverage=coverage_report.build(results)
+    coverage_report.write(coverage,BOARD)
     manifest = {'schema':'abet.jobs.scrape-manifest.v1','generated_at':now(),
-        'overall_status':'degraded' if failed or any(r['status']!='success' for r in discovery) else 'healthy',
+        'overall_status':'degraded' if failed or coverage['summary']['with_verified_source']!=124 or any(r['status']!='success' for r in discovery) else 'healthy',
+        'team_coverage':coverage['summary'],
         'providers':audit['sources'],'discovery':discovery,'details':details,
         'totals':{'providers':len(results),'successful':len(results)-failed,'failed':failed,'active_jobs':len(jobs),'new':new,'updated':updated,'closed':closed},
         'persistence':'supabase' if cloud else 'sqlite','trigger':args.trigger}
