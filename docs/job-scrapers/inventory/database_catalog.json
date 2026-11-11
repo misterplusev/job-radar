@@ -859,6 +859,90 @@
       "privilege_type": "UPDATE"
     },
     {
+      "grantee": "postgres",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "robotics_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
       "grantee": "anon",
       "table_name": "robotics_job_scrape_runs",
       "is_grantable": "NO",
@@ -2787,6 +2871,90 @@
     {
       "grantee": "service_role",
       "table_name": "tech_applications",
+      "is_grantable": "NO",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "postgres",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "YES",
+      "privilege_type": "UPDATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "DELETE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "INSERT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "SELECT"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_notifications",
+      "is_grantable": "NO",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "grantee": "service_role",
+      "table_name": "tech_job_notifications",
       "is_grantable": "NO",
       "privilege_type": "UPDATE"
     },
@@ -3951,6 +4119,94 @@
       "data_type": "text",
       "table_name": "robotics_applications",
       "column_name": "notes",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
+      "table_name": "robotics_job_notifications",
+      "column_name": "id",
+      "is_identity": "YES",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 1,
+      "identity_generation": "BY DEFAULT"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_job_notifications",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_job_notifications",
+      "column_name": "job_url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "robotics_job_notifications",
+      "column_name": "payload",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_job_notifications",
+      "column_name": "state",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text",
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_job_notifications",
+      "column_name": "created_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "robotics_job_notifications",
+      "column_name": "delivered_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "robotics_job_notifications",
+      "column_name": "discord_message_id",
       "is_identity": "NO",
       "is_nullable": "YES",
       "column_default": null,
@@ -5357,6 +5613,94 @@
     {
       "udt_name": "int8",
       "data_type": "bigint",
+      "table_name": "tech_job_notifications",
+      "column_name": "id",
+      "is_identity": "YES",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 1,
+      "identity_generation": "BY DEFAULT"
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_job_notifications",
+      "column_name": "company",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_job_notifications",
+      "column_name": "job_url",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "jsonb",
+      "data_type": "jsonb",
+      "table_name": "tech_job_notifications",
+      "column_name": "payload",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_job_notifications",
+      "column_name": "state",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text",
+      "ordinal_position": 5,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_job_notifications",
+      "column_name": "created_at",
+      "is_identity": "NO",
+      "is_nullable": "NO",
+      "column_default": "now()",
+      "ordinal_position": 6,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "timestamptz",
+      "data_type": "timestamp with time zone",
+      "table_name": "tech_job_notifications",
+      "column_name": "delivered_at",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "text",
+      "data_type": "text",
+      "table_name": "tech_job_notifications",
+      "column_name": "discord_message_id",
+      "is_identity": "NO",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8,
+      "identity_generation": null
+    },
+    {
+      "udt_name": "int8",
+      "data_type": "bigint",
       "table_name": "tech_job_scrape_runs",
       "column_name": "id",
       "is_identity": "NO",
@@ -5873,6 +6217,24 @@
       "schemaname": "public"
     },
     {
+      "indexdef": "CREATE UNIQUE INDEX robotics_job_notifications_company_job_url_key ON public.robotics_job_notifications USING btree (company, job_url)",
+      "indexname": "robotics_job_notifications_company_job_url_key",
+      "tablename": "robotics_job_notifications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX robotics_job_notifications_pending_idx ON public.robotics_job_notifications USING btree (id) WHERE (state = 'pending'::text)",
+      "indexname": "robotics_job_notifications_pending_idx",
+      "tablename": "robotics_job_notifications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX robotics_job_notifications_pkey ON public.robotics_job_notifications USING btree (id)",
+      "indexname": "robotics_job_notifications_pkey",
+      "tablename": "robotics_job_notifications",
+      "schemaname": "public"
+    },
+    {
       "indexdef": "CREATE INDEX idx_robotics_job_scrape_runs_provider ON public.robotics_job_scrape_runs USING btree (provider)",
       "indexname": "idx_robotics_job_scrape_runs_provider",
       "tablename": "robotics_job_scrape_runs",
@@ -6038,6 +6400,24 @@
       "indexdef": "CREATE UNIQUE INDEX tech_applications_pkey ON public.tech_applications USING btree (id)",
       "indexname": "tech_applications_pkey",
       "tablename": "tech_applications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX tech_job_notifications_company_job_url_key ON public.tech_job_notifications USING btree (company, job_url)",
+      "indexname": "tech_job_notifications_company_job_url_key",
+      "tablename": "tech_job_notifications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE INDEX tech_job_notifications_pending_idx ON public.tech_job_notifications USING btree (id) WHERE (state = 'pending'::text)",
+      "indexname": "tech_job_notifications_pending_idx",
+      "tablename": "tech_job_notifications",
+      "schemaname": "public"
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX tech_job_notifications_pkey ON public.tech_job_notifications USING btree (id)",
+      "indexname": "tech_job_notifications_pkey",
+      "tablename": "tech_job_notifications",
       "schemaname": "public"
     },
     {
@@ -6426,6 +6806,15 @@
       "rls_enabled": true
     },
     {
+      "oid": "5882994",
+      "name": "robotics_job_notifications",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
       "oid": "1726443",
       "name": "robotics_job_scrape_runs",
       "schema": "public",
@@ -6534,6 +6923,15 @@
       "rls_enabled": true
     },
     {
+      "oid": "5883015",
+      "name": "tech_job_notifications",
+      "schema": "public",
+      "relkind": "r",
+      "rls_forced": false,
+      "description": null,
+      "rls_enabled": true
+    },
+    {
       "oid": "2069339",
       "name": "tech_job_scrape_runs",
       "schema": "public",
@@ -6591,6 +6989,24 @@
       "type": "p",
       "table": "robotics_applications",
       "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "robotics_job_notifications_company_job_url_key",
+      "type": "u",
+      "table": "robotics_job_notifications",
+      "definition": "UNIQUE (company, job_url)"
+    },
+    {
+      "name": "robotics_job_notifications_pkey",
+      "type": "p",
+      "table": "robotics_job_notifications",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "robotics_job_notifications_state_check",
+      "type": "c",
+      "table": "robotics_job_notifications",
+      "definition": "CHECK ((state = ANY (ARRAY['pending'::text, 'delivered'::text, 'expired'::text, 'inactive'::text])))"
     },
     {
       "name": "robotics_job_scrape_runs_pkey",
@@ -6713,6 +7129,24 @@
       "definition": "PRIMARY KEY (id)"
     },
     {
+      "name": "tech_job_notifications_company_job_url_key",
+      "type": "u",
+      "table": "tech_job_notifications",
+      "definition": "UNIQUE (company, job_url)"
+    },
+    {
+      "name": "tech_job_notifications_pkey",
+      "type": "p",
+      "table": "tech_job_notifications",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "name": "tech_job_notifications_state_check",
+      "type": "c",
+      "table": "tech_job_notifications",
+      "definition": "CHECK ((state = ANY (ARRAY['pending'::text, 'delivered'::text, 'expired'::text, 'inactive'::text])))"
+    },
+    {
       "name": "tech_job_scrape_runs_pkey",
       "type": "p",
       "table": "tech_job_scrape_runs",
@@ -6731,5 +7165,5 @@
       "definition": "PRIMARY KEY (id)"
     }
   ],
-  "exported_at": "2026-11-10T18:54:45.378584+00:00"
+  "exported_at": "2026-11-11T05:28:04.650597+00:00"
 }

@@ -1,10 +1,10 @@
 # Live job database dictionary — November 10, 2026
 
-Read-only PostgreSQL catalog export at `2026-11-10T18:54:45.378584+00:00`. Project `alxgteasytezekyunyjk`, schema `public`. No job or applicant rows were exported.
+Read-only PostgreSQL catalog export at `2026-11-11T05:28:04.650597+00:00`. Project `alxgteasytezekyunyjk`, schema `public`. No job or applicant rows were exported.
 
-20 tables/views; 223 columns; 28 constraints; 56 indexes; 21 RLS policies; 4 triggers; 546 grants.
+22 tables/views; 239 columns; 34 constraints; 62 indexes; 21 RLS policies; 4 triggers; 574 grants.
 
-SQL: [export_job_schema.sql](../export_job_schema.sql). Evidence: [read-only workflow run](https://github.com/misterplusev/job-radar/actions/runs/42879922731). Raw structure: [database_catalog.json](database_catalog.json).
+SQL: [export_job_schema.sql](../export_job_schema.sql). Evidence: [read-only workflow run](https://github.com/misterplusev/job-radar/actions/runs/42965912679). Raw structure: [database_catalog.json](database_catalog.json).
 
 Important observed differences: `robotics_jobs` and `tech_jobs` currently have no `first_seen_at` column despite local migration files. Their source-run timestamps are `created_at`; sportsbook run timestamps are `started_at`. Do not query guessed common columns. Policies below describe deployed access, not recommended defaults for a new module.
 
@@ -245,6 +245,35 @@ end;
 $function$
 
 ```
+
+## public.robotics_job_notifications
+
+Kind `r`; RLS enabled `True`; RLS forced `False`.
+
+| # | Column | Type | Nullable | Default | Identity |
+|---:|---|---|---|---|---|
+| 1 | id | int8 | NO | — | BY DEFAULT |
+| 2 | company | text | NO | — | — |
+| 3 | job_url | text | NO | — | — |
+| 4 | payload | jsonb | NO | — | — |
+| 5 | state | text | NO | 'pending'::text | — |
+| 6 | created_at | timestamptz | NO | now() | — |
+| 7 | delivered_at | timestamptz | YES | — | — |
+| 8 | discord_message_id | text | YES | — | — |
+
+### Constraints and indexes
+
+- `robotics_job_notifications_company_job_url_key`: `UNIQUE (company, job_url)`
+- `robotics_job_notifications_pkey`: `PRIMARY KEY (id)`
+- `robotics_job_notifications_state_check`: `CHECK ((state = ANY (ARRAY['pending'::text, 'delivered'::text, 'expired'::text, 'inactive'::text])))`
+- `robotics_job_notifications_company_job_url_key`: `CREATE UNIQUE INDEX robotics_job_notifications_company_job_url_key ON public.robotics_job_notifications USING btree (company, job_url)`
+- `robotics_job_notifications_pending_idx`: `CREATE INDEX robotics_job_notifications_pending_idx ON public.robotics_job_notifications USING btree (id) WHERE (state = 'pending'::text)`
+- `robotics_job_notifications_pkey`: `CREATE UNIQUE INDEX robotics_job_notifications_pkey ON public.robotics_job_notifications USING btree (id)`
+
+### Access policies and grants
+
+- Grants to `postgres`: DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE.
+- Grants to `service_role`: DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE.
 
 ## public.robotics_job_scrape_runs
 
@@ -713,6 +742,35 @@ end;
 $function$
 
 ```
+
+## public.tech_job_notifications
+
+Kind `r`; RLS enabled `True`; RLS forced `False`.
+
+| # | Column | Type | Nullable | Default | Identity |
+|---:|---|---|---|---|---|
+| 1 | id | int8 | NO | — | BY DEFAULT |
+| 2 | company | text | NO | — | — |
+| 3 | job_url | text | NO | — | — |
+| 4 | payload | jsonb | NO | — | — |
+| 5 | state | text | NO | 'pending'::text | — |
+| 6 | created_at | timestamptz | NO | now() | — |
+| 7 | delivered_at | timestamptz | YES | — | — |
+| 8 | discord_message_id | text | YES | — | — |
+
+### Constraints and indexes
+
+- `tech_job_notifications_company_job_url_key`: `UNIQUE (company, job_url)`
+- `tech_job_notifications_pkey`: `PRIMARY KEY (id)`
+- `tech_job_notifications_state_check`: `CHECK ((state = ANY (ARRAY['pending'::text, 'delivered'::text, 'expired'::text, 'inactive'::text])))`
+- `tech_job_notifications_company_job_url_key`: `CREATE UNIQUE INDEX tech_job_notifications_company_job_url_key ON public.tech_job_notifications USING btree (company, job_url)`
+- `tech_job_notifications_pending_idx`: `CREATE INDEX tech_job_notifications_pending_idx ON public.tech_job_notifications USING btree (id) WHERE (state = 'pending'::text)`
+- `tech_job_notifications_pkey`: `CREATE UNIQUE INDEX tech_job_notifications_pkey ON public.tech_job_notifications USING btree (id)`
+
+### Access policies and grants
+
+- Grants to `postgres`: DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE.
+- Grants to `service_role`: DELETE, INSERT, REFERENCES, SELECT, TRIGGER, TRUNCATE, UPDATE.
 
 ## public.tech_job_scrape_runs
 

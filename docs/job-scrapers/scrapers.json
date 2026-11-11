@@ -9,9 +9,7 @@
       "branch": "master",
       "workflow": "pipeline.yml",
       "expected_workflow_state": "active",
-      "expected_crons": [
-        "9 * * * *"
-      ],
+      "expected_crons": [],
       "runtime": "github-actions",
       "entrypoint": "python run.py ingest",
       "registry": "config/targets.json",
@@ -21,7 +19,18 @@
       "webhook_secret": "DISCORD_WEBHOOK_JOBS",
       "board": "https://misterplusev.github.io/robotics-jobradar-board/",
       "local_checkout": "D:/abet/job-radar",
-      "dashboard_url": "https://abet-dashboard.vercel.app/?section=jobs&tab=robotics-jobs"
+      "dashboard_url": "https://abet-dashboard.vercel.app/?section=jobs&tab=robotics-jobs",
+      "scheduler": {
+        "type": "cloudflare-durable-object-alarm",
+        "worker": "abet-jobs-scheduler",
+        "minute_utc": 9,
+        "heartbeat_minutes": 5,
+        "source_repo": "misterplusev/job-radar",
+        "source_path": "runtime/cloudflare/worker.mjs"
+      },
+      "health": "https://abet-jobs-scheduler.abetscrape.workers.dev/health",
+      "notifications_table": "robotics_job_notifications",
+      "manifest_artifact": "job-radar-receipt"
     },
     {
       "id": "tech",
@@ -29,9 +38,7 @@
       "branch": "master",
       "workflow": "pipeline.yml",
       "expected_workflow_state": "active",
-      "expected_crons": [
-        "37 * * * *"
-      ],
+      "expected_crons": [],
       "runtime": "github-actions",
       "entrypoint": "python run.py ingest",
       "registry": "config/targets.json",
@@ -41,7 +48,18 @@
       "webhook_secret": "DISCORD_WEBHOOK_JOBS",
       "board": "https://misterplusev.github.io/jobradar-tech-board/",
       "local_checkout": "D:/abet/job-radar-tech",
-      "dashboard_url": "https://abet-dashboard.vercel.app/?section=jobs&tab=tech-jobs"
+      "dashboard_url": "https://abet-dashboard.vercel.app/?section=jobs&tab=tech-jobs",
+      "scheduler": {
+        "type": "cloudflare-durable-object-alarm",
+        "worker": "abet-jobs-scheduler",
+        "minute_utc": 37,
+        "heartbeat_minutes": 5,
+        "source_repo": "misterplusev/job-radar",
+        "source_path": "runtime/cloudflare/worker.mjs"
+      },
+      "health": "https://abet-jobs-scheduler.abetscrape.workers.dev/health",
+      "notifications_table": "tech_job_notifications",
+      "manifest_artifact": "job-radar-receipt"
     },
     {
       "id": "sportsbook",
