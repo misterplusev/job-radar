@@ -4,7 +4,7 @@ import worker, { JobsScheduler, dueSlot, nextWake } from './worker.mjs';
 
 function fixture(initial = { paused: false, modules: {} }) {
   let stored = structuredClone(initial);
-  const state = { storage: { get: async () => structuredClone(stored), put: async (_, value) => { stored = structuredClone(value); }, setAlarm: async () => {}, deleteAlarm: async () => {} },
+  const state = { storage: { get: async () => structuredClone(stored), put: async (_, value) => { stored = structuredClone(value); }, getAlarm: async () => null, setAlarm: async () => {}, deleteAlarm: async () => {} },
     blockConcurrencyWhile: callback => callback() };
   return { instance: new JobsScheduler(state, { GITHUB_TOKEN: 'fake' }), value: () => stored };
 }
