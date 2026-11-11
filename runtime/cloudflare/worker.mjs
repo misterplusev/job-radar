@@ -1,8 +1,9 @@
 // Owner: ABET. Cloudflare owns hourly dispatch; GitHub Actions only executes jobs.
 // One serialized Durable Object alarm; no account cron slots or local processes.
 export const MODULES = [
-  { id: 'robotics', repo: 'misterplusev/job-radar', minute: 9 },
-  { id: 'tech', repo: 'misterplusev/job-radar-tech', minute: 37 },
+  { id: 'robotics', repo: 'misterplusev/job-radar', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 9 },
+  { id: 'tech', repo: 'misterplusev/job-radar-tech', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 37 },
+  { id: 'sports_teams', repo: 'misterplusev/job-radar', workflow: 'sports-teams.yml', prefix: 'sports-teams', minute: 23 },
 ];
 
 export function dueSlot(now, minute) {
@@ -47,9 +48,9 @@ export class JobsScheduler {
       const record = prior.slot === slot ? prior : { slot, attempts: 0 };
       state.modules[config.id] = record;
       try {
-        const data = await this.github(`repos/${config.repo}/actions/workflows/pipeline.yml/runs?branch=master&per_page=30`);
+        const data = await this.github(`repos/${config.repo}/actions/workflows/${config.workflow}/runs?branch=master&per_page=30`);
         const runs = data.workflow_runs;
-        const match = runs.find(run => run.display_title === `job-radar ${slot}`);
+        const match = runs.find(run => run.display_title === `${config.prefix} ${slot}`);
         const latestSuccess = runs.find(run => run.conclusion === 'success');
         record.last_success = latestSuccess?.updated_at || null;
         record.last_checked = state.last_tick;
@@ -80,7 +81,7 @@ export class JobsScheduler {
         // Persist intent before the remote action. Retries are bounded per hourly slot.
         record.dispatched_at = state.last_tick;
         await this.state.storage.put('state', state);
-        await this.github(`repos/${config.repo}/actions/workflows/pipeline.yml/dispatches`,
+        await this.github(`repos/${config.repo}/actions/workflows/${config.workflow}/dispatches`,
           { ref: 'master', inputs: { scheduler_slot: slot, trigger_source: 'cloudflare' } });
         record.status = 'awaiting_run';
         record.dispatch_origin = origin;

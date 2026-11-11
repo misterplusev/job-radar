@@ -1,7 +1,17 @@
 name: sports-teams-jobs
+run-name: sports-teams ${{ inputs.scheduler_slot || github.event_name }}
 on:
   workflow_dispatch:
     inputs:
+      scheduler_slot:
+        description: UTC hourly slot assigned by the Cloudflare scheduler
+        type: string
+        required: false
+      trigger_source:
+        description: Dispatch origin
+        type: string
+        default: manual
+        required: false
       detail_limit:
         description: 'Detail-page batch (0 verifies sources using cached descriptions)'
         type: choice
@@ -11,8 +21,7 @@ on:
         description: 'Recover missed individual alerts from the paused repair runs'
         type: boolean
         default: false
-  schedule:
-    - cron: '23 * * * *'
+# Cloudflare Durable Object alarms own hourly dispatch at :23 UTC.
 permissions:
   contents: read
   pages: write
@@ -35,6 +44,7 @@ jobs:
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       DISCORD_WEBHOOK_TEAMS: ${{ secrets.DISCORD_WEBHOOK_TEAMS }}
       NOTIFICATIONS_PAUSED: '0'
+      JOBRADAR_SCHEDULER_SLOT: ${{ inputs.scheduler_slot }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -45,7 +55,7 @@ jobs:
         run: python -m unittest discover -p 'test_*.py'
       - name: Scrape and persist all supported sources
         id: scrape
-        run: python -u pipeline_local.py --cloud --trigger '${{ github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}' ${{ github.event.inputs.recover_pending == 'true' && '--recover-pending' || '' }}
+        run: python -u pipeline_local.py --cloud --trigger '${{ inputs.trigger_source || github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}' ${{ github.event.inputs.recover_pending == 'true' && '--recover-pending' || '' }}
       - name: Notification guard and delivery
         id: delivery
         continue-on-error: true
@@ -69,7 +79,7 @@ jobs:
           shutil.copy2('board/coverage.html',out/'coverage.html')
           m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
           delivery='${{ steps.delivery.outcome }}'
-          health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'] if delivery=='success' else 'degraded','last_run_end':m['generated_at'],'notifications_paused':False,'delivery_status':delivery,'schedule':{'cron':'23 * * * *','timezone':'UTC'},'latest_manifest':m}
+          health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'] if delivery=='success' else 'degraded','last_run_end':m['generated_at'],'notifications_paused':False,'delivery_status':delivery,'schedule':{'owner':'cloudflare-durable-object-alarm','minute_utc':23,'timezone':'UTC','health_url':'https://abet-jobs-scheduler.abetscrape.workers.dev/health'},'latest_manifest':m}
           out.joinpath('health.json').write_text(json.dumps(health,indent=2))
           PY
       - uses: actions/configure-pages@v5
@@ -90,6 +100,7 @@ jobs:
           from pathlib import Path
           m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
           print(json.dumps(m['totals']))
-          if m['overall_status']!='healthy':raise SystemExit('Source failures: see published health receipt')
+          if m['runtime_status']!='healthy':raise SystemExit('Source failures: see published health receipt')
+          if m['career_link_audit_status']!='verified':print('::warning::Career-link audit remains partial; see coverage.json. Overall health remains degraded until all links are proved.')
           if '${{ steps.delivery.outcome }}'!='success':raise SystemExit('Delivery incomplete; unsent jobs remain queued')
           PY
