@@ -1,0 +1,48 @@
+{
+  "modules": {
+    "robotics": {
+      "slot": "2026-11-11T08:09:00.000Z",
+      "attempts": 1,
+      "last_success": "2026-11-11T08:30:55Z",
+      "last_checked": "2026-11-11T09:05:00.058Z",
+      "error": null,
+      "status": "success",
+      "dispatched_at": "2026-11-11T08:09:00.117Z",
+      "dispatch_origin": "alarm",
+      "run_id": 42986391001,
+      "run_url": "https://github.com/misterplusev/job-radar/actions/runs/42986391001"
+    },
+    "tech": {
+      "slot": "2026-11-11T08:37:00.000Z",
+      "attempts": 1,
+      "last_success": "2026-11-11T08:38:44Z",
+      "last_checked": "2026-11-11T09:05:00.058Z",
+      "error": null,
+      "status": "success",
+      "dispatched_at": "2026-11-11T08:37:00.002Z",
+      "dispatch_origin": "alarm",
+      "run_id": 42988458277,
+      "run_url": "https://github.com/misterplusev/job-radar-tech/actions/runs/42988458277"
+    },
+    "sports_teams": {
+      "slot": "2026-11-11T08:23:00.000Z",
+      "attempts": 1,
+      "last_success": "2026-11-11T08:56:12Z",
+      "last_checked": "2026-11-11T09:05:00.058Z",
+      "error": null,
+      "status": "success",
+      "dispatched_at": "2026-11-11T08:23:00.070Z",
+      "dispatch_origin": "alarm",
+      "run_id": 42986593593,
+      "run_url": "https://github.com/misterplusev/job-radar/actions/runs/42986593593"
+    }
+  },
+  "paused": false,
+  "changed_at": "2026-11-11T05:31:57.195Z",
+  "last_tick": "2026-11-11T09:05:00.058Z",
+  "last_scheduler_tick": "2026-11-11T09:05:00.058Z",
+  "scheduler": "cloudflare-durable-object-alarm",
+  "status": "healthy",
+  "overdue": [],
+  "next_alarm_at": "2026-11-11T09:09:00.000Z"
+}

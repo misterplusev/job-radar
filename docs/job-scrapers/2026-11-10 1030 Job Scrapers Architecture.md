@@ -105,7 +105,7 @@ Private Space source revision checked: `95db2a29832416e9fc86df276b5e7fce7de88314
 
 The robotics/tech/sports-teams GitHub scheduling dependency was replaced by the Cloudflare alarm scheduler. Its public health is https://abet-jobs-scheduler.abetscrape.workers.dev/health and its code is `job-radar/runtime/cloudflare/worker.mjs`. It serializes slot dispatch, checks existing run titles, and detects stale executions. GitHub Actions remains the execution host. No extra paid tier or local process was introduced.
 
-Outstanding work outside this repair: sports-teams GitHub scheduling gaps; finish six official-page linkage proofs and five alternate route repairs; evaluate durable notification recovery for sportsbook. The read-only checker verifies configuration and recent run evidence, not every provider, every database row, secret validity, frontend rendering or employer authenticity. These are explicit remaining limits, not completed guarantees.
+Current verification: all 124 official team career routes are evidenced and all 152 configured source routes passed. All eight standalone/dashboard views were exercised in a real browser on November 11; see the complete verification report. Remaining limits: sportsbook lacks durable notification recovery equivalent to the other modules; deployed watchdog-source parity is unverified; optional job descriptions may be unavailable. The read-only runtime checker alone does not test every frontend control or future employer changes.
 
 ## Exhaustive source and dashboard expansion
 

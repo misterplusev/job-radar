@@ -70,4 +70,4 @@ Application marks on the board are private to the browser; they do not submit
 applications. Authenticated database application records have owner-scoped RLS.
 This does not replace the job search's Markdown application tracker.
 
-Current proof: 152/152 active source checks, 124 teams with working feeds, 121/124 official career-route links proved. Chicago Bulls, LA Clippers and Milwaukee Bucks remain unproved. The manifest separates runtime success from this audit; composite health remains degraded. See the shared November 11 repair report.
+Current proof (November 11): 152/152 source checks and 124/124 official career-route links proved. Bulls, Clippers and Bucks were verified through their rendered official pages, with exact configured-employer matching. Composite health is healthy. All eight standalone/dashboard views passed real browser checks. See [the public screenshots and receipts](https://misterplusev.github.io/job-radar/verification-20261111/) and the shared complete verification report; this is dated evidence, not a future uptime guarantee.
