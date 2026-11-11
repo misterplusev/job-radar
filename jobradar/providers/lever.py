@@ -21,17 +21,16 @@ class LeverProvider(Provider):
         self.content = content
 
     def fetch(self, run_id: str) -> List[Job]:
-        try:
-            data = http_get(API.format(slug=self.slug)).json()
-        except Exception:
-            return []
+        data = http_get(API.format(slug=self.slug)).json()
+        if not isinstance(data, list):
+            raise ValueError("Lever returned an invalid posting list")
         company = board_company(self.slug)
         jobs: List[Job] = []
         for p in data:
             title = clean_ws(p.get("text"))
             url = p.get("hostedUrl") or p.get("applyUrl") or ""
             if not title or not url:
-                continue
+                raise ValueError("Posting missing title or URL; observation is incomplete")
             loc = clean_ws((p.get("categories") or {}).get("location"))
             if self.content:
                 desc = clean_ws(p.get("descriptionPlain") or p.get("description"))
