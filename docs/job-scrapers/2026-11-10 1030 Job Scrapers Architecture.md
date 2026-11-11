@@ -26,7 +26,7 @@ The shared database project is `alxgteasytezekyunyjk`. This identifier is not a 
 |---|---|---|---|---|
 | Robotics | `misterplusev/job-radar`, `master` | GitHub Actions execution; Cloudflare Durable Object alarm dispatch | Hourly at :09 UTC; no GitHub cron | 45 minutes |
 | Tech | `misterplusev/job-radar-tech`, `master` | GitHub Actions execution; Cloudflare Durable Object alarm dispatch | Hourly at :37 UTC; no GitHub cron | 30 minutes |
-| Sports teams | `sports_teams/` inside `misterplusev/job-radar`, `master` | GitHub Actions, `.github/workflows/sports-teams.yml` | `23 * * * *`, UTC; hourly at :23 | 45 minutes |
+| Sports teams | `sports_teams/` inside `misterplusev/job-radar`, `master` | GitHub Actions execution; Cloudflare Durable Object alarm dispatch | Hourly at :23 UTC; no GitHub cron | 45 minutes |
 | Sportsbook | `misterplusev/sportsbook-jobs-dashboard`, **`prod/sportsbook-jobs`** | Private Hugging Face Space `abetco/sportsbook-jobs`, branch `main` | 06, 08, 10, 12, 14, 16, 18, 20 in `America/New_York`, **every day** | Scrape subprocess: 45 minutes |
 
 Hourly minutes remain :09/:23/:37 in Pacific and Arizona time. Sportsbook's Pacific slots are 03, 05, 07, 09, 11, 13, 15, 17. Arizona does not observe DST: its sportsbook slots are 04–18 by twos during Eastern standard time and 03–17 by twos during Eastern daylight time.
@@ -52,7 +52,7 @@ Robotics/tech providers include Greenhouse, Lever, Ashby, Amazon and Workday. Th
 
 Sports teams explicitly enumerates 124 NFL/NBA/MLB/NHL organizations (32/30/30/32). TeamworkOnline is queried through the exact employer boards and real pagination. Broad league discovery is not used to add production sources. Other adapters include Workday, Greenhouse, ADP, UKG, NBA and team-specific sites. See the module README and registry for the complete current list. Shared ownership sources retain their real parent employer names.
 
-Two separate proofs matter: (1) the source currently returns a valid complete observation, and (2) the actual team's official careers page points to that source. On this date, all 124 have at least one working source, while official-page linkage is proved for 118. Remaining linkage evidence: Chicago Bulls, LA Clippers, Milwaukee Bucks, New York Giants, Boston Bruins and Pittsburgh Penguins. Alternate Teamwork routes for Tigers, Red Wings, Astros, Hard Rock Stadium and Monumental also fail. See [live coverage](https://misterplusev.github.io/job-radar/coverage.html); it can change after this snapshot.
+Two separate proofs matter: (1) the source currently returns a valid complete observation, and (2) the actual team's official careers page points to that source. On this date, all 124 have at least one working source, while official career-route linkage is proved for 121. Remaining linkage evidence: Chicago Bulls, LA Clippers and Milwaukee Bucks. Four blocked TeamWork routes now use verified employer-selected ATS endpoints; the Astros dead route is retained as retired with its official UKG replacement. All 152 active source checks passed in the November 11 cutover. League-linked paths are labeled explicitly in registry evidence. See [live coverage](https://misterplusev.github.io/job-radar/coverage.html); it can change after this snapshot.
 
 ## Persistence and state
 
@@ -103,7 +103,7 @@ Use names, never values, in documentation. GitHub stores `SUPABASE_URL`, `SUPABA
 
 Private Space source revision checked: `95db2a29832416e9fc86df276b5e7fce7de88314`. Its launcher and GitHub production launcher have identical text after CRLF/LF normalization (SHA-256 `ce8df4978837c5734ba7f0116e519144a2fc972aed2cf1628ce23f6a245bc28f`). Raw bytes differ by line endings. Scraper SHA-256: `72a43e62f4ce209efb41fac9e555f8fb9c0dc8c26b05592540a4ec0c38524fdb`. Runtime bundle manifest schema is `abet.jobs.hf-bundle.v1`; the manifest checked contains 36 files. Future deployment checks must compare source, manifest and deployed revision again.
 
-The robotics/tech GitHub scheduling dependency was replaced by the Cloudflare alarm scheduler. Its public health is https://abet-jobs-scheduler.abetscrape.workers.dev/health and its code is `job-radar/runtime/cloudflare/worker.mjs`. It serializes slot dispatch, checks existing run titles, and detects stale executions. GitHub Actions remains the execution host. No extra paid tier or local process was introduced.
+The robotics/tech/sports-teams GitHub scheduling dependency was replaced by the Cloudflare alarm scheduler. Its public health is https://abet-jobs-scheduler.abetscrape.workers.dev/health and its code is `job-radar/runtime/cloudflare/worker.mjs`. It serializes slot dispatch, checks existing run titles, and detects stale executions. GitHub Actions remains the execution host. No extra paid tier or local process was introduced.
 
 Outstanding work outside this repair: sports-teams GitHub scheduling gaps; finish six official-page linkage proofs and five alternate route repairs; evaluate durable notification recovery for sportsbook. The read-only checker verifies configuration and recent run evidence, not every provider, every database row, secret validity, frontend rendering or employer authenticity. These are explicit remaining limits, not completed guarantees.
 

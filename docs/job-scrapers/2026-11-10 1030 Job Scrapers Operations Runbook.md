@@ -39,7 +39,7 @@ gh run view RUN_ID --repo misterplusev/job-radar --log-failed
 gh api repos/misterplusev/sportsbook-jobs-dashboard/actions/workflows/scrape.yml
 ```
 
-Replace `RUN_ID` with an observed numeric run ID. Review logs locally for secrets before quoting or publishing them. Robotics/tech use `workflow_dispatch` from the Cloudflare scheduler. Automatic run titles are `job-radar <UTC ISO slot>`; repair/manual titles must not be counted as cadence proof. Sports teams still uses GitHub schedule events.
+Replace `RUN_ID` with an observed numeric run ID. Review logs locally for secrets before quoting or publishing them. Robotics/tech use `workflow_dispatch` from the Cloudflare scheduler. Automatic run titles are `job-radar <UTC ISO slot>`; repair/manual titles must not be counted as cadence proof. Sports teams also uses Cloudflare dispatch, with titles `sports-teams <UTC ISO slot>`. Its scheduler health is separate from its published source/coverage receipt.
 
 For sportsbook, use the [public watchdog health](https://abet-jobs-watchdog.abetco.workers.dev/jobs-health). Inspect `schedule.missed`, previous/next due slots, `last_run_end`, expected provider count, errors, timeouts and the underlying manifest. A quiet overnight period is expected. `next_run_utc` and related fields may contain an explicit non-UTC offset in the sanitized response; parse the ISO timestamp instead of trusting the field name. The private Space's `/api/health` and source require existing Hugging Face access. `/api/run` is a mutating authenticated trigger, not a health check.
 
@@ -67,6 +67,8 @@ The independently hosted static boards live in `robotics-jobradar-board` / `jobr
 ### Sports teams
 
 The production directory is `sports_teams/` in `misterplusev/job-radar`, with its own workflow and Pages deployment. Local `D:\abet_ops\sports_teams` is an operator staging directory, not a separate Git repository. Its `deploy_github.py` helper copies runtime files and can configure secrets; it is **not** a harmless docs synchronizer. For documentation edits, commit only the documentation paths. For runtime changes, review the helper's allowlist and generated tree before using it.
+
+Sports teams now shares the alarm scheduler at :23 UTC. Its workflow checks `runtime_status` for source execution and retains a separate `career_link_audit_status`; composite `overall_status` remains degraded until that audit is complete. Review both, not only the workflow conclusion.
 
 Run `python -m unittest discover -p 'test_*.py'` in the module for source/delivery regression coverage. Review migration effects and preserve `team_job_notifications`, observations, URL aliases and immutable discovery dates. A rollback must retain delivery acknowledgements or it can repeat old alerts. Keep the retired local/Hugging Face/Cloudflare schedulers disabled. The November 10 recovery is already complete; replaying it is unnecessary.
 

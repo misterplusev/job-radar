@@ -1,6 +1,6 @@
 # ABET job scrapers — start here
 
-Verified against deployed configuration and recent executions on **November 10, 2026**. This is the shared entry point for the robotics, tech, sportsbook and sports-team job scrapers. Owner: ABET / Chris; maintainers are the operator and sessions assigned to this system.
+Verified against deployed configuration and recent executions on **November 11, 2026**. This is the shared entry point for the robotics, tech, sportsbook and sports-team job scrapers. Owner: ABET / Chris; maintainers are the operator and sessions assigned to this system.
 
 1. [Architecture and source-of-truth map](2026-11-10%201030%20Job%20Scrapers%20Architecture.md) — repositories, branches, runtimes, schedules, storage, alerts, boards and actual differences.
 2. [Operations and verification](2026-11-10%201030%20Job%20Scrapers%20Operations%20Runbook.md) — read-only inspection, diagnosis, deployment and rollback boundaries.
@@ -18,6 +18,8 @@ Verified against deployed configuration and recent executions on **November 10, 
 
 11. [Tech and robotics production repair](2026-11-10%202135%20Tech%20and%20Robotics%20Production%20Repair.md) — deployed code, alarm scheduler, durable queues, cleanup reconciliation, tests, live receipts and rollback. This supersedes the diagnosis/review-only status above.
 
+12. [Sports teams repair and four-scraper verification](2026-11-11%200010%20Sports%20Teams%20Repair%20and%20Four%20Scraper%20Verification.md) — source repairs, all four live receipts, current scheduling and the three remaining career-link audit gaps.
+
 Canonical version-controlled copy: [job-radar/docs/job-scrapers](https://github.com/misterplusev/job-radar/tree/master/docs/job-scrapers). Local operator copy: `D:\abet_ops\jobs_scrapers`. The four module READMEs link here. Consult live source and a fresh verification receipt when these documents disagree with production; update both the inventory and the prose after a change.
 
 ```powershell
@@ -28,10 +30,10 @@ Requires existing GitHub CLI authentication. This performs bounded GET requests 
 
 ## Current limits a new session must know
 
-- Robotics and tech now use Cloudflare Durable Object alarms for hourly dispatch, with GitHub Actions for execution and a public scheduler health endpoint. The sports-teams GitHub schedule still has observed multi-hour gaps. A configuration declaration alone is not cadence proof.
+- Robotics, tech and sports teams use one Cloudflare Durable Object alarm scheduler for hourly dispatch, with GitHub Actions for execution. Sports teams joined after its GitHub schedule showed multi-hour gaps. A configuration declaration alone is not cadence proof.
 - Historical diagnosis: tech/robotics had 26 scheduled starts each instead of 168, and oversized robotics cleanup requests left 3,136 matching rows active. The evening production repair replaces scheduling, batches cleanup, exposes failures and adds persistent notification queues. Consult the release receipt for live verification, rather than interpreting that historical diagnosis as current state.
 - Sportsbook is healthy on its **Hugging Face** schedule, every two hours from 06:00 through 20:00 Eastern, every day. Its legacy GitHub workflow is disabled and has no schedule on the default branch.
-- Sports teams has working source observations for 124 teams; only 118 official-career-page links are independently proved. Five alternate source routes also fail. Coverage is not silently called complete.
+- Sports teams passed 152/152 active sources for 124 teams. Official career-route evidence is 121/124; Bulls, Clippers and Bucks remain unproved. Runtime status is healthy, but composite health stays degraded for the partial career-link audit. Full coverage is not silently claimed.
 - Teams, robotics and tech have durable notification queues. Sportsbook still lacks equivalent persistent recovery after an alert fails following a successful database write.
 - The watchdog source/configuration is inventoried, but current Cloudflare credentials cannot inspect the deployed copy. Its public health endpoint works; deployed-source parity is unverified.
 - Current repositories and workflows are not interchangeable templates. The new-industry guide identifies which parts to reuse and which historical behavior to fix.
