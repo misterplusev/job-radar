@@ -1,6 +1,6 @@
 # Job scrapers architecture — verified November 10, 2026
 
-This documents the deployed system, not the earlier plan for an automated resume-writing platform. Live configuration, deployed source and run receipts take precedence over historical prose. Inspect [scrapers.json](scrapers.json) and run [verify_scrapers.py](verify_scrapers.py) when resuming work.
+This documents the deployed system, not the earlier plan for an automated resume-writing platform. Updated after the November 10 evening reliability repair. Live configuration, deployed source and run receipts take precedence over historical prose. Inspect [scrapers.json](scrapers.json) and run [verify_scrapers.py](verify_scrapers.py) when resuming work.
 
 ## System boundary
 
@@ -24,8 +24,8 @@ The shared database project is `alxgteasytezekyunyjk`. This identifier is not a 
 
 | Module | Source repository / branch | Production runtime | Configured schedule | Deadline |
 |---|---|---|---|---|
-| Robotics | `misterplusev/job-radar`, `master` | GitHub Actions, `.github/workflows/pipeline.yml` | `9 * * * *`, UTC; hourly at :09 | 45 minutes |
-| Tech | `misterplusev/job-radar-tech`, `master` | GitHub Actions, `.github/workflows/pipeline.yml` | `37 * * * *`, UTC; hourly at :37 | 30 minutes |
+| Robotics | `misterplusev/job-radar`, `master` | GitHub Actions execution; Cloudflare Durable Object alarm dispatch | Hourly at :09 UTC; no GitHub cron | 45 minutes |
+| Tech | `misterplusev/job-radar-tech`, `master` | GitHub Actions execution; Cloudflare Durable Object alarm dispatch | Hourly at :37 UTC; no GitHub cron | 30 minutes |
 | Sports teams | `sports_teams/` inside `misterplusev/job-radar`, `master` | GitHub Actions, `.github/workflows/sports-teams.yml` | `23 * * * *`, UTC; hourly at :23 | 45 minutes |
 | Sportsbook | `misterplusev/sportsbook-jobs-dashboard`, **`prod/sportsbook-jobs`** | Private Hugging Face Space `abetco/sportsbook-jobs`, branch `main` | 06, 08, 10, 12, 14, 16, 18, 20 in `America/New_York`, **every day** | Scrape subprocess: 45 minutes |
 
@@ -33,7 +33,7 @@ Hourly minutes remain :09/:23/:37 in Pacific and Arizona time. Sportsbook's Paci
 
 GitHub workflows serialize runs with concurrency groups. Public robotics/tech repositories do not make execution timing guaranteed. GitHub documents that scheduled events can be delayed or dropped and execute from the default branch. See [GitHub's schedule documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
 
-**Observed execution, November 10:** robotics scheduled starts included 01:27, 09:40 and 17:43 UTC; tech 02:53 and 11:40 UTC; teams 04:39 and 13:32 UTC. Recent gaps reached about 7–11 hours. The later teams repair runs were manual. These are not proof of working hourly delivery; the cause is unconfirmed. Sportsbook's 12:00 Eastern slot completed at about 12:04, with the next slot at 14:00 and live health healthy.
+**Historical observation before the evening repair, November 10:** robotics scheduled starts included 01:27, 09:40 and 17:43 UTC; tech 02:53 and 11:40 UTC; teams 04:39 and 13:32 UTC. Recent gaps reached about 7–11 hours. The later teams repair runs were manual. These are not proof of working hourly delivery; the cause is unconfirmed. Sportsbook's 12:00 Eastern slot completed at about 12:04, with the next slot at 14:00 and live health healthy.
 
 Sportsbook's old `scrape.yml` is `disabled_manually`. Its current default-branch file contains only `workflow_dispatch`; older checkouts still contain an hourly cron. Neither is the live schedule. Cloudflare worker `abet-jobs-watchdog` has `0 */2 * * *` UTC monitoring cadence in versioned configuration; deployed control-plane inspection is currently unavailable with the operator token. That is watchdog configuration, not the scraper schedule. Sports-team Windows tasks are disabled, and the sports-team Hugging Face/Cloudflare experiment is retired. Do not create a second scheduler alongside production.
 
@@ -48,7 +48,7 @@ Sportsbook's old `scrape.yml` is `disabled_manually`. Its current default-branch
 
 The local sportsbook checkout was on historical `fix/oct05-runtime` with uncommitted changes at verification. GitHub's default `main` contains the dashboard and legacy scraper material. **Neither substitutes for `prod/sportsbook-jobs` or deployed Space source.** Preserve local work; inspect source control without resetting the checkout.
 
-Robotics/tech providers include Greenhouse, Lever, Ashby, Amazon and Workday. Target entries can be a slug or an object with slug/options. Employer careers links establish which ATS endpoint belongs to the employer; an ATS is a legitimate official source when the organization points to it. Do not infer a career board from an old job URL or treat a general job aggregator as official evidence.
+Robotics/tech providers include Greenhouse, Lever, Ashby, Amazon and Workday. The evening repair makes HTTP/pagination failures explicit, removes Amazon's silent five-page truncation, retains Workday's first-page total, and runs each provider in a killable subprocess. A manifest records completeness, elapsed time, persistence, cleanup and confirmed delivery. Target entries can be a slug or an object with slug/options. Employer careers links establish which ATS endpoint belongs to the employer; an ATS is a legitimate official source when the organization points to it. Do not infer a career board from an old job URL or treat a general job aggregator as official evidence.
 
 Sports teams explicitly enumerates 124 NFL/NBA/MLB/NHL organizations (32/30/30/32). TeamworkOnline is queried through the exact employer boards and real pagination. Broad league discovery is not used to add production sources. Other adapters include Workday, Greenhouse, ADP, UKG, NBA and team-specific sites. See the module README and registry for the complete current list. Shared ownership sources retain their real parent employer names.
 
@@ -58,8 +58,8 @@ Two separate proofs matter: (1) the source currently returns a valid complete ob
 
 | Module | Jobs | Runs | Applications | Extra state |
 |---|---|---|---|---|
-| Robotics | `robotics_jobs` | `robotics_job_scrape_runs` | `robotics_applications` | `robotics_jobs_with_applied` view |
-| Tech | `tech_jobs` | `tech_job_scrape_runs` | `tech_applications` | `tech_jobs_with_applied` view |
+| Robotics | `robotics_jobs` | `robotics_job_scrape_runs` | `robotics_applications` | `robotics_jobs_with_applied` view; `robotics_job_notifications` durable queue |
+| Tech | `tech_jobs` | `tech_job_scrape_runs` | `tech_applications` | `tech_jobs_with_applied` view; `tech_job_notifications` durable queue |
 | Sportsbook | `jobs` | `job_scrape_runs` | `applications` | `jobs_with_applied` view |
 | Sports teams | `team_jobs` | `team_job_scrape_runs` | `team_applications` | `team_job_observations`, `team_job_notifications`, URL aliases and repair backup |
 
@@ -69,18 +69,18 @@ Normalize company, title, canonical application URL, location, raw/clean descrip
 
 Keep `posted_at` (employer evidence), `first_seen` (our discovery) and `last_seen` (latest successful observation) distinct. Robotics/tech's model includes `posted_at`, `scraped_at`, `is_active` and source payload. Legacy sportsbook code supplies a discovery-time `posted_at` fallback only for new jobs lacking an employer date. Do not interpret that fallback as an employer claim. Teams preserves immutable discovery history and does not replace employer dates with alert time.
 
-A failed source is not an empty source. Teams records per-source completeness and only retires missing listings from verified complete observations; shared-source jobs are protected. Details refresh in bounded batches (250 pages and a 15-minute detail budget). A blocked detail page preserves its prior description. Existing robotics/tech/sportsbook code has older company-level reconciliation behavior: do not assume it has the same cross-source safeguards without inspecting it.
+A failed source is not an empty source. Teams records per-source completeness and only retires missing listings from verified complete observations; shared-source jobs are protected. Details refresh in bounded batches (250 pages and a 15-minute detail budget). A blocked detail page preserves its prior description. Robotics/tech now suppress cleanup on any partial provider run, bound encoded cleanup requests below 6 KB, and count confirmed updates. Verified empty sources are reconciled by stored source identity. Sportsbook retains its older company-level reconciliation behavior.
 
 ## Discord delivery and intentional differences
 
 | Module | What becomes eligible | Sending behavior at verification | Durable retry after process ends? |
 |---|---|---|---|
-| Robotics | Newly discovered URL; robotics relevance gate affects alerts, not storage | Five embeds per request; 2.1-second pacing | No independent durable notification queue verified |
-| Tech | Newly discovered URL | Five embeds; 0.5-second pacing | Same limitation |
+| Robotics | Newly discovered URL; existing date/relevance gates retained | Five embeds, 2.1-second pacing, eight rate-limit attempts | Yes: persistent pending intent, confirmed message IDs and chunk acknowledgements |
+| Tech | Newly discovered URL; existing date gate retained | Five embeds, 2.1-second pacing, eight rate-limit attempts | Yes: same durable delivery contract as robotics |
 | Sportsbook | Newly discovered URL, recency filter (14 days) | Five embeds; 0.5-second pacing; three request attempts | Same limitation |
 | Sports teams | New URL queued; active/source/date eligibility checked | Five embeds; 2.1-second pacing, bounded retry and 10-minute delivery budget; `--limit 0` | Yes: pending/delivered state, each successful chunk acknowledged |
 
-The first three compare URLs with database state before upsert. If the database write succeeds and delivery later fails, a subsequent run can see the URL as already known and skip its alert. Request retries alone do not solve this. For new modules, use the teams durable-queue design and test the failure boundary. Exact-once delivery is not guaranteed even with a queue: Discord acceptance followed by lost acknowledgement can require reconciliation.
+Sportsbook still has a persistence-before-notification loss risk. Robotics/tech now enqueue intent before job upsert, verify that a queued job was successfully stored and remains active, and acknowledge only confirmed chunks. New modules must have a durable queue and tests at this failure boundary. Exact-once delivery is not guaranteed even with a queue: Discord acceptance followed by lost acknowledgement can require reconciliation.
 
 There is **no 20-job cap** in teams production. `--limit 0` means all eligible pending jobs, within the bounded delivery run. Unsent jobs remain queued. The November 10 recovery delivered 506 previously missed individual alerts; the next normal run delivered two new jobs. Do not routinely enable recovery or clear delivery history to make more posts appear.
 
@@ -103,7 +103,9 @@ Use names, never values, in documentation. GitHub stores `SUPABASE_URL`, `SUPABA
 
 Private Space source revision checked: `95db2a29832416e9fc86df276b5e7fce7de88314`. Its launcher and GitHub production launcher have identical text after CRLF/LF normalization (SHA-256 `ce8df4978837c5734ba7f0116e519144a2fc972aed2cf1628ce23f6a245bc28f`). Raw bytes differ by line endings. Scraper SHA-256: `72a43e62f4ce209efb41fac9e555f8fb9c0dc8c26b05592540a4ec0c38524fdb`. Runtime bundle manifest schema is `abet.jobs.hf-bundle.v1`; the manifest checked contains 36 files. Future deployment checks must compare source, manifest and deployed revision again.
 
-Outstanding operational work: explain the GitHub scheduling gaps; finish six official-page linkage proofs and five alternate route repairs; evaluate durable notification queues for the older three modules. The read-only checker verifies configuration and recent run evidence, not every provider, every database row, secret validity, frontend rendering or employer authenticity. These are explicit remaining limits, not completed guarantees.
+The robotics/tech GitHub scheduling dependency was replaced by the Cloudflare alarm scheduler. Its public health is https://abet-jobs-scheduler.abetscrape.workers.dev/health and its code is `job-radar/runtime/cloudflare/worker.mjs`. It serializes slot dispatch, checks existing run titles, and detects stale executions. GitHub Actions remains the execution host. No extra paid tier or local process was introduced.
+
+Outstanding work outside this repair: sports-teams GitHub scheduling gaps; finish six official-page linkage proofs and five alternate route repairs; evaluate durable notification recovery for sportsbook. The read-only checker verifies configuration and recent run evidence, not every provider, every database row, secret validity, frontend rendering or employer authenticity. These are explicit remaining limits, not completed guarantees.
 
 ## Exhaustive source and dashboard expansion
 

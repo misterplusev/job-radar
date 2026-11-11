@@ -8,6 +8,7 @@ import argparse,base64,json,re,shutil,subprocess,sys
 from datetime import datetime,timezone
 from pathlib import Path
 from urllib.request import Request,urlopen
+from urllib.error import HTTPError
 
 ROOT=Path(__file__).resolve().parent
 
@@ -17,8 +18,12 @@ def gh_json(exe,endpoint):
     return json.loads(p.stdout)
 
 def public_json(url):
-    with urlopen(Request(url,headers={'User-Agent':'ABET-Jobs-Documentation-Audit/1.0'}),timeout=30) as r:
-        return json.load(r)
+    try:
+        with urlopen(Request(url,headers={'User-Agent':'ABET-Jobs-Documentation-Audit/1.0'}),timeout=30) as r:
+            return json.load(r)
+    except HTTPError as e:
+        if e.code == 503:return json.load(e)
+        raise
 
 def inspect(registry,exe):
     report={'checked_at':datetime.now(timezone.utc).isoformat(),'read_only':True,'modules':[]}
@@ -35,7 +40,13 @@ def inspect(registry,exe):
             source=base64.b64decode(f['content']).decode('utf-8')
             r['workflow_blob_sha']=f['sha'];r['configured_crons']=re.findall(r'cron:\s*[\"\x27]([^\"\x27]+)',source)
             if r['configured_crons']!=m['expected_crons']:r['warnings'].append('cron_drift')
-            runs=gh_json(exe,f"repos/{m['repo']}/actions/workflows/{m['workflow']}/runs?event=schedule&per_page=8")['workflow_runs']
+            cloud_scheduler=m.get('scheduler',{}).get('type')=='cloudflare-durable-object-alarm'
+            event='workflow_dispatch' if cloud_scheduler else 'schedule'
+            runs=gh_json(exe,f"repos/{m['repo']}/actions/workflows/{m['workflow']}/runs?event={event}&per_page=30")['workflow_runs']
+            if cloud_scheduler:
+                runs=[x for x in runs if re.match(r'^job-radar \d{4}-\d{2}-\d{2}T',x.get('display_title',''))][:8]
+                r['scheduler']=m['scheduler']
+            else:runs=runs[:8]
             r['recent_scheduled_runs']=[{k:x.get(k) for k in ('id','created_at','updated_at','status','conclusion','html_url')} for x in runs]
             dates=[datetime.fromisoformat(x['created_at'].replace('Z','+00:00')) for x in runs]
             r['observed_start_gaps_hours']=[round((a-b).total_seconds()/3600,2) for a,b in zip(dates,dates[1:])]
@@ -47,6 +58,10 @@ def inspect(registry,exe):
         if m.get('health'):
             try:
                 h=public_json(m['health']);r['health']={k:h.get(k) for k in ('status','healthy','checked_at','last_run_end','last_scrape_at','next_run_utc','scrape_running','schedule','notifications_paused','delivery_status','providers_expected_count','providers_success_count','providers_empty','providers_error','providers_timeout') if k in h}
+                if m.get('scheduler',{}).get('type')=='cloudflare-durable-object-alarm':
+                    r['health'].update(paused=h.get('paused'),last_scheduler_tick=h.get('last_scheduler_tick'),
+                                      module=h.get('modules',{}).get(m['id']),overdue=h.get('overdue',[]))
+                    if h.get('paused'):r['warnings'].append('scheduler_paused')
                 if h.get('status') not in ('healthy',None):r['warnings'].append('live_health_'+str(h.get('status')))
                 if m.get('schedule'):
                     for k,v in m['schedule'].items():

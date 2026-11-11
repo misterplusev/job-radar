@@ -1,0 +1,323 @@
+{
+  "checked_at": "2026-11-11T05:41:47.031356+00:00",
+  "read_only": true,
+  "modules": [
+    {
+      "id": "robotics",
+      "runtime": "github-actions",
+      "warnings": [],
+      "workflow_state": "active",
+      "default_branch": "master",
+      "repository_private": false,
+      "workflow_blob_sha": "e3bdec4a86896d34961377a69149d7dc33fee379",
+      "configured_crons": [],
+      "scheduler": {
+        "type": "cloudflare-durable-object-alarm",
+        "worker": "abet-jobs-scheduler",
+        "minute_utc": 9,
+        "heartbeat_minutes": 5,
+        "source_repo": "misterplusev/job-radar",
+        "source_path": "runtime/cloudflare/worker.mjs"
+      },
+      "recent_scheduled_runs": [
+        {
+          "id": 42966372146,
+          "created_at": "2026-11-11T05:32:00Z",
+          "updated_at": "2026-11-11T05:40:01Z",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/misterplusev/job-radar/actions/runs/42966372146"
+        }
+      ],
+      "observed_start_gaps_hours": [],
+      "health": {
+        "status": "healthy",
+        "paused": false,
+        "last_scheduler_tick": "2026-11-11T05:40:00.001Z",
+        "module": {
+          "slot": "2026-11-11T05:09:00.000Z",
+          "attempts": 1,
+          "last_success": "2026-11-11T05:29:38Z",
+          "last_checked": "2026-11-11T05:40:00.001Z",
+          "error": null,
+          "status": "in_progress",
+          "dispatched_at": "2026-11-11T05:31:58.196Z",
+          "dispatch_origin": "alarm",
+          "run_id": 42966372146,
+          "run_url": "https://github.com/misterplusev/job-radar/actions/runs/42966372146"
+        },
+        "overdue": []
+      }
+    },
+    {
+      "id": "tech",
+      "runtime": "github-actions",
+      "warnings": [],
+      "workflow_state": "active",
+      "default_branch": "master",
+      "repository_private": false,
+      "workflow_blob_sha": "2cffd79ff41564be064f7a73160d53be00aa1379",
+      "configured_crons": [],
+      "scheduler": {
+        "type": "cloudflare-durable-object-alarm",
+        "worker": "abet-jobs-scheduler",
+        "minute_utc": 37,
+        "heartbeat_minutes": 5,
+        "source_repo": "misterplusev/job-radar",
+        "source_path": "runtime/cloudflare/worker.mjs"
+      },
+      "recent_scheduled_runs": [
+        {
+          "id": 42966927497,
+          "created_at": "2026-11-11T05:37:02Z",
+          "updated_at": "2026-11-11T05:40:26Z",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/misterplusev/job-radar-tech/actions/runs/42966927497"
+        },
+        {
+          "id": 42966375401,
+          "created_at": "2026-11-11T05:32:01Z",
+          "updated_at": "2026-11-11T05:34:04Z",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/misterplusev/job-radar-tech/actions/runs/42966375401"
+        }
+      ],
+      "observed_start_gaps_hours": [
+        0.08
+      ],
+      "health": {
+        "status": "healthy",
+        "paused": false,
+        "last_scheduler_tick": "2026-11-11T05:40:00.001Z",
+        "module": {
+          "slot": "2026-11-11T05:37:00.000Z",
+          "attempts": 1,
+          "last_success": "2026-11-11T05:34:04Z",
+          "last_checked": "2026-11-11T05:40:00.001Z",
+          "error": null,
+          "status": "in_progress",
+          "dispatched_at": "2026-11-11T05:37:00.006Z",
+          "dispatch_origin": "alarm",
+          "run_id": 42966927497,
+          "run_url": "https://github.com/misterplusev/job-radar-tech/actions/runs/42966927497"
+        },
+        "overdue": []
+      }
+    },
+    {
+      "id": "sportsbook",
+      "runtime": "huggingface-space",
+      "warnings": [],
+      "workflow_state": "disabled_manually",
+      "default_branch": "main",
+      "repository_private": true,
+      "workflow_blob_sha": "10fc885fb00d590ff70a74f6c2ca8cffb3d6c0de",
+      "configured_crons": [],
+      "recent_scheduled_runs": [
+        {
+          "id": 31361172593,
+          "created_at": "2026-08-10T06:13:34Z",
+          "updated_at": "2026-08-10T06:13:38Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/31361172593"
+        },
+        {
+          "id": 31356332159,
+          "created_at": "2026-08-10T04:42:25Z",
+          "updated_at": "2026-08-10T04:42:27Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/31356332159"
+        },
+        {
+          "id": 31349121474,
+          "created_at": "2026-08-10T02:11:43Z",
+          "updated_at": "2026-08-10T02:11:46Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/31349121474"
+        },
+        {
+          "id": 31342305055,
+          "created_at": "2026-08-09T23:36:22Z",
+          "updated_at": "2026-08-09T23:36:25Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/31342305055"
+        },
+        {
+          "id": 31339816203,
+          "created_at": "2026-08-09T22:36:22Z",
+          "updated_at": "2026-08-09T22:36:25Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/31339816203"
+        },
+        {
+          "id": 31337319467,
+          "created_at": "2026-08-09T21:37:35Z",
+          "updated_at": "2026-08-09T21:38:25Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/31337319467"
+        },
+        {
+          "id": 31334774651,
+          "created_at": "2026-08-09T20:38:42Z",
+          "updated_at": "2026-08-09T20:39:41Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/31334774651"
+        },
+        {
+          "id": 31332136252,
+          "created_at": "2026-08-09T19:37:35Z",
+          "updated_at": "2026-08-09T19:38:35Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/31332136252"
+        }
+      ],
+      "observed_start_gaps_hours": [
+        1.52,
+        2.51,
+        2.59,
+        1.0,
+        0.98,
+        0.98,
+        1.02
+      ],
+      "health": {
+        "status": "healthy",
+        "healthy": true,
+        "checked_at": "2026-11-11T05:41:57.561Z",
+        "last_run_end": "2026-11-11T01:04:42.630879+00:00",
+        "last_scrape_at": "2026-11-11T01:04:42.439891+00:00",
+        "next_run_utc": "2026-11-11T11:00:00+00:00",
+        "scrape_running": false,
+        "schedule": {
+          "timezone": "America/New_York",
+          "weekday_hours_et": [
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            18,
+            20
+          ],
+          "weekend_hours_et": [
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            18,
+            20
+          ],
+          "grace_seconds": 1800,
+          "previous_due_et": "2026-11-10 20:00",
+          "previous_due_utc": "2026-11-11T01:00:00+00:00",
+          "next_due_et": "2026-11-11 06:00",
+          "next_due_utc": "2026-11-11T11:00:00+00:00",
+          "missed": false,
+          "missed_reason": null
+        },
+        "providers_expected_count": 24,
+        "providers_success_count": 23,
+        "providers_empty": [
+          "Chalkboard"
+        ],
+        "providers_error": [],
+        "providers_timeout": []
+      }
+    },
+    {
+      "id": "sports_teams",
+      "runtime": "github-actions",
+      "warnings": [
+        "last_scheduled_start_over_two_hours_ago",
+        "observed_gaps_exceed_hourly_configuration",
+        "live_health_degraded"
+      ],
+      "workflow_state": "active",
+      "default_branch": "master",
+      "repository_private": false,
+      "workflow_blob_sha": "0dab8faf0fddfda08b84d26d4365464b19e33128",
+      "configured_crons": [
+        "23 * * * *"
+      ],
+      "recent_scheduled_runs": [
+        {
+          "id": 42937763251,
+          "created_at": "2026-11-11T01:16:39Z",
+          "updated_at": "2026-11-11T01:20:11Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/job-radar/actions/runs/42937763251"
+        },
+        {
+          "id": 42899393770,
+          "created_at": "2026-11-10T20:51:47Z",
+          "updated_at": "2026-11-10T20:58:55Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/job-radar/actions/runs/42899393770"
+        },
+        {
+          "id": 42825377455,
+          "created_at": "2026-11-10T13:32:02Z",
+          "updated_at": "2026-11-10T13:46:34Z",
+          "status": "completed",
+          "conclusion": "failure",
+          "html_url": "https://github.com/misterplusev/job-radar/actions/runs/42825377455"
+        },
+        {
+          "id": 42757211250,
+          "created_at": "2026-11-10T04:39:12Z",
+          "updated_at": "2026-11-10T04:50:49Z",
+          "status": "completed",
+          "conclusion": "success",
+          "html_url": "https://github.com/misterplusev/job-radar/actions/runs/42757211250"
+        }
+      ],
+      "observed_start_gaps_hours": [
+        4.41,
+        7.33,
+        8.88
+      ],
+      "health": {
+        "status": "degraded",
+        "last_run_end": "2026-11-11T01:19:48.667705+00:00",
+        "schedule": {
+          "cron": "23 * * * *",
+          "timezone": "UTC"
+        },
+        "notifications_paused": false,
+        "delivery_status": "success"
+      },
+      "coverage_summary": {
+        "teams": 124,
+        "with_verified_source": 124,
+        "official_career_links_verified": 118,
+        "all_configured_routes_verified": 113,
+        "partial": 11,
+        "unverified": 0
+      },
+      "unproven_career_links": [
+        "Chicago Bulls",
+        "LA Clippers",
+        "Milwaukee Bucks",
+        "New York Giants",
+        "Boston Bruins",
+        "Pittsburgh Penguins"
+      ]
+    }
+  ],
+  "warning_count": 3
+}

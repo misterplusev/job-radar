@@ -1,11 +1,15 @@
 """Read a catalog artifact and local SQLite metadata; produce no job/applicant rows."""
-import json,sqlite3
+import argparse,json,sqlite3
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 OUT=ROOT/'inventory'
 def cell(value):return str(value if value is not None else '—').replace('|','\\|').replace('\n',' ')
 def main():
- d=json.loads((ROOT/'audit_20261110/job_schema_catalog.json').read_text(encoding='utf-8'))
+ parser=argparse.ArgumentParser()
+ parser.add_argument('--catalog',type=Path,default=ROOT/'audit_20261110/job_schema_catalog.json')
+ parser.add_argument('--run-id',default='42879922731')
+ args=parser.parse_args()
+ d=json.loads(args.catalog.read_text(encoding='utf-8'))
  OUT.joinpath('database_catalog.json').write_text(json.dumps(d,indent=2)+'\n',encoding='utf-8')
  lines=['# Live job database dictionary — November 10, 2026','',f"Read-only PostgreSQL catalog export at `{d['exported_at']}`. Project `alxgteasytezekyunyjk`, schema `public`. No job or applicant rows were exported.",'',f"{len(d['relations'])} tables/views; {len(d['columns'])} columns; {len(d['constraints'])} constraints; {len(d['indexes'])} indexes; {len(d['policies'])} RLS policies; {len(d['triggers'])} triggers; {len(d['grants'])} grants.",'','SQL: [export_job_schema.sql](../export_job_schema.sql). Evidence: [read-only workflow run](https://github.com/misterplusev/job-radar/actions/runs/42879922731). Raw structure: [database_catalog.json](database_catalog.json).','',
  'Important observed differences: `robotics_jobs` and `tech_jobs` currently have no `first_seen_at` column despite local migration files. Their source-run timestamps are `created_at`; sportsbook run timestamps are `started_at`. Do not query guessed common columns. Policies below describe deployed access, not recommended defaults for a new module.','']
@@ -37,6 +41,6 @@ def main():
  lines+=['## Local SQLite files','', 'These are retained operator cache/seed files. Production teams use Supabase. [SQLite schema metadata](sqlite_catalog.json).','']
  for item in local:lines.append(f"- `{item['path']}`: {item['bytes']:,} bytes; {len(item['objects'])} schema objects. {item['role']}.")
  OUT.joinpath('sqlite_catalog.json').write_text(json.dumps(local,indent=2)+'\n',encoding='utf-8')
- OUT.joinpath('DATABASE.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
+ OUT.joinpath('DATABASE.md').write_text(('\n'.join(lines)+'\n').replace('/actions/runs/42879922731','/actions/runs/'+args.run_id),encoding='utf-8')
  print('Database dictionary written:',len(d['relations']),'relations; local SQLite metadata:',len(local))
 if __name__=='__main__':main()

@@ -32,14 +32,14 @@ Useful read-only GitHub commands (GitHub CLI must already be authenticated):
 
 ```powershell
 gh workflow view pipeline.yml --repo misterplusev/job-radar --yaml
-gh run list --repo misterplusev/job-radar --workflow pipeline.yml --event schedule --limit 8
-gh run list --repo misterplusev/job-radar-tech --workflow pipeline.yml --event schedule --limit 8
+gh run list --repo misterplusev/job-radar --workflow pipeline.yml --event workflow_dispatch --limit 8
+gh run list --repo misterplusev/job-radar-tech --workflow pipeline.yml --event workflow_dispatch --limit 8
 gh run list --repo misterplusev/job-radar --workflow sports-teams.yml --limit 8
 gh run view RUN_ID --repo misterplusev/job-radar --log-failed
 gh api repos/misterplusev/sportsbook-jobs-dashboard/actions/workflows/scrape.yml
 ```
 
-Replace `RUN_ID` with an observed numeric run ID. Review logs locally for secrets before quoting or publishing them. `gh run list --event schedule` deliberately excludes manual recovery runs; check both histories when diagnosing freshness.
+Replace `RUN_ID` with an observed numeric run ID. Review logs locally for secrets before quoting or publishing them. Robotics/tech use `workflow_dispatch` from the Cloudflare scheduler. Automatic run titles are `job-radar <UTC ISO slot>`; repair/manual titles must not be counted as cadence proof. Sports teams still uses GitHub schedule events.
 
 For sportsbook, use the [public watchdog health](https://abet-jobs-watchdog.abetco.workers.dev/jobs-health). Inspect `schedule.missed`, previous/next due slots, `last_run_end`, expected provider count, errors, timeouts and the underlying manifest. A quiet overnight period is expected. `next_run_utc` and related fields may contain an explicit non-UTC offset in the sanitized response; parse the ISO timestamp instead of trusting the field name. The private Space's `/api/health` and source require existing Hugging Face access. `/api/run` is a mutating authenticated trigger, not a health check.
 
@@ -60,7 +60,7 @@ Normal operation already has its configured scheduler. Do not create Windows tas
 
 ### Robotics and tech
 
-Source of deployment is the module's GitHub default branch `master`; workflow versions and secrets belong to that repository. Implement and review the narrow change, run focused provider/publisher tests with mocked HTTP and temporary storage, and inspect the exact diff. Apply reviewed additive schema migrations before code that requires them. Never deploy uncommitted local provider changes merely because they are present. For a production change, observe the next authorized execution through source receipts, database updates, delivery results and the board. Roll back the specific source change using a reviewable revert; do not erase job history or first-seen timestamps.
+Source of deployment is the module's GitHub default branch `master`; workflow versions and secrets belong to that repository. Cloudflare Durable Object alarms own robotics/tech scheduling. Inspect https://abet-jobs-scheduler.abetscrape.workers.dev/health first. Implement and review the narrow change, run focused provider/publisher tests with mocked HTTP and temporary storage, and inspect the exact diff. Apply reviewed additive schema migrations before code that requires them. Never deploy uncommitted local provider changes merely because they are present. Publisher changes depend on the additive `db/schema_notifications.sql`, applied by the existing schema runner. Provider HTTP failures must raise; Workday reports total=0 after its first page, so retain the first-page total. `jobradar/fetch_worker.py` enforces a real subprocess deadline. For a production change, observe the next authorized execution through source receipts, database updates, delivery results and the board. Roll back the specific source change using a reviewable revert; do not erase job history or first-seen timestamps or notification acknowledgements. Before any rollback that restores GitHub cron, pause the Cloudflare scheduler so there is only one owner. Pause uses authenticated POST `/pause`; enable uses `/enable`. The encrypted control token is stored in the operator secret store, never in public documentation. No cron slots are used by the Durable Object alarm scheduler.
 
 The independently hosted static boards live in `robotics-jobradar-board` / `jobradar-tech-board`, branch `main`. A frontend-only change belongs there. Uploading `out/dashboard.html` as an Actions artifact does not deploy those sites.
 
