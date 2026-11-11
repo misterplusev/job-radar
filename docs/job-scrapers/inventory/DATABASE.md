@@ -8,6 +8,12 @@ SQL: [export_job_schema.sql](../export_job_schema.sql). Evidence: [read-only wor
 
 Important observed differences: `robotics_jobs` and `tech_jobs` currently have no `first_seen_at` column despite local migration files. Their source-run timestamps are `created_at`; sportsbook run timestamps are `started_at`. Do not query guessed common columns. Policies below describe deployed access, not recommended defaults for a new module.
 
+## November 11 additive schema update
+
+The catalog counts above describe the original snapshot. One additional table, its identity sequence/indexes, and two functions were subsequently applied: `sportsbook_job_notifications`, `claim_sportsbook_notifications(uuid,integer)`, and `sportsbook_notification_status()`. This is **unused preparatory schema**, not the production sportsbook publisher. At 10:24 UTC on November 11, an exact-count read returned zero rows. No historical jobs were backfilled; no application tables were changed. RLS is enabled; public/anon/authenticated access is revoked; service-role access is explicitly granted.
+
+The [complete applied DDL](../20261111_sportsbook_recovery/applied_outbox_schema.sql) records all columns, constraints, indexes, function bodies and grants. [Migration and rollback-only integration receipt](../20261111_sportsbook_recovery/schema_receipt/migration-receipt.json) records successful application and tests for claim idempotency, claim exclusion, expired leases, no repeat of delivered rows and restricted access. The staged runtime is not deployed. See the [current status](../2026-11-11%200225%20Sportsbook%20Delivery%20Correction%20and%20Recovery%20Evidence.md).
+
 ## public.applications
 
 Kind `r`; RLS enabled `True`; RLS forced `False`.

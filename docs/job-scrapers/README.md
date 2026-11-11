@@ -22,7 +22,9 @@ Verified against deployed configuration and recent executions on **November 11, 
 
 13. [Complete 124-team coverage and eight live production views](2026-11-11%200105%20Complete%20Team%20Coverage%20and%20Independent%20Jobs%20Module%20Proof.md) — official Bulls/Clippers/Bucks proofs, screenshots, independent runtime receipts and the installed dashboard revision.
 
-14. [Discord wiring and documentation verification](2026-11-11%200145%20Discord%20Wiring%20Verification%20and%20Documentation%20Status.md) — production webhook checks, existing-message readbacks, fresh health results and the remaining sportsbook proof/recovery gap.
+14. [Discord wiring and documentation verification](2026-11-11%200145%20Discord%20Wiring%20Verification%20and%20Documentation%20Status.md) — production webhook checks, existing-message readbacks, fresh health results and the historical limits of that audit. The correction below supersedes its blanket sportsbook recovery claim.
+
+15. [Sportsbook delivery correction and recovery evidence](2026-11-11%200225%20Sportsbook%20Delivery%20Correction%20and%20Recovery%20Evidence.md) — user-confirmed live delivery, existing persistent watchdog recovery, a reproduced timestamp edge case, and the exact boundary between deployed and staged work.
 
 Canonical version-controlled copy: [job-radar/docs/job-scrapers](https://github.com/misterplusev/job-radar/tree/master/docs/job-scrapers). Local operator copy: `D:\abet_ops\jobs_scrapers`. The four module READMEs link here. Consult live source and a fresh verification receipt when these documents disagree with production; update both the inventory and the prose after a change.
 
@@ -38,7 +40,7 @@ Requires existing GitHub CLI authentication. This performs bounded GET requests 
 - Historical diagnosis: tech/robotics had 26 scheduled starts each instead of 168, and oversized robotics cleanup requests left 3,136 matching rows active. The evening production repair replaces scheduling, batches cleanup, exposes failures and adds persistent notification queues. Consult the release receipt for live verification, rather than interpreting that historical diagnosis as current state.
 - Sportsbook is healthy on its **Hugging Face** schedule, every two hours from 06:00 through 20:00 Eastern, every day. Its legacy GitHub workflow is disabled and has no schedule on the default branch.
 - Sports teams passed 152/152 sources with 124/124 official career-route evidence records. Bulls, Clippers and Bucks were completed through rendered official-page observations on November 11. Composite health is healthy. The public proof gallery includes all eight live board/dashboard views; this remains a dated verification, not a future uptime guarantee.
-- Teams, robotics and tech have durable notification queues. Sportsbook still lacks equivalent persistent recovery after an alert fails following a successful database write.
+- Teams, robotics and tech have durable notification queues. Sportsbook has a separate watchdog announcer with a persistent KV cursor in versioned source; mocked tests confirm that a failed send retains the cursor and retries successfully. The user supplied a live November 10 delivery receipt. A timestamp-boundary defect is reproduced in repository source; deployed-source parity and whether it affected a real job remain unverified. See the correction report.
 - The watchdog source/configuration is inventoried, but current Cloudflare credentials cannot inspect the deployed copy. Its public health endpoint works; deployed-source parity is unverified.
 - Current repositories and workflows are not interchangeable templates. The new-industry guide identifies which parts to reuse and which historical behavior to fix.
 
