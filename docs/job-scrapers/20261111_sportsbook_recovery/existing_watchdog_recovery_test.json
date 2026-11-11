@@ -1,0 +1,35 @@
+{
+  "source": "GitHub prod/sportsbook-jobs f055bd71fc2e38631eebc052d00e381ca37b98ae; deployed-source parity unknown",
+  "external_requests": 0,
+  "messages_sent": 0,
+  "ordinary_failure_recovery": {
+    "failed": {
+      "announced": 0,
+      "posted_ok": false,
+      "more_pending": false
+    },
+    "recovered": {
+      "announced": 2,
+      "posted_ok": true,
+      "more_pending": false
+    },
+    "repeat": {
+      "announced": 0
+    },
+    "cursor_preserved_after_failure": true
+  },
+  "timestamp_boundary": {
+    "fixture_jobs": 11,
+    "same_first_seen_at": true,
+    "first": {
+      "announced": 10,
+      "posted_ok": true,
+      "more_pending": true
+    },
+    "second": {
+      "announced": 0
+    },
+    "unannounced": 1,
+    "scope": "Reproduced in repository source with fixtures; not evidence that a real job was missed in production."
+  }
+}

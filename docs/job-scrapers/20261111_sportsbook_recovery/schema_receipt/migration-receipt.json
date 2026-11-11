@@ -1,0 +1,18 @@
+[
+  {
+    "file": "migration.sql",
+    "sha256": "37845b982eadb0143e55e6e5aabfb18d7446703c93aa7522ff0e9ee124ce3410",
+    "http": 201,
+    "result": []
+  },
+  {
+    "file": "integration.sql",
+    "sha256": "e2d8066dcbc150d2bc30cf97ed3e27b7001267c7102c7f48ed798da366207dae",
+    "http": 201,
+    "result": [
+      {
+        "proof": "claim_idempotency, concurrent_claim_exclusion, expired_lease_recovery, no_repeat_delivery, restricted_access: passed"
+      }
+    ]
+  }
+]

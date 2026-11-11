@@ -2,7 +2,9 @@
 
 Observed November 11, 2026, approximately 01:41–01:45 Pacific. This supplements the complete coverage/browser proof; it does not replace historical receipts.
 
-## Current answer
+> **Correction, November 11 at 02:25 Pacific:** this audit overlooked the watchdog job announcer when assessing recovery. The user subsequently supplied a live sportsbook Discord receipt. Versioned watchdog code already has persistent KV-cursor recovery, confirmed by offline tests. Statements below about a system-wide recovery gap are superseded by the [correction report](2026-11-11%200225%20Sportsbook%20Delivery%20Correction%20and%20Recovery%20Evidence.md); the original observation timestamps and read-only audit records remain historical evidence.
+
+## Answer at the time of this audit
 
 All four scraper runtimes passed the fresh read-only configuration/health inspection with zero warnings. Robotics, tech and sports teams have verified production Discord destinations and confirmed delivery records. Robotics and tech additionally passed direct readback of existing messages through their production webhooks. Sportsbook is healthy and the operator-store webhook is valid, but its current live-runtime Discord path is only partially verified. An unconditional four-module Discord all-clear would exceed the evidence.
 
@@ -15,7 +17,7 @@ All four scraper runtimes passed the fresh read-only configuration/health inspec
 
 The three GitHub production workflows were read directly and map their publishers to the audited secrets: repository-scoped `DISCORD_WEBHOOK_JOBS` for robotics and tech; `DISCORD_WEBHOOK_TEAMS` for teams. The channels are distinct. Teams' queue does not retain Discord message IDs, so its evidence is webhook metadata plus acknowledged delivery records and publisher logs, not a message readback.
 
-Sportsbook's runtime source reads `DISCORD_WEBHOOK_JOBS` from the Space environment. The operator copy is not proof of the Space's current secret value. The control token for its protected notifier test is unavailable; no token was reset and no test message was sent. The next scheduled sportsbook slot is 3:00 a.m. Pacific on November 11; a slot without new eligible jobs may produce no notification. The known persistence-before-notification failure window remains: sportsbook has no persistent failed-alert queue equivalent to robotics, tech and teams. This is remaining reliability work, not an observed failure in the latest run.
+Sportsbook's runtime source reads `DISCORD_WEBHOOK_JOBS` from the Space environment. The operator copy is not proof of the Space's current secret value. The control token for its protected notifier test is unavailable; no token was reset and no test message was sent. The next scheduled sportsbook slot is 3:00 a.m. Pacific on November 11; a slot without new eligible jobs may produce no notification. The HF direct sender has no persistent failed-alert queue. This audit incorrectly generalized that fact to the whole system: the separate watchdog announcer already has persistent KV-cursor recovery. See the correction above.
 
 ## Read-only audit execution
 
@@ -33,6 +35,6 @@ The [documentation entry point](README.md) links architecture, repositories and 
 
 The [itemized inventory](inventory/README.md) contains 3,762 file entries across pinned source/runtime snapshots, with physical line counts and symbol locations for eligible source text. Binaries, generated datasets and private content are metadata-only; snapshots from different branches are not a count of unique code. The dashboard snapshot includes unrelated dashboard modules. The latest verification reports cover final source changes and screenshots; documentation-only commits after a pinned inventory do not change its stated revision.
 
-The documentation is sufficient to locate and maintain the system without reconstructing its architecture. It explicitly does not claim complete deployed-source inspection of the sportsbook watchdog: current credentials cannot read that deployment. Its versioned source and working public endpoint are recorded. The sportsbook notification recovery gap, its incomplete current Discord proof, optional missing job descriptions, and the robotics standalone relevance-filter difference remain visible.
+The documentation is sufficient to locate and maintain the system without reconstructing its architecture. It explicitly does not claim complete deployed-source inspection of the sportsbook watchdog: current credentials cannot read that deployment. Its versioned source and working public endpoint are recorded. This audit did not establish deployed watchdog-source parity. Later user-provided delivery evidence and persistent-cursor tests supersede its assessment of sportsbook recovery and current delivery. Optional missing job descriptions and the robotics standalone relevance-filter difference remain visible.
 
 Do not equate a green scrape, zero audit warnings, an existing secret name or a valid local webhook with end-to-end Discord delivery. Future verification should preserve the distinction between configuration, destination metadata, confirmed HTTP acceptance, stored acknowledgement and an actual message readback. Test failure recovery with mocks rather than sending duplicate jobs.

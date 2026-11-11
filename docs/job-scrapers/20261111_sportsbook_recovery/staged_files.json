@@ -1,0 +1,72 @@
+[
+  {
+    "path": "scripts/notification_outbox.py",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\scripts\\notification_outbox.py",
+    "physical_lines": 197,
+    "sha256": "2f01ff0779a5c81fef213e9ff56d6e66168218e002a073c43136dbae650ad308",
+    "status": "local only; not deployed"
+  },
+  {
+    "path": "scripts/scrape.py",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\scripts\\scrape.py",
+    "physical_lines": 698,
+    "sha256": "510b230404b0a8e87122d551c5289f46d29f54fac46b2f576c3e8441b5dacb9e",
+    "status": "local only; not deployed"
+  },
+  {
+    "path": "scripts/build_hf_runtime_bundle.py",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\scripts\\build_hf_runtime_bundle.py",
+    "physical_lines": 173,
+    "sha256": "76011b1dadefb51a9004b310eb11a40d495eeea7971482be52473fa072102db7",
+    "status": "local only; not deployed"
+  },
+  {
+    "path": "runtime/huggingface/launcher.py",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\runtime\\huggingface\\launcher.py",
+    "physical_lines": 705,
+    "sha256": "5ef0d2ffcb7278bede458629290685c86347edac3b2a1d045d5341cfc2840d23",
+    "status": "local only; not deployed"
+  },
+  {
+    "path": "runtime/cloudflare/watchdog/src/index.js",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\runtime\\cloudflare\\watchdog\\src\\index.js",
+    "physical_lines": 511,
+    "sha256": "c650baa5796d161af8f07a2e983c9cd231552c61b1b754d3bd47c6e9d8ab6d32",
+    "status": "local only; not deployed"
+  },
+  {
+    "path": "supabase/migrations/20261111_sportsbook_notification_outbox.sql",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\supabase\\migrations\\20261111_sportsbook_notification_outbox.sql",
+    "physical_lines": 74,
+    "sha256": "37845b982eadb0143e55e6e5aabfb18d7446703c93aa7522ff0e9ee124ce3410",
+    "status": "SQL applied; no production consumer"
+  },
+  {
+    "path": "tests/test_notification_outbox.py",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\tests\\test_notification_outbox.py",
+    "physical_lines": 211,
+    "sha256": "1138fb455e76cddc37eb3e499bed1289fda92be04806e22fa8a6dec0c8517b59",
+    "status": "local only; not deployed"
+  },
+  {
+    "path": "tests/test_hf_launcher_schedule_health.py",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\tests\\test_hf_launcher_schedule_health.py",
+    "physical_lines": 131,
+    "sha256": "8770239a774e315d74cdb822b6d68d8149e835e7eb60e3d44e7dbc0ef241a593",
+    "status": "local only; not deployed"
+  },
+  {
+    "path": "tests/test_runtime_regressions_oct05.py",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\tests\\test_runtime_regressions_oct05.py",
+    "physical_lines": 197,
+    "sha256": "04001421cd4a7edc2e3382656a6640570da87fd9a847d2e780aef4dbdf1e4b3c",
+    "status": "local only; not deployed"
+  },
+  {
+    "path": "tests/notification_outbox_database.sql",
+    "local_path": "D:\\abet_ops\\jobs_scrapers\\20261111_sportsbook_recovery\\source\\tests\\notification_outbox_database.sql",
+    "physical_lines": 29,
+    "sha256": "e2d8066dcbc150d2bc30cf97ed3e27b7001267c7102c7f48ed798da366207dae",
+    "status": "local only; not deployed"
+  }
+]

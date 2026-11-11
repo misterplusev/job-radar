@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-11-11T10:24:23.876484+00:00",
+  "read_only": true,
+  "sportsbook_production_branch_revision": "f055bd71fc2e38631eebc052d00e381ca37b98ae",
+  "sportsbook_space_revision": "95db2a29832416e9fc86df276b5e7fce7de88314",
+  "publisher_deployed_by_this_task": false,
+  "discord_messages_sent_by_this_task": 0,
+  "unused_outbox": {
+    "http": 200,
+    "content_range": "*/0",
+    "returned_row_count": 0,
+    "production_consumer": null
+  },
+  "watchdog_deployed_source_parity": "unverified; management API 403"
+}
