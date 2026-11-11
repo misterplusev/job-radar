@@ -415,13 +415,20 @@
       },
       {
         "official_page": "https://www.mlb.com/tigers/team/job-opportunities",
-        "board_url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/detroit-tigers",
-        "label": "Reviewed official link",
+        "board_url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/major-league-baseball?employment_opportunity_search%5Borganization_id%5D=30212",
+        "label": "Official employer ATS with verified organization filter",
         "source_key": "tw:baseball-jobs/baseballjobs/detroit-tigers",
         "career_link_evidence": {
           "kind": "official_page_link",
           "page": "https://www.mlb.com/tigers/team/job-opportunities",
           "destination": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/detroit-tigers"
+        },
+        "official_link_url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/detroit-tigers",
+        "transport_evidence": {
+          "url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/major-league-baseball?employment_opportunity_search%5Borganization_id%5D=30212",
+          "checked_at": "2026-11-11T07:46:01.222024+00:00",
+          "response_sha256": "5349c4aa29e4fe431ff22bde19d6dd5766d0cc43b0fa55cbaf8266a3a284f754",
+          "organization_id": "30212"
         }
       }
     ],
@@ -448,7 +455,14 @@
           "page": "https://www.mlb.com/astros/team/jobs",
           "destination": "https://recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055/?q=&o=postedDateDesc"
         }
-      },
+      }
+    ],
+    "source_keys": [
+      "ukg:recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055"
+    ],
+    "verification_status": "awaiting_live_check",
+    "career_link_verified": true,
+    "retired_routes": [
       {
         "official_page": "https://www.mlb.com/astros/team/jobs",
         "board_url": "https://www.teamworkonline.com/baseball-jobs/houstonbaseball/houston-astros",
@@ -458,15 +472,13 @@
           "kind": "official_team_career_chain",
           "page": "https://www.mlb.com/astros/team/jobs",
           "destination": "https://www.teamworkonline.com/baseball-jobs/houstonbaseball/houston-astros"
-        }
+        },
+        "status": "retired",
+        "replacement_source_key": "ukg:recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055",
+        "reason": "The old TeamWork board returns HTTP 404 and the current MLB employer selector no longer lists Houston Astros. The official Astros careers page links Apply Today to this active UKG board.",
+        "checked_at": "2026-11-11T07:40:26Z"
       }
-    ],
-    "source_keys": [
-      "tw:baseball-jobs/houstonbaseball/houston-astros",
-      "ukg:recruiting2.ultipro.com/HOU1000/JobBoard/e68ddd55-8f58-ba9d-0b3a-76742aed1055"
-    ],
-    "verification_status": "awaiting_live_check",
-    "career_link_verified": true
+    ]
   },
   {
     "league": "MLB",
@@ -2665,13 +2677,20 @@
     "routes": [
       {
         "official_page": "https://www.hardrockstadium.com/careers/",
-        "board_url": "https://www.teamworkonline.com/multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs",
-        "label": "",
+        "board_url": "https://www.teamworkonline.com/football-jobs/footballjobs/nfl-football-jobs?employment_opportunity_search%5Borganization_id%5D=28263",
+        "label": "Official employer ATS with verified organization filter",
         "source_key": "tw:multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs",
         "career_link_evidence": {
           "kind": "official_team_career_chain",
           "page": "https://www.hardrockstadium.com/careers/",
           "destination": "https://www.teamworkonline.com/multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs"
+        },
+        "official_link_url": "https://www.teamworkonline.com/multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs",
+        "transport_evidence": {
+          "url": "https://www.teamworkonline.com/football-jobs/footballjobs/nfl-football-jobs?employment_opportunity_search%5Borganization_id%5D=28263",
+          "checked_at": "2026-11-11T07:43:47.327378+00:00",
+          "response_sha256": "32acb13cbff55813ec667c5ac5d360d0aa39b9bf0544f60c6e2801476e61c317",
+          "organization_id": "28263"
         }
       },
       {
@@ -2795,14 +2814,47 @@
         "board_url": "https://www.teamworkonline.com/football-jobs/new-york-giants-jobs/new-york-giants",
         "label": "Reviewed official link",
         "source_key": "tw:football-jobs/new-york-giants-jobs/new-york-giants",
-        "career_link_evidence": null
+        "career_link_evidence": {
+          "kind": "official_career_chain",
+          "pages": [
+            "https://www.nfl.com/careers/",
+            "https://www.nfl.com/careers/clubs",
+            "https://www.metlifestadium.com/stadium/employment",
+            "https://www.metlifestadium.com/connect/employment/nfl-teams/"
+          ],
+          "destination": "https://www.teamworkonline.com/football-jobs/new-york-giants-jobs/new-york-giants",
+          "method": "Official NFL club careers directory \u2192 Giants stadium employment \u2192 NFL Teams \u2192 New York Giants View Positions",
+          "checked_at": "2026-11-11T07:51:26.793432+00:00",
+          "page_receipts": [
+            {
+              "url": "https://www.nfl.com/careers/",
+              "final_url": "https://www.nfl.com/careers/",
+              "sha256": "b87d37a7b1531657f896ad9f0166d091695fab901f6bfb5d40f221086f418187"
+            },
+            {
+              "url": "https://www.nfl.com/careers/clubs",
+              "final_url": "https://www.nfl.com/careers/clubs",
+              "sha256": "271685346fdd5a933e99329099eb13caca8975b6613a7c19c829affafc3cb755"
+            },
+            {
+              "url": "https://www.metlifestadium.com/stadium/employment",
+              "final_url": "https://www.metlifestadium.com/stadium/employment",
+              "sha256": "9fcdbdbdc1e4cf73ed5e33ea14aa6cecf4d0d5c787a7132b9b3ee2e23dc1b603"
+            },
+            {
+              "url": "https://www.metlifestadium.com/connect/employment/nfl-teams/",
+              "final_url": "https://www.metlifestadium.com/connect/employment/nfl-teams/",
+              "sha256": "971a8ce23f1776a0c25966d7546dd82a88d00bcda0592fc8575d0ec3ec31de93"
+            }
+          ]
+        }
       }
     ],
     "source_keys": [
       "tw:football-jobs/new-york-giants-jobs/new-york-giants"
     ],
     "verification_status": "awaiting_live_check",
-    "career_link_verified": false
+    "career_link_verified": true
   },
   {
     "league": "NFL",
@@ -3071,13 +3123,54 @@
         "label": "Reviewed official link",
         "source_key": "official:bruins",
         "career_link_evidence": null
+      },
+      {
+        "official_page": "https://www.nhl.com/info/careers",
+        "board_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28277",
+        "label": "Official league career route \u2014 Boston Bruins selected",
+        "source_key": "tw:hockey-jobs/hockeyjobs/nhl-league-office:org:28277",
+        "career_link_evidence": {
+          "kind": "official_career_chain",
+          "pages": [
+            "https://www.nhl.com/bruins/",
+            "https://www.nhl.com/info/careers",
+            "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office",
+            "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28277"
+          ],
+          "destination": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28277",
+          "method": "Official team footer Employment \u2192 NHL careers Open Positions \u2192 employer selector with the named team and confirmed selected organization ID. This is a league-linked route, not a claimed direct team-page ATS hyperlink.",
+          "checked_at": "2026-11-11T07:46:01.221724+00:00",
+          "page_receipts": [
+            {
+              "url": "https://www.nhl.com/bruins/",
+              "final_url": "https://www.nhl.com/bruins/",
+              "sha256": "f25ff367349c72976c554664e2bce70a1d0b5de114badcfab3d8ef6e802ce800"
+            },
+            {
+              "url": "https://www.nhl.com/info/careers",
+              "final_url": "https://www.nhl.com/info/careers",
+              "sha256": "3cd9d7facebd6fad27de29695ba1549f8d6953e5e39e1319bfbad08eab4674f8"
+            },
+            {
+              "url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office",
+              "final_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office",
+              "sha256": "a2b76553fed353266d7a34280ca4df177bfb3540038535d9b14f10eac926cf32"
+            },
+            {
+              "url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28277",
+              "final_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28277",
+              "sha256": "07cecd12e7032963f1bfaacc45ec3ffc593cd24a43d2a0eddf6c0b28480194f6"
+            }
+          ]
+        }
       }
     ],
     "source_keys": [
-      "official:bruins"
+      "official:bruins",
+      "tw:hockey-jobs/hockeyjobs/nhl-league-office:org:28277"
     ],
     "verification_status": "awaiting_live_check",
-    "career_link_verified": false
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -3468,13 +3561,20 @@
     "routes": [
       {
         "official_page": "https://www.nhl.com/redwings/",
-        "board_url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings",
-        "label": "Careers",
+        "board_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28282",
+        "label": "Official employer ATS with verified organization filter",
         "source_key": "tw:multiple-properties/ilitch-sports/detroit-red-wings",
         "career_link_evidence": {
           "kind": "official_team_career_chain",
           "page": "https://www.nhl.com/redwings/",
           "destination": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings"
+        },
+        "official_link_url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings",
+        "transport_evidence": {
+          "url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28282",
+          "checked_at": "2026-11-11T07:43:47.326187+00:00",
+          "response_sha256": "0e90b1e61c884491aca79c790b840691058202d4444fd3b511e07f40952db6f9",
+          "organization_id": "28282"
         }
       },
       {
@@ -3870,14 +3970,47 @@
         "board_url": "https://www.teamworkonline.com/hockey-jobs/pittsburgh-penguins/pittsburgh-penguins",
         "label": "Reviewed official link",
         "source_key": "tw:hockey-jobs/pittsburgh-penguins/pittsburgh-penguins",
-        "career_link_evidence": null
+        "career_link_evidence": {
+          "kind": "official_career_chain",
+          "pages": [
+            "https://www.nhl.com/penguins/",
+            "https://www.nhl.com/info/careers",
+            "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office",
+            "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28291"
+          ],
+          "destination": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28291",
+          "method": "Official team footer Employment \u2192 NHL careers Open Positions \u2192 employer selector with the named team and confirmed selected organization ID. This is a league-linked route, not a claimed direct team-page ATS hyperlink.",
+          "checked_at": "2026-11-11T07:55:58.544015+00:00",
+          "page_receipts": [
+            {
+              "url": "https://www.nhl.com/penguins/",
+              "final_url": "https://www.nhl.com/penguins/",
+              "sha256": "73e643729124108346ce4ea50b551664405b0c6eae3874328306893dc913cc97"
+            },
+            {
+              "url": "https://www.nhl.com/info/careers",
+              "final_url": "https://www.nhl.com/info/careers",
+              "sha256": "3cd9d7facebd6fad27de29695ba1549f8d6953e5e39e1319bfbad08eab4674f8"
+            },
+            {
+              "url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office",
+              "final_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office",
+              "sha256": "a2b76553fed353266d7a34280ca4df177bfb3540038535d9b14f10eac926cf32"
+            },
+            {
+              "url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28291",
+              "final_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28291",
+              "sha256": "c36e9c96074678c6f538bba7decaf4327cc1c503cf72f20f39f28fde0b5ae2b0"
+            }
+          ]
+        }
       }
     ],
     "source_keys": [
       "tw:hockey-jobs/pittsburgh-penguins/pittsburgh-penguins"
     ],
     "verification_status": "awaiting_live_check",
-    "career_link_verified": false
+    "career_link_verified": true
   },
   {
     "league": "NHL",
@@ -4127,13 +4260,20 @@
     "routes": [
       {
         "official_page": "https://www.nhl.com/capitals/",
-        "board_url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/monumental-sports",
-        "label": "Careers",
+        "board_url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=30003",
+        "label": "Official employer ATS with verified organization filter",
         "source_key": "tw:multiple-properties/monumentalsports/monumental-sports",
         "career_link_evidence": {
           "kind": "official_team_career_chain",
           "page": "https://www.nhl.com/capitals/",
           "destination": "https://www.teamworkonline.com/multiple-properties/monumentalsports/monumental-sports"
+        },
+        "official_link_url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/monumental-sports",
+        "transport_evidence": {
+          "url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=30003",
+          "checked_at": "2026-11-11T07:43:47.326898+00:00",
+          "response_sha256": "9ce5744976997d957193cec1f661d2e548d451fe6ec15d73c3272e0fd7bddf28",
+          "organization_id": "30003"
         }
       },
       {

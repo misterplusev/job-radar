@@ -58,7 +58,7 @@ def org_url(org: TeamWorkOrg) -> str:
     return url + f"?employment_opportunity_search%5Borganization_id%5D={org.org_id}" if org.org_id else url
 
 
-def pages(url, client, timeout):
+def pages(url, client, timeout, expected_org_id=''):
     """Follow the site's real next links; never silently accept a truncated board."""
     seen = set()
     for _ in range(60):
@@ -68,6 +68,10 @@ def pages(url, client, timeout):
         response = client.get(url, headers=UA, timeout=timeout)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
+        if expected_org_id:
+            selected = soup.select('select[name="employment_opportunity_search[organization_id]"] option[selected]')
+            if len(selected) != 1 or selected[0].get('value') != str(expected_org_id):
+                raise ValueError('Teamwork response did not confirm the requested organization filter')
         if not soup.select('.organization-portal__job-title') and not soup.select('select[name="employment_opportunity_search[organization_id]"]'):
             raise ValueError('unrecognized Teamwork portal response')
         yield response.text
@@ -83,7 +87,7 @@ def pages(url, client, timeout):
 
 def scrape_org(org: TeamWorkOrg, session=None, timeout: int = 45) -> list[Job]:
     client = session or requests.Session()
-    page = '\n'.join(pages(org_url(org), client, timeout))
+    page = '\n'.join(pages(org_url(org), client, timeout, org.org_id))
     jobs: list[Job] = []
     seen = set()
     for m in CARD_RE.finditer(page):

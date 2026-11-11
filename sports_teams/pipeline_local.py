@@ -197,7 +197,8 @@ def main():
     import live_refresh
     prior_urls={r[0] for r in con.execute('select url from team_jobs')}
     results, discovery = live_refresh.collect(pt)
-    new, updated, closed = live_refresh.apply_results(con, results, sys.modules[__name__])
+    new, updated, closed = live_refresh.apply_results(con, results, sys.modules[__name__],
+                                                    live_refresh.retired_replacements(pt))
     new_urls={r[0] for r in con.execute('select url from team_jobs')}-prior_urls
     if args.recover_pending:
         # Only jobs actually observed on the current organization sources.
@@ -232,12 +233,18 @@ def main():
     import coverage_report
     coverage=coverage_report.build(results)
     coverage_report.write(coverage,BOARD)
+    runtime_healthy=not failed and coverage['summary']['with_verified_source']==124 and all(r['status']=='success' for r in discovery)
+    coverage_verified=coverage['summary']['official_career_links_verified']==124
     manifest = {'schema':'abet.jobs.scrape-manifest.v1','generated_at':now(),
-        'overall_status':'degraded' if failed or coverage['summary']['with_verified_source']!=124 or coverage['summary']['official_career_links_verified']!=124 or any(r['status']!='success' for r in discovery) else 'healthy',
+        'overall_status':'healthy' if runtime_healthy and coverage_verified else 'degraded',
+        'runtime_status':'healthy' if runtime_healthy else 'degraded',
+        'career_link_audit_status':'verified' if coverage_verified else 'partial',
         'team_coverage':coverage['summary'],
         'providers':audit['sources'],'discovery':discovery,'details':details,
         'totals':{'providers':len(results),'successful':len(results)-failed,'failed':failed,'active_jobs':len(jobs),'new':new,'updated':updated,'closed':closed},
-        'persistence':'supabase' if cloud else 'sqlite','trigger':args.trigger}
+        'persistence':'supabase' if cloud else 'sqlite','trigger':args.trigger,
+        'scheduler_slot':os.environ.get('JOBRADAR_SCHEDULER_SLOT',''),
+        'github_run_id':os.environ.get('GITHUB_RUN_ID','')}
     manifest_path=ROOT/'data/runtime/latest_scrape_manifest.json'
     manifest_path.parent.mkdir(parents=True,exist_ok=True)
     temp=manifest_path.with_suffix('.tmp');temp.write_text(json.dumps(manifest,indent=2),encoding='utf-8');temp.replace(manifest_path)

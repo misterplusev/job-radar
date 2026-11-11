@@ -184,6 +184,12 @@ def build_sources(pt):
     return sources
 
 
+def retired_replacements(pt):
+    teams=json.loads((pt.ROOT/'official_careers_registry.json').read_text(encoding='utf-8'))
+    return {route['source_key']:route['replacement_source_key'] for team in teams
+            for route in team.get('retired_routes',[]) if route.get('status')=='retired'}
+
+
 def fetch_source(source):
     start = time.monotonic()
     try:
@@ -283,18 +289,25 @@ def collect(pt):
     return results, discovery
 
 
-def apply_results(con, results, pipeline):
+def apply_results(con, results, pipeline, retired_sources=None):
     con.execute('create table if not exists team_job_observations (source_id text not null,url text not null,is_active integer not null default 1,observed_at text,primary key(source_id,url))')
     columns = {r[1] for r in con.execute('pragma table_info(team_jobs)')}
     if 'source_id' not in columns:
         con.execute('alter table team_jobs add column source_id text')
-    # Attach old observations to their actual source without refreshing timestamps.
-    for row in con.execute('select id,team,league,url from team_jobs').fetchall():
-        source = source_from_row(dict(zip(('id','team','league','url'), row)))
+    # Bootstrap only legacy rows with no observation history. Re-inferring a
+    # source from every URL creates phantom active copies of cross-listed jobs.
+    for row in con.execute('''select id,team,league,url,is_active,last_seen_at from team_jobs j
+                             where not exists(select 1 from team_job_observations o where o.url=j.url)''').fetchall():
+        source = source_from_row(dict(zip(('id','team','league','url','is_active','last_seen_at'), row)))
         if source:
             key = 'nba:league' if source['key'].startswith('wd:nba.') else source['key']
             con.execute('update team_jobs set source_id=? where id=?', (key, row[0]))
-            con.execute('insert or ignore into team_job_observations(source_id,url,is_active) values(?,?,1)', (key,row[3]))
+            con.execute('insert or ignore into team_job_observations(source_id,url,is_active,observed_at) values(?,?,?,?)', (key,row[3],row[4],row[5]))
+    # Historical inferred rows have no observation timestamp. A real source
+    # receipt supersedes them; retain the records as inactive for cloud upsert.
+    con.execute('''update team_job_observations set is_active=0 where observed_at is null
+                   and exists(select 1 from team_job_observations actual
+                              where actual.url=team_job_observations.url and actual.observed_at is not null)''')
     new = updated = closed = 0
     for result in results:
         source, status = result['source'], result['status']
@@ -311,6 +324,11 @@ def apply_results(con, results, pipeline):
                 con.execute('insert into team_job_observations(source_id,url,is_active,observed_at) values(?,?,1,?) on conflict(source_id,url) do update set is_active=1,observed_at=excluded.observed_at', (source['key'],url,result['observed_at']))
         con.execute('insert into team_job_scrape_runs(source,platform,status,job_count,duration_ms,error_summary,created_at) values(?,?,?,?,?,?,?)',
                     (source['key'], source['kind'], status, len(result['rows']), result['duration_ms'], result['error'], result['observed_at']))
+    succeeded={r['source']['key']:r['observed_at'] for r in results if r['status']=='success'}
+    for retired,replacement in (retired_sources or {}).items():
+        if replacement in succeeded:
+            con.execute('update team_job_observations set is_active=0,observed_at=? where source_id=?',
+                        (succeeded[replacement],retired))
     # A cross-listed job closes only when all its known sources report it absent.
     cur = con.execute('''update team_jobs set is_active=0,closed_at=? where is_active=1
                          and exists (select 1 from team_job_observations o where o.url=team_jobs.url)

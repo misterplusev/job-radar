@@ -682,11 +682,18 @@
     "league": "NHL",
     "kind": "teamworkonline",
     "key": "tw:multiple-properties/ilitch-sports/detroit-red-wings",
-    "path": "multiple-properties/ilitch-sports/detroit-red-wings",
-    "org_id": "",
+    "path": "hockey-jobs/hockeyjobs/nhl-league-office",
+    "org_id": "28282",
     "official_pages": [
       "https://www.nhl.com/redwings/"
-    ]
+    ],
+    "route_note": "Stable source identity retained; use the employer-selected public ATS route. Each response must confirm the organization ID.",
+    "transport_evidence": {
+      "url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=28282",
+      "checked_at": "2026-11-11T07:43:47.326187+00:00",
+      "response_sha256": "0e90b1e61c884491aca79c790b840691058202d4444fd3b511e07f40952db6f9",
+      "organization_id": "28282"
+    }
   },
   {
     "team": "New Jersey Devils",
@@ -793,11 +800,18 @@
     "league": "MLB",
     "kind": "teamworkonline",
     "key": "tw:baseball-jobs/baseballjobs/detroit-tigers",
-    "path": "baseball-jobs/baseballjobs/detroit-tigers",
-    "org_id": "",
+    "path": "baseball-jobs/baseballjobs/major-league-baseball",
+    "org_id": "30212",
     "official_pages": [
       "https://www.mlb.com/tigers/team/job-opportunities"
-    ]
+    ],
+    "route_note": "Stable source identity retained; use the employer-selected public ATS route. Each response must confirm the organization ID.",
+    "transport_evidence": {
+      "url": "https://www.teamworkonline.com/baseball-jobs/baseballjobs/major-league-baseball?employment_opportunity_search%5Borganization_id%5D=30212",
+      "checked_at": "2026-11-11T07:46:01.222024+00:00",
+      "response_sha256": "5349c4aa29e4fe431ff22bde19d6dd5766d0cc43b0fa55cbaf8266a3a284f754",
+      "organization_id": "30212"
+    }
   },
   {
     "team": "Houston Astros",
@@ -1264,11 +1278,18 @@
     "league": "NFL",
     "kind": "teamworkonline",
     "key": "tw:multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs",
-    "path": "multiple-properties/hardrock-stadium-jobs/hard-rock-stadium-jobs",
-    "org_id": "",
+    "path": "football-jobs/footballjobs/nfl-football-jobs",
+    "org_id": "28263",
     "official_pages": [
       "https://www.hardrockstadium.com/careers/"
-    ]
+    ],
+    "route_note": "Stable source identity retained; use the employer-selected public ATS route. Each response must confirm the organization ID.",
+    "transport_evidence": {
+      "url": "https://www.teamworkonline.com/football-jobs/footballjobs/nfl-football-jobs?employment_opportunity_search%5Borganization_id%5D=28263",
+      "checked_at": "2026-11-11T07:43:47.327378+00:00",
+      "response_sha256": "32acb13cbff55813ec667c5ac5d360d0aa39b9bf0544f60c6e2801476e61c317",
+      "organization_id": "28263"
+    }
   },
   {
     "team": "New York Jets",
@@ -1569,11 +1590,18 @@
     "league": "NHL",
     "kind": "teamworkonline",
     "key": "tw:multiple-properties/monumentalsports/monumental-sports",
-    "path": "multiple-properties/monumentalsports/monumental-sports",
-    "org_id": "",
+    "path": "hockey-jobs/hockeyjobs/nhl-league-office",
+    "org_id": "30003",
     "official_pages": [
       "https://www.nhl.com/capitals/"
-    ]
+    ],
+    "route_note": "Stable source identity retained; use the employer-selected public ATS route. Each response must confirm the organization ID.",
+    "transport_evidence": {
+      "url": "https://www.teamworkonline.com/hockey-jobs/hockeyjobs/nhl-league-office?employment_opportunity_search%5Borganization_id%5D=30003",
+      "checked_at": "2026-11-11T07:43:47.326898+00:00",
+      "response_sha256": "9ce5744976997d957193cec1f661d2e548d451fe6ec15d73c3272e0fd7bddf28",
+      "organization_id": "30003"
+    }
   },
   {
     "team": "Cincinnati Reds",
@@ -1971,6 +1999,17 @@
     "site": "Detroit-Red-Wings",
     "official_pages": [
       "https://careersatilitchcompanies.com/en-us"
+    ]
+  },
+  {
+    "team": "Boston Bruins",
+    "league": "NHL",
+    "kind": "teamworkonline",
+    "key": "tw:hockey-jobs/hockeyjobs/nhl-league-office:org:28277",
+    "path": "hockey-jobs/hockeyjobs/nhl-league-office",
+    "org_id": "28277",
+    "official_pages": [
+      "https://www.nhl.com/info/careers"
     ]
   }
 ]
