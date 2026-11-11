@@ -47,7 +47,7 @@ export class JobsScheduler {
       const record = prior.slot === slot ? prior : { slot, attempts: 0 };
       state.modules[config.id] = record;
       try {
-        const data = await this.github(`repos/${config.repo}/actions/workflows/pipeline.yml/runs?per_page=30`);
+        const data = await this.github(`repos/${config.repo}/actions/workflows/pipeline.yml/runs?branch=master&per_page=30`);
         const runs = data.workflow_runs;
         const match = runs.find(run => run.display_title === `job-radar ${slot}`);
         const latestSuccess = runs.find(run => run.conclusion === 'success');
@@ -124,6 +124,8 @@ export class JobsScheduler {
     const path = new URL(request.url).pathname;
     if (path === '/health') {
       const health = this.health(await this.state.storage.get('state'), Date.now());
+      const nextAlarm = await this.state.storage.getAlarm();
+      health.next_alarm_at = nextAlarm === null ? null : new Date(nextAlarm).toISOString();
       return json(health, health.status === 'healthy' || health.status === 'paused' ? 200 : 503);
     }
     return this.state.blockConcurrencyWhile(async () => {
