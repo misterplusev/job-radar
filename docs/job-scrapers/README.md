@@ -22,6 +22,8 @@ Verified against deployed configuration and recent executions on **November 11, 
 
 13. [Complete 124-team coverage and eight live production views](2026-11-11%200105%20Complete%20Team%20Coverage%20and%20Independent%20Jobs%20Module%20Proof.md) — official Bulls/Clippers/Bucks proofs, screenshots, independent runtime receipts and the installed dashboard revision.
 
+14. [Discord wiring and documentation verification](2026-11-11%200145%20Discord%20Wiring%20Verification%20and%20Documentation%20Status.md) — production webhook checks, existing-message readbacks, fresh health results and the remaining sportsbook proof/recovery gap.
+
 Canonical version-controlled copy: [job-radar/docs/job-scrapers](https://github.com/misterplusev/job-radar/tree/master/docs/job-scrapers). Local operator copy: `D:\abet_ops\jobs_scrapers`. The four module READMEs link here. Consult live source and a fresh verification receipt when these documents disagree with production; update both the inventory and the prose after a change.
 
 ```powershell
