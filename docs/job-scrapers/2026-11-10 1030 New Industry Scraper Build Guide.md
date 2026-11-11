@@ -91,7 +91,7 @@ For the first population, explicitly choose whether existing jobs are seeded wit
 
 ## 5. Give it one scheduler and observable health
 
-Choose one runtime. A GitHub Actions worker should have its own concurrency group, explicit UTC cron, manual trigger, hard job deadline, bounded provider execution and durable storage. GitHub timing can slip; record actual starts and due-slot age. A service launcher should have an explicit IANA timezone, serialized execution, whole-process timeout, termination handling and manifest-based health. Neither should spawn autonomous agents.
+Choose one execution runtime and one scheduling owner. Current robotics, tech and sports teams use GitHub Actions with their own concurrency groups, manual dispatch inputs, hard job deadlines, bounded provider execution and durable storage; the shared Cloudflare Durable Object alarm owns their hourly dispatch. Add a distinct module ID, workflow, run-name prefix and UTC minute to that scheduler when following this pattern, and do not also enable a GitHub cron. Record actual starts and due-slot age. A service launcher should have an explicit IANA timezone, serialized execution, whole-process timeout, termination handling and manifest-based health. Neither should spawn autonomous agents.
 
 Health should expose intended schedule, last actual start/end, last successful complete observation, next due slot where applicable, expected/success/empty/failed sources, job counts, pending eligible alerts and delivery status. Keep scrape success distinct from notification success and frontend deployment. Publish source coverage from current receipts, not a count of configured employers. A healthy exit code alone is insufficient.
 

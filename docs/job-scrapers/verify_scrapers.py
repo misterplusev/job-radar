@@ -42,9 +42,10 @@ def inspect(registry,exe):
             if r['configured_crons']!=m['expected_crons']:r['warnings'].append('cron_drift')
             cloud_scheduler=m.get('scheduler',{}).get('type')=='cloudflare-durable-object-alarm'
             event='workflow_dispatch' if cloud_scheduler else 'schedule'
-            runs=gh_json(exe,f"repos/{m['repo']}/actions/workflows/{m['workflow']}/runs?event={event}&per_page=30")['workflow_runs']
+            runs=gh_json(exe,f"repos/{m['repo']}/actions/workflows/{m['workflow']}/runs?branch={repo['default_branch']}&event={event}&per_page=30")['workflow_runs']
             if cloud_scheduler:
-                runs=[x for x in runs if re.match(r'^job-radar \d{4}-\d{2}-\d{2}T',x.get('display_title',''))][:8]
+                prefix=m['scheduler'].get('run_name_prefix','job-radar')
+                runs=[x for x in runs if re.match('^'+re.escape(prefix)+r' \d{4}-\d{2}-\d{2}T',x.get('display_title',''))][:8]
                 r['scheduler']=m['scheduler']
             else:runs=runs[:8]
             r['recent_scheduled_runs']=[{k:x.get(k) for k in ('id','created_at','updated_at','status','conclusion','html_url')} for x in runs]
@@ -59,10 +60,18 @@ def inspect(registry,exe):
             try:
                 h=public_json(m['health']);r['health']={k:h.get(k) for k in ('status','healthy','checked_at','last_run_end','last_scrape_at','next_run_utc','scrape_running','schedule','notifications_paused','delivery_status','providers_expected_count','providers_success_count','providers_empty','providers_error','providers_timeout') if k in h}
                 if m.get('scheduler',{}).get('type')=='cloudflare-durable-object-alarm':
-                    r['health'].update(paused=h.get('paused'),last_scheduler_tick=h.get('last_scheduler_tick'),
-                                      module=h.get('modules',{}).get(m['id']),overdue=h.get('overdue',[]))
-                    if h.get('paused'):r['warnings'].append('scheduler_paused')
-                if h.get('status') not in ('healthy',None):r['warnings'].append('live_health_'+str(h.get('status')))
+                    scheduler_url=m['scheduler'].get('health_url',m['health'])
+                    sh=h if scheduler_url==m['health'] else public_json(scheduler_url)
+                    relevant=[x for x in sh.get('overdue',[]) if x.startswith(m['id']) or x=='scheduler heartbeat']
+                    r['scheduler_health']={'paused':sh.get('paused'),'last_scheduler_tick':sh.get('last_scheduler_tick'),
+                                          'module':sh.get('modules',{}).get(m['id']),'overdue':relevant}
+                    if sh.get('paused'):r['warnings'].append('scheduler_paused')
+                    if relevant:r['warnings'].append('scheduler_overdue')
+                if h.get('latest_manifest'):
+                    manifest=h['latest_manifest']
+                    r['operational_status']=manifest.get('runtime_status',manifest.get('overall_status'))
+                    r['career_link_audit_status']=manifest.get('career_link_audit_status')
+                if 'modules' not in h and h.get('status') not in ('healthy',None):r['warnings'].append('live_health_'+str(h.get('status')))
                 if m.get('schedule'):
                     for k,v in m['schedule'].items():
                         if h.get('schedule',{}).get(k)!=v:r['warnings'].append('runtime_schedule_drift:'+k)

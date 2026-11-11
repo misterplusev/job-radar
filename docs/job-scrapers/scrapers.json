@@ -112,9 +112,7 @@
       "branch": "master",
       "workflow": "sports-teams.yml",
       "expected_workflow_state": "active",
-      "expected_crons": [
-        "23 * * * *"
-      ],
+      "expected_crons": [],
       "runtime": "github-actions",
       "entrypoint": "sports_teams/pipeline_local.py --cloud; sports_teams/publish_teams.py --post --limit 0",
       "registry": "sports_teams/official_careers_registry.json + sports_teams/sources.json",
@@ -128,7 +126,18 @@
       "health": "https://misterplusev.github.io/job-radar/health.json",
       "coverage": "https://misterplusev.github.io/job-radar/coverage.json",
       "local_checkout": "D:/abet_ops/sports_teams",
-      "dashboard_url": "https://abet-dashboard.vercel.app/?section=jobs&tab=teams-jobs"
+      "dashboard_url": "https://abet-dashboard.vercel.app/?section=jobs&tab=teams-jobs",
+      "scheduler": {
+        "type": "cloudflare-durable-object-alarm",
+        "worker": "abet-jobs-scheduler",
+        "minute_utc": 23,
+        "heartbeat_minutes": 5,
+        "source_repo": "misterplusev/job-radar",
+        "source_path": "runtime/cloudflare/worker.mjs",
+        "health_url": "https://abet-jobs-scheduler.abetscrape.workers.dev/health",
+        "run_name_prefix": "sports-teams"
+      },
+      "manifest_artifact": "sports-teams-scrape-receipt"
     }
   ],
   "dashboard": {

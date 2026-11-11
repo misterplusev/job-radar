@@ -1,13 +1,13 @@
 # Sports teams jobs scraper
 
-**Shared documentation:** [architecture, operations and new-industry build guide](https://github.com/misterplusev/job-radar/tree/master/docs/job-scrapers). Verified November 10, 2026; includes a machine inventory and read-only checker. The hourly schedule below is configuration; recent GitHub scheduled runs have multi-hour gaps.
+**Shared documentation:** [architecture, operations and new-industry build guide](https://github.com/misterplusev/job-radar/tree/master/docs/job-scrapers). Verified November 10, 2026; includes a machine inventory and read-only checker. The November 11 repair moved dispatch to the shared Cloudflare alarm scheduler; see the shared repair receipt for observed runs and remaining coverage gaps.
 
 Production matches the robotics/tech jobs pipeline: GitHub Actions -> shared
 Supabase database -> live searchable board and deduplicated Discord publisher.
 
 - Repository: https://github.com/misterplusev/job-radar/tree/master/sports_teams
 - Workflow: `.github/workflows/sports-teams.yml` in that repository.
-- Schedule: hourly at minute 23 UTC; one run at a time, 45-minute timeout.
+- Schedule: Cloudflare Durable Object alarms, hourly at minute 23 UTC; GitHub Actions executes one run at a time with a 45-minute timeout. No GitHub cron remains.
 - Board: https://misterplusev.github.io/job-radar/
 - Health: https://misterplusev.github.io/job-radar/health.json
 - Team-by-team coverage: https://misterplusev.github.io/job-radar/coverage.html
@@ -58,7 +58,7 @@ Local operator deployment helper: `deploy_github.py`; secrets travel via GitHub 
 The shared database migration was applied in an isolated one-time workflow;
 the original robotics and tech pipelines were not modified.
 After production certification on 2026-11-09, the old Windows scrape/publish
-tasks were exported to the local backup and disabled. GitHub Actions owns
+tasks were exported to the local backup and disabled. Cloudflare alarms own
 the recurring schedule; do not re-enable the Windows tasks alongside it.
 
 The Hugging Face/Cloudflare experiment is retired: HF could not reach Teamwork
@@ -69,3 +69,5 @@ for audit/rollback and are not the production sports teams scheduler.
 Application marks on the board are private to the browser; they do not submit
 applications. Authenticated database application records have owner-scoped RLS.
 This does not replace the job search's Markdown application tracker.
+
+Current proof: 152/152 active source checks, 124 teams with working feeds, 121/124 official career-route links proved. Chicago Bulls, LA Clippers and Milwaukee Bucks remain unproved. The manifest separates runtime success from this audit; composite health remains degraded. See the shared November 11 repair report.
