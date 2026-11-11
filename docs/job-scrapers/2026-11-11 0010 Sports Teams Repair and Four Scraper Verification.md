@@ -1,5 +1,7 @@
 # Sports teams repair and four-scraper verification
 
+> Superseded coverage/UI status: [2026-11-11 0105 Complete Team Coverage and Independent Jobs Module Proof.md](2026-11-11%200105%20Complete%20Team%20Coverage%20and%20Independent%20Jobs%20Module%20Proof.md) closes all three official-page gaps and supplies actual browser proof for all eight views. Historical failure and repair evidence below is retained.
+
 Owner: ABET / Chris. Repair authorized November 10, 2026, with live verification continuing after midnight Pacific on November 11. This record separates operational ingestion from the remaining career-link audit. It does not claim every historical listing or every official link has been independently reverified.
 
 ## Deployed repair

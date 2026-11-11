@@ -1,0 +1,1431 @@
+[
+  {
+    "id": "teams-dashboard",
+    "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=teams-jobs",
+    "observed_at": "2026-11-11T08:50:38.782Z",
+    "baseline": {
+      "cardCount": 100,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://a.espncdn.com/i/teamlogos/nhl/500/fla.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Part-Time Conversion Crew",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728817006"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728817006"
+            }
+          ],
+          "text": "FP\nFlorida Panthers\nPart-Time Conversion Crew\nOpen listing ↗\n\nAmerant Bank Arena, Sunrise, FL\n\nPosted: Nov 11, 2026\ngreenhouse\nNHL\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://a.espncdn.com/i/teamlogos/nhl/500/fla.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Housekeeper",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728690006"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728690006"
+            }
+          ],
+          "text": "FP\nFlorida Panthers\nHousekeeper\nOpen listing ↗\n\nFort Lauderdale, FL\n\nPosted: Nov 10, 2026\ngreenhouse\nNHL\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://a.espncdn.com/i/teamlogos/mlb/500/cle.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "2027 Minor League Hitting Coach",
+              "url": "https://job-boards.greenhouse.io/clevelandguardiansbops/jobs/8933999002"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/clevelandguardiansbops/jobs/8933999002"
+            }
+          ],
+          "text": "CG\nCleveland Guardians\n2027 Minor League Hitting Coach\nOpen listing ↗\n\nGoodyear, Arizona, United States\n\nPosted: Nov 10, 2026\ngreenhouse\nMLB\nActive\nJob description"
+        }
+      ],
+      "heading": "Sports Teams Jobs",
+      "overviewOpen": true,
+      "selects": [
+        {
+          "id": "",
+          "label": "League",
+          "value": ""
+        },
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & teams2,104 active2,170 total2,104 active66 closed←→All teams81 Eighty2AMB Sports & Entertainment20Amerant Bank Arena9Anaheim Ducks Hockey Club2Arizona Cardinals18Arizona Diamondbacks4AT&T St"
+    },
+    "count200": 200,
+    "summary_collapse": true,
+    "company_filter": "Chicago Bulls",
+    "filtered": {
+      "cardCount": 4,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": false,
+              "src": "https://a.espncdn.com/i/teamlogos/nba/500/chi.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Ticket Sales Associate",
+              "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4638957"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4638957"
+            }
+          ],
+          "text": "CB\nChicago Bulls\nTicket Sales Associate\nOpen listing ↗\n\nChicago\n\nPosted: Nov 3, 2026\npaylocity\nNBA\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": false,
+              "src": "https://a.espncdn.com/i/teamlogos/nba/500/chi.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Executive Director, Brand and Fan Marketing",
+              "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4633121"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4633121"
+            }
+          ],
+          "text": "CB\nChicago Bulls\nExecutive Director, Brand and Fan Marketing\nOpen listing ↗\n\nChicago\n\nPosted: Nov 2, 2026\npaylocity\nNBA\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": false,
+              "src": "https://a.espncdn.com/i/teamlogos/nba/500/chi.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Account Executive, Season Sales",
+              "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4594550"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4594550"
+            }
+          ],
+          "text": "CB\nChicago Bulls\nAccount Executive, Season Sales\nOpen listing ↗\n\nChicago\n\nPosted: Oct 16, 2026\npaylocity\nNBA\nActive\nJob description"
+        }
+      ],
+      "heading": "Sports Teams Jobs",
+      "overviewOpen": false,
+      "selects": [
+        {
+          "id": "",
+          "label": "League",
+          "value": ""
+        },
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & teams2,104 active2,170 total2,104 active66 closed←→All teams81 Eighty2AMB Sports & Entertainment20Amerant Bank Arena9Anaheim Ducks Hockey Club2Arizona Cardinals18Arizona Diamondbacks4AT&T St"
+    },
+    "screenshot": "screenshots/dashboard-teams.jpg",
+    "include_unspecified_count": 5
+  },
+  {
+    "id": "dashboard-robotics",
+    "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=robotics-jobs",
+    "observed_at": "2026-11-11T08:55:38.766Z",
+    "baseline": {
+      "cardCount": 100,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/robotics-jobradar-board/logos/rocket-lab.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Lead, Test & Launch Operations Engineer - Vehicle",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165879003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165879003"
+            }
+          ],
+          "text": "RL\nRocket Lab\nLead, Test & Launch Operations Engineer - Vehicle\nOpen listing ↗\n\nWallops Island, VA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/robotics-jobradar-board/logos/rocket-lab.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Lead, Test & Launch Operations Engineer – Avionics",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165852003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165852003"
+            }
+          ],
+          "text": "RL\nRocket Lab\nLead, Test & Launch Operations Engineer – Avionics\nOpen listing ↗\n\nWallops Island, VA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/robotics-jobradar-board/logos/rocket-lab.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Lead, Test & Launch Operations Engineer - Launch Pad",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165847003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165847003"
+            }
+          ],
+          "text": "RL\nRocket Lab\nLead, Test & Launch Operations Engineer - Launch Pad\nOpen listing ↗\n\nWallops Island, VA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        }
+      ],
+      "heading": "Robotics Jobs",
+      "overviewOpen": true,
+      "selects": [
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & companies18,664 active27,045 total18,664 active8,381 closed←→All companies1X100Agility Robotics78Airbnb199Amazon1,981Ambi Robotics5Anduril Industries2,588Anthropic677ANYbotics24Apptronik90As"
+    },
+    "count200": 200,
+    "summary_collapse": true,
+    "search": "Lead, Test & Launch Operations Engineer - Vehicle",
+    "filtered": {
+      "cardCount": 1,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/robotics-jobradar-board/logos/rocket-lab.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Lead, Test & Launch Operations Engineer - Vehicle",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165879003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165879003"
+            }
+          ],
+          "text": "RL\nRocket Lab\nLead, Test & Launch Operations Engineer - Vehicle\nOpen listing ↗\n\nWallops Island, VA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        }
+      ],
+      "heading": "Robotics Jobs",
+      "overviewOpen": false,
+      "selects": [
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & companies18,664 active27,045 total18,664 active8,381 closed←→All companies1X100Agility Robotics78Airbnb199Amazon1,981Ambi Robotics5Anduril Industries2,588Anthropic677ANYbotics24Apptronik90As"
+    },
+    "screenshot": "screenshots/dashboard-robotics.jpg",
+    "description_excerpt": "Job description\nDescription unavailable. Open the employer listing for details."
+  },
+  {
+    "id": "dashboard-tech",
+    "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=tech-jobs",
+    "observed_at": "2026-11-11T08:56:46.051Z",
+    "baseline": {
+      "cardCount": 100,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/jobradar-tech-board/logos/robinhood.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Senior Technical Recruiter, Data",
+              "url": "https://boards.greenhouse.io/robinhood/jobs/8368338?t=gh_src=&gh_jid=8368338"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://boards.greenhouse.io/robinhood/jobs/8368338?t=gh_src=&gh_jid=8368338"
+            }
+          ],
+          "text": "R\nRobinhood\nSenior Technical Recruiter, Data\nOpen listing ↗\n\nMenlo Park, CA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/jobradar-tech-board/logos/mongodb.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Manager, Executive Communications",
+              "url": "https://www.mongodb.com/careers/job/?gh_jid=8327493"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://www.mongodb.com/careers/job/?gh_jid=8327493"
+            }
+          ],
+          "text": "M\nMongodb\nManager, Executive Communications\nOpen listing ↗\n\nUnited States\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/jobradar-tech-board/logos/databricks.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Staff Security Engineer, Incident Response",
+              "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8841960002"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8841960002"
+            }
+          ],
+          "text": "D\nDatabricks\nStaff Security Engineer, Incident Response\nOpen listing ↗\n\nUnited States\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        }
+      ],
+      "heading": "Tech Jobs",
+      "overviewOpen": true,
+      "selects": [
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & companies3,746 active5,239 total3,746 active1,493 closed←→All companiesAirbnb199Cloudflare473Coinbase286Databricks918Dropbox38Figma142Gusto80Instacart88Mongodb376Robinhood155Stripe779Twilio1"
+    },
+    "count200": 200,
+    "summary_collapse": true,
+    "search": "Senior Technical Recruiter, Data",
+    "filtered": {
+      "cardCount": 1,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/jobradar-tech-board/logos/robinhood.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Senior Technical Recruiter, Data",
+              "url": "https://boards.greenhouse.io/robinhood/jobs/8368338?t=gh_src=&gh_jid=8368338"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://boards.greenhouse.io/robinhood/jobs/8368338?t=gh_src=&gh_jid=8368338"
+            }
+          ],
+          "text": "R\nRobinhood\nSenior Technical Recruiter, Data\nOpen listing ↗\n\nMenlo Park, CA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        }
+      ],
+      "heading": "Tech Jobs",
+      "overviewOpen": false,
+      "selects": [
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & companies3,746 active5,239 total3,746 active1,493 closed←→All companiesAirbnb199Cloudflare473Coinbase286Databricks918Dropbox38Figma142Gusto80Instacart88Mongodb376Robinhood155Stripe779Twilio1"
+    },
+    "screenshot": "screenshots/dashboard-tech.jpg"
+  },
+  {
+    "id": "dashboard-sportsbook",
+    "url": "https://abet-dashboard.vercel.app/?section=jobs&tab=jobs-browser",
+    "observed_at": "2026-11-11T08:57:29.704Z",
+    "baseline": {
+      "cardCount": 100,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://sportsbook-master-list.vercel.app/logos/novig_com.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Head of Product Marketing",
+              "url": "https://jobs.ashbyhq.com/novig/31ea6b8e-e49e-49c8-9368-84b8391512aa"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://jobs.ashbyhq.com/novig/31ea6b8e-e49e-49c8-9368-84b8391512aa"
+            }
+          ],
+          "text": "N\nNovig\nHead of Product Marketing\nOpen listing ↗\nTrack application\n\nNew York, Product\n\nPosted: Nov 11, 2026\nActive\nJob description & application tracking"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://sportsbook-master-list.vercel.app/logos/prizepicks_com.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Director, Government Affairs - California",
+              "url": "http://prizepicks.com/position?gh_jid=8197632003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "http://prizepicks.com/position?gh_jid=8197632003"
+            }
+          ],
+          "text": "P\nPrizePicks\nDirector, Government Affairs - California\nOpen listing ↗\nTrack application\n\nAtlanta, GA preferred, Remote\n\nPosted: Nov 10, 2026\nActive\nRemote\nJob description & application tracking"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://sportsbook-master-list.vercel.app/logos/novig_com.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Head of Business Development",
+              "url": "https://jobs.ashbyhq.com/novig/febdc7b7-4487-43dc-8351-a6f5826e4871"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://jobs.ashbyhq.com/novig/febdc7b7-4487-43dc-8351-a6f5826e4871"
+            }
+          ],
+          "text": "N\nNovig\nHead of Business Development\nOpen listing ↗\nTrack application\n\nNew York, Product\n\nPosted: Nov 10, 2026\nActive\nJob description & application tracking"
+        }
+      ],
+      "heading": "Sportsbook Jobs",
+      "overviewOpen": true,
+      "selects": [
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & sportsbooks853 active5,429 total853 active4,576 closed0 applied←→All sportsbooksHard Rock Bet114FanDuel98Fanatics Betting & Gaming91bet36588DraftKings73Bally's Corporation55Caesars53Betway35"
+    },
+    "count200": 200,
+    "summary_collapse": true,
+    "search": "Head of Product Marketing",
+    "filtered": {
+      "cardCount": 1,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://sportsbook-master-list.vercel.app/logos/novig_com.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Head of Product Marketing",
+              "url": "https://jobs.ashbyhq.com/novig/31ea6b8e-e49e-49c8-9368-84b8391512aa"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://jobs.ashbyhq.com/novig/31ea6b8e-e49e-49c8-9368-84b8391512aa"
+            }
+          ],
+          "text": "N\nNovig\nHead of Product Marketing\nOpen listing ↗\nTrack application\n\nNew York, Product\n\nPosted: Nov 11, 2026\nActive\nJob description & application tracking"
+        }
+      ],
+      "heading": "Sportsbook Jobs",
+      "overviewOpen": false,
+      "selects": [
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & sportsbooks853 active5,429 total853 active4,576 closed0 applied←→All sportsbooksHard Rock Bet114FanDuel98Fanatics Betting & Gaming91bet36588DraftKings73Bally's Corporation55Caesars53Betway35"
+    },
+    "screenshot": "screenshots/dashboard-sportsbook.jpg"
+  },
+  {
+    "id": "standalone-teams",
+    "url": "https://misterplusev.github.io/job-radar/",
+    "observed_at": "2026-11-11T08:58:48.959Z",
+    "baseline": {
+      "cardCount": 100,
+      "checks": [
+        {
+          "checked": false,
+          "label": " Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": " Remote only"
+        },
+        {
+          "checked": false,
+          "label": " Hide marked applications"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://a.espncdn.com/i/teamlogos/nhl/500/fla.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Part-Time Conversion Crew",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728817006"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728817006"
+            }
+          ],
+          "text": "FP\nFlorida Panthers\nPart-Time Conversion Crew\nOpen listing ↗\nMark applied\n\nAmerant Bank Arena, Sunrise, FL\n\nPosted: Nov 11, 2026\ngreenhouse\nNHL\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://a.espncdn.com/i/teamlogos/nhl/500/fla.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Housekeeper",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728690006"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728690006"
+            }
+          ],
+          "text": "FP\nFlorida Panthers\nHousekeeper\nOpen listing ↗\nMark applied\n\nFort Lauderdale, FL\n\nPosted: Nov 10, 2026\ngreenhouse\nNHL\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://a.espncdn.com/i/teamlogos/mlb/500/cle.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "2027 Minor League Hitting Coach",
+              "url": "https://job-boards.greenhouse.io/clevelandguardiansbops/jobs/8933999002"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/clevelandguardiansbops/jobs/8933999002"
+            }
+          ],
+          "text": "CG\nCleveland Guardians\n2027 Minor League Hitting Coach\nOpen listing ↗\nMark applied\n\nGoodyear, Arizona, United States\n\nPosted: Nov 10, 2026\ngreenhouse\nMLB\nActive\nJob description"
+        }
+      ],
+      "heading": "Sports Teams Jobs",
+      "overviewOpen": true,
+      "selects": [
+        {
+          "id": "league",
+          "label": "League",
+          "value": ""
+        },
+        {
+          "id": "team",
+          "label": "Team",
+          "value": ""
+        },
+        {
+          "id": "source",
+          "label": "Source",
+          "value": ""
+        },
+        {
+          "id": "status",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "sort",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "limit",
+          "label": null,
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & teams2,104 active2,170 total · 2,104 active · 66 closed←→All teams81 Eighty2AMB Sports & Entertainment20Amerant Bank Arena9Anaheim Ducks Hockey Club2Arizona Cardinals18Arizona Diamondbacks4A"
+    },
+    "count200": 200,
+    "summary_collapse": true,
+    "search": "Part-Time Conversion Crew",
+    "filtered": {
+      "cardCount": 3,
+      "checks": [
+        {
+          "checked": false,
+          "label": " Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": " Remote only"
+        },
+        {
+          "checked": false,
+          "label": " Hide marked applications"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://a.espncdn.com/i/teamlogos/nhl/500/fla.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Part-Time Conversion Crew",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728817006"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4728817006"
+            }
+          ],
+          "text": "FP\nFlorida Panthers\nPart-Time Conversion Crew\nOpen listing ↗\nMark applied\n\nAmerant Bank Arena, Sunrise, FL\n\nPosted: Nov 11, 2026\ngreenhouse\nNHL\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://a.espncdn.com/i/teamlogos/nhl/500/fla.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Part-Time Conversion Crew",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4724461006"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/thefloridapanthers/jobs/4724461006"
+            }
+          ],
+          "text": "FP\nFlorida Panthers\nPart-Time Conversion Crew\nOpen listing ↗\nMark applied\n\nBaptist Health Iceplex (War Memorial), Fort Lauderdale, FL\n\nPosted: Oct 23, 2026\ngreenhouse\nNHL\nActive\nJob description"
+        },
+        {
+          "images": [],
+          "links": [
+            {
+              "text": "Part-Time Conversion Crew",
+              "url": "https://www.teamworkonline.com/hockey-jobs/floridapanthers/ftl-war-memorial/part-time-conversion-crew-2196321"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://www.teamworkonline.com/hockey-jobs/floridapanthers/ftl-war-memorial/part-time-conversion-crew-2196321"
+            }
+          ],
+          "text": "FW\nFTL War Memorial\nPart-Time Conversion Crew\nOpen listing ↗\nMark applied\n\nFort Lauderdale, FL · Part Time\n\nPosted: Oct 23, 2026\nteamworkonline\nNHL\nActive\nJob description"
+        }
+      ],
+      "heading": "Sports Teams Jobs",
+      "overviewOpen": false,
+      "selects": [
+        {
+          "id": "league",
+          "label": "League",
+          "value": ""
+        },
+        {
+          "id": "team",
+          "label": "Team",
+          "value": ""
+        },
+        {
+          "id": "source",
+          "label": "Source",
+          "value": ""
+        },
+        {
+          "id": "status",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "sort",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "limit",
+          "label": null,
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & teams2,104 active2,170 total · 2,104 active · 66 closed←→All teams81 Eighty2AMB Sports & Entertainment20Amerant Bank Arena9Anaheim Ducks Hockey Club2Arizona Cardinals18Arizona Diamondbacks4A"
+    },
+    "screenshot": "screenshots/standalone-teams.jpg"
+  },
+  {
+    "id": "standalone-tech",
+    "url": "https://misterplusev.github.io/jobradar-tech-board/",
+    "observed_at": "2026-11-11T08:59:29.910Z",
+    "baseline": {
+      "cardCount": 100,
+      "checks": [
+        {
+          "checked": false,
+          "label": " Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": " remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/jobradar-tech-board/logos/robinhood.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Senior Technical Recruiter, Data",
+              "url": "https://boards.greenhouse.io/robinhood/jobs/8368338?t=gh_src=&gh_jid=8368338"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://boards.greenhouse.io/robinhood/jobs/8368338?t=gh_src=&gh_jid=8368338"
+            }
+          ],
+          "text": "R\nRobinhood\nSenior Technical Recruiter, Data\nOpen listing ↗\nMark applied\n\nMenlo Park, CA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/jobradar-tech-board/logos/mongodb.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Manager, Executive Communications",
+              "url": "https://www.mongodb.com/careers/job/?gh_jid=8327493"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://www.mongodb.com/careers/job/?gh_jid=8327493"
+            }
+          ],
+          "text": "M\nMongodb\nManager, Executive Communications\nOpen listing ↗\nMark applied\n\nUnited States\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/jobradar-tech-board/logos/databricks.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Staff Security Engineer, Incident Response",
+              "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8841960002"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8841960002"
+            }
+          ],
+          "text": "D\nDatabricks\nStaff Security Engineer, Incident Response\nOpen listing ↗\nMark applied\n\nUnited States\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        }
+      ],
+      "heading": "Tech Jobs",
+      "overviewOpen": true,
+      "selects": [
+        {
+          "id": "loc",
+          "label": null,
+          "value": ""
+        },
+        {
+          "id": "src",
+          "label": null,
+          "value": ""
+        },
+        {
+          "id": "st",
+          "label": null,
+          "value": "1"
+        },
+        {
+          "id": "sort",
+          "label": null,
+          "value": "newest"
+        },
+        {
+          "id": "limit",
+          "label": null,
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & companies3,746 active5,239 total · 3,746 active · 1,493 closed←→AllAirbnb199Cloudflare473Coinbase286Databricks918Dropbox38Figma142Gusto80Instacart88Mongodb376Robinhood155Stripe779Twilio125Ve"
+    },
+    "count200": 200,
+    "summary_collapse": true,
+    "search": "Senior Technical Recruiter, Data",
+    "filtered": {
+      "cardCount": 1,
+      "checks": [
+        {
+          "checked": false,
+          "label": " Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": " remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/jobradar-tech-board/logos/robinhood.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Senior Technical Recruiter, Data",
+              "url": "https://boards.greenhouse.io/robinhood/jobs/8368338?t=gh_src=&gh_jid=8368338"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://boards.greenhouse.io/robinhood/jobs/8368338?t=gh_src=&gh_jid=8368338"
+            }
+          ],
+          "text": "R\nRobinhood\nSenior Technical Recruiter, Data\nOpen listing ↗\nMark applied\n\nMenlo Park, CA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        }
+      ],
+      "heading": "Tech Jobs",
+      "overviewOpen": false,
+      "selects": [
+        {
+          "id": "loc",
+          "label": null,
+          "value": ""
+        },
+        {
+          "id": "src",
+          "label": null,
+          "value": ""
+        },
+        {
+          "id": "st",
+          "label": null,
+          "value": "1"
+        },
+        {
+          "id": "sort",
+          "label": null,
+          "value": "newest"
+        },
+        {
+          "id": "limit",
+          "label": null,
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & companies3,746 active5,239 total · 3,746 active · 1,493 closed←→AllAirbnb199Cloudflare473Coinbase286Databricks918Dropbox38Figma142Gusto80Instacart88Mongodb376Robinhood155Stripe779Twilio125Ve"
+    },
+    "screenshot": "screenshots/standalone-tech.jpg"
+  },
+  {
+    "id": "standalone-robotics",
+    "url": "https://misterplusev.github.io/robotics-jobradar-board/",
+    "observed_at": "2026-11-11T09:00:30.688Z",
+    "baseline": {
+      "cardCount": 100,
+      "checks": [
+        {
+          "checked": false,
+          "label": " Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": " remote only"
+        },
+        {
+          "checked": true,
+          "label": " hide off-topic"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/robotics-jobradar-board/logos/rocket-lab.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Lead, Test & Launch Operations Engineer - Vehicle",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165879003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165879003"
+            }
+          ],
+          "text": "RL\nRocket Lab\nLead, Test & Launch Operations Engineer - Vehicle\nOpen listing ↗\nMark applied\n\nWallops Island, VA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/robotics-jobradar-board/logos/rocket-lab.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Lead, Test & Launch Operations Engineer – Avionics",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165852003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165852003"
+            }
+          ],
+          "text": "RL\nRocket Lab\nLead, Test & Launch Operations Engineer – Avionics\nOpen listing ↗\nMark applied\n\nWallops Island, VA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/robotics-jobradar-board/logos/rocket-lab.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Lead, Test & Launch Operations Engineer - Launch Pad",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165847003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165847003"
+            }
+          ],
+          "text": "RL\nRocket Lab\nLead, Test & Launch Operations Engineer - Launch Pad\nOpen listing ↗\nMark applied\n\nWallops Island, VA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        }
+      ],
+      "heading": "Robotics Jobs",
+      "overviewOpen": true,
+      "selects": [
+        {
+          "id": "loc",
+          "label": null,
+          "value": ""
+        },
+        {
+          "id": "src",
+          "label": null,
+          "value": ""
+        },
+        {
+          "id": "st",
+          "label": null,
+          "value": "1"
+        },
+        {
+          "id": "sort",
+          "label": null,
+          "value": "newest"
+        },
+        {
+          "id": "limit",
+          "label": null,
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & companies18,664 active27,045 total · 18,664 active · 8,381 closed←→All1X100Agility Robotics78Airbnb199Amazon1981Ambi Robotics5Anduril Industries2588Anthropic677ANYbotics24Apptronik90Astranis"
+    },
+    "count200": 200,
+    "summary_collapse": true,
+    "search": "Lead, Test & Launch Operations Engineer - Vehicle",
+    "filtered": {
+      "cardCount": 1,
+      "checks": [
+        {
+          "checked": false,
+          "label": " Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": " remote only"
+        },
+        {
+          "checked": true,
+          "label": " hide off-topic"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://misterplusev.github.io/robotics-jobradar-board/logos/rocket-lab.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Lead, Test & Launch Operations Engineer - Vehicle",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165879003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://job-boards.greenhouse.io/rocketlab/jobs/8165879003"
+            }
+          ],
+          "text": "RL\nRocket Lab\nLead, Test & Launch Operations Engineer - Vehicle\nOpen listing ↗\nMark applied\n\nWallops Island, VA\n\nPosted: Nov 11, 2026\ngreenhouse\nActive\nJob description"
+        }
+      ],
+      "heading": "Robotics Jobs",
+      "overviewOpen": false,
+      "selects": [
+        {
+          "id": "loc",
+          "label": null,
+          "value": ""
+        },
+        {
+          "id": "src",
+          "label": null,
+          "value": ""
+        },
+        {
+          "id": "st",
+          "label": null,
+          "value": "1"
+        },
+        {
+          "id": "sort",
+          "label": null,
+          "value": "newest"
+        },
+        {
+          "id": "limit",
+          "label": null,
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & companies18,664 active27,045 total · 18,664 active · 8,381 closed←→All1X100Agility Robotics78Airbnb199Amazon1981Ambi Robotics5Anduril Industries2588Anthropic677ANYbotics24Apptronik90Astranis"
+    },
+    "screenshot": "screenshots/standalone-robotics.jpg"
+  },
+  {
+    "id": "standalone-sportsbook",
+    "url": "https://sportsbook-jobs-dashboard.vercel.app/",
+    "observed_at": "2026-11-11T09:04:04.811Z",
+    "baseline": {
+      "cardCount": 100,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://sportsbook-jobs-dashboard.vercel.app/logos/novig.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Head of Product Marketing",
+              "url": "https://jobs.ashbyhq.com/novig/31ea6b8e-e49e-49c8-9368-84b8391512aa"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://jobs.ashbyhq.com/novig/31ea6b8e-e49e-49c8-9368-84b8391512aa"
+            }
+          ],
+          "text": "N\nNovig\nHead of Product Marketing\nOpen listing ↗\nMark applied\n\nNew York, Product\n\nPosted: Nov 11, 2026\nActive\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://sportsbook-jobs-dashboard.vercel.app/logos/prizepicks_icon.svg"
+            }
+          ],
+          "links": [
+            {
+              "text": "Director, Government Affairs - California",
+              "url": "http://prizepicks.com/position?gh_jid=8197632003"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "http://prizepicks.com/position?gh_jid=8197632003"
+            }
+          ],
+          "text": "P\nPrizePicks\nDirector, Government Affairs - California\nOpen listing ↗\nMark applied\n\nAtlanta, GA preferred, Remote\n\nPosted: Nov 10, 2026\nActive\nRemote\nJob description"
+        },
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://sportsbook-jobs-dashboard.vercel.app/logos/novig.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Head of Business Development",
+              "url": "https://jobs.ashbyhq.com/novig/febdc7b7-4487-43dc-8351-a6f5826e4871"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://jobs.ashbyhq.com/novig/febdc7b7-4487-43dc-8351-a6f5826e4871"
+            }
+          ],
+          "text": "N\nNovig\nHead of Business Development\nOpen listing ↗\nMark applied\n\nNew York, Product\n\nPosted: Nov 10, 2026\nActive\nJob description"
+        }
+      ],
+      "heading": "Sportsbook Jobs",
+      "overviewOpen": true,
+      "selects": [
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Company",
+          "value": "ALL"
+        },
+        {
+          "id": "",
+          "label": "Location",
+          "value": "ALL"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & sportsbooks852 active5,429 total852 active4,577 closed0 applied←→All sportsbooksBally's Corporation234bet365605BetMGM126Betr26BetRivers (Rush Street Interactive)115Betway101Caesars251Chalkbo"
+    },
+    "count200": 200,
+    "summary_collapse": true,
+    "search": "Head of Product Marketing",
+    "filtered": {
+      "cardCount": 1,
+      "checks": [
+        {
+          "checked": false,
+          "label": "Include international & unspecified locations"
+        },
+        {
+          "checked": false,
+          "label": "Remote only"
+        }
+      ],
+      "firstCards": [
+        {
+          "images": [
+            {
+              "loaded": true,
+              "src": "https://sportsbook-jobs-dashboard.vercel.app/logos/novig.png"
+            }
+          ],
+          "links": [
+            {
+              "text": "Head of Product Marketing",
+              "url": "https://jobs.ashbyhq.com/novig/31ea6b8e-e49e-49c8-9368-84b8391512aa"
+            },
+            {
+              "text": "Open listing ↗",
+              "url": "https://jobs.ashbyhq.com/novig/31ea6b8e-e49e-49c8-9368-84b8391512aa"
+            }
+          ],
+          "text": "N\nNovig\nHead of Product Marketing\nOpen listing ↗\nMark applied\n\nNew York, Product\n\nPosted: Nov 11, 2026\nActive\nJob description"
+        }
+      ],
+      "heading": "Sportsbook Jobs",
+      "overviewOpen": false,
+      "selects": [
+        {
+          "id": "",
+          "label": "Status",
+          "value": "active"
+        },
+        {
+          "id": "",
+          "label": "Company",
+          "value": "ALL"
+        },
+        {
+          "id": "",
+          "label": "Location",
+          "value": "ALL"
+        },
+        {
+          "id": "",
+          "label": "Sort",
+          "value": "newest"
+        },
+        {
+          "id": "",
+          "label": "Initial result count",
+          "value": "100"
+        }
+      ],
+      "summary": "Summary & sportsbooks852 active5,429 total852 active4,577 closed0 applied←→All sportsbooksBally's Corporation234bet365605BetMGM126Betr26BetRivers (Rush Street Interactive)115Betway101Caesars251Chalkbo"
+    },
+    "screenshot": "screenshots/standalone-sportsbook.jpg"
+  }
+]

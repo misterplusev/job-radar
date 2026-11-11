@@ -1,0 +1,21 @@
+{
+  "observed_at": "2026-11-11T09:08:46.219953+00:00",
+  "url": "https://abet-dashboard.vercel.app/",
+  "http_status": 200,
+  "source_repository": "misterplusev/abet-mlb-monitor-widgets",
+  "revision": "6127ab09ab129d88eaea64fbc8890ed6e529cc43",
+  "deployment_status": {
+    "state": "success",
+    "context": "Vercel – abet-dashboard",
+    "target_url": "https://vercel.com/mes-projects-1898c81d/abet-dashboard/Dtp6fRRjAZ1riqN7mnd5QCnkLr3S",
+    "updated_at": "2026-11-10T21:41:01Z"
+  },
+  "main_bundle": {
+    "url": "https://abet-dashboard.vercel.app/assets/main-BP_CrYWH.js",
+    "http_status": 200,
+    "bytes": 694495,
+    "sha256": "c64c5c23e55de17da49f302658921424bb5cb9279a9a12b740e41a8cd1e4a1cf"
+  },
+  "browser_evidence": "browser_views.json",
+  "scope": "Production deployment status, served bundle fingerprint, and actual live browser interaction on all four dashboard jobs routes. No dashboard source was changed in this verification."
+}
