@@ -77,6 +77,8 @@ jobs:
           shutil.copy2('board/team_jobs.json',out/'team_jobs.json')
           shutil.copy2('board/coverage.json',out/'coverage.json')
           shutil.copy2('board/coverage.html',out/'coverage.html')
+          evidence=Path('verification-20261111')
+          if evidence.exists():shutil.copytree(evidence,out/'verification-20261111',dirs_exist_ok=True)
           m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
           delivery='${{ steps.delivery.outcome }}'
           health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'] if delivery=='success' else 'degraded','last_run_end':m['generated_at'],'notifications_paused':False,'delivery_status':delivery,'schedule':{'owner':'cloudflare-durable-object-alarm','minute_utc':23,'timezone':'UTC','health_url':'https://abet-jobs-scheduler.abetscrape.workers.dev/health'},'latest_manifest':m}
