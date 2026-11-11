@@ -1,0 +1,198 @@
+[
+  {
+    "team": "Chicago Bulls",
+    "official_entry_url": "https://www.nba.com/bulls/career-opportunities",
+    "rendered_page": "https://www.nba.com/bulls/career-opportunities",
+    "observed_at": "2026-11-11T08:44:41.502Z",
+    "source_key": "paylocity:cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3",
+    "board_url": "https://recruiting.paylocity.com/Recruiting/Jobs/All/cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3",
+    "visible_links": [
+      {
+        "label": "View Position",
+        "url": "https://recruiting.paylocity.com/recruiting/jobs/Details/4594550/The-Chicago-Bulls/Account-Executive-Season-Sales"
+      },
+      {
+        "label": "View Position",
+        "url": "https://recruiting.paylocity.com/recruiting/jobs/Details/4633121/The-Chicago-Bulls/Executive-Director-Brand-and-Fan-Marketing"
+      },
+      {
+        "label": "View Position",
+        "url": "https://recruiting.paylocity.com/recruiting/jobs/Details/4580330/The-Chicago-Bulls/Merchandise-Attendant"
+      },
+      {
+        "label": "View Position",
+        "url": "https://recruiting.paylocity.com/recruiting/jobs/Details/4580454/The-Chicago-Bulls/Payroll-Specialist"
+      },
+      {
+        "label": "View Position",
+        "url": "https://recruiting.paylocity.com/recruiting/jobs/Details/4638957/The-Chicago-Bulls/Ticket-Sales-Associate"
+      }
+    ],
+    "matching": {
+      "method": "Every rendered official-page job ID matches the configured Paylocity employer feed",
+      "official_job_ids": [
+        "4580330",
+        "4580454",
+        "4594550",
+        "4633121",
+        "4638957"
+      ],
+      "feed_job_ids": [
+        "4580330",
+        "4580454",
+        "4594550",
+        "4633121",
+        "4638957"
+      ]
+    },
+    "feed_status": "success",
+    "feed_checked_at": "2026-11-11T08:51:35.493680+00:00",
+    "feed_job_count": 5,
+    "feed_urls": [
+      "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4638957",
+      "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4633121",
+      "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4594550",
+      "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4580454",
+      "https://recruiting.paylocity.com/Recruiting/Jobs/Details/4580330"
+    ],
+    "screenshot": "screenshots/bulls-careers.jpg",
+    "screenshot_sha256": "33959bb1f404e6effded859e99a5d085cb2fce980c6887e5d260cd5359707a76"
+  },
+  {
+    "team": "LA Clippers",
+    "official_entry_url": "https://www.nba.com/clippers/company/careers",
+    "rendered_page": "https://www.nba.com/clippers/company/careers/openpositions#laclippers",
+    "observed_at": "2026-11-11T08:45:36.488Z",
+    "source_key": "gh:laclippers",
+    "board_url": "https://job-boards.greenhouse.io/laclippers",
+    "visible_links": [
+      {
+        "label": "Team ChefInglewood, CA",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4679315006"
+      },
+      {
+        "label": "Partnership Strategy CoordinatorInglewood, CA",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4727379006"
+      },
+      {
+        "label": "Immersive Content and Visual Effects Artist, Halo BoardInglewood, CA",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4714005006"
+      },
+      {
+        "label": "Social Media ManagerInglewood, CA",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4718564006"
+      },
+      {
+        "label": "Social Media Associate - Content ProductionInglewood, CA",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4726929006"
+      },
+      {
+        "label": "Inside Sales ExecutiveInglewood, CA",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4728427006"
+      },
+      {
+        "label": "Premium Sales ManagerInglewood, CA",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4702514006"
+      },
+      {
+        "label": "IT Support SpecialistInglewood, CA",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4723835006"
+      },
+      {
+        "label": "Sign Up Now",
+        "url": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4343424006"
+      }
+    ],
+    "matching": {
+      "method": "Official page embeds Greenhouse for=laclippers; every rendered listing/talent-community ID matches the configured feed",
+      "official_job_ids": [
+        "4343424006",
+        "4679315006",
+        "4702514006",
+        "4714005006",
+        "4718564006",
+        "4723835006",
+        "4726929006",
+        "4727379006",
+        "4728427006"
+      ],
+      "feed_job_ids": [
+        "4343424006",
+        "4679315006",
+        "4702514006",
+        "4714005006",
+        "4718564006",
+        "4723835006",
+        "4726929006",
+        "4727379006",
+        "4728427006"
+      ],
+      "embedded_job_frame": "https://job-boards.greenhouse.io/embed/job_app?for=laclippers&token=4723835006"
+    },
+    "feed_status": "success",
+    "feed_checked_at": "2026-11-11T08:51:36.049112+00:00",
+    "feed_job_count": 9,
+    "feed_urls": [
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4714005006",
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4728427006",
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4723835006",
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4343424006",
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4727379006",
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4702514006",
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4726929006",
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4718564006",
+      "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4679315006"
+    ],
+    "screenshot": "screenshots/clippers-careers.jpg",
+    "screenshot_sha256": "1d041a7406ad3a05da6a4aae38aa4f5e37567ef8b31a90afff0b0597d93c0137"
+  },
+  {
+    "team": "Milwaukee Bucks",
+    "official_entry_url": "https://www.nba.com/bucks/careers",
+    "rendered_page": "https://www.nba.com/bucks/careers",
+    "observed_at": "2026-11-11T08:47:00.998Z",
+    "source_key": "adp:035c77cb-5b5c-4e48-b858-605ab1663076",
+    "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001",
+    "visible_links": [
+      {
+        "label": "View Current Job Opportunities",
+        "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&type=JS&lang=en_US"
+      }
+    ],
+    "matching": {
+      "method": "Rendered View Current Job Opportunities link matches configured ADP cid and ccId exactly",
+      "cid": "035c77cb-5b5c-4e48-b858-605ab1663076",
+      "ccId": "19000101_000001"
+    },
+    "feed_status": "success",
+    "feed_checked_at": "2026-11-11T08:51:37.079245+00:00",
+    "feed_job_count": 23,
+    "feed_urls": [
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1784",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1783",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1782",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1781",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1778",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1776",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1775",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1773",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1771",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1769",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1767",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1765",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1764",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1763",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1759",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1754",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1700",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1752",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1749",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1729",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1728",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1722",
+      "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&lang=en_US&jobId=1719"
+    ],
+    "screenshot": "screenshots/bucks-careers.jpg",
+    "screenshot_sha256": "cb723f3d698a9fe87222f2da31a767b12af47df6c6d994965ae4603cc1d5ec32"
+  }
+]

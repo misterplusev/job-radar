@@ -1267,18 +1267,44 @@
     "directory_url": "https://careers.nba.com/teams/",
     "routes": [
       {
-        "official_page": "https://recruiting.paylocity.com/recruiting/jobs/Details/4633121/The-Chicago-Bulls/Executive-Director-Brand-and-Fan-Marketing",
+        "official_page": "https://www.nba.com/bulls/career-opportunities",
         "board_url": "https://recruiting.paylocity.com/Recruiting/Jobs/All/cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3",
-        "label": "Reviewed official link",
+        "label": "Verified rendered official career page",
         "source_key": "paylocity:cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3",
-        "career_link_evidence": null
+        "career_link_evidence": {
+          "kind": "official_rendered_career_page",
+          "page": "https://www.nba.com/bulls/career-opportunities",
+          "destination": "https://recruiting.paylocity.com/Recruiting/Jobs/All/cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3",
+          "observed_at": "2026-11-11T08:44:41.502Z",
+          "source_key": "paylocity:cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3",
+          "matching": {
+            "method": "Every rendered official-page job ID matches the configured Paylocity employer feed",
+            "official_job_ids": [
+              "4580330",
+              "4580454",
+              "4594550",
+              "4633121",
+              "4638957"
+            ],
+            "feed_job_ids": [
+              "4580330",
+              "4580454",
+              "4594550",
+              "4633121",
+              "4638957"
+            ]
+          },
+          "evidence_file": "career_link_proof_20261111.json",
+          "screenshot_url": "https://misterplusev.github.io/job-radar/verification-20261111/screenshots/bulls-careers.jpg",
+          "screenshot_sha256": "33959bb1f404e6effded859e99a5d085cb2fce980c6887e5d260cd5359707a76"
+        }
       }
     ],
     "source_keys": [
       "paylocity:cdb52b85-73f7-4c58-bf01-80d3e5ee2ca3"
     ],
     "verification_status": "awaiting_live_check",
-    "career_link_verified": false
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1474,18 +1500,53 @@
     "directory_url": "https://careers.nba.com/teams/",
     "routes": [
       {
-        "official_page": "https://www.nba.com/clippers/company/careers/openpositionlaclippers?gh_jid=4723835006",
+        "official_page": "https://www.nba.com/clippers/company/careers/openpositions#laclippers",
         "board_url": "https://job-boards.greenhouse.io/laclippers",
-        "label": "Reviewed official link",
+        "label": "Verified rendered official career page",
         "source_key": "gh:laclippers",
-        "career_link_evidence": null
+        "career_link_evidence": {
+          "kind": "official_rendered_career_page",
+          "page": "https://www.nba.com/clippers/company/careers/openpositions#laclippers",
+          "destination": "https://job-boards.greenhouse.io/embed/job_app?for=laclippers&token=4723835006",
+          "observed_at": "2026-11-11T08:45:36.488Z",
+          "source_key": "gh:laclippers",
+          "matching": {
+            "method": "Official page embeds Greenhouse for=laclippers; every rendered listing/talent-community ID matches the configured feed",
+            "official_job_ids": [
+              "4343424006",
+              "4679315006",
+              "4702514006",
+              "4714005006",
+              "4718564006",
+              "4723835006",
+              "4726929006",
+              "4727379006",
+              "4728427006"
+            ],
+            "feed_job_ids": [
+              "4343424006",
+              "4679315006",
+              "4702514006",
+              "4714005006",
+              "4718564006",
+              "4723835006",
+              "4726929006",
+              "4727379006",
+              "4728427006"
+            ],
+            "embedded_job_frame": "https://job-boards.greenhouse.io/embed/job_app?for=laclippers&token=4723835006"
+          },
+          "evidence_file": "career_link_proof_20261111.json",
+          "screenshot_url": "https://misterplusev.github.io/job-radar/verification-20261111/screenshots/clippers-careers.jpg",
+          "screenshot_sha256": "1d041a7406ad3a05da6a4aae38aa4f5e37567ef8b31a90afff0b0597d93c0137"
+        }
       }
     ],
     "source_keys": [
       "gh:laclippers"
     ],
     "verification_status": "awaiting_live_check",
-    "career_link_verified": false
+    "career_link_verified": true
   },
   {
     "league": "NBA",
@@ -1572,18 +1633,32 @@
     "directory_url": "https://careers.nba.com/teams/",
     "routes": [
       {
-        "official_page": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&jobId=571885",
+        "official_page": "https://www.nba.com/bucks/careers",
         "board_url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001",
-        "label": "Reviewed official link",
+        "label": "Verified rendered official career page",
         "source_key": "adp:035c77cb-5b5c-4e48-b858-605ab1663076",
-        "career_link_evidence": null
+        "career_link_evidence": {
+          "kind": "official_rendered_career_page",
+          "page": "https://www.nba.com/bucks/careers",
+          "destination": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=035c77cb-5b5c-4e48-b858-605ab1663076&ccId=19000101_000001&type=JS&lang=en_US",
+          "observed_at": "2026-11-11T08:47:00.998Z",
+          "source_key": "adp:035c77cb-5b5c-4e48-b858-605ab1663076",
+          "matching": {
+            "method": "Rendered View Current Job Opportunities link matches configured ADP cid and ccId exactly",
+            "cid": "035c77cb-5b5c-4e48-b858-605ab1663076",
+            "ccId": "19000101_000001"
+          },
+          "evidence_file": "career_link_proof_20261111.json",
+          "screenshot_url": "https://misterplusev.github.io/job-radar/verification-20261111/screenshots/bucks-careers.jpg",
+          "screenshot_sha256": "cb723f3d698a9fe87222f2da31a767b12af47df6c6d994965ae4603cc1d5ec32"
+        }
       }
     ],
     "source_keys": [
       "adp:035c77cb-5b5c-4e48-b858-605ab1663076"
     ],
     "verification_status": "awaiting_live_check",
-    "career_link_verified": false
+    "career_link_verified": true
   },
   {
     "league": "NBA",
