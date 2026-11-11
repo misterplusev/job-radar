@@ -1,0 +1,67 @@
+{
+  "checked_at": "2026-11-11T09:44:44.062335+00:00",
+  "messages_sent_by_audit": 0,
+  "production_workflow_wiring": [
+    {
+      "module": "robotics",
+      "repo": "misterplusev/job-radar",
+      "revision": "319fd38f58f37261af659d58bf6f155c459c4957",
+      "workflow": ".github/workflows/pipeline.yml",
+      "webhook_secret": "DISCORD_WEBHOOK_JOBS"
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "revision": "ad03e4209f1c22f8988110757f055513bf71c99b",
+      "workflow": ".github/workflows/pipeline.yml",
+      "webhook_secret": "DISCORD_WEBHOOK_JOBS"
+    },
+    {
+      "module": "teams",
+      "repo": "misterplusev/job-radar",
+      "revision": "319fd38f58f37261af659d58bf6f155c459c4957",
+      "workflow": ".github/workflows/sports-teams.yml",
+      "webhook_secret": "DISCORD_WEBHOOK_TEAMS"
+    }
+  ],
+  "verified_modules": [
+    {
+      "module": "robotics",
+      "webhook_metadata_http": 200,
+      "last_confirmed_delivery": "2026-11-11T07:14:53.543242+00:00",
+      "existing_messages_read_back": 2,
+      "channel_match": true
+    },
+    {
+      "module": "teams",
+      "webhook_metadata_http": 200,
+      "last_confirmed_delivery": "2026-11-11T08:04:15.667234+00:00",
+      "existing_messages_read_back": 0,
+      "channel_match": "metadata and delivery records; no stored message IDs"
+    },
+    {
+      "module": "tech",
+      "webhook_metadata_http": 200,
+      "last_confirmed_delivery": "2026-11-11T09:38:31.884456+00:00",
+      "existing_messages_read_back": 2,
+      "channel_match": true
+    }
+  ],
+  "sportsbook": {
+    "status": "partial_verification",
+    "operator_webhook_http": 200,
+    "runtime_revision": "95db2a29832416e9fc86df276b5e7fce7de88314",
+    "runtime_health": {
+      "status": "healthy",
+      "last_run_end": "2026-11-11T01:04:42.630879+00:00",
+      "scrape_running": false,
+      "next_run_utc": "2026-11-11T11:00:00+00:00"
+    },
+    "latest_run_notification_attempt": null,
+    "limits": [
+      "Current Space secret value was not read back; operator webhook identity alone cannot prove runtime destination.",
+      "No fresh runtime-originated Discord message was tested.",
+      "No persistent failed-notification queue equivalent to the other three modules."
+    ]
+  }
+}
