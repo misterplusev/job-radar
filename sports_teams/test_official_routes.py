@@ -73,6 +73,26 @@ class OfficialRoutes(unittest.TestCase):
         c=Mock();c.get.return_value=response(text='<h1>Loading...</h1>')
         with self.assertRaises(ValueError):ats.jobvite({'url':'https://example.com'},c)
 
+    def test_hireology_rendered_page_keeps_stored_urls_and_requires_full_count(self):
+        card=lambda i,t:f'<li data-qa-id="job-card"><a data-qa-id="job-card-title" href="https://careers.hireology.com/club/{i}/description?ref=career_site&amp;ref_m=api">{t}</a><span data-qa-id="job-card-location">1 Park Blvd, San Diego, CA</span></li>'
+        page=lambda n,cards,busy='false':f'<output class="sr-only">{n} jobs found</output><div data-qa-id="jobs-results" aria-busy="{busy}"><ul data-qa-id="jobs-list">{cards}</ul></div>'
+        detail='<script type="application/ld+json">'+json.dumps({'@type':'JobPosting','description':'Full description','datePosted':'2026-11-09T18:16:27.437Z','baseSalary':{'value':{'minValue':15.65}}})+'</script>'
+        source={'url':'https://careers.hireology.com/club'}
+        c=Mock();c.get.side_effect=[response(text=page(2,card(11,'Coach')+card(12,'Scout'))),response(text=detail),response(text='<html></html>')]
+        jobs=ats.hireology(source,c)
+        self.assertEqual([j['url'] for j in jobs],['https://careers.hireology.com/club/11/description','https://careers.hireology.com/club/12/description'])
+        self.assertEqual((jobs[0]['title'],jobs[0]['description'],jobs[0]['posted_at']),('Coach','Full description','2026-11-09T18:16:27.437Z'))
+        self.assertIn('15.65',jobs[0]['salary']);self.assertIsNone(jobs[1]['description'])
+        c=Mock();c.get.side_effect=[response(text=page(3,card(11,'Coach')+card(12,'Scout')))]
+        with self.assertRaisesRegex(ValueError,'Incomplete'):ats.hireology(source,c)
+        c=Mock();c.get.side_effect=[response(text=page(2,card(11,'Coach')+card(11,'Coach')))]
+        with self.assertRaisesRegex(ValueError,'repeated'):ats.hireology(source,c)
+        for broken in ('<html>loading</html>',page(1,card(11,'Coach'),busy='true')):
+            c=Mock();c.get.side_effect=[response(text=broken)]
+            with self.assertRaisesRegex(ValueError,'configuration missing'):ats.hireology(source,c)
+        c=Mock();c.get.side_effect=[response(text=page(0,''))]
+        self.assertEqual(ats.hireology(source,c),[])
+
     def test_notification_rejects_broken_workday_link(self):
         with self.assertRaisesRegex(ValueError,'Workday'):pub.embed({'url':'https://mets.wd5.myworkdayjobs.com/job/NY/Role_R1'})
 

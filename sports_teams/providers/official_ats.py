@@ -213,9 +213,55 @@ def bkse(source,client):
         return list(out.values())
     raise ValueError('BKSE server-rendered job data missing')
 
+def _hireology_detail(client,url):
+    """Description, employer date and pay from the job page's JobPosting data. Best effort."""
+    try:
+        r=client.get(url);r.raise_for_status()
+        for script in BeautifulSoup(r.text,'html.parser').find_all('script',type='application/ld+json'):
+            try:item=json.loads(script.get_text())
+            except (ValueError,TypeError):continue
+            if isinstance(item,dict) and item.get('@type')=='JobPosting':
+                pay=item.get('baseSalary')
+                return dict(description=item.get('description'),posted_at=item.get('datePosted'),
+                            salary=json.dumps(pay,ensure_ascii=False) if pay else None)
+    except Exception:
+        pass
+    return {}
+
+def _hireology_rendered(page,client):
+    """Server-rendered careers page (2026-11): job cards plus an explicit result count.
+
+    The page announces "N jobs found" in an <output> element beside the results; the
+    cards must match that number exactly, so a paginated, truncated or still-loading
+    page fails the source instead of closing jobs. Job URLs keep the stored identity
+    https://careers.hireology.com/<org>/<id>/description.
+    """
+    soup=BeautifulSoup(page,'html.parser')
+    results=soup.select_one('[data-qa-id="jobs-results"]')
+    counts=[re.fullmatch(r'(\d+)\s+jobs?\s+found',o.get_text(' ',strip=True)) for o in soup.find_all('output')]
+    counts=[c for c in counts if c]
+    if results is None or results.get('aria-busy')=='true' or len(counts)!=1:
+        raise ValueError('Hireology public configuration missing')
+    m=counts[0]
+    total=int(m.group(1));jobs=[];seen=set()
+    for card in soup.select('[data-qa-id="job-card"]'):
+        link=card.select_one('a[data-qa-id="job-card-title"]')
+        p=urlsplit(link.get('href') or '') if link else None
+        ident=re.fullmatch(r'/[^/]+/(\d+)/description',p.path) if p else None
+        if not ident or p.netloc!='careers.hireology.com' or ident.group(1) in seen:
+            raise ValueError('Missing/repeated Hireology job')
+        seen.add(ident.group(1))
+        where=card.select_one('[data-qa-id="job-card-location"]')
+        jobs.append(dict(title=link.get_text(' ',strip=True),url=f'https://careers.hireology.com{p.path}',
+                         location=where.get_text(' ',strip=True) if where else None,description=None,salary=None))
+    if len(jobs)!=total:raise ValueError('Incomplete Hireology pagination')
+    for job in jobs[:60]:
+        job.update({k:v for k,v in _hireology_detail(client,job['url']).items() if v})
+    return jobs
+
 def hireology(source,client):
     r=client.get(source['url']);r.raise_for_status();m=re.search(r'var startingData\s*=\s*',r.text)
-    if not m:raise ValueError('Hireology public configuration missing')
+    if not m:return _hireology_rendered(r.text,client)
     config=json.JSONDecoder().raw_decode(r.text[m.end():])[0]
     if config.get('apiUrl')!='https://api.hireology.com/v2':raise ValueError('Unexpected Hireology API host')
     headers={'Authorization':'Bearer '+config['apiToken']};jobs=[];seen=set();total=None
