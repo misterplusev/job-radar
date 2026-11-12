@@ -13,10 +13,21 @@ test('hourly slots roll back before the scheduled minute', () => {
   assert.equal(dueSlot(Date.parse('2026-11-11T06:08:00Z'), 9), '2026-11-11T05:09:00.000Z');
   assert.equal(dueSlot(NOW, 37), '2026-11-11T06:37:00.000Z');
 });
-test('alarm wake includes exact hourly slots and bounded recovery checks', () => {
+test('slots honour the per-module cadence and stagger', () => {
+  // robotics: every 3h on hours 0,3,6...; tech: 1,4,7...; sports_teams: 2,5,8...
+  assert.equal(dueSlot(NOW, 9, 3, 0), '2026-11-11T06:09:00.000Z');
+  assert.equal(dueSlot(NOW, 37, 3, 1), '2026-11-11T04:37:00.000Z');
+  assert.equal(dueSlot(NOW, 23, 3, 2), '2026-11-11T05:23:00.000Z');
+  assert.equal(dueSlot(Date.parse('2026-11-11T00:05:00Z'), 9, 3, 0), '2026-11-10T21:09:00.000Z');
+  const hours = MODULES.map(m => new Date(dueSlot(NOW, m.minute, m.everyHours, m.hourOffset)).getUTCHours() % 3);
+  assert.deepEqual(hours.sort(), [0, 1, 2]);
+  for (const m of MODULES) assert.equal(24 % m.everyHours, 0);
+});
+test('alarm wake includes exact module slots and bounded recovery checks', () => {
   assert.equal(nextWake(Date.parse('2026-11-11T06:08:00Z')), Date.parse('2026-11-11T06:09:00Z'));
-  assert.equal(nextWake(Date.parse('2026-11-11T06:36:00Z')), Date.parse('2026-11-11T06:37:00Z'));
-  assert.equal(nextWake(Date.parse('2026-11-11T06:22:00Z')), Date.parse('2026-11-11T06:23:00Z'));
+  assert.equal(nextWake(Date.parse('2026-11-11T07:36:00Z')), Date.parse('2026-11-11T07:37:00Z'));
+  assert.equal(nextWake(Date.parse('2026-11-11T08:22:00Z')), Date.parse('2026-11-11T08:23:00Z'));
+  assert.equal(nextWake(Date.parse('2026-11-11T06:36:00Z')), Date.parse('2026-11-11T06:40:00Z'));
   assert.equal(nextWake(NOW), NOW + 300000);
 });
 test('repeated ticks dispatch once and preserve accepted receipts', async () => {
@@ -32,7 +43,7 @@ test('run title recovery prevents redispatch after lost local acknowledgement', 
     assert.equal(body, undefined);
     const config = MODULES.find(m => path.includes(`repos/${m.repo}/actions/workflows/${m.workflow}/`));
     assert.ok(config);
-    return { workflow_runs: [{ id: 1, display_title: `${config.prefix} ${dueSlot(NOW, config.minute)}`, status: 'completed', conclusion: 'success', updated_at: new Date(NOW).toISOString() }] };
+    return { workflow_runs: [{ id: 1, display_title: `${config.prefix} ${dueSlot(NOW, config.minute, config.everyHours, config.hourOffset)}`, status: 'completed', conclusion: 'success', updated_at: new Date(NOW).toISOString() }] };
   };
   const result = await instance.tick('cron', NOW);
   assert.equal(result.modules.tech.status, 'success');
@@ -54,6 +65,14 @@ test('dispatch attempts are bounded and stale health is exposed', async () => {
   const result = await instance.tick('cron', NOW + 17 * 60000);
   assert.equal(calls, 6);
   assert.equal(instance.health(result, NOW + 3600000).status, 'degraded');
+});
+test('health allows one full period plus grace before calling a module overdue', () => {
+  const { instance } = fixture();
+  const modules = Object.fromEntries(MODULES.map(m => [m.id, { last_success: new Date(NOW).toISOString(), error: null }]));
+  const state = { paused: false, last_scheduler_tick: new Date(NOW + 3 * 3600000).toISOString(), modules };
+  assert.equal(instance.health(state, NOW + 3 * 3600000 + 60000).status, 'healthy');
+  state.last_scheduler_tick = new Date(NOW + 4 * 3600000).toISOString();
+  assert.equal(instance.health(state, NOW + 4 * 3600000).status, 'degraded');
 });
 test('sports teams dispatches its own workflow without blocking robotics', async () => {
   const { instance } = fixture(); const writes=[];

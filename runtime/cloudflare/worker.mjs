@@ -1,21 +1,33 @@
-// Owner: ABET. Cloudflare owns hourly dispatch; GitHub Actions only executes jobs.
+// Owner: ABET. Cloudflare owns dispatch; GitHub Actions only executes jobs.
 // One serialized Durable Object alarm; no account cron slots or local processes.
+//
+// Cadence: each module runs every `everyHours` hours, on UTC hours where
+// (hour - hourOffset) % everyHours === 0. The offsets stagger the three modules
+// so at most one of them writes to the shared database in any hour. The
+// 2026-11-11 outage followed all three being dispatched every hour.
+// `everyHours` must divide 24.
 export const MODULES = [
-  { id: 'robotics', repo: 'misterplusev/job-radar', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 9 },
-  { id: 'tech', repo: 'misterplusev/job-radar-tech', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 37 },
-  { id: 'sports_teams', repo: 'misterplusev/job-radar', workflow: 'sports-teams.yml', prefix: 'sports-teams', minute: 23 },
+  { id: 'robotics', repo: 'misterplusev/job-radar', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 9, everyHours: 3, hourOffset: 0 },
+  { id: 'tech', repo: 'misterplusev/job-radar-tech', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 37, everyHours: 3, hourOffset: 1 },
+  { id: 'sports_teams', repo: 'misterplusev/job-radar', workflow: 'sports-teams.yml', prefix: 'sports-teams', minute: 23, everyHours: 3, hourOffset: 2 },
 ];
 
-export function dueSlot(now, minute) {
+export function dueSlot(now, minute, everyHours = 1, hourOffset = 0) {
   const slot = new Date(now);
   slot.setUTCMinutes(minute, 0, 0);
   if (slot.getTime() > now) slot.setUTCHours(slot.getUTCHours() - 1);
+  // Step back to the module's most recent scheduled hour.
+  while ((((slot.getUTCHours() - hourOffset) % everyHours) + everyHours) % everyHours !== 0)
+    slot.setUTCHours(slot.getUTCHours() - 1);
   return slot.toISOString();
 }
 
+const slotFor = (now, module) => dueSlot(now, module.minute, module.everyHours || 1, module.hourOffset || 0);
+const periodMs = module => (module.everyHours || 1) * 3600000;
+
 export function nextWake(now) {
   const candidates = [Math.floor(now / 300000) * 300000 + 300000];
-  for (const module of MODULES) candidates.push(Date.parse(dueSlot(now, module.minute)) + 3600000);
+  for (const module of MODULES) candidates.push(Date.parse(slotFor(now, module)) + periodMs(module));
   return Math.min(...candidates);
 }
 
@@ -43,7 +55,7 @@ export class JobsScheduler {
     if (origin === 'alarm') state.last_scheduler_tick = state.last_tick;
     if (state.paused) { await this.state.storage.put('state', state); return state; }
     for (const config of MODULES) {
-      const slot = dueSlot(now, config.minute);
+      const slot = slotFor(now, config);
       const prior = state.modules[config.id] || {};
       const record = prior.slot === slot ? prior : { slot, attempts: 0 };
       state.modules[config.id] = record;
@@ -78,7 +90,7 @@ export class JobsScheduler {
         }
         record.attempts += 1;
         record.status = 'dispatching';
-        // Persist intent before the remote action. Retries are bounded per hourly slot.
+        // Persist intent before the remote action. Retries are bounded per slot.
         record.dispatched_at = state.last_tick;
         await this.state.storage.put('state', state);
         await this.github(`repos/${config.repo}/actions/workflows/${config.workflow}/dispatches`,
@@ -103,7 +115,7 @@ export class JobsScheduler {
     for (const module of MODULES) {
       const record = state.modules[module.id];
       if (state.paused) continue;
-      if (!record || !record.last_success || now - Date.parse(record.last_success) > 90 * 60 * 1000)
+      if (!record || !record.last_success || now - Date.parse(record.last_success) > periodMs(module) + 30 * 60 * 1000)
         overdue.push(`${module.id} successful execution`);
       if (record?.error) overdue.push(`${module.id}: ${record.error}`);
     }
