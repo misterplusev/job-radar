@@ -1,6 +1,6 @@
 # ABET job scrapers: runbook
 
-**This is the one current document.** Last verified November 13, 2026, 04:50 UTC. Every figure in it was measured; the source and time are given where it matters. Anything not measured says so. Everything else in this folder with a date in its name is history; where it disagrees with this file, this file is right.
+**This is the one current document.** Last verified November 13, 2026, 06:28 UTC. Every figure in it was measured; the source and time are given where it matters. Anything not measured says so. Everything else in this folder with a date in its name is history; where it disagrees with this file, this file is right.
 
 Four scrapers (robotics, tech, sports teams, sportsbook) collect job postings, write them to one shared free database, post new jobs to one Discord channel each, and feed one standalone board each plus one tab each in `abet-dashboard`. Free tiers only: nothing here may depend on a paid plan.
 
@@ -92,6 +92,7 @@ Things that look wrong but are not:
 
 - `team_job_notifications` has 773 `pending` rows (November 13 04:34 UTC). Sports teams only announces postings that are recent; older ones stay `pending` and are never sent.
 - A sports-teams run is marked failed if any single team source fails, even though everything else was saved and announced. Check the run log for `[SOURCE] ... fail`.
+- On November 13 at 06:27:43 UTC the scheduler reported `healthy` with all four modules having completed a scheduler-started run on the 4-hour cadence.
 - After a failed slot the scheduler keeps showing that failure until the module's next slot, even if someone ran it successfully by hand in between. `last_success` is the field to trust.
 
 ## 5. Operating it
@@ -152,7 +153,7 @@ Root cause: three scrapers were put on a true hourly clock against a free databa
 
 ## 8. Known gaps
 
-- **Sportsbook Discord posting is not on the standard path.** New sportsbook jobs are announced by a separate Cloudflare Worker (`abet-jobs-watchdog`, source in `runtime/cloudflare/watchdog/` of the sportsbook repository) in a different Cloudflare account, because the Hugging Face Space cannot reach Discord. By its source that Worker keeps a KV cursor (`last_notified_first_seen_at`, the last job it announced) but no per-job delivery record and no Discord message IDs; its deployed code and current behaviour have not been observed. The changes that move sportsbook onto the common sender are prepared and tested but not deployed: see `20261112_2100_common_sender_review\REVIEW.md` in the operator folder. They need access to that Cloudflare account so the old announcer can be switched off first; otherwise jobs would be announced twice. Table `sportsbook_job_notifications` exists and has 0 rows (November 13 04:35 UTC).
+- **Sportsbook Discord posting is not on the standard path.** New sportsbook jobs are announced by a separate Cloudflare Worker (`abet-jobs-watchdog`, source in `runtime/cloudflare/watchdog/` of the sportsbook repository) in a different Cloudflare account, because the Hugging Face Space cannot reach Discord. That Worker keeps a KV cursor (`last_notified_first_seen_at`, the last job it announced) but no per-job delivery record and no Discord message IDs. Read on November 13, 2026 at 06:18 UTC: deployed 2026-08-13, timer `10 */2 * * *`, last fired 06:10:20 UTC, cursor equal to the newest active sportsbook job in the database; its announcer code is identical to the repository's. The changes that move sportsbook onto the common sender are prepared and tested but not deployed: see `20261112_2100_common_sender_review\REVIEW.md` in the operator folder. The old announcer must be switched off in the same step that the new sender is switched on; otherwise jobs would be announced twice. A token that reads that Cloudflare account is recorded in the operator appendix; whether it can deploy is untested. Table `sportsbook_job_notifications` exists and has 0 rows (November 13 04:35 UTC).
 - **Three write implementations.** Robotics and tech share one design in two copies; teams and sportsbook each have their own. Scheduling, cadence, guardrails and health are now common. Merging the write and Discord code into one core is still to do.
 - **Sports teams rewrites its whole table twice per run** (2,247 rows on November 13 03:03 UTC). Its run took 4 min 35 s with the database healthy throughout.
 - **The sportsbook board downloads every description of every sportsbook job on each visit.** It should request descriptions on demand.
