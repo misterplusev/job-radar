@@ -94,6 +94,9 @@ export class JobsScheduler {
       if (last.status !== 'healthy') record.error = `Run for ${slot} ended ${last.status}`;
       return;
     }
+    // The Space forgets its slots when it restarts (a deploy, a platform restart).
+    // This slot already succeeded according to our own record: do not run it again.
+    if (record.status === 'success') return;
     if (health.scrape_running) {
       record.status = health.current_slot === slot ? 'in_progress' : 'deferred_running';
       return;

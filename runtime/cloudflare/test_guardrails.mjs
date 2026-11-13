@@ -100,6 +100,24 @@ test('one alert after 15 minutes of trouble, reminders every 6 hours, one recove
   assert.equal(calls.sent.length, 3);
 });
 
+test('a Space restart that forgets a finished slot does not make the scheduler run it again', async () => {
+  const sb = MODULES.find(m => m.id === 'sportsbook');
+  const { instance, calls } = fixture();
+  const ended = new Date(NOW - 60000).toISOString();
+  let health = { scrape_running: false, scheduler_slot: { slot: null, status: 'healthy', ended_at: ended } };
+  instance.space = async (config, path, run = false) => { calls.space.push({ path, run }); return run ? { started: true } : health; };
+  const first = await instance.tick('alarm', NOW);
+  health.scheduler_slot.slot = first.modules.sportsbook.slot;   // the Space reports the slot finished
+  calls.space.length = 0;
+  assert.equal((await instance.tick('alarm', NOW + 300000)).modules.sportsbook.status, 'success');
+  health = { scrape_running: false, scheduler_slot: null };       // Space restarted: state gone
+  const after = await instance.tick('alarm', NOW + 10 * 60000);   // still inside the same slot
+  assert.equal(after.modules.sportsbook.status, 'success');
+  assert.equal(after.modules.sportsbook.last_success, ended);
+  assert.equal(calls.space.filter(c => c.run).length, 0);
+  assert.equal(sb.kind, 'space');
+});
+
 test('no alert is sent for manual ticks or when no webhook is configured', async () => {
   const { instance, calls } = fixture();
   instance.databaseCheck = async () => ({ ok: false, note: 'HTTP 503' });
