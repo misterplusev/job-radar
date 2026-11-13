@@ -162,6 +162,22 @@ def cmd_ingest(args) -> int:
     return _ingest_sqlite()
 
 
+def cmd_deliver(args) -> int:
+    """Drain the module's Discord queue without scraping (JOBRADAR_MODULE selects it).
+
+    Used for sportsbook: its scraper runs where Discord is unreachable and only queues.
+    Exit 1 if the queue could not be drained, so the workflow run shows the failure.
+    """
+    from jobradar import publish
+    try:
+        delivered = publish.notify_new_jobs([])
+    except Exception as e:  # noqa: BLE001
+        print(f"[FATAL] {safe_error(e)}")
+        return 1
+    print(f"[deliver] module={publish.MODULE_NAME} delivered={delivered}")
+    return 0
+
+
 def cmd_score(args) -> int:
     from jobradar.matcher.score import score_unscored
     n = score_unscored(settings, get_storage(settings))
@@ -216,6 +232,7 @@ def main() -> int:
     ap = argparse.ArgumentParser(prog="jobradar")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("ingest")
+    sub.add_parser("deliver")
     sub.add_parser("score")
     sub.add_parser("alert")
     g = sub.add_parser("generate"); g.add_argument("--job-id", type=int, required=True)
@@ -223,7 +240,7 @@ def main() -> int:
     rn = sub.add_parser("render"); rn.add_argument("--out", default="out/dashboard.html")
     sub.add_parser("pipeline")
     args = ap.parse_args()
-    return {"ingest": cmd_ingest, "score": cmd_score, "alert": cmd_alert,
+    return {"ingest": cmd_ingest, "deliver": cmd_deliver, "score": cmd_score, "alert": cmd_alert,
             "generate": cmd_generate, "report": cmd_report, "render": cmd_render,
             "pipeline": cmd_pipeline}[args.cmd](args)
 
