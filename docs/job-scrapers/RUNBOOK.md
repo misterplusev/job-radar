@@ -1,6 +1,6 @@
 # ABET job scrapers: runbook
 
-**This is the one current document.** Last verified November 13, 2026, 06:28 UTC. Every figure in it was measured; the source and time are given where it matters. Anything not measured says so. Everything else in this folder with a date in its name is history; where it disagrees with this file, this file is right.
+**This is the one current document.** Last verified November 13, 2026, 07:45 UTC. Every figure in it was measured; the source and time are given where it matters. Anything not measured says so. Everything else in this folder with a date in its name is history; where it disagrees with this file, this file is right.
 
 Four scrapers (robotics, tech, sports teams, sportsbook) collect job postings, write them to one shared free database, post new jobs to one Discord channel each, and feed one standalone board each plus one tab each in `abet-dashboard`. Free tiers only: nothing here may depend on a paid plan.
 
@@ -147,9 +147,19 @@ Do **not** respond to a slow database by retrying runs or raising the cadence. P
 | Nov 12 05:18 | Recovered on its own; failed again from 15:09. |
 | Nov 12 19:34–19:50 | Seven fixes deployed (3-hour stagger, light writes, no per-run schema step, Padres parser, sportsbook active-only deactivation). The database was already down, so none could be proven. |
 | Nov 13 02:52 | Scheduler paused, database restarted. 02:58: healthy. |
-| Nov 13 02:59–03:36 | All four scrapers run and succeed. One scheduler for all four at a 4-hour cadence deployed, with the database circuit breaker. Duplicate description copies removed: database 1,296 MB → 909 MB. |
+| Nov 13 02:59–03:36 | All four scrapers run and succeed. One scheduler for all four at a 4-hour cadence deployed, with the database circuit breaker. Duplicate description copies removed: database 1,296 MB → 909 MB at 03:39 UTC. |
+| Nov 13 07:34 | Database 979,971,219 bytes: `abet_metrics` 727,007,232, `jobs_backup_20261007` 44,613,632, the four job tables 176,488,448 together. The job tables have grown since the 03:39 reading. |
 
-Root cause: three scrapers were put on a true hourly clock against a free database that until then had received 3 to 5 runs a day from each. Nothing limited cadence, nothing checked the database before starting runs, nothing alerted, and sportsbook kept a separate clock. Section 3 is the fix for each of those.
+What the evidence shows:
+
+- From November 11 the scheduler started robotics, tech and sports teams every hour. GitHub run history shows 3 to 5 completed runs a day for each before that.
+- Logged row upserts by the robotics and tech production steps: 77,466 on November 10 and 312,957 on November 11 (robotics 66,261 → 249,184; tech 11,205 → 63,773). The schema-application step started 7 times on November 10 and 45 times on November 11. Counted from 59 workflow log archives; one tech run had no archive. Source: `D:\abet_ops\jobs_scrapers\20261112_usage_audit\historical_upsert_audit.json`.
+- The database logs then show statement timeouts, the REST API unable to load its schema, and heavy swapping.
+- The fixes deployed on November 12 at 19:34–19:50 UTC did not bring the database back; it answered again only after the scheduler was paused and the project restarted at 02:52 UTC on November 13. With the reduced workload every run since has succeeded.
+
+What is not established: which single operation started the failure, and how much each one contributed. Read-only mode was never on (checked November 13 07:34 UTC) and the monthly data-transfer figure has not been measured, so "the free allowance ran out and Supabase shut it off" is **not** the diagnosis.
+
+At the time nothing limited cadence, nothing checked the database before starting runs, nothing alerted, and sportsbook kept a separate clock. Section 3 addresses each of those.
 
 ## 8. Known gaps
 
