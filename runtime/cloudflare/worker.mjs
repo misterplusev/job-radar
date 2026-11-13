@@ -40,6 +40,18 @@ export function nextWake(now) {
 
 const json = (value, status = 200) => Response.json(value, { status });
 
+// GUARDRAILS (added after the 2026-11-11/12 outage; see docs/job-scrapers/RUNBOOK.md)
+// 1. Database circuit breaker: every tick reads one row through the public REST API.
+//    While that fails, NO scraper is started. During the outage every scheduled run
+//    was still dispatched into a database that could not answer, and their retries
+//    kept it down for 36 hours. A held slot is started late if the database returns
+//    within the slot's 4-hour period, otherwise it is skipped; runs never pile up.
+// 2. Incident alert (optional): if ALERT_WEBHOOK is set, one Discord message when
+//    health has been bad for ALERT_AFTER_TICKS ticks in a row, a reminder every
+//    ALERT_REMINDER_MS while it stays bad, and one message when it recovers.
+export const ALERT_AFTER_TICKS = 3;            // 3 ticks = 15 minutes
+export const ALERT_REMINDER_MS = 6 * 3600000;  // at most 4 reminders a day
+
 export class JobsScheduler {
   constructor(state, env) { this.state = state; this.env = env; }
 
@@ -104,16 +116,71 @@ export class JobsScheduler {
     console.log(JSON.stringify({ module: config.id, slot, status: 'dispatched', origin }));
   }
 
+  // One cheap read through the same public REST API the scrapers and boards use.
+  // Not configured (no SUPABASE_URL / SUPABASE_ANON_KEY) = breaker off, never blocks.
+  async databaseCheck() {
+    const url = this.env.SUPABASE_URL, key = this.env.SUPABASE_ANON_KEY;
+    if (!url || !key) return { ok: true, note: 'not configured' };
+    try {
+      const response = await fetch(`${url.replace(/\/+$/, '')}/rest/v1/job_scrape_runs?select=id&limit=1`,
+        { headers: { apikey: key, Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(6000) });
+      return { ok: response.ok, note: response.ok ? null : `HTTP ${response.status}` };
+    } catch (error) {
+      return { ok: false, note: String(error.message).slice(0, 80) };
+    }
+  }
+
+  async notify(text) {
+    if (!this.env.ALERT_WEBHOOK) return false;
+    try {
+      const response = await fetch(this.env.ALERT_WEBHOOK, { method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: text.slice(0, 1900) }), signal: AbortSignal.timeout(6000) });
+      return response.ok;
+    } catch { return false; }
+  }
+
+  // Called once per alarm tick, after the tick's results are known.
+  async alert(state, now) {
+    const health = this.health(state, now);
+    const alert = state.alert || { bad_ticks: 0, notified_at: null };
+    state.alert = alert;
+    if (health.status === 'healthy' || health.status === 'paused') {
+      if (alert.notified_at && health.status === 'healthy')
+        await this.notify(`🟢 **ABET job scrapers recovered.** All four modules and the database are healthy again (problem began ${alert.since}).`);
+      state.alert = { bad_ticks: 0, notified_at: null };
+      return;
+    }
+    alert.bad_ticks += 1;
+    alert.since = alert.since || new Date(now).toISOString();
+    const due = !alert.notified_at ? alert.bad_ticks >= ALERT_AFTER_TICKS
+      : now - Date.parse(alert.notified_at) >= ALERT_REMINDER_MS;
+    if (!due) return;
+    const lines = health.overdue.slice(0, 8).map(item => `• ${item}`);
+    const sent = await this.notify([`🔴 **ABET job scrapers need attention** (since ${alert.since})`, ...lines,
+      'Status: https://abet-jobs-scheduler.abetscrape.workers.dev/health'].join('\n'));
+    if (sent) alert.notified_at = new Date(now).toISOString();
+  }
+
   async tick(origin, now) {
     const state = await this.state.storage.get('state') || { paused: true, modules: {} };
     state.last_tick = new Date(now).toISOString();
     if (origin === 'alarm') state.last_scheduler_tick = state.last_tick;
     if (state.paused) { await this.state.storage.put('state', state); return state; }
+    const database = await this.databaseCheck();
+    const wasDown = state.database && state.database.ok === false;
+    state.database = { ok: database.ok, note: database.note, checked_at: state.last_tick,
+      down_since: database.ok ? null : (wasDown ? state.database.down_since : state.last_tick) };
     for (const config of MODULES) {
       const slot = slotFor(now, config);
       const prior = state.modules[config.id] || {};
-      const record = prior.slot === slot ? prior : { slot, attempts: 0 };
+      const record = prior.slot === slot ? prior : { slot, attempts: 0, last_success: prior.last_success || null };
       state.modules[config.id] = record;
+      if (!database.ok) {
+        // Circuit breaker: do not start, retry or even poll runs while the database is down.
+        if (!['success', 'in_progress', 'awaiting_run'].includes(record.status)) record.status = 'held_database_down';
+        continue;
+      }
       try {
         if (config.kind === 'space') {
           await this.tickSpace(config, record, prior, state, slot, origin, now);
@@ -143,6 +210,7 @@ export class JobsScheduler {
           record.status = 'deferred_running';
           continue;
         }
+        if (record.status === 'held_database_down') record.status = 'pending';
         if (record.attempts >= 2) {
           record.status = 'failed'; record.error = 'Dispatch accepted but no run appeared after retries';
           continue;
@@ -162,6 +230,7 @@ export class JobsScheduler {
         console.error(JSON.stringify({ module: config.id, slot, error: record.error }));
       }
     }
+    if (origin === 'alarm') await this.alert(state, now);
     await this.state.storage.put('state', state);
     return state;
   }
@@ -171,6 +240,8 @@ export class JobsScheduler {
     const overdue = [];
     if (!state.paused && (!state.last_scheduler_tick || now - Date.parse(state.last_scheduler_tick) > 12 * 60 * 1000))
       overdue.push('scheduler heartbeat');
+    if (!state.paused && state.database && state.database.ok === false)
+      overdue.push(`database not answering since ${state.database.down_since} (${state.database.note}); scrapers are held`);
     for (const module of MODULES) {
       const record = state.modules[module.id];
       if (state.paused) continue;
