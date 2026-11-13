@@ -164,6 +164,7 @@ Do **not** respond to a slow database by retrying runs or raising the cadence. P
 | Nov 13 02:52 | Scheduler paused, database restarted. 02:58: healthy. |
 | Nov 13 02:59–03:36 | All four scrapers run and succeed. One scheduler for all four at a 4-hour cadence deployed, with the database circuit breaker. Duplicate description copies removed: database 1,296 MB → 909 MB at 03:39 UTC. |
 | Nov 13 07:34 | Database 979,971,219 bytes: `abet_metrics` 727,007,232, `jobs_backup_20261007` 44,613,632, the four job tables 176,488,448 together. The job tables have grown since the 03:39 reading. |
+| Nov 13 20:08 | `abet_metrics` emptied on the operator's instruction after the D: copy was matched against every live row. Database 994,929,811 -> 267,955,347 bytes. It was old monitoring data written by the Worker `abet-metrics-collector` until July 14, 2026; nothing read or wrote it. `jobs_backup_20261007` (44,613,632 bytes) remains. |
 
 What the evidence shows:
 
