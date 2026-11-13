@@ -1,5 +1,7 @@
 # ABET job scrapers — start here
 
+> **Current document: [RUNBOOK.md](RUNBOOK.md)** (system map, limits that must not be crossed, how to verify, how to operate, the November 11–12, 2026 outage). The dated files listed below are history; where they disagree with the runbook, the runbook is right. In particular the schedule is no longer hourly: one scheduler starts all four scrapers every 4 hours, each on its own hour.
+
 Verified against deployed configuration and recent executions on **November 11, 2026**. This is the shared entry point for the robotics, tech, sportsbook and sports-team job scrapers. Owner: ABET / Chris; maintainers are the operator and sessions assigned to this system.
 
 1. [Architecture and source-of-truth map](2026-11-10%201030%20Job%20Scrapers%20Architecture.md) — repositories, branches, runtimes, schedules, storage, alerts, boards and actual differences.
