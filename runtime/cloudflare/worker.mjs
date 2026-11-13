@@ -1,15 +1,22 @@
-// Owner: ABET. Cloudflare owns dispatch; GitHub Actions only executes jobs.
+// Owner: ABET. Cloudflare owns dispatch for ALL FOUR job scrapers; GitHub Actions
+// and the Hugging Face Space only execute jobs. No scraper has a timer of its own.
 // One serialized Durable Object alarm; no account cron slots or local processes.
 //
 // Cadence: each module runs every `everyHours` hours, on UTC hours where
-// (hour - hourOffset) % everyHours === 0. The offsets stagger the three modules
-// so at most one of them writes to the shared database in any hour. The
-// 2026-11-11 outage followed all three being dispatched every hour.
-// `everyHours` must divide 24.
+// (hour - hourOffset) % everyHours === 0. The offsets give each of the four
+// modules its own hour, so at most one of them writes to the shared free
+// database in any hour. The 2026-11-11 outage followed three of them being
+// dispatched every hour. `everyHours` must divide 24.
+//
+// Two ways to start a run, same slot/retry/health rules for both:
+//   default        GitHub Actions workflow_dispatch (public repositories)
+//   kind: 'space'  POST /api/run?slot=… on a Hugging Face Space. Its address is
+//                  read from the environment variable named by `urlEnv`.
 export const MODULES = [
-  { id: 'robotics', repo: 'misterplusev/job-radar', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 9, everyHours: 3, hourOffset: 0 },
-  { id: 'tech', repo: 'misterplusev/job-radar-tech', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 37, everyHours: 3, hourOffset: 1 },
-  { id: 'sports_teams', repo: 'misterplusev/job-radar', workflow: 'sports-teams.yml', prefix: 'sports-teams', minute: 23, everyHours: 3, hourOffset: 2 },
+  { id: 'robotics', repo: 'misterplusev/job-radar', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 9, everyHours: 4, hourOffset: 0 },
+  { id: 'tech', repo: 'misterplusev/job-radar-tech', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 37, everyHours: 4, hourOffset: 1 },
+  { id: 'sports_teams', repo: 'misterplusev/job-radar', workflow: 'sports-teams.yml', prefix: 'sports-teams', minute: 23, everyHours: 4, hourOffset: 2 },
+  { id: 'sportsbook', kind: 'space', urlEnv: 'SPORTSBOOK_SPACE_URL', minute: 0, everyHours: 4, hourOffset: 3 },
 ];
 
 export function dueSlot(now, minute, everyHours = 1, hourOffset = 0) {
@@ -49,6 +56,54 @@ export class JobsScheduler {
     return response.status === 204 ? null : response.json();
   }
 
+  // The Space is private: SPACE_READ_TOKEN gets the request through Hugging Face,
+  // SPACE_RUN_TOKEN is the launcher's own RUN_TOKEN. Neither is ever logged.
+  async space(config, path, run = false) {
+    const base = this.env[config.urlEnv];
+    if (!base) throw new Error(`${config.urlEnv} is not configured`);
+    const headers = { 'User-Agent': 'ABET-Jobs-Scheduler' };
+    if (this.env.SPACE_READ_TOKEN) headers.Authorization = `Bearer ${this.env.SPACE_READ_TOKEN}`;
+    if (run) headers['X-Run-Token'] = this.env.SPACE_RUN_TOKEN || '';
+    const response = await fetch(`${base.replace(/\/+$/, '')}${path}`,
+      { method: run ? 'POST' : 'GET', headers, signal: AbortSignal.timeout(8000) });
+    // 409 = a scrape is already running there; that is an answer, not a failure.
+    if (!response.ok && response.status !== 409) throw new Error(`Space ${response.status} ${path.split('?')[0]}`);
+    return response.json();
+  }
+
+  async tickSpace(config, record, prior, state, slot, origin, now) {
+    const health = await this.space(config, '/api/health');
+    const last = health.scheduler_slot || null;
+    record.last_checked = state.last_tick;
+    record.error = null;
+    record.last_success = last?.status === 'healthy' ? last.ended_at : (prior.last_success || null);
+    if (last?.slot === slot) {
+      record.status = last.status === 'healthy' ? 'success' : last.status;
+      if (last.status !== 'healthy') record.error = `Run for ${slot} ended ${last.status}`;
+      return;
+    }
+    if (health.scrape_running) {
+      record.status = health.current_slot === slot ? 'in_progress' : 'deferred_running';
+      return;
+    }
+    if (record.dispatched_at && now - Date.parse(record.dispatched_at) < 15 * 60 * 1000) {
+      record.status = 'awaiting_run';
+      return;
+    }
+    if (record.attempts >= 2) {
+      record.status = 'failed'; record.error = 'Run requested but the Space did not run it after retries';
+      return;
+    }
+    record.attempts += 1;
+    record.status = 'dispatching';
+    record.dispatched_at = state.last_tick;
+    await this.state.storage.put('state', state);
+    const reply = await this.space(config, `/api/run?slot=${encodeURIComponent(slot)}`, true);
+    record.status = reply.started ? 'in_progress' : 'awaiting_run';
+    record.dispatch_origin = origin;
+    console.log(JSON.stringify({ module: config.id, slot, status: 'dispatched', origin }));
+  }
+
   async tick(origin, now) {
     const state = await this.state.storage.get('state') || { paused: true, modules: {} };
     state.last_tick = new Date(now).toISOString();
@@ -60,6 +115,10 @@ export class JobsScheduler {
       const record = prior.slot === slot ? prior : { slot, attempts: 0 };
       state.modules[config.id] = record;
       try {
+        if (config.kind === 'space') {
+          await this.tickSpace(config, record, prior, state, slot, origin, now);
+          continue;
+        }
         const data = await this.github(`repos/${config.repo}/actions/workflows/${config.workflow}/runs?branch=master&per_page=30`);
         const runs = data.workflow_runs;
         const match = runs.find(run => run.display_title === `${config.prefix} ${slot}`);
