@@ -275,8 +275,12 @@ def embed(row: dict) -> dict:
     return item
 
 
-def notify(webhook_url: str, payload: dict, attempts: int = 8) -> bool:
+def notify(webhook_url: str, payload: dict, attempts: int = 8):
+    """Send one message. Returns the Discord message ID (a string) when Discord confirms it,
+    True when it accepted the message without returning one, and False on failure.
+    `?wait=true` makes Discord answer with the stored message, which carries its ID."""
     body = json.dumps(payload).encode()
+    webhook_url = webhook_url + ('&' if '?' in webhook_url else '?') + 'wait=true'
     for i in range(attempts):
         guard()
         req = urllib.request.Request(webhook_url, data=body, method='POST',
@@ -285,7 +289,13 @@ def notify(webhook_url: str, payload: dict, attempts: int = 8) -> bool:
                                               **({'Authorization':'Bearer '+os.environ['DISCORD_RELAY_TOKEN']} if os.environ.get('DISCORD_RELAY_TOKEN') else {})})
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
-                return r.status in (200, 204)
+                if r.status not in (200, 204):
+                    return False
+                try:
+                    message_id = json.loads(r.read().decode() or '{}').get('id')
+                except (ValueError, AttributeError):
+                    message_id = None
+                return str(message_id) if message_id else True
         except urllib.error.HTTPError as e:
             if e.code == 429:
                 try:
@@ -361,10 +371,15 @@ def main():
         chunk = to_post[idx:idx + CHUNK_SIZE]
         payload = {'content': f'New team jobs discovered: {len(chunk)}',
                    'embeds': [embed(r) for r in chunk]}
-        if notify(hook, payload):
+        result = notify(hook, payload)
+        if result:
             delivered.update(r['url'] for r in chunk)
             ok += 1
-            print(f'  posted chunk {idx // CHUNK_SIZE + 1} ({len(chunk)} embeds)')
+            message_id = result if isinstance(result, str) else None
+            print(f'  posted chunk {idx // CHUNK_SIZE + 1} ({len(chunk)} embeds)' + (f' message {message_id}' if message_id else ''))
+            if message_id:
+                # One Discord message carries up to five jobs; each job records that message's ID.
+                state.setdefault('message_ids', {}).update({r['url']: message_id for r in chunk})
             if not args.preview:
                 state.update(seen=sorted(seen|delivered),pending=sorted(pending-delivered),posted_at=now_iso(),posts=starting_posts+ok)
                 save_state(state)

@@ -109,8 +109,21 @@ class CloudStorage:
         for pos in range(0,len(rows),100):
             self.request('POST','team_job_notifications',params={'on_conflict':'url'},json=rows[pos:pos+100],ignore_duplicates=True)
 
+    def has_message_id_column(self):
+        """True once `team_job_notifications.discord_message_id` exists (additive migration)."""
+        try:
+            self.request('GET','team_job_notifications',params={'select':'discord_message_id','limit':1})
+            return True
+        except RuntimeError:
+            return False
+
     def save_notification_state(self,state):
         prior={r['url'] for r in self.rows('team_job_notifications') if r['status'] in ('seeded','delivered')}
         baseline=set(state.get('baseline_urls',[]))
-        self.upsert('team_job_notifications',[{'url':u,'status':'seeded' if u in baseline else 'delivered',
-                     'delivered_at':None if u in baseline else state.get('posted_at')} for u in state['seen'] if u not in prior], 'url')
+        rows=[{'url':u,'status':'seeded' if u in baseline else 'delivered',
+               'delivered_at':None if u in baseline else state.get('posted_at')} for u in state['seen'] if u not in prior]
+        ids=state.get('message_ids') or {}
+        # Record the Discord message ID per job when this run has them and the column exists.
+        if rows and ids and self.has_message_id_column():
+            for row in rows:row['discord_message_id']=ids.get(row['url'])
+        self.upsert('team_job_notifications',rows,'url')
