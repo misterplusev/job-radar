@@ -16,7 +16,9 @@ export const MODULES = [
   { id: 'robotics', repo: 'misterplusev/job-radar', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 9, everyHours: 4, hourOffset: 0 },
   { id: 'tech', repo: 'misterplusev/job-radar-tech', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 37, everyHours: 4, hourOffset: 1 },
   { id: 'sports_teams', repo: 'misterplusev/job-radar', workflow: 'sports-teams.yml', prefix: 'sports-teams', minute: 23, everyHours: 4, hourOffset: 2 },
-  { id: 'sportsbook', kind: 'space', urlEnv: 'SPORTSBOOK_SPACE_URL', minute: 0, everyHours: 4, hourOffset: 3 },
+  { id: 'sportsbook', kind: 'space', urlEnv: 'SPORTSBOOK_SPACE_URL', minute: 0, everyHours: 4, hourOffset: 3,
+    // Discord delivery for sportsbook runs as a GitHub workflow (the Space cannot reach Discord).
+    deliver: { repo: 'misterplusev/job-radar', workflow: 'sportsbook-deliver.yml', prefix: 'sportsbook-deliver' } },
 ];
 
 export function dueSlot(now, minute, everyHours = 1, hourOffset = 0) {
@@ -83,6 +85,41 @@ export class JobsScheduler {
     return response.json();
   }
 
+  // SINGLE-SENDER SWITCH. The delivery workflow is started only when the Worker secret
+  // SPORTSBOOK_DELIVERY is exactly 'on'. Deploying this code therefore cannot create a second
+  // sportsbook sender while the previous one (abet-jobs-watchdog) is still announcing; the switch
+  // is turned on in the same cutover step that turns the previous sender off. At most one
+  // dispatch per slot, with one retry if GitHub refuses the request.
+  async dispatchDelivery(config, record, slot, state, origin) {
+    if (!config.deliver || this.env.SPORTSBOOK_DELIVERY !== 'on') return;
+    const path = `repos/${config.deliver.repo}/actions/workflows/${config.deliver.workflow}`;
+    try {
+      if (record.delivery_dispatched_at) {
+        if (['success', 'failure', 'cancelled', 'timed_out'].includes(record.delivery_status)) return;
+        const data = await this.github(`${path}/runs?branch=master&per_page=20`);
+        const match = data.workflow_runs.find(run => run.display_title === `${config.deliver.prefix} ${slot}`);
+        if (!match) return;
+        record.delivery_run_id = match.id;
+        record.delivery_status = match.status === 'completed' ? match.conclusion : match.status;
+        if (match.status === 'completed' && match.conclusion !== 'success')
+          record.error = `Delivery run ${match.id} completed ${match.conclusion}`;
+        return;
+      }
+      if ((record.delivery_attempts || 0) >= 2) {
+        record.error = 'Delivery workflow could not be started after retries';
+        return;
+      }
+      record.delivery_attempts = (record.delivery_attempts || 0) + 1;
+      await this.state.storage.put('state', state);
+      await this.github(`${path}/dispatches`, { ref: 'master', inputs: { scheduler_slot: slot, trigger_source: 'cloudflare' } });
+      record.delivery_dispatched_at = state.last_tick;
+      record.delivery_status = 'awaiting_run';
+      console.log(JSON.stringify({ module: config.id, slot, status: 'delivery_dispatched', origin }));
+    } catch (error) {
+      record.delivery_error = String(error.message).slice(0, 200);
+    }
+  }
+
   async tickSpace(config, record, prior, state, slot, origin, now) {
     const health = await this.space(config, '/api/health');
     const last = health.scheduler_slot || null;
@@ -92,11 +129,16 @@ export class JobsScheduler {
     if (last?.slot === slot) {
       record.status = last.status === 'healthy' ? 'success' : last.status;
       if (last.status !== 'healthy') record.error = `Run for ${slot} ended ${last.status}`;
+      // Whatever the scrape's status, anything it queued is delivered now.
+      await this.dispatchDelivery(config, record, slot, state, origin);
       return;
     }
     // The Space forgets its slots when it restarts (a deploy, a platform restart).
     // This slot already succeeded according to our own record: do not run it again.
-    if (record.status === 'success') return;
+    if (record.status === 'success') {
+      await this.dispatchDelivery(config, record, slot, state, origin);
+      return;
+    }
     if (health.scrape_running) {
       record.status = health.current_slot === slot ? 'in_progress' : 'deferred_running';
       return;

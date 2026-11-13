@@ -35,9 +35,39 @@ DISCORD_WEBHOOK_JOBS = os.environ.get("DISCORD_WEBHOOK_JOBS", "").strip()
 DRY_RUN = False
 
 BASE_URL = "https://api.github.com"  # unused placeholder to keep module import-safe
-TABLE_JOBS = "robotics_jobs"
-TABLE_NOTIFICATIONS = "robotics_job_notifications"
-TABLE_RUNS = "robotics_job_scrape_runs"
+
+# COMMON DISCORD SENDER
+# queue_new_jobs() -> notify_new_jobs() -> _send_notification_chunk() -> _ack_notifications()
+# is the one delivery path for ABET job modules: a durable row per job in the module's
+# notification table, sent with ?wait=true, acknowledged only with the Discord message ID.
+# JOBRADAR_MODULE selects which module this process delivers for. Exactly one process
+# may deliver for a module (workflow concurrency groups enforce it).
+DELIVERY_MODULES = {
+    "robotics": {
+        "jobs_table": "robotics_jobs", "notifications_table": "robotics_job_notifications",
+        "runs_table": "robotics_job_scrape_runs", "label": "robotics", "color": 0x34D399,
+        "footer": "ABET Robotics Jobs Monitor", "default_title": "New robotics job posting",
+        "default_description": "New robotics job discovered.", "posted_field": False,
+        "payload_logo": False, "record_destination": False,
+    },
+    # Sportsbook jobs are scraped on a Hugging Face Space, which cannot reach Discord.
+    # The Space queues rows in sportsbook_job_notifications; `run.py deliver` drains them here.
+    "sportsbook": {
+        "jobs_table": "jobs", "notifications_table": "sportsbook_job_notifications",
+        "runs_table": "job_scrape_runs", "label": "sportsbook", "color": 0x38BDF8,
+        "footer": "ABET Sportsbook Jobs Monitor", "default_title": "New job posting",
+        "default_description": "New sportsbook job discovered.", "posted_field": True,
+        "payload_logo": True, "record_destination": True,
+    },
+}
+MODULE_NAME = os.environ.get("JOBRADAR_MODULE", "robotics").strip() or "robotics"
+if MODULE_NAME not in DELIVERY_MODULES:
+    raise RuntimeError(f"Unknown JOBRADAR_MODULE {MODULE_NAME!r}")
+MODULE = DELIVERY_MODULES[MODULE_NAME]
+TABLE_JOBS = MODULE["jobs_table"]
+TABLE_NOTIFICATIONS = MODULE["notifications_table"]
+TABLE_RUNS = MODULE["runs_table"]
+LAST_DESTINATION: dict = {}
 BATCH_SIZE = 100
 CHUNK_SIZE = 5
 POSTED_DAYS_MAX = 14
@@ -252,24 +282,41 @@ def _embed(job: dict) -> dict:
     if len(description) > 350:
         description = description[:347] + "..."
     embed = {
-        "title": (job.get("title") or "New robotics job posting")[:256],
+        "title": (job.get("title") or MODULE["default_title"])[:256],
         "url": (job.get("url") or "")[:2048] or None,
-        "description": description or "New robotics job discovered.",
-        "color": 0x34D399,
+        "description": description or MODULE["default_description"],
+        "color": MODULE["color"],
         "fields": [
             {"name": "Company", "value": (job.get("company") or "Unknown")[:256], "inline": True},
             {"name": "Location", "value": (job.get("location") or "Unknown")[:1024], "inline": True},
         ],
-        "footer": {"text": "ABET Robotics Jobs Monitor"},
-        "timestamp": job.get("posted_at") or job.get("scraped_at") or now_iso(),
+        "footer": {"text": MODULE["footer"]},
+        "timestamp": _embed_timestamp(job),
     }
     ats = job.get("ats")
     if ats:
         embed["fields"].insert(0, {"name": "Source", "value": str(ats)[:256], "inline": True})
-    thumb = _logo_url(job.get("company"))
+    if MODULE["posted_field"] and job.get("posted_at"):
+        embed["fields"].append({"name": "Posted", "value": str(job["posted_at"])[:256], "inline": True})
+    thumb = job.get("logo_url") if MODULE["payload_logo"] else _logo_url(job.get("company"))
     if thumb:
         embed["thumbnail"] = {"url": thumb}
     return embed
+
+
+def _embed_timestamp(job: dict) -> str:
+    """Discord rejects the whole message for a non-ISO8601 timestamp. Robotics passes
+    its stored value through as before; other modules normalise date-only values."""
+    value = job.get("posted_at") or job.get("scraped_at") or now_iso()
+    if MODULE_NAME == "robotics":
+        return value
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+    except (ValueError, TypeError):
+        return now_iso()
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.isoformat()
 
 
 def _split_relevant(jobs: List[dict]) -> tuple[List[dict], List[dict]]:
@@ -311,7 +358,7 @@ def queue_new_jobs(url_base: str, key: str, new_jobs: List[dict]) -> int:
 
 
 def _send_notification_chunk(jobs: List[dict]) -> str:
-    payload = {"content": f"New robotics jobs discovered: {len(jobs)}",
+    payload = {"content": f"New {MODULE['label']} jobs discovered: {len(jobs)}",
                "embeds": [_embed(j) for j in jobs]}
     for attempt in range(8):
         response = requests.post(DISCORD_WEBHOOK_JOBS, params={"wait": "true"},
@@ -320,9 +367,12 @@ def _send_notification_chunk(jobs: List[dict]) -> str:
             time.sleep(_discord_retry_after(response))
             continue
         response.raise_for_status()
-        message_id = response.json().get("id")
+        body = response.json()
+        message_id = body.get("id")
         if not message_id:
             raise RuntimeError("Discord did not return a delivery message ID")
+        LAST_DESTINATION.clear()
+        LAST_DESTINATION.update(channel_id=body.get("channel_id"), webhook_id=body.get("webhook_id"))
         return str(message_id)
     raise RuntimeError("Discord retries exhausted")
 
@@ -332,6 +382,9 @@ def _ack_notifications(url_base: str, key: str, ids: List[int], state: str,
     payload = {"state": state}
     if state == "delivered":
         payload.update(delivered_at=now_iso(), discord_message_id=message_id)
+        if MODULE["record_destination"]:
+            payload.update(discord_channel_id=LAST_DESTINATION.get("channel_id"),
+                           discord_webhook_id=LAST_DESTINATION.get("webhook_id"))
     response = requests.patch(_rest(url_base, TABLE_NOTIFICATIONS), headers=_headers(key),
                               params={"id": "in.(" + ",".join(str(i) for i in ids) + ")",
                                       "state": "eq.pending"}, json=payload, timeout=60)
@@ -400,7 +453,7 @@ def notify_new_jobs(new_jobs: List[dict]) -> int:
             _ack_notifications(url_base, key, [r["id"] for r in ready], "delivered", message_id)
             delivered += len(ready)
             time.sleep(DISCORD_PACE_SECONDS)
-    print(f"[DISCORD] Confirmed {delivered} delivered robotics jobs; other pending jobs remain queued")
+    print(f"[DISCORD] Confirmed {delivered} delivered {MODULE['label']} jobs; other pending jobs remain queued")
     return delivered
 
 

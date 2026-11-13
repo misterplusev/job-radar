@@ -1,0 +1,44 @@
+name: sportsbook-deliver
+run-name: sportsbook-deliver ${{ inputs.scheduler_slot || github.event_name }}
+# The ONE sender of sportsbook job messages. Started by the Cloudflare scheduler after each
+# sportsbook scrape slot; no timer of its own. It drains sportsbook_job_notifications with the
+# same code that delivers robotics jobs (jobradar/publish.py) and records Discord message IDs.
+on:
+  workflow_dispatch:
+    inputs:
+      scheduler_slot:
+        description: UTC slot assigned by the Cloudflare scheduler
+        type: string
+        required: false
+      trigger_source:
+        description: Dispatch origin
+        type: string
+        default: manual
+        required: false
+permissions:
+  contents: read
+concurrency:
+  group: sportsbook-deliver
+  cancel-in-progress: false
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Regression checks
+        run: python -m unittest discover -s tests -v
+      - name: Deliver queued sportsbook jobs to Discord
+        env:
+          JOBRADAR_MODULE: sportsbook
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_SPORTSBOOK }}
+          JOBRADAR_SCHEDULER_SLOT: ${{ inputs.scheduler_slot }}
+          JOBRADAR_TRIGGER: ${{ inputs.trigger_source }}
+        run: python -u run.py deliver
