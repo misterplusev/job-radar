@@ -28,8 +28,12 @@ from typing import Dict, List, Optional, Set
 import requests
 from requests import HTTPError, Timeout, ConnectionError
 
-from .relevance import explain as _relevance_explain
-from .relevance import is_relevant as _is_relevant
+try:  # the relevance filter ships only where a module uses it (robotics)
+    from .relevance import explain as _relevance_explain
+    from .relevance import is_relevant as _is_relevant
+except ImportError:  # no relevance module here (the tech repository) or an offline test harness
+    _relevance_explain = globals().get("_relevance_explain")
+    _is_relevant = globals().get("_is_relevant")
 
 DISCORD_WEBHOOK_JOBS = os.environ.get("DISCORD_WEBHOOK_JOBS", "").strip()
 DRY_RUN = False
@@ -49,7 +53,22 @@ DELIVERY_MODULES = {
         "footer": "ABET Robotics Jobs Monitor", "default_title": "New robotics job posting",
         "default_description": "New robotics job discovered.", "posted_field": False,
         "payload_logo": False, "record_destination": False,
+        "logo_base": "https://misterplusev.github.io/robotics-jobradar-board/logos",
+        "relevance_filter": True, "failure_title": "Robotics",
         # Robotics announces only postings dated within POSTED_DAYS_MAX days (existing behaviour).
+        "expire_old_postings": True,
+    },
+    # Tech is the same pipeline as robotics with its own tables, board and wording, and no
+    # relevance filter. This file is byte-identical in misterplusev/job-radar-tech; a test in
+    # each repository pins its hash so the two copies cannot drift.
+    "tech": {
+        "jobs_table": "tech_jobs", "notifications_table": "tech_job_notifications",
+        "runs_table": "tech_job_scrape_runs", "label": "tech", "color": 0x34D399,
+        "footer": "ABET Tech Jobs Monitor", "default_title": "New tech job posting",
+        "default_description": "New tech job discovered.", "posted_field": False,
+        "payload_logo": False, "record_destination": False,
+        "logo_base": "https://misterplusev.github.io/jobradar-tech-board/logos",
+        "relevance_filter": False, "failure_title": "Tech",
         "expire_old_postings": True,
     },
     # Sportsbook jobs are scraped on a Hugging Face Space, which cannot reach Discord.
@@ -60,6 +79,7 @@ DELIVERY_MODULES = {
         "footer": "ABET Sportsbook Jobs Monitor", "default_title": "New job posting",
         "default_description": "New sportsbook job discovered.", "posted_field": True,
         "payload_logo": True, "record_destination": True,
+        "logo_base": "", "relevance_filter": False, "failure_title": "Sportsbook",
         # The sportsbook sender this replaces announces EVERY new active job, whatever its
         # posting date. Keep that: nothing is dropped for age.
         "expire_old_postings": False,
@@ -77,8 +97,9 @@ BATCH_SIZE = 100
 CHUNK_SIZE = 5
 POSTED_DAYS_MAX = 14
 PROVIDER_TIMEOUT = 120
-BOARD_LOGOS_BASE = "https://misterplusev.github.io/robotics-jobradar-board/logos"
-RELEVANCE_ON = os.environ.get("DISCORD_RELEVANCE_FILTER", "1").strip() not in ("0", "false", "False")
+BOARD_LOGOS_BASE = MODULE["logo_base"]
+RELEVANCE_ON = (MODULE["relevance_filter"] and _is_relevant is not None
+                and os.environ.get("DISCORD_RELEVANCE_FILTER", "1").strip() not in ("0", "false", "False"))
 SUPPRESS_SAMPLE = 5
 # Discord webhooks are capped at ~30 requests/minute; pace chunks so a big
 # backlog announce stays under the limit instead of hammering 429s.
@@ -337,7 +358,7 @@ def _split_relevant(jobs: List[dict]) -> tuple[List[dict], List[dict]]:
     for j in jobs:
         (keep if _is_relevant(j.get("title"), j.get("description"), j.get("company")) else drop).append(j)
     if drop:
-        print(f"[RELEVANCE] suppressed {len(drop)} non-robotics postings ({len(keep)} kept)")
+        print(f"[RELEVANCE] suppressed {len(drop)} non-{MODULE['label']} postings ({len(keep)} kept)")
         for job in drop[:SUPPRESS_SAMPLE]:
             _, reason = _relevance_explain(job.get("title"), job.get("description"), job.get("company"))
             print(f"[RELEVANCE]   - {job.get('company')}: {(job.get('title') or '')[:70]} ({reason})")
@@ -362,24 +383,37 @@ def queue_new_jobs(url_base: str, key: str, new_jobs: List[dict]) -> int:
     return len(recent)
 
 
-def _send_notification_chunk(jobs: List[dict]) -> str:
-    payload = {"content": f"New {MODULE['label']} jobs discovered: {len(jobs)}",
-               "embeds": [_embed(j) for j in jobs]}
+def send_discord_message(webhook: str, payload: dict, *, headers: Optional[dict] = None) -> dict:
+    """THE one function that posts a job message to Discord, for every ABET jobs module
+    (robotics, tech and sportsbook through notify_new_jobs below; sports teams calls it from
+    sports_teams/publish_teams.py).
+
+    `?wait=true` makes Discord answer with the stored message. Returns that message (it
+    carries `id`, `channel_id`, `webhook_id`). Waits out HTTP 429 using Discord's
+    `retry_after`, at most 8 attempts. Raises if Discord refuses the message or returns no
+    message ID, so a caller can never record a delivery that Discord did not confirm.
+    """
     for attempt in range(8):
-        response = requests.post(DISCORD_WEBHOOK_JOBS, params={"wait": "true"},
-                                 json=payload, timeout=30)
+        response = requests.post(webhook, params={"wait": "true"}, json=payload, timeout=30,
+                                 **({"headers": headers} if headers else {}))
         if response.status_code == 429 and attempt < 7:
             time.sleep(_discord_retry_after(response))
             continue
         response.raise_for_status()
         body = response.json()
-        message_id = body.get("id")
-        if not message_id:
+        if not body.get("id"):
             raise RuntimeError("Discord did not return a delivery message ID")
-        LAST_DESTINATION.clear()
-        LAST_DESTINATION.update(channel_id=body.get("channel_id"), webhook_id=body.get("webhook_id"))
-        return str(message_id)
+        return body
     raise RuntimeError("Discord retries exhausted")
+
+
+def _send_notification_chunk(jobs: List[dict]) -> str:
+    payload = {"content": f"New {MODULE['label']} jobs discovered: {len(jobs)}",
+               "embeds": [_embed(j) for j in jobs]}
+    body = send_discord_message(DISCORD_WEBHOOK_JOBS, payload)
+    LAST_DESTINATION.clear()
+    LAST_DESTINATION.update(channel_id=body.get("channel_id"), webhook_id=body.get("webhook_id"))
+    return str(body["id"])
 
 
 def _ack_notifications(url_base: str, key: str, ids: List[int], state: str,
@@ -466,15 +500,15 @@ def notify_failure(error_message: str) -> None:
     if not DISCORD_WEBHOOK_JOBS:
         return
     embed = {
-        "title": "Robotics Scrape Failed",
+        "title": f"{MODULE['failure_title']} Scrape Failed",
         "description": f"```\n{error_message[:1500]}\n```",
         "color": 0xFF0055,
-        "footer": {"text": "ABET Robotics Jobs Monitor"},
+        "footer": {"text": MODULE["footer"]},
         "timestamp": now_iso(),
     }
     try:
         requests.post(DISCORD_WEBHOOK_JOBS,
-                      json={"content": "@here Robotics scrape failure", "embeds": [embed]}, timeout=30)
+                      json={"content": f"@here {MODULE['failure_title']} scrape failure", "embeds": [embed]}, timeout=30)
     except Exception:  # noqa: BLE001
         pass
 
