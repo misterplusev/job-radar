@@ -1,6 +1,6 @@
 # ABET job scrapers: runbook
 
-**This is the one current document.** Last verified November 13, 2026, 07:37 UTC. Every figure in it was measured; the source and time are given where it matters. Anything not measured says so. Everything else in this folder with a date in its name is history; where it disagrees with this file, this file is right.
+**This is the one current document.** Last verified November 13, 2026, 08:18 UTC. Every figure in it was measured; the source and time are given where it matters. Anything not measured says so. Everything else in this folder with a date in its name is history; where it disagrees with this file, this file is right.
 
 Four scrapers (robotics, tech, sports teams, sportsbook) collect job postings, write them to one shared free database, post new jobs to one Discord channel each, and feed one standalone board each plus one tab each in `abet-dashboard`. Free tiers only: nothing here may depend on a paid plan.
 
@@ -15,8 +15,8 @@ Four scrapers (robotics, tech, sports teams, sportsbook) collect job postings, w
 | UTC hours | 00 04 08 12 16 20, at :09 | 01 05 09 13 17 21, at :37 | 02 06 10 14 18 22, at :23 | 03 07 11 15 19 23, at :00 |
 | Jobs table | `robotics_jobs` | `tech_jobs` | `team_jobs` | `jobs` |
 | Run receipts table | `robotics_job_scrape_runs` | `tech_job_scrape_runs` | `team_job_scrape_runs` | `job_scrape_runs` |
-| Discord delivery ledger | `robotics_job_notifications` (stores Discord message IDs) | `tech_job_notifications` (stores Discord message IDs) | `team_job_notifications` | none yet (see section 8) |
-| Discord poster | `jobradar/publish.py` in the run | `jobradar/publish.py` in the run | `sports_teams/publish_teams.py` in the run | Cloudflare Worker `abet-jobs-watchdog`, every 2 hours |
+| Discord delivery ledger | `robotics_job_notifications` (Discord message ID per job) | `tech_job_notifications` (message ID per job) | `team_job_notifications` (message ID per job from November 13, 2026) | `sportsbook_job_notifications` (message ID, channel ID and webhook ID per job) |
+| Discord sender (exactly one per module) | `jobradar/publish.py` in the run | the same file (identical copy) in the run | `sports_teams/publish_teams.py` in the run, sending through `send_discord_message()` in `jobradar/publish.py` | workflow `sportsbook-deliver.yml` in `job-radar` (`run.py deliver`, the same `jobradar/publish.py`), started by the scheduler after each sportsbook slot |
 | Standalone board | `misterplusev.github.io/robotics-jobradar-board/` | `misterplusev.github.io/jobradar-tech-board/` | `misterplusev.github.io/job-radar/` | `sportsbook-jobs-dashboard.vercel.app` |
 | `abet-dashboard` tab | Robotics | Tech | Sports Teams | Sportsbook |
 
@@ -35,8 +35,20 @@ Shared pieces:
    - robotics and tech (`publish()` in `jobradar/publish.py`): new and changed postings are written in full; unchanged postings get a ten-column refresh (`TOUCH_COLUMNS`). Change is detected by a hash stored in `source_payload.content_hash_v2`.
    - sports teams (`sports_teams/cloud_storage.py`): downloads `team_jobs`, merges, uploads.
    - sportsbook (`publish_to_supabase()` in `scripts/scrape.py`): upserts collected postings and closes only postings that were still open and have disappeared.
-5. New postings are announced in Discord (see the table above) and recorded in the delivery ledger.
+5. New postings are announced in Discord and recorded in the delivery ledger (section 2a).
 6. The scheduler records the result. `GET /health` on the scheduler shows every module's slot, status and last success.
+
+## 2a. Discord delivery: one system
+
+Deployed November 13, 2026 (cutover 08:11:57–08:12:45 UTC).
+
+- **One sender file.** `jobradar/publish.py` delivers for robotics, tech and sportsbook; the module is chosen with `JOBRADAR_MODULE`. The file is byte-identical in `misterplusev/job-radar` and `misterplusev/job-radar-tech`, and `tests/test_guardrails.py` in each pins its SHA-256, so a change to one copy stops every scrape until both match.
+- **One send function.** `send_discord_message()` in that file is the only code that posts a job message. It requests `?wait=true`, waits out HTTP 429 using Discord's `retry_after`, makes at most 8 attempts, and raises unless Discord returns a message ID. Sports teams calls the same function from `sports_teams/publish_teams.py`.
+- **One ledger contract.** A job gets a row before it is sent; the row is marked delivered only with the message ID Discord returned. Delivery is at-least-once: if a run dies between Discord accepting a message and the acknowledgement, the next run sends that message again.
+- **Sportsbook.** Its scraper runs on a Hugging Face Space that cannot reach Discord. With Space variable `SPORTSBOOK_OUTBOX=1` the scraper writes one `pending` row per new job to `sportsbook_job_notifications` before saving the job, and never posts itself. The scheduler starts `sportsbook-deliver` once per finished sportsbook slot when its secret `SPORTSBOOK_DELIVERY` is `on`. Every new job is announced; there is no posting-age filter, matching the sender it replaced.
+- **What each module still decides for itself:** which postings qualify (robotics and tech: dated within 14 days, robotics also its relevance filter; sports teams: its own recency rule in `publish_teams.py`, with its own ledger table shape), and the message wording.
+- **The old sportsbook sender is removed.** Cloudflare Worker `abet-jobs-watchdog` (account `ac1a814d…`) no longer contains `announceNewJobs`; it keeps its health check, health alert, `/jobs-health` and relay. Its KV key `last_notified_first_seen_at` is left as the record of the last job it announced: `2026-11-13T03:18:31.445267+00:00`.
+- **Never run two senders for one module.** To go back to the old sportsbook sender, follow the rollback in `20261112_2100_common_sender_review\REVIEW.md` section 6: switches off first, cursor handled, then the old Worker version (`dcf53ae2-24fc-4ad1-b08a-f7c6f6f5d3b5`).
 
 ## 3. Limits you must not cross
 
@@ -111,6 +123,9 @@ All commands are in `D:\abet_ops\jobs_scrapers\tools\` and read credentials from
 | Back up a table to D: | `python backup_table.py <table> <folder>` |
 | Deploy the scheduler | `python deploy_worker.py before`, then `python deploy_worker.py upload <worker.mjs from the commit> <commit>` |
 | Deploy to the sportsbook Space | `python deploy_space.py before`, then `python deploy_space.py upload "<message>" <local file>=<path in Space>` |
+| Sportsbook sender switches | `python sportsbook_switches.py status`; `outbox on|off`; `delivery on|off` |
+| Read the sportsbook Worker (code, timer, KV) | `python abetco_worker_read.py <receipts folder>` |
+| Deploy or roll back the sportsbook Worker | `python deploy_watchdog.py before|upload|rollback …` |
 
 Rules for changes:
 
@@ -120,7 +135,7 @@ Rules for changes:
 4. Deploying the Space restarts it, and it scrapes once on start (`RUN_ON_BOOT=1`). Deploy it when no other scraper is running.
 5. Never run a manual scrape while another scraper is running. Check the scheduler first.
 
-Scheduler settings (Cloudflare Worker secrets): `GITHUB_TOKEN`, `CONTROL_TOKEN` (for pause/enable/tick), `SPORTSBOOK_SPACE_URL`, `SPACE_READ_TOKEN`, `SPACE_RUN_TOKEN` (equals the Space's `RUN_TOKEN`), `SUPABASE_URL`, `SUPABASE_ANON_KEY` (the public key; turns the circuit breaker on), `ALERT_WEBHOOK` (optional Discord webhook; when set, one message after 15 minutes of bad health, a reminder every 6 hours, one on recovery).
+Scheduler settings (Cloudflare Worker secrets): `GITHUB_TOKEN`, `CONTROL_TOKEN` (for pause/enable/tick), `SPORTSBOOK_SPACE_URL`, `SPACE_READ_TOKEN`, `SPACE_RUN_TOKEN` (equals the Space's `RUN_TOKEN`), `SUPABASE_URL`, `SUPABASE_ANON_KEY` (the public key; turns the circuit breaker on), `SPORTSBOOK_DELIVERY` (`on` starts the sportsbook delivery workflow after each sportsbook slot), `ALERT_WEBHOOK` (optional Discord webhook; when set, one message after 15 minutes of bad health, a reminder every 6 hours, one on recovery).
 
 ## 6. When something is wrong
 
@@ -163,8 +178,8 @@ At the time nothing limited cadence, nothing checked the database before startin
 
 ## 8. Known gaps
 
-- **Sportsbook Discord posting is not on the standard path.** New sportsbook jobs are announced by a separate Cloudflare Worker (`abet-jobs-watchdog`, source in `runtime/cloudflare/watchdog/` of the sportsbook repository) in a different Cloudflare account, because the Hugging Face Space cannot reach Discord. That Worker keeps a KV cursor (`last_notified_first_seen_at`, the last job it announced) but no per-job delivery record and no Discord message IDs. Read on November 13, 2026 at 06:18 UTC: deployed 2026-08-13, timer `10 */2 * * *`, last fired 06:10:20 UTC, cursor equal to the newest active sportsbook job in the database; its announcer code is identical to the repository's. The changes that move sportsbook onto the common sender are prepared and tested but not deployed: see `20261112_2100_common_sender_review\REVIEW.md` in the operator folder. The old announcer must be switched off in the same step that the new sender is switched on; otherwise jobs would be announced twice. A token that reads that Cloudflare account is recorded in the operator appendix; whether it can deploy is untested. Table `sportsbook_job_notifications` exists and has 0 rows (November 13 04:35 UTC).
-- **Three write implementations.** Robotics and tech share one design in two copies; teams and sportsbook each have their own. Scheduling, cadence, guardrails and health are now common. Merging the write and Discord code into one core is still to do.
+- **Sports teams keeps its own queue and ledger shape.** It sends through the shared function and records message IDs, but which postings qualify is decided in `publish_teams.py` and its ledger is `team_job_notifications (url, status, delivered_at, discord_message_id)`, not the `(company, job_url, payload, state)` shape of the other three.
+- **Two copies of the sender file.** Robotics and tech are separate repositories; the copies are held identical by the hash test, not by being one file.
 - **Sports teams rewrites its whole table twice per run** (2,247 rows on November 13 03:03 UTC). Its run took 4 min 35 s with the database healthy throughout.
 - **The sportsbook board downloads every description of every sportsbook job on each visit.** It should request descriptions on demand.
 - **Four sportsbook tests fail** (`test_rebet_*`), and did before these changes. They reach the live Rebet page.
