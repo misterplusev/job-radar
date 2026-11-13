@@ -275,42 +275,33 @@ def embed(row: dict) -> dict:
     return item
 
 
+def _common_send():
+    """The one Discord send function shared by every jobs module (jobradar/publish.py)."""
+    root = str(Path(__file__).resolve().parent.parent)
+    if root not in sys.path:
+        sys.path.insert(0, root)
+    from jobradar.publish import send_discord_message
+    return send_discord_message
+
+
 def notify(webhook_url: str, payload: dict, attempts: int = 8):
-    """Send one message. Returns the Discord message ID (a string) when Discord confirms it,
-    True when it accepted the message without returning one, and False on failure.
-    `?wait=true` makes Discord answer with the stored message, which carries its ID."""
-    body = json.dumps(payload).encode()
-    webhook_url = webhook_url + ('&' if '?' in webhook_url else '?') + 'wait=true'
-    for i in range(attempts):
-        guard()
-        req = urllib.request.Request(webhook_url, data=body, method='POST',
-                                     headers={'Content-Type': 'application/json',
-                                              'User-Agent': 'ABET-TeamsJobs/1.0',
-                                              **({'Authorization':'Bearer '+os.environ['DISCORD_RELAY_TOKEN']} if os.environ.get('DISCORD_RELAY_TOKEN') else {})})
-        try:
-            with urllib.request.urlopen(req, timeout=30) as r:
-                if r.status not in (200, 204):
-                    return False
-                try:
-                    message_id = json.loads(r.read().decode() or '{}').get('id')
-                except (ValueError, AttributeError):
-                    message_id = None
-                return str(message_id) if message_id else True
-        except urllib.error.HTTPError as e:
-            if e.code == 429:
-                try:
-                    wait = float(json.loads(e.read().decode()).get('retry_after', PACE_SECONDS))
-                except Exception:
-                    wait = PACE_SECONDS
-                print(f'  429, waiting {wait:.1f}s')
-                time.sleep(min(max(wait,1),30))
-                continue
-            print(f'  HTTP {e.code}: {e.read().decode()[:160]}')
-            return False
-        except Exception as e:
-            print(f'  ERR {type(e).__name__}: {e}')
-            time.sleep(2 * (i + 1))
-    return False
+    """Send one message through the shared send function.
+
+    Returns the Discord message ID (a string) when Discord confirms the message, False on
+    failure. The shared function requests `?wait=true`, waits out HTTP 429 using Discord's
+    `retry_after`, makes at most 8 attempts, and refuses to report success without a
+    message ID. `attempts` is kept for callers and no longer changes behaviour.
+    """
+    guard()
+    relay = os.environ.get('DISCORD_RELAY_TOKEN')
+    try:
+        message = _common_send()(webhook_url, payload,
+                                 headers={'Authorization': 'Bearer ' + relay} if relay else None)
+    except Exception as e:  # noqa: BLE001 - never print the exception text: it can contain the webhook URL
+        status = getattr(getattr(e, 'response', None), 'status_code', None)
+        print(f'  send failed: {type(e).__name__}' + (f' HTTP {status}' if status else ''))
+        return False
+    return str(message['id'])
 
 
 def main():

@@ -8,14 +8,13 @@ import os
 import unittest
 from unittest.mock import patch
 
-from test_reliability import MODULES, Response, load_publisher
+from test_reliability import Response, load_publisher
 
 NOW = datetime.datetime.now(datetime.timezone.utc)
 
 
 def load(module):
-    with patch.dict(os.environ, {'JOBRADAR_MODULE': module}):
-        ns, db = load_publisher(MODULES[0])
+    ns, db = load_publisher(module)
     original = db.post
 
     def post(url, *, json, **kwargs):
@@ -45,7 +44,7 @@ def queued(db, index, *, posted_at=None, saved=True, active=True, logo=True):
 
 class ModuleSelection(unittest.TestCase):
     def test_robotics_is_the_default_and_keeps_its_tables(self):
-        ns, _ = load_publisher(MODULES[0])
+        ns, _ = load_publisher('robotics')
         self.assertEqual(ns['MODULE_NAME'], 'robotics')
         self.assertEqual((ns['TABLE_JOBS'], ns['TABLE_NOTIFICATIONS']), ('robotics_jobs', 'robotics_job_notifications'))
 
@@ -113,7 +112,7 @@ class SportsbookDelivery(unittest.TestCase):
         self.assertEqual([r['state'] for r in db.queue], ['delivered', 'delivered'])
 
     def test_robotics_still_expires_postings_older_than_its_limit(self):
-        ns, db = load_publisher(MODULES[0])
+        ns, db = load_publisher('robotics')
         old = (NOW - datetime.timedelta(days=40)).isoformat()
         db.queue.append({'id': 1, 'company': 'Employer', 'job_url': 'https://careers.example/jobs/1', 'state': 'pending',
                          'payload': {'company': 'Employer', 'title': 'T', 'url': 'https://careers.example/jobs/1', 'posted_at': old}})
@@ -155,9 +154,47 @@ class SportsbookDelivery(unittest.TestCase):
         self.assertNotIn('thumbnail', db.sends[0]['embeds'][0])
 
 
+class TechUsesTheSameFile(unittest.TestCase):
+    def test_tech_settings(self):
+        ns, _ = load('tech')
+        self.assertEqual((ns['TABLE_JOBS'], ns['TABLE_NOTIFICATIONS'], ns['TABLE_RUNS']),
+                         ('tech_jobs', 'tech_job_notifications', 'tech_job_scrape_runs'))
+        self.assertFalse(ns['RELEVANCE_ON'])
+        embed = ns['_embed']({'company': 'Stripe Inc', 'title': None, 'url': 'https://x/1', 'posted_at': '2026-11-12'})
+        self.assertEqual(embed['title'], 'New tech job posting')
+        self.assertEqual(embed['footer']['text'], 'ABET Tech Jobs Monitor')
+        self.assertEqual(embed['thumbnail']['url'], 'https://misterplusev.github.io/jobradar-tech-board/logos/stripe-inc.png')
+
+    def test_tech_delivery_wording_and_ledger(self):
+        ns, db = load('tech')
+        queued(db, 1)
+        self.assertEqual(ns['notify_new_jobs']([]), 1)
+        self.assertEqual(db.sends[0]['content'], 'New tech jobs discovered: 1')
+        self.assertEqual(db.queue[0]['state'], 'delivered')
+        self.assertNotIn('discord_channel_id', db.queue[0])
+
+
+class OneSendFunction(unittest.TestCase):
+    def test_every_module_sends_through_send_discord_message(self):
+        for module in ('robotics', 'tech', 'sportsbook'):
+            ns, db = load(module)
+            calls = []
+            real = ns['send_discord_message']
+            ns['send_discord_message'] = lambda webhook, payload, **k: calls.append(webhook) or real(webhook, payload, **k)
+            queued(db, 1)
+            ns['notify_new_jobs']([])
+            self.assertEqual(calls, ['https://offline.invalid/discord'], module)
+
+    def test_a_message_without_an_id_is_never_a_delivery(self):
+        ns, db = load('robotics')
+        db.post = lambda url, **k: Response({})
+        with self.assertRaises(RuntimeError):
+            ns['send_discord_message']('https://offline.invalid/discord', {'content': 'x'})
+
+
 class RoboticsUnchanged(unittest.TestCase):
     def test_robotics_message_format_is_what_it_was(self):
-        ns, db = load_publisher(MODULES[0])
+        ns, db = load_publisher('robotics')
         job = {'company': 'Employer', 'title': 'Robot Technician', 'url': 'https://careers.example/jobs/9',
                'location': 'Tempe', 'description': 'Operations', 'ats': 'greenhouse', 'posted_at': '2026-11-12'}
         embed = ns['_embed'](job)

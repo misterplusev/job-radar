@@ -9,37 +9,33 @@ import cloud_storage
 import publish_teams as pub
 
 
-class Reply(io.BytesIO):
-    def __init__(self, status, body=b''):
-        super().__init__(body)
-        self.status = status
+class NotifyUsesTheSharedSendFunction(unittest.TestCase):
+    def test_the_id_from_the_shared_function_is_returned(self):
+        calls = []
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *a):
-        return False
-
-
-class NotifyReturnsTheMessageId(unittest.TestCase):
-    def send(self, reply):
-        seen = {}
-
-        def urlopen(req, timeout=30):
-            seen['url'] = req.full_url
-            return reply
-        with patch.object(pub, 'guard'), patch.object(pub.urllib.request, 'urlopen', urlopen):
-            return pub.notify('https://discord.invalid/api/webhooks/1/token', {'content': 'x'}), seen['url']
-
-    def test_wait_true_is_requested_and_the_id_is_returned(self):
-        body = json.dumps({'id': '1570000000000000001', 'channel_id': '1569043665345708344'}).encode()
-        result, url = self.send(Reply(200, body))
+        def shared(webhook, payload, headers=None):
+            calls.append((webhook, payload, headers))
+            return {'id': '1570000000000000001', 'channel_id': '1569043665345708344'}
+        with patch.object(pub, 'guard'), patch.object(pub, '_common_send', return_value=shared):
+            result = pub.notify('https://discord.invalid/api/webhooks/1/token', {'content': 'x'})
         self.assertEqual(result, '1570000000000000001')
-        self.assertTrue(url.endswith('?wait=true'))
+        self.assertEqual(calls, [('https://discord.invalid/api/webhooks/1/token', {'content': 'x'}, None)])
 
-    def test_accepted_without_a_body_is_still_success(self):
-        result, _ = self.send(Reply(204))
-        self.assertIs(result, True)
+    def test_a_refused_message_is_a_failure_and_the_webhook_is_not_printed(self):
+        def shared(webhook, payload, headers=None):
+            raise RuntimeError('500 Server Error for url: ' + webhook)
+        out = io.StringIO()
+        with patch.object(pub, 'guard'), patch.object(pub, '_common_send', return_value=shared), \
+                patch('sys.stdout', out):
+            result = pub.notify('https://discord.invalid/api/webhooks/1/secret-token', {'content': 'x'})
+        self.assertIs(result, False)
+        self.assertNotIn('secret-token', out.getvalue())
+
+    def test_it_is_the_function_in_the_common_sender_file(self):
+        shared = pub._common_send()          # adds the repository root to the import path
+        import jobradar.publish as common
+        self.assertIs(shared, common.send_discord_message)
+        self.assertEqual(common.MODULE_NAME, 'robotics')  # teams uses only the send function
 
 
 class LedgerRecordsTheMessageId(unittest.TestCase):
