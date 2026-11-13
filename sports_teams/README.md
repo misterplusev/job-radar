@@ -7,7 +7,7 @@ Supabase database -> live searchable board and deduplicated Discord publisher.
 
 - Repository: https://github.com/misterplusev/job-radar/tree/master/sports_teams
 - Workflow: `.github/workflows/sports-teams.yml` in that repository.
-- Schedule: Cloudflare Durable Object alarms, hourly at minute 23 UTC; GitHub Actions executes one run at a time with a 45-minute timeout. No GitHub cron remains.
+- Schedule: Cloudflare Durable Object alarms, every 4 hours at minute 23 on UTC hours 02, 06, 10, 14, 18, 22; GitHub Actions executes one run at a time with a 45-minute timeout. No GitHub cron remains.
 - Board: https://misterplusev.github.io/job-radar/
 - Health: https://misterplusev.github.io/job-radar/health.json
 - Team-by-team coverage: https://misterplusev.github.io/job-radar/coverage.html

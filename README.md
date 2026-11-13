@@ -1,7 +1,10 @@
 ## Production reliability update — November 10, 2026
 
-Cloudflare Durable Object alarms in `abet-jobs-scheduler` now own hourly dispatch
-(:09 UTC robotics, :37 UTC tech). GitHub Actions remains the execution host;
+Cloudflare Durable Object alarms in `abet-jobs-scheduler` own dispatch for all four
+job scrapers, each every 4 hours on its own UTC hour: robotics 00/04/08/12/16/20 at :09,
+tech 01/05/… at :37, sports teams 02/06/… at :23, sportsbook 03/07/… at :00
+(`runtime/cloudflare/worker.mjs` `MODULES`). GitHub Actions executes the first three and
+a Hugging Face Space executes sportsbook; none has a timer of its own.
 the old GitHub cron is removed to avoid two scheduler owners. The scheduler is
 activated only after release verification. Health: https://abet-jobs-scheduler.abetscrape.workers.dev/health
 
@@ -26,7 +29,7 @@ Production: employer careers / official ATS sources -> Python ingestion -> Supab
 ## Current production
 
 - Repository default branch: `master`; workflow `.github/workflows/pipeline.yml`.
-- Schedule: `9 * * * *` UTC, configured hourly at :09. Recent scheduled executions have multi-hour gaps; this configuration is not proof of hourly delivery.
+- Schedule: every 4 hours at :09 on UTC hours 00, 04, 08, 12, 16, 20, dispatched by the Cloudflare scheduler. No GitHub cron.
 - Entry point: `python run.py ingest`; then `python run.py render --out out/dashboard.html` uploads a workflow artifact.
 - Targets: `config/targets.json`; providers in `jobradar/providers/` include Greenhouse, Lever, Ashby, Amazon and Workday.
 - Tables: `robotics_jobs`, `robotics_job_scrape_runs`, `robotics_applications`; view `robotics_jobs_with_applied` in the shared Supabase project.
