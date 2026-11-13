@@ -97,13 +97,30 @@ class SportsbookDelivery(unittest.TestCase):
         self.assertEqual(ns['notify_new_jobs']([]), 0)
         self.assertEqual((db.queue[0]['state'], len(db.sends)), ('pending', 0))
 
-    def test_closed_and_stale_jobs_are_closed_out_without_a_message(self):
+    def test_a_job_closed_before_sending_is_closed_out_without_a_message(self):
         ns, db = load('sportsbook')
         queued(db, 1, active=False)
-        queued(db, 2, posted_at=(NOW - datetime.timedelta(days=40)).isoformat())
         self.assertEqual(ns['notify_new_jobs']([]), 0)
-        self.assertEqual([r['state'] for r in db.queue], ['inactive', 'expired'])
+        self.assertEqual([r['state'] for r in db.queue], ['inactive'])
         self.assertEqual(len(db.sends), 0)
+
+    def test_sportsbook_jobs_are_never_dropped_for_their_posting_date(self):
+        """The sender this replaces has no posting-age filter; neither does this one."""
+        ns, db = load('sportsbook')
+        queued(db, 1, posted_at=(NOW - datetime.timedelta(days=40)).isoformat())
+        queued(db, 2, posted_at=(NOW - datetime.timedelta(days=400)).date().isoformat())
+        self.assertEqual(ns['notify_new_jobs']([]), 2)
+        self.assertEqual([r['state'] for r in db.queue], ['delivered', 'delivered'])
+
+    def test_robotics_still_expires_postings_older_than_its_limit(self):
+        ns, db = load_publisher(MODULES[0])
+        old = (NOW - datetime.timedelta(days=40)).isoformat()
+        db.queue.append({'id': 1, 'company': 'Employer', 'job_url': 'https://careers.example/jobs/1', 'state': 'pending',
+                         'payload': {'company': 'Employer', 'title': 'T', 'url': 'https://careers.example/jobs/1', 'posted_at': old}})
+        db.jobs[('Employer', 'https://careers.example/jobs/1')] = {'id': 1, 'company': 'Employer',
+                                                                  'url': 'https://careers.example/jobs/1', 'is_active': True}
+        self.assertEqual(ns['notify_new_jobs']([]), 0)
+        self.assertEqual(db.queue[0]['state'], 'expired')
 
     def test_a_discord_failure_leaves_every_row_pending(self):
         ns, db = load('sportsbook')

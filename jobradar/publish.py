@@ -49,6 +49,8 @@ DELIVERY_MODULES = {
         "footer": "ABET Robotics Jobs Monitor", "default_title": "New robotics job posting",
         "default_description": "New robotics job discovered.", "posted_field": False,
         "payload_logo": False, "record_destination": False,
+        # Robotics announces only postings dated within POSTED_DAYS_MAX days (existing behaviour).
+        "expire_old_postings": True,
     },
     # Sportsbook jobs are scraped on a Hugging Face Space, which cannot reach Discord.
     # The Space queues rows in sportsbook_job_notifications; `run.py deliver` drains them here.
@@ -58,6 +60,9 @@ DELIVERY_MODULES = {
         "footer": "ABET Sportsbook Jobs Monitor", "default_title": "New job posting",
         "default_description": "New sportsbook job discovered.", "posted_field": True,
         "payload_logo": True, "record_destination": True,
+        # The sportsbook sender this replaces announces EVERY new active job, whatever its
+        # posting date. Keep that: nothing is dropped for age.
+        "expire_old_postings": False,
     },
 }
 MODULE_NAME = os.environ.get("JOBRADAR_MODULE", "robotics").strip() or "robotics"
@@ -422,7 +427,7 @@ def notify_new_jobs(new_jobs: List[dict]) -> int:
                 break
             cursor = item["id"]
             job = item["payload"]
-            if not _is_recently_posted(job.get("posted_at")):
+            if MODULE["expire_old_postings"] and not _is_recently_posted(job.get("posted_at")):
                 _ack_notifications(url_base, key, [item["id"]], "expired")
                 continue
             # An interrupted queue-before-upsert must never announce an unsaved job.
