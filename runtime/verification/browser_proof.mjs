@@ -25,7 +25,7 @@ try {
   for (const [module, tab, standalone] of modules) {
     for (const [kind,url] of [['standalone',standalone],['dashboard',`https://abet-dashboard.vercel.app/?section=jobs&tab=${tab}`]]) {
       guardBeforeBrowser();
-      const context = await browser.newContext({viewport:{width:1440,height:1080}, reducedMotion:'reduce'});
+      const context = await browser.newContext({viewport:{width:1440,height:1080}, reducedMotion:'reduce',timezoneId:'America/Los_Angeles'});
       await context.route('**/*', route => ['GET','HEAD','OPTIONS'].includes(route.request().method()) ? route.continue() : route.abort());
       const page = await context.newPage();
       const item = {module,kind,url,errors:[],data_responses:[]};
@@ -42,13 +42,14 @@ try {
         item.heading=await page.locator('.board-heading h1').first().innerText();
         item.cards=await page.locator('.job-card').count();
         assert(item.cards>0);
-        const status=page.getByLabel('Status',{exact:true});
-        const sort=page.getByLabel('Sort',{exact:true});
-        const limit=page.getByLabel('Initial result count',{exact:true});
+        const legacy=kind==='standalone' && module!=='sportsbook';
+        const status=legacy?page.locator(module==='teams'?'#status':'#st'):page.getByLabel('Status',{exact:true});
+        const sort=legacy?page.locator('#sort'):page.getByLabel('Sort',{exact:true});
+        const limit=legacy?page.locator('#limit'):page.getByLabel('Initial result count',{exact:true});
         assert.equal(await status.inputValue(),'active');
         assert.equal(await sort.inputValue(),'newest');
         assert.equal(await limit.inputValue(),'100');
-        const international=page.getByLabel(/Include international/);
+        const international=legacy?page.locator('#international'):page.getByLabel(/Include international/);
         assert.equal(await international.isChecked(),false);
         item.defaults={active:true,newest:true,us:true,limit:100};
         item.first_jobs=await page.locator('.job-card').evaluateAll(cards => cards.slice(0,3).map(card=>({

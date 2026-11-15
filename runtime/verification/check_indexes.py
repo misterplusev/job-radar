@@ -11,7 +11,7 @@ report = []
 with psycopg.connect(os.environ['PROOF_DATABASE_URL'], autocommit=True) as db:
     for table, size in [('robotics_jobs', 28000), ('tech_jobs', 5500), ('team_jobs', 2300), ('jobs', 5500)]:
         db.execute(f'create table {table} (id bigint primary key, posted_at text, scraped_at timestamptz, is_active boolean, company text, title text)')
-        db.execute(f"insert into {table} select i, case when i%10=0 then null else (current_date-i%90)::text end, now()-i*interval '1 minute', i%3<>0, 'Fixture', 'Fixture' from generate_series(1,%s) i", (size,))
+        db.execute(f"insert into {table} select i, case when i%%10=0 then null else (current_date-i%%90)::text end, now()-i*interval '1 minute', i%%3<>0, 'Fixture', 'Fixture' from generate_series(1,%s) i", (size,))
     db.execute(Path('db/migrations/20261114_job_read_indexes.sql').read_text())
     for table in ('robotics_jobs', 'tech_jobs', 'team_jobs', 'jobs'):
         db.execute(f'analyze {table}')
