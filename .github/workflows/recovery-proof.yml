@@ -1,0 +1,66 @@
+name: cloud-recovery-proof
+on:
+  push:
+    branches: [codex/recovery-proof-20261114]
+  workflow_dispatch:
+concurrency:
+  group: cloud-recovery-proof
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: proof
+          POSTGRES_PASSWORD: isolated-proof-only
+          POSTGRES_DB: proof
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U proof"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install cloud test dependencies
+        run: |
+          pip install -r requirements.txt 'psycopg[binary]'
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Regression and failure recovery tests (fake external HTTP)
+        run: python -m unittest discover -s tests -v
+      - name: Query indexes on isolated cloud PostgreSQL
+        env:
+          PROOF_DATABASE_URL: postgresql://proof:isolated-proof-only@localhost:5432/proof
+        run: python runtime/verification/check_indexes.py
+      - name: Read affected Workday career sources without publishing
+        env:
+          PYTHONPATH: .
+        run: python runtime/verification/probe_workday.py
+      - name: Read existing Discord messages without sending
+        if: ${{ !cancelled() }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
+          DISCORD_WEBHOOK_TEAMS: ${{ secrets.DISCORD_WEBHOOK_TEAMS }}
+          DISCORD_WEBHOOK_SPORTSBOOK: ${{ secrets.DISCORD_WEBHOOK_SPORTSBOOK }}
+        run: python runtime/verification/read_discord.py
+      - name: Eight live job views in one cloud browser
+        if: ${{ !cancelled() }}
+        run: node runtime/verification/browser_proof.mjs
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: cloud-recovery-proof
+          path: proof/
+          retention-days: 14
