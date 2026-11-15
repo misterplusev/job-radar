@@ -46,7 +46,9 @@ try {
         const status=legacy?page.locator(module==='teams'?'#status':'#st'):page.getByLabel('Status',{exact:true});
         const sort=legacy?page.locator('#sort'):page.getByLabel('Sort',{exact:true});
         const limit=legacy?page.locator('#limit'):page.getByLabel('Initial result count',{exact:true});
-        assert.equal(await status.inputValue(),'active');
+        const activeValue=legacy&&module!=='teams'?'1':'active';
+        const allValue=legacy&&module!=='teams'?'':'all';
+        assert.equal(await status.inputValue(),activeValue);
         assert.equal(await sort.inputValue(),'newest');
         assert.equal(await limit.inputValue(),'100');
         const international=legacy?page.locator('#international'):page.getByLabel(/Include international/);
@@ -75,9 +77,9 @@ try {
         await sort.selectOption('oldest');
         assert.equal(await sort.inputValue(),'oldest');
         await sort.selectOption('newest');
-        await status.selectOption('all');
-        assert.equal(await status.inputValue(),'all');
-        await status.selectOption('active');
+        await status.selectOption(allValue);
+        assert.equal(await status.inputValue(),allValue);
+        await status.selectOption(activeValue);
         const detail=page.locator('.job-details summary').first();
         if(await detail.count()) { await detail.click(); await page.waitForTimeout(1000); }
         item.controls_passed=true;
