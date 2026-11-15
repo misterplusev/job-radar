@@ -1,10 +1,24 @@
 # ABET job scrapers: runbook
 
-**This is the one current document.** Last verified November 13, 2026, 08:18 UTC. Every figure in it was measured; the source and time are given where it matters. Anything not measured says so. Everything else in this folder with a date in its name is history; where it disagrees with this file, this file is right.
+**This is the current operating document.** Updated November 15, 2026, 00:40 UTC (November 14 Pacific). Measurements below retain their own observation dates; the November 14 recovery release has a separate linked evidence record. Older dated reports describe historical state and do not override this runbook.
 
 Four scrapers (robotics, tech, sports teams, sportsbook) collect job postings, write them to one shared free database, post new jobs to one Discord channel each, and feed one standalone board each plus one tab each in `abet-dashboard`. Free tiers only: nothing here may depend on a paid plan.
 
+**User requirement reaffirmed November 13, 2026: CLOUD ONLY.** Scrapers, runtime tests, test databases, schedules, persistence, and delivery must execute on cloud infrastructure. The user's machine must have no operational or recovery dependency. Local source inspection and read-only remote API administration are not runtime execution. Do not run local scraper/provider workers or a local PostgreSQL test harness, and do not present local tests as cloud verification. See `AGENTS.md`. The November 13 local shared-engine candidate is undeployed and does not establish production health.
+
 ## 1. The system at a glance
+
+### November 14 recovery release
+
+Workday page recovery is now on production `master`: robotics/teams repository `63c9ab92f96dab48592eba2463f13db60f2e2a5d`, tech repository `4a97502b24ccb74ee70584f0d74f6f2c6aa1c7cf`. Workday retries transient transport/429/selected 5xx/non-JSON responses at most three times, with bounded waits and the existing hard process deadline. A failed later page still fails the source; no partial result is treated as complete.
+
+Eight additive read indexes were applied at 00:23 UTC. All eight production plans used their intended indexes without a Sort node; all four public active/newest queries returned rows. The measured robotics active/newest execution changed from 1,500.503 ms to 67.153 ms, and freshness from 82.364 ms to 5.119 ms. This is measured improvement, not a latency guarantee or proof of the sole historic timeout cause. Database size was 276,589,715 bytes; the new indexes total 2,301,952 bytes.
+
+[Main cloud acceptance](https://github.com/misterplusev/job-radar/actions/runs/43658002855) passed 101 root tests, 72 sports-team tests, eight isolated PostgreSQL plan checks, three live Workday probes and all eight real hosted job views. [Tech acceptance](https://github.com/misterplusev/job-radar-tech/actions/runs/43657285357) completed 78 tests with four scheduler-only tests skipped. Actual Discord message readbacks passed for all four channels; no synthetic messages were sent. Browser evidence confirms working job data and filters, not that every employer has a working logo.
+
+Release evidence, rollback and observation criteria: [November 14 recovery proof](2026-11-14%20Recovery%20Proof.md). Sustained seven-day acceptance is **pending**, not established by one passing run. Full release-verification scrapes use the existing cloud pipelines sequentially; they do not add a clock, sender, timer or cadence change.
+
+Released production runs passed: [robotics 66/66 sources](https://github.com/misterplusev/job-radar/actions/runs/43658612837), [tech 13/13 sources](https://github.com/misterplusev/job-radar-tech/actions/runs/43658969565). Latest regular teams run 43647808774 had 152/152 listing-source routes and 124/124 team/official-career mappings verified. It also had **33 optional detail-enrichment HTTP 403 failures**; source success is not proof that every description was fetched. The scheduler at 00:40 UTC was healthy/unpaused with database OK and no overdue slots. Observation interval: November 15 00:40 to November 22 00:40 UTC; seven-day verdict remains pending.
 
 | | Robotics | Tech | Sports teams | Sportsbook |
 |---|---|---|---|---|
@@ -79,13 +93,16 @@ Free-tier limits are from each provider's documentation, read November 12, 2026.
 
 ## 4. How to check that everything works
 
-One command, read-only, safe at any time:
+Run acceptance checks on the existing GitHub-hosted workflows, or inspect their latest results. These are manually dispatched checks with no cron and no new sender:
 
 ```
-python D:\abet_ops\jobs_scrapers\tools\verify_all.py --save
+gh workflow run recovery-proof.yml -R misterplusev/job-radar --ref master
+gh workflow run recovery-proof.yml -R misterplusev/job-radar-tech --ref master
 ```
 
-It checks database health, the scheduler, each table with the exact query the dashboard tab sends, each standalone board and its data request, data freshness, the latest run receipts, the Discord delivery ledgers and database size. It ends with **All checks passed** or a numbered list of problems.
+The main workflow checks recovery behavior, isolated cloud PostgreSQL plans, three actual Workday sources, actual Discord messages, and the eight live board/dashboard views. Tech has its own regression and Discord readback workflow. Download `cloud-recovery-proof` artifacts for the JSON receipts and actual screenshots. They read production but do not publish jobs or send test messages. Run the main browser workflow once at a time; it closes its single browser in `finally` and has a 35-minute job ceiling.
+
+These checks do not by themselves prove every employer was scraped on the latest production run. Also inspect the actual pipeline manifests/source receipts, Supabase run and delivery rows, scheduler health and database size. The old local `tools/verify_all.py` is a historical read-only audit utility with incomplete sportsbook ledger coverage; it is not the cloud acceptance command and must not be presented as full cloud verification.
 
 Places to look by hand:
 
@@ -131,7 +148,7 @@ Rules for changes:
 
 1. Change code in the repository, run the tests, commit, push. Robotics, tech and teams run from `master` on their next slot; nothing else to deploy.
 2. The scheduler and the Space do not deploy from a push. Deploy them from the exact committed file with the commands above; both commands verify the deployed file matches.
-3. To change the schedule, edit `MODULES` in `worker.mjs` **and** `SCHEDULE_EVERY_HOURS` / `SCHEDULE_HOUR_OFFSET_UTC` in the sportsbook `launcher.py` (it only describes the cadence for its health report). Run `node --test runtime/cloudflare/test_scheduler.mjs runtime/cloudflare/test_guardrails.mjs` and `python -m unittest discover -s tests`. Section 3 still applies.
+3. To change the schedule, edit `MODULES` in `worker.mjs` **and** `SCHEDULE_EVERY_HOURS` / `SCHEDULE_HOUR_OFFSET_UTC` in the sportsbook `launcher.py` (it only describes the cadence for its health report). Execute the scheduler Node tests and Python regression suite in GitHub-hosted CI, never locally. Section 3 still applies.
 4. Deploying the Space restarts it, and it scrapes once on start (`RUN_ON_BOOT=1`). Deploy it when no other scraper is running.
 5. Never run a manual scrape while another scraper is running. Check the scheduler first.
 
@@ -147,7 +164,7 @@ Scheduler settings (Cloudflare Worker secrets): `GITHUB_TOKEN`, `CONTROL_TOKEN` 
 | One module failing every slot | A source parser broke or a secret expired | Read the run log (`[SOURCE]`, `[PUBLISH]`, `[DISCORD]` lines). Fix in the repository. |
 | Scheduler `error: Space 401/403/404` | The Space is private and the read token or run token is wrong | Reset `SPACE_READ_TOKEN` / `SPACE_RUN_TOKEN` on the Worker and `RUN_TOKEN` on the Space. |
 | Scheduler `scheduler heartbeat` overdue | The Worker's alarm stopped | `sched enable` re-arms it. |
-| Jobs are saved but nothing reaches Discord | Webhook secret missing or rotated | Robotics/tech/teams: the workflow's Discord secret. Sportsbook: the `abet-jobs-watchdog` Worker. |
+| Jobs are saved but nothing reaches Discord | Check eligible pending rows, sender run and webhook before assuming a credential issue | Robotics/tech/teams: their workflow and Discord secret. Sportsbook: `sportsbook-deliver.yml` in `job-radar`, its Discord secret and `sportsbook_job_notifications`; the watchdog is no longer a job sender. |
 | Database over 500 MB | Something is storing more than it should | `verify_all.py` lists the largest tables. |
 
 Do **not** respond to a slow database by retrying runs or raising the cadence. Pause first.
@@ -171,7 +188,7 @@ What the evidence shows:
 - From November 11 the scheduler started robotics, tech and sports teams every hour. GitHub run history shows 3 to 5 completed runs a day for each before that.
 - Logged row upserts by the robotics and tech production steps: 77,466 on November 10 and 312,957 on November 11 (robotics 66,261 → 249,184; tech 11,205 → 63,773). The schema-application step started 7 times on November 10 and 45 times on November 11. Counted from 59 workflow log archives; one tech run had no archive. Source: `D:\abet_ops\jobs_scrapers\20261112_usage_audit\historical_upsert_audit.json`.
 - The database logs then show statement timeouts, the REST API unable to load its schema, and heavy swapping.
-- The fixes deployed on November 12 at 19:34–19:50 UTC did not bring the database back; it answered again only after the scheduler was paused and the project restarted at 02:52 UTC on November 13. With the reduced workload every run since has succeeded.
+- The fixes deployed on November 12 at 19:34–19:50 UTC did not bring the database back; it answered again only after the scheduler was paused and the project restarted at 02:52 UTC on November 13. Subsequent initial recovery runs succeeded. November 14 then had two robotics Workday failures and intermittent query timeouts; the release note above records the targeted correction and current evidence.
 
 What is not established: which single operation started the failure, and how much each one contributed. Read-only mode was never on (checked November 13 07:34 UTC) and the monthly data-transfer figure has not been measured, so "the free allowance ran out and Supabase shut it off" is **not** the diagnosis.
 
