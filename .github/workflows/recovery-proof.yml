@@ -47,6 +47,7 @@ jobs:
           PROOF_DATABASE_URL: postgresql://proof:isolated-proof-only@localhost:5432/proof
         run: python runtime/verification/check_indexes.py
       - name: Read affected Workday career sources without publishing
+        if: ${{ !cancelled() }}
         env:
           PYTHONPATH: .
         run: python runtime/verification/probe_workday.py
