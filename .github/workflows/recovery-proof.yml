@@ -38,6 +38,10 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Regression and failure recovery tests (fake external HTTP)
         run: python -m unittest discover -s tests -v
+      - name: Sports teams persistence and delivery recovery tests
+        env:
+          PYTHONPATH: sports_teams:.
+        run: python -m unittest discover -s sports_teams -p 'test_*.py' -v
       - name: Query indexes on isolated cloud PostgreSQL
         env:
           PROOF_DATABASE_URL: postgresql://proof:isolated-proof-only@localhost:5432/proof
