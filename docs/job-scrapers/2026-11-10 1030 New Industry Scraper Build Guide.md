@@ -1,3 +1,5 @@
+> Historical build guide. Apply the current RUNBOOK.md and DOCUMENTATION_INDEX.md first: cloud-only execution, one scheduler, four-hour stagger, one common sender per module. This guide has not been fully rewritten for the current architecture.
+
 # Build another industry job scraper — November 10, 2026
 
 This is a build specification and reference map, not a claim that any existing repository is a clean one-command template. A new session should read the [architecture](2026-11-10%201030%20Job%20Scrapers%20Architecture.md), inspect current source, then follow this contract. Existing credentials and authorization for the chosen deployment destinations are prerequisites. No new scraper or channel is created by this document.

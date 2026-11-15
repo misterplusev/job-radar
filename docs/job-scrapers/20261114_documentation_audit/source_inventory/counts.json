@@ -1,0 +1,58 @@
+[
+  {
+    "source": "robotics-and-teams",
+    "revision": "5c8cc81ca5b4599c55c6da0bc012dcf78fc237c7",
+    "files": 208,
+    "counted_files": 177,
+    "physical_lines": 48320,
+    "symbols": 640
+  },
+  {
+    "source": "tech",
+    "revision": "4a97502b24ccb74ee70584f0d74f6f2c6aa1c7cf",
+    "files": 58,
+    "counted_files": 54,
+    "physical_lines": 4499,
+    "symbols": 298
+  },
+  {
+    "source": "sportsbook-runtime",
+    "revision": "14918825d2827a5f19c1c6326caa6db5e1ebed48",
+    "files": 178,
+    "counted_files": 126,
+    "physical_lines": 25176,
+    "symbols": 461
+  },
+  {
+    "source": "sportsbook-frontend",
+    "revision": "aa9926d885c33c164ac6780e6616dc00cea70007",
+    "files": 154,
+    "counted_files": 102,
+    "physical_lines": 20153,
+    "symbols": 254
+  },
+  {
+    "source": "abet-dashboard",
+    "revision": "318cce369d2b356be5596e4d91a1901feb3bb7ed",
+    "files": 3086,
+    "counted_files": 760,
+    "physical_lines": 1037322,
+    "symbols": 3371
+  },
+  {
+    "source": "robotics-standalone",
+    "revision": "bd4969e1d826191f03edfe2d06c75ac8d7ced2df",
+    "files": 75,
+    "counted_files": 6,
+    "physical_lines": 365,
+    "symbols": 15
+  },
+  {
+    "source": "tech-standalone",
+    "revision": "f4787dce83860e2ebdb4d8a3e3509458d9d40790",
+    "files": 39,
+    "counted_files": 6,
+    "physical_lines": 340,
+    "symbols": 15
+  }
+]

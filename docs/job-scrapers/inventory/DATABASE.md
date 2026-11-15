@@ -1,5 +1,7 @@
 # Live job database dictionary — November 10, 2026
 
+**Historical schema snapshot.** The [November 14 cloud catalog and dictionary](../20261114_documentation_audit/DATABASE.md) supersede this document. In particular, `sportsbook_job_notifications` is now the live sportsbook delivery ledger, and the eight November 14 read indexes are deployed. The “unused preparatory schema” and “staged runtime” statements below describe November 11 only.
+
 Read-only PostgreSQL catalog export at `2026-11-11T05:28:04.650597+00:00`. Project `alxgteasytezekyunyjk`, schema `public`. No job or applicant rows were exported.
 
 22 tables/views; 239 columns; 34 constraints; 62 indexes; 21 RLS policies; 4 triggers; 574 grants.

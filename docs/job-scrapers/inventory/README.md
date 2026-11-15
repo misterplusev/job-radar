@@ -1,5 +1,7 @@
 # Source inventory — November 11, 2026
 
+**Historical snapshot.** Fresh repository snapshots, line counts and symbols are in the [November 14 inventory](../20261114_documentation_audit/source_inventory/README.md). The cloud database catalog is [here](../20261114_documentation_audit/DATABASE.md). This older inventory's revisions, inaccessible-Worker note and deployed-Space entry are not current authority. See [documentation coverage](../DOCUMENTATION_INDEX.md).
+
 All tracked files in listed source snapshots; source text line counts and symbol locations; operator helper overlay. Generated datasets/binaries/private files are metadata only. Dashboard repository inventory includes unrelated modules but deployment dependency map isolates jobs.
 
 Physical newline-delimited lines and nonblank physical lines, including comments. Python symbols use AST ranges; JavaScript declarations use a text scan, not a complete call graph. No source or credential values are copied.

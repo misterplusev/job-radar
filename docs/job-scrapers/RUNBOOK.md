@@ -2,6 +2,8 @@
 
 **This is the current operating document.** Updated November 15, 2026, 00:40 UTC (November 14 Pacific). Measurements below retain their own observation dates; the November 14 recovery release has a separate linked evidence record. Older dated reports describe historical state and do not override this runbook.
 
+Documentation audit, November 14 Pacific: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) records current coverage, authoritative sources and remaining gaps. The [fresh source inventory](20261114_documentation_audit/source_inventory/README.md) and [fresh public database dictionary](20261114_documentation_audit/DATABASE.md) supersede the old November 10–13 inventories for their stated scopes. The old generated system reference is historical, not a current operating instruction.
+
 Four scrapers (robotics, tech, sports teams, sportsbook) collect job postings, write them to one shared free database, post new jobs to one Discord channel each, and feed one standalone board each plus one tab each in `abet-dashboard`. Free tiers only: nothing here may depend on a paid plan.
 
 **User requirement reaffirmed November 13, 2026: CLOUD ONLY.** Scrapers, runtime tests, test databases, schedules, persistence, and delivery must execute on cloud infrastructure. The user's machine must have no operational or recovery dependency. Local source inspection and read-only remote API administration are not runtime execution. Do not run local scraper/provider workers or a local PostgreSQL test harness, and do not present local tests as cloud verification. See `AGENTS.md`. The November 13 local shared-engine candidate is undeployed and does not establish production health.
