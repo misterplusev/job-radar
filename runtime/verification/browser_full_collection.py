@@ -37,6 +37,11 @@ def challenged(text):
     text=text.lower()
     return ('security check' in text and 'enable javascript and cookies' in text) or any(s in text for s in ('verify you are human','request is being verified'))
 
+def acceptance_ok(report,expected):
+    return (len(report['sources'])==expected and all(s['complete'] for s in report['sources'])
+            and report['cleanup']['passed'] and report['cleanup']['remaining_owned_processes']==0
+            and report['browser_count']==1 and report['production_writes']==0 and report['discord_sends']==0)
+
 def main():
     assert os.environ.get('CLOUD_BROWSER_FULL_COLLECTION_APPROVED')=='true','Separate explicit approval required; first compatibility session has ended'
     assert os.environ.get('GITHUB_ACTIONS')=='true' and os.name=='nt','GitHub-hosted Windows only'
@@ -125,5 +130,6 @@ def main():
         report['all_listings_complete']=len(report['sources'])==19 and all(s['complete'] for s in report['sources'])
         (out/'report.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
         print(json.dumps(report,indent=2))
+    if not acceptance_ok(report,19):raise SystemExit(1)
 
 if __name__=='__main__':main()
