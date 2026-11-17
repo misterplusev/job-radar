@@ -1,0 +1,3472 @@
+--- a/jobradar/workday_http.py
++++ b/jobradar/workday_http.py
+@@ -0,0 +1,257 @@
++"""Workday read-only HTTP policy. No database writes or notification delivery."""
+
++from __future__ import annotations
+
++import hashlib
+
++from contextlib import contextmanager
+
++from contextvars import ContextVar
+
++import json
+
++import os
+
++import random
+
++import re
+
++import sys
+
++import threading
+
++import time
+
++import uuid
+
++from datetime import datetime, timezone
+
++from email.utils import parsedate_to_datetime
+
++from pathlib import Path
+
++from urllib.parse import urlsplit
+
++
+
++ATTEMPTS = 5
+
++BACKOFF_SECONDS = (5, 10, 20, 40)
+
++HOST_INTERVAL_SECONDS = 0.25
+
++RETRY_STATUSES = {429, 500, 502, 503, 504, 520, 521, 522, 523, 524}
+
++MAX_LOG_BYTES = 256 * 1024
+
++_SOURCE_DEADLINE = ContextVar("workday_source_deadline", default=None)
+
++_HOSTS = {}
+
++_HOSTS_LOCK = threading.Lock()
+
++_LOG_LOCK = threading.Lock()
+
++_LOG_DROPPED = 0
+
++_LOG_NAME = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%f") + f"-{os.getpid()}.jsonl"
+
++
+
++
+
++class WorkdayChallenge(RuntimeError):
+
++    """Explicit upstream browser/security challenge; not an ordinary rate-limit retry."""
+
++    retryable = False
+
++    failure_kind = "access_challenge"
+
++
+
++
+
++class WorkdayDeferred(RuntimeError):
+
++    """Source remains incomplete; do not publish a partial source or close jobs."""
+
++
+
++
+
++@contextmanager
+
++def source_budget(deadline):
+
++    token = _SOURCE_DEADLINE.set(deadline)
+
++    try:
+
++        yield
+
++    finally:
+
++        _SOURCE_DEADLINE.reset(token)
+
++
+
++
+
++def is_workday_read(method, url):
+
++    parsed = urlsplit(url)
+
++    host = (parsed.hostname or "").lower()
+
++    if parsed.scheme != "https" or not host.endswith((".myworkdayjobs.com", ".myworkdaysite.com")):
+
++        return False
+
++    if not parsed.path.startswith("/wday/cxs/"):
+
++        return False
+
++    if method.upper() in ("GET", "HEAD"):
+
++        return True
+
++    return method.upper() == "POST" and bool(
+
++        re.fullmatch(r"/wday/cxs/[^/]+/[^/]+/jobs/?", parsed.path))
+
++
+
++
+
++def retry_after_seconds(raw, now=None):
+
++    if not raw:
+
++        return None
+
++    raw = str(raw).strip()
+
++    if re.fullmatch(r"[0-9]{1,10}", raw):
+
++        return float(raw)
+
++    try:
+
++        date = parsedate_to_datetime(raw)
+
++        if date.tzinfo is None:
+
++            date = date.replace(tzinfo=timezone.utc)
+
++        return max(0.0, date.timestamp() - (time.time() if now is None else now))
+
++    except (ValueError, TypeError, OverflowError):
+
++        return None
+
++
+
++
+
++def diagnostic_path():
+
++    root = Path(os.environ.get("ABET_BASE_DIR") or ".")
+
++    return root / "data/runtime/workday-http" / _LOG_NAME
+
++
+
++
+
++def _clean(value, limit=320):
+
++    value = str(value)
+
++    for name, secret in os.environ.items():
+
++        if len(secret) >= 8 and any(k in name.upper() for k in ("TOKEN", "KEY", "SECRET", "PASSWORD", "WEBHOOK")):
+
++            value = value.replace(secret, "[redacted]")
+
++    value = re.sub(r"(?is)<(script|style|svg)\b.*?</\1>", "", value)
+
++    value = re.sub(r"<[^>]+>", " ", value)
+
++    value = re.sub(r"(?i)Client IP:\s*[0-9a-f:.]+", "Client IP: [redacted]", value)
+
++    value = re.sub(r"https?://[^\s<>]+", "[url]", value)
+
++    value = re.sub(r"(?i)\b(?:bearer\s+\S+|[\w.+-]+@[\w.-]+\.[a-z]{2,})", "[redacted]", value)
+
++    return " ".join(value.split())[:limit]
+
++
+
++
+
++def emit(event):
+
++    global _LOG_DROPPED
+
++    record = {"ts": datetime.now(timezone.utc).isoformat(),
+
++              "run_id": os.environ.get("GITHUB_RUN_ID") or os.environ.get("ABET_JOBS_RUN_ID", ""),
+
++              **event}
+
++    line = json.dumps(record, ensure_ascii=True, sort_keys=True)
+
++    print("[WORKDAY_HTTP] " + line, file=sys.stderr, flush=True)
+
++    # Full attempt evidence goes to bounded cloud files, not Supabase.
+
++    with _LOG_LOCK:
+
++        path = diagnostic_path()
+
++        try:
+
++            path.parent.mkdir(parents=True, exist_ok=True)
+
++            files = sorted(path.parent.glob("*.jsonl"), key=lambda p: p.stat().st_mtime, reverse=True)
+
++            for old in files[47:]:
+
++                old.unlink()
+
++            for old in files[:47]:
+
++                if time.time() - old.stat().st_mtime > 7 * 86400:
+
++                    old.unlink(missing_ok=True)
+
++            if not path.exists() or path.stat().st_size + len(line.encode()) + 1 <= MAX_LOG_BYTES:
+
++                with path.open("a", encoding="utf-8") as handle:
+
++                    handle.write(line + "\n")
+
++            else:
+
++                _LOG_DROPPED += 1
+
++                if _LOG_DROPPED == 1:
+
++                    print("[WORKDAY_HTTP] file_limit_reached; full events continue in stderr", file=sys.stderr, flush=True)
+
++        except OSError:
+
++            print("[WORKDAY_HTTP] diagnostic_file_write_failed; see cloud stderr", file=sys.stderr, flush=True)
+
++
+
++
+
++def diagnostic_summary():
+
++    path = diagnostic_path()
+
++    if not path.exists():
+
++        return {"attempts_recorded": 0, "events": [], "path": str(path)}
+
++    events, unreadable = [], 0
+
++    try:
+
++        for line in path.read_text(encoding="utf-8").splitlines():
+
++            try:
+
++                event = json.loads(line)
+
++                if isinstance(event, dict):
+
++                    events.append(event)
+
++                else:
+
++                    unreadable += 1
+
++            except (ValueError, TypeError):
+
++                unreadable += 1
+
++        size = path.stat().st_size
+
++    except OSError:
+
++        return {"error": "diagnostic_file_read_failed", "path": str(path)}
+
++    interesting = [e for e in events if e.get("decision") != "success" or e.get("attempt", 1) > 1]
+
++    return {"attempts_recorded": len(events), "file_events_dropped": _LOG_DROPPED,
+
++            "unreadable_records": unreadable, "events": interesting[-32:], "path": str(path),
+
++            "file_size": size,
+
++            "retention": "At most 48 files, 7 days, 256 KiB each; cloud disk is ephemeral."}
+
++
+
++
+
++class WorkdayHTTP:
+
++    def __init__(self, send, *, source, deadline=None, clock=None, sleep=None, jitter=None, logger=None):
+
++        self.send = send
+
++        self.source = source
+
++        self.clock = clock or time.monotonic
+
++        self.sleep = sleep or time.sleep
+
++        self.jitter = jitter or (lambda: random.uniform(0, 1))
+
++        self.logger = logger or emit
+
++        limit = float(os.environ.get("WORKDAY_SOURCE_SECONDS", "175"))
+
++        self.deadline = deadline if deadline is not None else (_SOURCE_DEADLINE.get() or self.clock() + limit)
+
++        self.scope = uuid.uuid4().hex
+
++
+
++    def request(self, method, url, **kwargs):
+
++        if not is_workday_read(method, url):
+
++            raise ValueError("Workday policy only accepts known read-only career requests")
+
++        parsed = urlsplit(url)
+
++        host = parsed.hostname.lower()
+
++        with _HOSTS_LOCK:
+
++            state = _HOSTS.setdefault(host, {"lock": threading.Lock(), "next": 0.0, "cooldown": 0.0})
+
++        offset = (kwargs.get("json") or {}).get("offset")
+
++        for attempt in range(1, ATTEMPTS + 1):
+
++            base = {"source": self.source, "scope": self.scope, "host": host,
+
++                    "path": parsed.path, "method": method.upper(), "offset": offset, "attempt": attempt}
+
++            response = None
+
++            retry = False
+
++            reason = ""
+
++            with state["lock"]:
+
++                wait = max(0.0, state["next"] - self.clock(), state["cooldown"] - self.clock())
+
++                if self.clock() + wait + 1 >= self.deadline:
+
++                    self.logger({**base, "decision": "deferred", "wait_seconds": round(wait, 3),
+
++                                 "reason": "host cooldown exceeds remaining source budget"})
+
++                    raise WorkdayDeferred(f"{host}: cooldown exceeds source budget; wait at least {wait:.1f}s")
+
++                if wait:
+
++                    self.sleep(wait)
+
++                remaining = self.deadline - self.clock()
+
++                if remaining <= 1:
+
++                    raise WorkdayDeferred(f"{host}: source budget exhausted")
+
++                options = dict(kwargs)
+
++                # Bound each connect/read timeout by the remaining source budget.
+
++                options["timeout"] = (min(10.0, remaining / 2), min(25.0, remaining / 2))
+
++                options["allow_redirects"] = False
+
++                started = self.clock()
+
++                try:
+
++                    response = self.send(method, url, **options)
+
++                    status = response.status_code
+
++                    retry = status in RETRY_STATUSES
+
++                    reason = f"HTTP {status}"
+
++                    if 200 <= status < 300 and method.upper() != "HEAD":
+
++                        try:
+
++                            response.json()
+
++                        except ValueError:
+
++                            retry, reason = True, "non-JSON response"
+
++                except (requests.Timeout, requests.ConnectionError) as exc:
+
++                    status, retry, reason = None, True, type(exc).__name__
+
++                finally:
+
++                    state["next"] = self.clock() + HOST_INTERVAL_SECONDS
+
++                elapsed = self.clock() - started
+
++                headers = getattr(response, "headers", {}) or {}
+
++                retry_after = retry_after_seconds(headers.get("Retry-After"))
+
++                if status == 429 and retry_after is not None:
+
++                    state["cooldown"] = max(state["cooldown"], self.clock() + retry_after)
+
++                fields = {**base, "status": status, "elapsed_ms": round(elapsed * 1000),
+
++                          "reason": reason, "retry_after_raw": _clean(headers.get("Retry-After", ""), 128),
+
++                          "cf_ray": _clean(headers.get("CF-Ray", ""), 128),
+
++                          "server": _clean(headers.get("Server", ""), 128),
+
++                          "server_date": _clean(headers.get("Date", ""), 128),
+
++                          "cf_mitigated": _clean(headers.get("CF-Mitigated", ""), 80),
+
++                          "content_type": _clean(headers.get("Content-Type", ""), 128)}
+
++                if response is not None and (retry or not 200 <= status < 300):
+
++                    raw = getattr(response, "content", b"")[:65536]
+
++                    fields.update(response_excerpt=_clean(raw.decode("utf-8", "replace")),
+
++                                  response_prefix_sha256=hashlib.sha256(raw).hexdigest())
+
++            challenge = str(headers.get("CF-Mitigated", "")).lower() == "challenge"
+
++            if not challenge and status in (403, 429) and "html" in str(headers.get("Content-Type", "")).lower():
+
++                readable = _clean(getattr(response, "content", b"")[:65536].decode("utf-8", "replace"), 2000).lower()
+
++                challenge = "security check" in readable and "enable javascript and cookies" in readable
+
++            if challenge:
+
++                with state["lock"]:
+
++                    state["cooldown"] = max(state["cooldown"], self.clock() + 86400)
+
++                self.logger({**fields, "decision": "access_challenge", "retryable": False,
+
++                             "retry_not_before": datetime.fromtimestamp(time.time() + 86400, timezone.utc).isoformat()})
+
++                raise WorkdayChallenge(f"{host} offset={offset}: upstream security challenge; "
+
++                                       f"HTTP {status}; CF-Ray={headers.get('CF-Ray', 'unknown')}; no automatic retry")
+
++            if not retry:
+
++                if not 200 <= status < 300:
+
++                    self.logger({**fields, "decision": "terminal"})
+
++                    response.raise_for_status()
+
++                    raise RuntimeError(f"Unexpected Workday HTTP {status}; redirect not followed")
+
++                self.logger({**fields, "decision": "success"})
+
++                return response
+
++            delay = max(BACKOFF_SECONDS[min(attempt - 1, 3)] + self.jitter(), retry_after or 0)
+
++            if status == 429:
+
++                with state["lock"]:
+
++                    state["cooldown"] = max(state["cooldown"], self.clock() + delay)
+
++            if attempt == ATTEMPTS:
+
++                self.logger({**fields, "decision": "exhausted", "wait_seconds": round(delay, 3)})
+
++                raise WorkdayDeferred(f"{host} offset={offset}: {reason}; {attempt} attempts exhausted")
+
++            if self.clock() + delay + 1 >= self.deadline:
+
++                self.logger({**fields, "decision": "deferred", "wait_seconds": round(delay, 3),
+
++                             "retry_not_before": datetime.fromtimestamp(time.time() + delay, timezone.utc).isoformat()})
+
++                raise WorkdayDeferred(f"{host} offset={offset}: {reason}; requested wait {delay:.1f}s exceeds source budget")
+
++            self.logger({**fields, "decision": "retry", "wait_seconds": round(delay, 3)})
+
++            self.sleep(delay)
+
++
+
++
+
++# Import last so the policy remains easy to inspect without executing a provider.
+
++import requests
+
+--- a/jobradar/providers/workday.py
++++ b/jobradar/providers/workday.py
+@@ -1,141 +1,106 @@
+-"""Workday cxs API provider (direct career-portal JSON, no auth).
+-
+-Discovered tenant/site combos (verified 2026-10-09):
+-  bostondynamics      -> bostondynamics.wd1.myworkdayjobs.com  / Boston_Dynamics
+-  autostore           -> autostore.wd3.myworkdayjobs.com       / autostore
+-  rockwellautomation  -> rockwellautomation.wd1.myworkdayjobs.com / External_Rockwell_Automation
+-
+-The per-job detail endpoint is disabled (HTTP 400) on these instances, so
+-list-only fields are used: title, location, url (no descriptions).
+-"""
+-import requests
+-import sys
+-import time
+-from typing import List
+-
+-from .base import Provider
+-from ..models import Job, clean_ws
+-
+-_HEADERS = {
+-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122 Safari/537.36",
+-    "Content-Type": "application/json",
+-    "Accept": "application/json",
+-}
+-
+-_BOARDS = {
+-    "bostondynamics": ("bostondynamics.wd1.myworkdayjobs.com", "Boston_Dynamics"),
+-    "autostore": ("autostore.wd3.myworkdayjobs.com", "autostore"),
+-    "rockwellautomation": ("rockwellautomation.wd1.myworkdayjobs.com", "External_Rockwell_Automation"),
+-}
+-
+-_BOARD_NAMES = {
+-    "bostondynamics": "Boston Dynamics",
+-    "autostore": "AutoStore",
+-    "rockwellautomation": "Rockwell Automation",
+-}
+-
+-_RETRY_STATUS = {429, 500, 502, 503, 504, 520, 521, 522, 523, 524}
+-_PAGE_ATTEMPTS = 3
+-
+-
+-def _fetch_page(url, payload):
+-    """Retry the same read-only CXS search page; never turn an error into [].
+-
+-    Workday sometimes returns a 521 or a successful HTTP response containing HTML
+-    instead of JSON. The provider process still has its 180-second hard deadline.
+-    Only transport failures, selected transient statuses and JSON decoding retry.
+-    Valid JSON with an invalid schema is a source failure, not an empty board.
+-    """
+-    reason = "unknown response"
+-    for attempt in range(1, _PAGE_ATTEMPTS + 1):
+-        response = None
+-        try:
+-            response = requests.post(url, headers=_HEADERS, json=payload, timeout=(10, 25))
+-            response.raise_for_status()
+-            try:
+-                return response.json()
+-            except ValueError:
+-                reason = "non-JSON response"
+-        except (requests.Timeout, requests.ConnectionError) as exc:
+-            reason = type(exc).__name__
+-        except requests.HTTPError:
+-            if response is None or response.status_code not in _RETRY_STATUS:
+-                raise
+-            reason = f"HTTP {response.status_code}"
+-        headers = getattr(response, "headers", {}) or {}
+-        context = (f"status={getattr(response, 'status_code', 'transport')} "
+-                   f"content_type={headers.get('Content-Type', 'unknown')[:80]} "
+-                   f"cf_ray={headers.get('CF-Ray', 'none')[:80]}")
+-        if attempt == _PAGE_ATTEMPTS:
+-            raise RuntimeError(f"Workday page offset={payload['offset']} failed after "
+-                               f"{attempt} attempts: {reason}; {context}")
+-        delay = float(2 ** (attempt - 1))
+-        try:
+-            delay = max(delay, float(headers.get('Retry-After', 0)))
+-        except (TypeError, ValueError):
+-            pass
+-        if delay > 30:
+-            raise RuntimeError("Workday Retry-After exceeds the bounded page retry budget")
+-        print(f"[workday retry] offset={payload['offset']} attempt={attempt} "
+-              f"reason={reason} {context} wait={delay}s", file=sys.stderr, flush=True)
+-        time.sleep(delay)
+-
+-
+-class WorkdayProvider(Provider):
+-    source = "workday"
+-
+-    def __init__(self, slug: str):
+-        super().__init__(slug)
+-
+-    def fetch(self, run_id: str) -> List[Job]:
+-        board = _BOARDS.get(self.slug)
+-        if not board:
+-            raise ValueError("Unknown Workday board")
+-        host, site = board
+-        company = _BOARD_NAMES.get(self.slug, self.slug.replace("-", " ").title())
+-        jobs: List[Job] = []
+-        seen = set()
+-        offset = 0
+-        expected_total = None
+-        for _page in range(50):
+-            data = _fetch_page(
+-                f"https://{host}/wday/cxs/{self.slug}/{site}/jobs",
+-                {"limit": 20, "offset": offset, "searchText": ""},
+-            )
+-            if not isinstance(data, dict) or not isinstance(data.get("jobPostings"), list) or "total" not in data:
+-                raise ValueError("Workday returned an invalid result page")
+-            # Workday commonly returns total=0 on every page after page one.
+-            # Retain the initial advertised total instead of ending at page two.
+-            if expected_total is None:
+-                expected_total = int(data["total"])
+-            else:
+-                expected_total = max(expected_total, int(data["total"]))
+-            fresh = [jp for jp in (data.get("jobPostings") or [])
+-                     if jp.get("externalPath") not in seen]
+-            if not fresh:
+-                if offset < expected_total:
+-                    raise ValueError("Workday pagination ended before the advertised total")
+-                break
+-            for jp in fresh:
+-                title = clean_ws(jp.get("title"))
+-                external = (jp.get("externalPath") or "").strip()
+-                if not title or not external:
+-                    raise ValueError("Workday posting missing title or URL")
+-                seen.add(external)
+-                url = external if external.startswith("http") else f"https://{host}/{site}{external}"
+-                jobs.append(Job(
+-                    company=company,
+-                    title=title,
+-                    url=url,
+-                    location=clean_ws(jp.get("locationsText")) or None,
+-                    source=self.source,
+-                    provider_slug=self.slug,
+-                    run_id=run_id,
+-                    is_active=True,
+-                ))
+-            offset += len(data["jobPostings"])
+-            if offset >= expected_total:
+-                break
+-        else:
+-            raise RuntimeError("Workday pagination safety limit reached; incomplete observation")
+-        return jobs
++"""Workday cxs API provider (direct career-portal JSON, no auth).
+
++
+
++Discovered tenant/site combos (verified 2026-10-09):
+
++  bostondynamics      -> bostondynamics.wd1.myworkdayjobs.com  / Boston_Dynamics
+
++  autostore           -> autostore.wd3.myworkdayjobs.com       / autostore
+
++  rockwellautomation  -> rockwellautomation.wd1.myworkdayjobs.com / External_Rockwell_Automation
+
++
+
++The per-job detail endpoint is disabled (HTTP 400) on these instances, so
+
++list-only fields are used: title, location, url (no descriptions).
+
++"""
+
++import requests
+
++import sys
+
++import time
+
++from typing import List
+
++
+
++from .base import Provider
+
++from ..models import Job, clean_ws
+
++from ..workday_http import WorkdayHTTP
+
++
+
++_HEADERS = {
+
++    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122 Safari/537.36",
+
++    "Content-Type": "application/json",
+
++    "Accept": "application/json",
+
++}
+
++
+
++_BOARDS = {
+
++    "bostondynamics": ("bostondynamics.wd1.myworkdayjobs.com", "Boston_Dynamics"),
+
++    "autostore": ("autostore.wd3.myworkdayjobs.com", "autostore"),
+
++    "rockwellautomation": ("rockwellautomation.wd1.myworkdayjobs.com", "External_Rockwell_Automation"),
+
++}
+
++
+
++_BOARD_NAMES = {
+
++    "bostondynamics": "Boston Dynamics",
+
++    "autostore": "AutoStore",
+
++    "rockwellautomation": "Rockwell Automation",
+
++}
+
++
+
++def _new_client(source):
+
++    return WorkdayHTTP(lambda method, url, **kw: requests.post(url, **kw), source=source)
+
++
+
++
+
++def _fetch_page(url, payload, client=None):
+
++    client = client or _new_client("workday")
+
++    return client.request("POST", url, headers=_HEADERS, json=payload).json()
+
++
+
++
+
++class WorkdayProvider(Provider):
+
++    source = "workday"
+
++
+
++    def __init__(self, slug: str):
+
++        super().__init__(slug)
+
++
+
++    def fetch(self, run_id: str) -> List[Job]:
+
++        board = _BOARDS.get(self.slug)
+
++        if not board:
+
++            raise ValueError("Unknown Workday board")
+
++        host, site = board
+
++        company = _BOARD_NAMES.get(self.slug, self.slug.replace("-", " ").title())
+
++        jobs: List[Job] = []
+
++        seen = set()
+
++        offset = 0
+
++        expected_total = None
+
++        client = _new_client(f"workday:{self.slug}")
+
++        for _page in range(50):
+
++            data = _fetch_page(
+
++                f"https://{host}/wday/cxs/{self.slug}/{site}/jobs",
+
++                {"limit": 20, "offset": offset, "searchText": ""},
+
++                client=client,
+
++            )
+
++            if not isinstance(data, dict) or not isinstance(data.get("jobPostings"), list) or "total" not in data:
+
++                raise ValueError("Workday returned an invalid result page")
+
++            # Workday commonly returns total=0 on every page after page one.
+
++            # Retain the initial advertised total instead of ending at page two.
+
++            if expected_total is None:
+
++                expected_total = int(data["total"])
+
++            else:
+
++                expected_total = max(expected_total, int(data["total"]))
+
++            fresh = [jp for jp in (data.get("jobPostings") or [])
+
++                     if jp.get("externalPath") not in seen]
+
++            if not fresh:
+
++                if offset < expected_total:
+
++                    raise ValueError("Workday pagination ended before the advertised total")
+
++                break
+
++            for jp in fresh:
+
++                title = clean_ws(jp.get("title"))
+
++                external = (jp.get("externalPath") or "").strip()
+
++                if not title or not external:
+
++                    raise ValueError("Workday posting missing title or URL")
+
++                seen.add(external)
+
++                url = external if external.startswith("http") else f"https://{host}/{site}{external}"
+
++                jobs.append(Job(
+
++                    company=company,
+
++                    title=title,
+
++                    url=url,
+
++                    location=clean_ws(jp.get("locationsText")) or None,
+
++                    source=self.source,
+
++                    provider_slug=self.slug,
+
++                    run_id=run_id,
+
++                    is_active=True,
+
++                ))
+
++            offset += len(data["jobPostings"])
+
++            if offset >= expected_total:
+
++                break
+
++        else:
+
++            raise RuntimeError("Workday pagination safety limit reached; incomplete observation")
+
++        return jobs
+
+--- a/jobradar/fetch_worker.py
++++ b/jobradar/fetch_worker.py
+@@ -1,47 +1,54 @@
+-"""Bounded provider subprocess. It fetches public careers data; it never publishes."""
+-from __future__ import annotations
+-import json
+-import os
+-from pathlib import Path
+-import subprocess
+-import sys
+-import tempfile
+-
+-
+-def fetch_provider(provider, run_id: str, timeout: int = 180):
+-    from .models import Job
+-    root = Path(__file__).resolve().parent.parent
+-    with tempfile.TemporaryDirectory(prefix="jobradar-fetch-") as folder:
+-        request_file, output_file = Path(folder)/"request.json", Path(folder)/"jobs.json"
+-        opts = {k: v for k, v in vars(provider).items() if k != "slug" and not k.startswith("_")}
+-        request_file.write_text(json.dumps({"source": provider.source, "slug": provider.slug,
+-                                           "options": opts, "run_id": run_id}), encoding="utf-8")
+-        environment = {k: v for k, v in os.environ.items()
+-                       if not k.startswith(("SUPABASE_", "DISCORD_", "ANTHROPIC_"))
+-                       and k not in ("GITHUB_TOKEN", "GH_TOKEN")}
+-        result = subprocess.run([sys.executable, "-m", "jobradar.fetch_worker",
+-                                 str(request_file), str(output_file)], cwd=root, env=environment,
+-                                stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+-                                timeout=timeout, text=True, encoding="utf-8")
+-        if result.returncode:
+-            raise RuntimeError(f"Provider subprocess failed: {result.stderr[-1200:]}")
+-        if output_file.stat().st_size > 64 * 1024 * 1024:
+-            raise RuntimeError("Provider output exceeds 64 MiB safety limit")
+-        return [Job(**row) for row in json.loads(output_file.read_text(encoding="utf-8"))]
+-
+-
+-def main():
+-    if sys.platform == "linux":
+-        import resource
+-        resource.setrlimit(resource.RLIMIT_AS, (512 * 1024 * 1024, 512 * 1024 * 1024))
+-    from .providers import build_providers
+-    request = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+-    providers = build_providers({request["source"]: [dict(slug=request["slug"], **request["options"])]})
+-    if len(providers) != 1:
+-        raise ValueError("Expected one configured provider")
+-    jobs = providers[0].fetch(request["run_id"])
+-    Path(sys.argv[2]).write_text(json.dumps([job.to_row() for job in jobs]), encoding="utf-8")
+-
+-
+-if __name__ == "__main__":
+-    main()
++"""Bounded provider subprocess. It fetches public careers data; it never publishes."""
+
++from __future__ import annotations
+
++import json
+
++import os
+
++from pathlib import Path
+
++import subprocess
+
++import sys
+
++import tempfile
+
++
+
++
+
++def fetch_provider(provider, run_id: str, timeout: int = 180):
+
++    from .models import Job
+
++    root = Path(__file__).resolve().parent.parent
+
++    with tempfile.TemporaryDirectory(prefix="jobradar-fetch-") as folder:
+
++        request_file, output_file = Path(folder)/"request.json", Path(folder)/"jobs.json"
+
++        opts = {k: v for k, v in vars(provider).items() if k != "slug" and not k.startswith("_")}
+
++        request_file.write_text(json.dumps({"source": provider.source, "slug": provider.slug,
+
++                                           "options": opts, "run_id": run_id}), encoding="utf-8")
+
++        environment = {k: v for k, v in os.environ.items()
+
++                       if not k.startswith(("SUPABASE_", "DISCORD_", "ANTHROPIC_"))
+
++                       and k not in ("GITHUB_TOKEN", "GH_TOKEN")}
+
++        environment["WORKDAY_SOURCE_SECONDS"] = str(max(0.01, timeout - 5))
+
++        result = subprocess.run([sys.executable, "-m", "jobradar.fetch_worker",
+
++                                 str(request_file), str(output_file)], cwd=root, env=environment,
+
++                                stdout=subprocess.DEVNULL, stderr=subprocess.PIPE,
+
++                                timeout=timeout, text=True, encoding="utf-8")
+
++        # These lines are structured and redacted by workday_http.emit().
+
++        # Forward recovered attempts as well as failed ones. Full JSONL is
+
++        # written directly to the cloud artifact directory by the child.
+
++        for line in (result.stderr or "").splitlines():
+
++            if line.startswith("[WORKDAY_HTTP] "):
+
++                print(line, file=sys.stderr, flush=True)
+
++        if result.returncode:
+
++            raise RuntimeError(f"Provider subprocess failed: {result.stderr[-1200:]}")
+
++        if output_file.stat().st_size > 64 * 1024 * 1024:
+
++            raise RuntimeError("Provider output exceeds 64 MiB safety limit")
+
++        return [Job(**row) for row in json.loads(output_file.read_text(encoding="utf-8"))]
+
++
+
++
+
++def main():
+
++    if sys.platform == "linux":
+
++        import resource
+
++        resource.setrlimit(resource.RLIMIT_AS, (512 * 1024 * 1024, 512 * 1024 * 1024))
+
++    from .providers import build_providers
+
++    request = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+
++    providers = build_providers({request["source"]: [dict(slug=request["slug"], **request["options"])]})
+
++    if len(providers) != 1:
+
++        raise ValueError("Expected one configured provider")
+
++    jobs = providers[0].fetch(request["run_id"])
+
++    Path(sys.argv[2]).write_text(json.dumps([job.to_row() for job in jobs]), encoding="utf-8")
+
++
+
++
+
++if __name__ == "__main__":
+
++    main()
+
+--- a/.github/workflows/pipeline.yml
++++ b/.github/workflows/pipeline.yml
+@@ -1,69 +1,71 @@
+-name: job-radar-pipeline
+-run-name: job-radar ${{ inputs.scheduler_slot || github.event_name }}
+-
+-on:
+-  workflow_dispatch:
+-    inputs:
+-      scheduler_slot:
+-        description: UTC hourly slot assigned by the Cloudflare scheduler
+-        required: false
+-        type: string
+-      trigger_source:
+-        description: Dispatch origin
+-        required: false
+-        default: manual
+-        type: string
+-      full_refresh:
+-        description: Rewrite stored descriptions for every posting (heavy; manual use only)
+-        required: false
+-        default: false
+-        type: boolean
+-
+-# Cloudflare abet-jobs-scheduler owns the schedule; no second GitHub cron.
+-concurrency:
+-  group: job-radar-pipeline
+-  cancel-in-progress: false
+-
+-permissions:
+-  contents: read
+-
+-jobs:
+-  pipeline:
+-    runs-on: ubuntu-latest
+-    timeout-minutes: 45
+-    steps:
+-      - uses: actions/checkout@v4
+-      - uses: actions/setup-python@v5
+-        with:
+-          python-version: '3.12'
+-      - name: Install dependencies
+-        run: pip install -r requirements.txt
+-      - name: Regression checks
+-        run: python -m unittest discover -s tests -v
+-      # Schema is NOT applied here. Running DDL and a PostgREST schema reload before
+-      # every scrape let a slow database block ingestion entirely (2026-11-11 outage).
+-      # Apply schema changes deliberately with the manual apply-schema workflow.
+-      - name: Scrape, reconcile, and deliver pending notifications
+-        env:
+-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+-          JOBRADAR_MODULE: robotics
+-          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
+-          JOBRADAR_TRIGGER: ${{ inputs.trigger_source || github.event_name }}
+-          JOBRADAR_SCHEDULER_SLOT: ${{ inputs.scheduler_slot }}
+-          JOBRADAR_FULL_REFRESH: ${{ inputs.full_refresh && '1' || '' }}
+-        run: python -u run.py ingest
+-      - name: Render dashboard artifact
+-        if: ${{ !cancelled() }}
+-        env:
+-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+-        run: python run.py render --out out/dashboard.html
+-      - uses: actions/upload-artifact@v4
+-        if: ${{ always() }}
+-        with:
+-          name: job-radar-receipt
+-          path: |
+-            out/dashboard.html
+-            data/runtime/latest_manifest.json
+-          if-no-files-found: warn
++name: job-radar-pipeline
+
++run-name: job-radar ${{ inputs.scheduler_slot || github.event_name }}
+
++
+
++on:
+
++  workflow_dispatch:
+
++    inputs:
+
++      scheduler_slot:
+
++        description: UTC hourly slot assigned by the Cloudflare scheduler
+
++        required: false
+
++        type: string
+
++      trigger_source:
+
++        description: Dispatch origin
+
++        required: false
+
++        default: manual
+
++        type: string
+
++      full_refresh:
+
++        description: Rewrite stored descriptions for every posting (heavy; manual use only)
+
++        required: false
+
++        default: false
+
++        type: boolean
+
++
+
++# Cloudflare abet-jobs-scheduler owns the schedule; no second GitHub cron.
+
++concurrency:
+
++  group: job-radar-pipeline
+
++  cancel-in-progress: false
+
++
+
++permissions:
+
++  contents: read
+
++
+
++jobs:
+
++  pipeline:
+
++    runs-on: ubuntu-latest
+
++    timeout-minutes: 45
+
++    steps:
+
++      - uses: actions/checkout@v4
+
++      - uses: actions/setup-python@v5
+
++        with:
+
++          python-version: '3.12'
+
++      - name: Install dependencies
+
++        run: pip install -r requirements.txt
+
++      - name: Regression checks
+
++        run: python -m unittest discover -s tests -v
+
++      # Schema is NOT applied here. Running DDL and a PostgREST schema reload before
+
++      # every scrape let a slow database block ingestion entirely (2026-11-11 outage).
+
++      # Apply schema changes deliberately with the manual apply-schema workflow.
+
++      - name: Scrape, reconcile, and deliver pending notifications
+
++        env:
+
++          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+
++          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
++          JOBRADAR_MODULE: robotics
+
++          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
+
++          JOBRADAR_TRIGGER: ${{ inputs.trigger_source || github.event_name }}
+
++          JOBRADAR_SCHEDULER_SLOT: ${{ inputs.scheduler_slot }}
+
++          JOBRADAR_FULL_REFRESH: ${{ inputs.full_refresh && '1' || '' }}
+
++        run: python -u run.py ingest
+
++      - name: Render dashboard artifact
+
++        if: ${{ !cancelled() }}
+
++        env:
+
++          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+
++          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
++        run: python run.py render --out out/dashboard.html
+
++      - uses: actions/upload-artifact@v4
+
++        if: ${{ always() }}
+
++        with:
+
++          name: job-radar-receipt
+
++          path: |
+
++            out/dashboard.html
+
++            data/runtime/latest_manifest.json
+
++            data/runtime/workday-http/*.jsonl
+
++          if-no-files-found: warn
+
++          retention-days: 7
+
+--- a/sports_teams/live_refresh.py
++++ b/sports_teams/live_refresh.py
+@@ -1,338 +1,353 @@
+-"""Bounded live refresh for the existing scheduled sports-team pipeline.
+-
+-Owner: sports-team jobs pipeline. HTTP only; no browsers, agents or notifications.
+-Successful sources replace only their own observations. Failed sources retain jobs
+-and their previous last_seen_at. Empty/unrecognized responses never close jobs.
+-"""
+-from __future__ import annotations
+-
+-import json
+-import os
+-import re
+-import time
+-import threading
+-from concurrent.futures import ThreadPoolExecutor, as_completed
+-from dataclasses import asdict
+-from datetime import datetime, timezone
+-from urllib.parse import urlsplit, parse_qs
+-
+-import requests
+-
+-from providers import nba, nfl, teamwork, teamwork_vertical, adp, ultipro, official_ats
+-
+-MAX_WORKERS = 3
+-MAX_REQUESTS = 80
+-SOURCE_SECONDS = 240
+-SOURCE_ALIASES = {
+-    'football-jobs/la-rams-careers/la-rams-micro':
+-        'football-jobs/la-rams-careers/los-angeles-rams',
+-    'basketball-jobs/warriors/golden-state-warriors-jobs':'basketball-jobs/warriors/golden-state-warriors-careers',
+-    'baseball-jobs/milwaukeebaseball/milwaukee-brewers-micro':'baseball-jobs/milwaukeebaseball/milwaukee-brewers',
+-    'hockey-jobs/sharkssports/san-jose-sharks-careers':'hockey-jobs/sharkssports/san-jose-sharks',
+-}
+-
+-
+-class BoundedSession(requests.Session):
+-    _teamwork_lock = threading.Lock()
+-    _teamwork_last_request = 0.0
+-    def __init__(self):
+-        super().__init__()
+-        self.started = time.monotonic()
+-        self.calls = 0
+-
+-    def request(self, method, url, **kwargs):
+-        # Retry read-only requests, with the same total source budget and pacing.
+-        retryable = method.upper() in ('GET', 'HEAD')
+-        for attempt in range(3):
+-            delay = 2 ** attempt
+-            try:
+-                response = self._request_once(method, url, **kwargs)
+-            except (requests.Timeout, requests.ConnectionError):
+-                if not retryable or attempt == 2:
+-                    raise
+-            else:
+-                if not retryable or response.status_code not in (429, 500, 502, 503, 504) or attempt == 2:
+-                    return response
+-                try:
+-                    delay = max(delay, min(30, int(response.headers.get('Retry-After', delay))))
+-                except (TypeError, ValueError):
+-                    pass
+-            time.sleep(delay)
+-
+-    def _request_once(self, method, url, **kwargs):
+-        self.calls += 1
+-        remaining = SOURCE_SECONDS - (time.monotonic() - self.started)
+-        if self.calls > MAX_REQUESTS or remaining <= 0:
+-            raise TimeoutError('source request/time budget exceeded')
+-        if 'teamworkonline.com' in urlsplit(url).netloc:
+-            # One host-wide request every two seconds across all workers.
+-            with self._teamwork_lock:
+-                wait = 2.0 - (time.monotonic() - type(self)._teamwork_last_request)
+-                if wait > 0:
+-                    time.sleep(wait)
+-                type(self)._teamwork_last_request = time.monotonic()
+-        remaining = SOURCE_SECONDS - (time.monotonic() - self.started)
+-        if remaining <= 0:
+-            raise TimeoutError('source request/time budget exceeded')
+-        kwargs['timeout'] = min(float(kwargs.get('timeout', 25)), 25, remaining)
+-        relay=os.environ.get('TEAMS_SOURCE_RELAY_URL')
+-        if relay and method.upper()=='GET' and urlsplit(url).netloc=='www.teamworkonline.com':
+-            original=requests.Request('GET',url,params=kwargs.pop('params',None)).prepare().url
+-            kwargs['params']={'url':original}
+-            kwargs['headers']={'Authorization':'Bearer '+os.environ['DISCORD_RELAY_TOKEN']}
+-            response=super().request(method,relay,**kwargs)
+-            if response.headers.get('X-Source-URL'):response.url=response.headers['X-Source-URL']
+-            return response
+-        return super().request(method, url, **kwargs)
+-
+-
+-def source_from_row(row):
+-    url = row.get('url') or row.get('careers_url') or ''
+-    p = urlsplit(url)
+-    parts = [x for x in p.path.split('/') if x]
+-    team, league = row.get('team', ''), row.get('league', '')
+-    base = {'team': team, 'league': league}
+-    if p.netloc=='careers.delawarenorth.com' and p.path=='/bruins-jobs/':
+-        return dict(base,kind='bruins',key='official:bruins',url=url)
+-    if p.netloc=='www.teamworkonline.com' and len(parts) >= 3:
+-        path = '/'.join(parts[:3])
+-        path = SOURCE_ALIASES.get(path,path)
+-        org_id=parse_qs(p.query).get('employment_opportunity_search[organization_id]',[''])[0]
+-        return dict(base, kind='teamworkonline', key='tw:' + path + (':org:'+org_id if org_id else ''), path=path,org_id=org_id)
+-    if p.netloc=='jobs.lever.co' and parts:
+-        return dict(base,kind='lever',key='lever:'+parts[0],board=parts[0])
+-    if p.netloc=='jobs.jobvite.com' and parts:
+-        board=parts[1] if parts[0]=='careers' else parts[0]
+-        return dict(base,kind='jobvite',key='jobvite:'+board,url=f'https://jobs.jobvite.com/{board}/jobs')
+-    if p.netloc in ('recruitingbypaycor.com','newton.newtonsoftware.com'):
+-        cid=parse_qs(p.query).get('clientId',[''])[0]
+-        if cid:return dict(base,kind='paycor',key='paycor:'+cid,url='https://recruitingbypaycor.com/career/CareerHome.action?clientId='+cid)
+-    if p.netloc.endswith('.applytojob.com') and p.path.startswith('/apply/jobs'):
+-        return dict(base,kind='jazzhr',key='jazzhr:'+p.netloc,url=url)
+-    if p.netloc=='www.tnse.com' and p.path=='/join-our-team/':
+-        return dict(base,kind='tnse',key='official:tnse',url=url,team='True North Sports & Entertainment')
+-    if p.netloc=='apply.clearcompany.com':
+-        return dict(base,kind='clearcompany',key='clearcompany:'+p.path.strip('/'),url=url)
+-    if p.netloc.endswith(('.aaimtrack.com','.isolvedhire.com')):
+-        return dict(base,kind='applicantpro',key='applicantpro:'+p.netloc,url=f'https://{p.netloc}/jobs/')
+-    if p.netloc.endswith('.icims.com') and p.path=='/jobs/search':
+-        return dict(base,kind='icims',key='icims:'+p.netloc,url=url)
+-    if p.netloc in ('www.msgknicks.com','www.msgrangers.com'):
+-        return dict(base,kind='msg',key='official:'+p.netloc,url=f'https://{p.netloc}/jobs/')
+-    if p.netloc=='bkse.com' and p.path=='/careers':
+-        return dict(base,kind='bkse',key='official:bkse',url=url)
+-    if p.netloc=='careers.hireology.com' and parts:
+-        return dict(base,kind='hireology',key='hireology:'+parts[0],url='https://careers.hireology.com/'+parts[0])
+-    if p.netloc=='recruit.hirebridge.com':
+-        cid=parse_qs(p.query).get('cid',[''])[0]
+-        if cid:return dict(base,kind='hirebridge',key='hirebridge:'+cid,cid=cid,url=url)
+-    if p.netloc in ('aegworldwide.com','www.aegworldwide.com') and p.path=='/careers/job-search':
+-        return dict(base,kind='aeg_kings',key='official:aeg_kings',url=url)
+-    if p.netloc in ('www.paycomonline.net','paycomonline.net'):
+-        m=re.search(r'/portal/([A-Fa-f0-9]{32})',p.path)
+-        board=m[1] if m else parse_qs(p.query).get('clientkey',[''])[0]
+-        if board:return dict(base,kind='paycom',key='paycom:'+board,board=board,url=url)
+-    if p.netloc.endswith('.bamboohr.com') and parts and parts[0]=='careers':
+-        return dict(base,kind='bamboohr',key='bamboohr:'+p.netloc,url=f'https://{p.netloc}/careers')
+-    if p.netloc=='recruiting.paylocity.com' and len(parts)>=4 and parts[2].lower()=='all':
+-        return dict(base,kind='paylocity',key='paylocity:'+parts[3],url=url)
+-    if p.netloc=='jobs.dayforcehcm.com' and len(parts)>=3:
+-        culture='en-US'
+-        if re.fullmatch(r'[a-z]{2}-[A-Z]{2}',parts[0]):culture=parts[0];parts=parts[1:]
+-        tenant,board=parts[:2]
+-        suffix=':'+culture if culture!='en-US' else ''
+-        return dict(base,kind='dayforce',key=f'dayforce:{tenant}/{board}'+suffix,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}')
+-    if p.netloc.endswith('dayforcehcm.com') and len(parts)>=3 and parts[0]=='CandidatePortal':
+-        culture,tenant=parts[1:3]
+-        board=parts[4] if len(parts)>=5 and parts[3].upper()=='SITE' else 'CANDIDATEPORTAL'
+-        return source_from_row(dict(base,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}'))
+-    if p.netloc.endswith('.myworkdaysite.com') and 'recruiting' in parts:
+-        i=parts.index('recruiting');tenant,site=parts[i+1:i+3]
+-        # Same public Workday CXS API, hosted on the explicitly linked site.
+-        return dict(base,kind='workday',key='wd:'+p.netloc+'/'+tenant+'/'+site,host=p.netloc,tenant=tenant,site=site,
+-                    public_base=f'https://{p.netloc}/en-US/recruiting/{tenant}/{site}')
+-    if 'greenhouse.io' in p.netloc and parts:
+-        board = parts[0]
+-        return dict(base, kind='greenhouse', key='gh:' + board, board=board)
+-    if 'myworkdayjobs.com' in p.netloc and parts:
+-        site = parts[1] if re.fullmatch(r'[a-z]{2}-[A-Z]{2}', parts[0]) and len(parts) > 1 else parts[0]
+-        if site.lower() == 'job':
+-            return None  # Old snapshots omitted the Workday site; use registry below.
+-        tenant = p.netloc.split('.')[0]
+-        return dict(base, kind='workday', key='wd:' + p.netloc + '/' + site,
+-                    host=p.netloc, tenant=tenant, site=site)
+-    if ('ultipro.com' in p.netloc or 'ultipro.ca' in p.netloc or p.netloc.endswith('.rec.pro.ukg.net')) and len(parts) >= 3 and parts[1] == 'JobBoard':
+-        return dict(base, kind='ultipro', key='ukg:' + p.netloc + '/' + '/'.join(parts[:3]),
+-                    host=p.netloc, company_id=parts[0], board_guid=parts[2])
+-    if 'adp.com' in p.netloc:
+-        cid = parse_qs(p.query).get('cid', [''])[0]
+-        if cid:
+-            ccid=parse_qs(p.query).get('ccId',['19000101_000001'])[0]
+-            return dict(base, kind='adp', key='adp:' + cid+(':'+ccid if ccid!='19000101_000001' else ''), cid=cid,ccid=ccid)
+-    return None
+-
+-
+-def build_sources(pt):
+-    # Same organization registry model as robotics/tech/sportsbook. Never turn
+-    # an old job URL or a broad league search into a new production source.
+-    registry=json.loads((pt.ROOT/'sources.json').read_text(encoding='utf-8'))
+-    teams=json.loads((pt.ROOT/'official_careers_registry.json').read_text(encoding='utf-8'))
+-    allowed={key for team in teams for key in team['source_keys']}
+-    sources={s['key']:s for s in registry if s['key'] in allowed}
+-    missing=allowed-sources.keys()
+-    if missing:raise ValueError('Official team source configuration missing: '+', '.join(sorted(missing)))
+-    return sources
+-
+-
+-def retired_replacements(pt):
+-    teams=json.loads((pt.ROOT/'official_careers_registry.json').read_text(encoding='utf-8'))
+-    return {route['source_key']:route['replacement_source_key'] for team in teams
+-            for route in team.get('retired_routes',[]) if route.get('status')=='retired'}
+-
+-
+-def fetch_source(source):
+-    start = time.monotonic()
+-    try:
+-        with BoundedSession() as client:
+-            kind = source['kind']
+-            if kind in official_ats.SCRAPERS:
+-                jobs=official_ats.SCRAPERS[kind](source,client)
+-            elif kind == 'teamworkonline':
+-                jobs = teamwork.scrape_org(teamwork.TeamWorkOrg(source['league'], source['team'], source['path'], source.get('org_id','')), session=client)
+-            elif kind == 'nba':
+-                jobs = nba.scrape(session=client)
+-            elif kind == 'ultipro':
+-                jobs = ultipro.scrape(source['league'], source['team'], source['company_id'], source['board_guid'], host=source['host'], session=client)
+-            elif kind == 'adp':
+-                jobs = adp.scrape(source['league'], source['team'], source['cid'], session=client,ccid=source.get('ccid','19000101_000001'))
+-            elif kind == 'official_links':
+-                from bs4 import BeautifulSoup
+-                response=client.get(source['url']);response.raise_for_status()
+-                soup=BeautifulSoup(response.text,'html.parser')
+-                jobs=[]
+-                for link in soup.find_all('a',href=True):
+-                    if urlsplit(link['href']).netloc=='career4.successfactors.com' and 'jobId=' in link['href']:
+-                        jobs.append(dict(title=link.get_text(' ',strip=True),url=link['href'],platform='successfactors'))
+-                if not jobs:raise ValueError('Official careers page has no recognized job links')
+-            elif kind == 'greenhouse':
+-                response = client.get(f'https://boards-api.greenhouse.io/v1/boards/{source["board"]}/jobs', params={'content': 'true'})
+-                response.raise_for_status()
+-                data = response.json()
+-                if not isinstance(data.get('jobs'), list):
+-                    raise ValueError('missing Greenhouse jobs array')
+-                jobs = [dict(title=j.get('title'), url=j.get('absolute_url'), location=(j.get('location') or {}).get('name'),
+-                             description=j.get('content'), posted_at=j.get('first_published')) for j in data['jobs']]
+-            elif kind == 'workday':
+-                jobs, seen = [], set()
+-                total=None
+-                for offset in range(0, 1000, 20):
+-                    response = client.post(f'https://{source["host"]}/wday/cxs/{source["tenant"]}/{source["site"]}/jobs',
+-                                           json={'appliedFacets': {}, 'limit': 20, 'offset': offset, 'searchText': ''})
+-                    response.raise_for_status()
+-                    data = response.json()
+-                    if not isinstance(data.get('jobPostings'), list) or 'total' not in data:
+-                        raise ValueError('missing Workday jobPostings array or total')
+-                    count=int(data['total'])
+-                    # CXS returns the total on page one; some tenants return 0
+-                    # on later pages even when that page contains jobs (Mets).
+-                    if total is not None and count not in (0,total):raise ValueError('Workday total changed during pagination')
+-                    if total is None:total=count
+-                    batch = data['jobPostings']
+-                    for j in batch:
+-                        path = j.get('externalPath')
+-                        if not path or path in seen:
+-                            raise ValueError('missing or repeated Workday job path')
+-                        seen.add(path)
+-                        public_base=source.get('public_base') or f'https://{source["host"]}/{source["site"]}'
+-                        jobs.append(dict(title=j.get('title'), url=public_base+path, location=j.get('locationsText')))
+-                    if len(jobs) == total:
+-                        break
+-                    if not batch or len(jobs)>total:
+-                        raise ValueError('incomplete Workday pagination')
+-                else:
+-                    raise ValueError('Workday pagination cap reached')
+-            else:
+-                raise ValueError('unsupported provider')
+-        observed_at = datetime.now(timezone.utc).isoformat()
+-        rows = []
+-        for job in jobs:
+-            row = dict(job) if isinstance(job, dict) else asdict(job)
+-            if not row.get('title') or not row.get('url'):
+-                raise ValueError('source returned a job without title or URL')
+-            team=row.get('team') or source['team']
+-            league=row.get('league') or source['league']
+-            if source['kind']=='teamworkonline':
+-                import publish_teams as labels
+-                for key,meta in labels.LOGO_MAP.items():
+-                    if labels._norm(team) in (labels._norm(key.partition(':')[2]),labels._norm(meta.get('espn_name'))):
+-                        league=key.partition(':')[0];break
+-            row.update(league=league, team=team, platform=row.get('platform') or source['kind'], source_id=source['key'], scraped_at=observed_at)
+-            row['description'] = row.get('description') or row.get('description_clean') or ''
+-            rows.append(row)
+-        return {'source': source, 'rows': rows, 'status': 'success',
+-                'observed_at': observed_at, 'duration_ms': int((time.monotonic() - start) * 1000), 'error': None}
+-    except Exception as exc:
+-        return {'source': source, 'rows': [], 'status': 'error', 'observed_at': datetime.now(timezone.utc).isoformat(),
+-                'duration_ms': int((time.monotonic() - start) * 1000), 'error': f'{type(exc).__name__}: {exc}'[:500]}
+-
+-
+-def collect(pt):
+-    sources = build_sources(pt)
+-    discovery=[{'mode':'organization_careers_registry','sources':len(sources),'status':'success'}]
+-    print(f'[SOURCES] {len(sources)} registered organization career boards',flush=True)
+-    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as pool:
+-        results=[]
+-        futures=[pool.submit(fetch_source,s) for s in sources.values()]
+-        for future in as_completed(futures):
+-            result=future.result();results.append(result)
+-            print(f'[SOURCE] {result["source"]["key"]}: {result["status"]} {len(result["rows"])} jobs',flush=True)
+-    return results, discovery
+-
+-
+-def apply_results(con, results, pipeline, retired_sources=None):
+-    con.execute('create table if not exists team_job_observations (source_id text not null,url text not null,is_active integer not null default 1,observed_at text,primary key(source_id,url))')
+-    columns = {r[1] for r in con.execute('pragma table_info(team_jobs)')}
+-    if 'source_id' not in columns:
+-        con.execute('alter table team_jobs add column source_id text')
+-    # Bootstrap only legacy rows with no observation history. Re-inferring a
+-    # source from every URL creates phantom active copies of cross-listed jobs.
+-    for row in con.execute('''select id,team,league,url,is_active,last_seen_at from team_jobs j
+-                             where not exists(select 1 from team_job_observations o where o.url=j.url)''').fetchall():
+-        source = source_from_row(dict(zip(('id','team','league','url','is_active','last_seen_at'), row)))
+-        if source:
+-            key = 'nba:league' if source['key'].startswith('wd:nba.') else source['key']
+-            con.execute('update team_jobs set source_id=? where id=?', (key, row[0]))
+-            con.execute('insert or ignore into team_job_observations(source_id,url,is_active,observed_at) values(?,?,?,?)', (key,row[3],row[4],row[5]))
+-    # Historical inferred rows have no observation timestamp. A real source
+-    # receipt supersedes them; retain the records as inactive for cloud upsert.
+-    con.execute('''update team_job_observations set is_active=0 where observed_at is null
+-                   and exists(select 1 from team_job_observations actual
+-                              where actual.url=team_job_observations.url and actual.observed_at is not null)''')
+-    new = updated = closed = 0
+-    for result in results:
+-        source, status = result['source'], result['status']
+-        if status == 'success':
+-            n, u = pipeline.ingest(con, result['rows'], record_runs=False)
+-            new += n; updated += u
+-            urls = {r['url'] for r in result['rows']}
+-            for old,new_path in SOURCE_ALIASES.items():
+-                if source['key']=='tw:'+new_path:
+-                    con.execute('delete from team_job_observations where source_id=?',('tw:'+old,))
+-            con.execute('update team_job_observations set is_active=0,observed_at=? where source_id=?', (result['observed_at'], source['key']))
+-            for url in urls:
+-                con.execute('update team_jobs set source_id=? where url=?', (source['key'], url))
+-                con.execute('insert into team_job_observations(source_id,url,is_active,observed_at) values(?,?,1,?) on conflict(source_id,url) do update set is_active=1,observed_at=excluded.observed_at', (source['key'],url,result['observed_at']))
+-        con.execute('insert into team_job_scrape_runs(source,platform,status,job_count,duration_ms,error_summary,created_at) values(?,?,?,?,?,?,?)',
+-                    (source['key'], source['kind'], status, len(result['rows']), result['duration_ms'], result['error'], result['observed_at']))
+-    succeeded={r['source']['key']:r['observed_at'] for r in results if r['status']=='success'}
+-    for retired,replacement in (retired_sources or {}).items():
+-        if replacement in succeeded:
+-            con.execute('update team_job_observations set is_active=0,observed_at=? where source_id=?',
+-                        (succeeded[replacement],retired))
+-    # A cross-listed job closes only when all its known sources report it absent.
+-    cur = con.execute('''update team_jobs set is_active=0,closed_at=? where is_active=1
+-                         and exists (select 1 from team_job_observations o where o.url=team_jobs.url)
+-                         and not exists (select 1 from team_job_observations o where o.url=team_jobs.url and o.is_active=1)''', (pipeline.now(),))
+-    closed = cur.rowcount
+-    con.commit()
+-    return new, updated, closed
++"""Bounded live refresh for the existing scheduled sports-team pipeline.
+
++
+
++Owner: sports-team jobs pipeline. HTTP only; no browsers, agents or notifications.
+
++Successful sources replace only their own observations. Failed sources retain jobs
+
++and their previous last_seen_at. Empty/unrecognized responses never close jobs.
+
++"""
+
++from __future__ import annotations
+
++
+
++import json
+
++import os
+
++import re
+
++import time
+
++import threading
+
++from concurrent.futures import ThreadPoolExecutor, as_completed
+
++from dataclasses import asdict
+
++from datetime import datetime, timezone
+
++from urllib.parse import urlsplit, parse_qs
+
++
+
++import requests
+
++import sys
+
++from pathlib import Path
+
++
+
++# Support the existing sports_teams working directory and its standalone tests.
+
++sys.path.append(str(Path(__file__).resolve().parents[1]))
+
++from jobradar.workday_http import WorkdayHTTP, is_workday_read
+
++
+
++from providers import nba, nfl, teamwork, teamwork_vertical, adp, ultipro, official_ats
+
++
+
++MAX_WORKERS = 3
+
++MAX_REQUESTS = 80
+
++SOURCE_SECONDS = 240
+
++SOURCE_ALIASES = {
+
++    'football-jobs/la-rams-careers/la-rams-micro':
+
++        'football-jobs/la-rams-careers/los-angeles-rams',
+
++    'basketball-jobs/warriors/golden-state-warriors-jobs':'basketball-jobs/warriors/golden-state-warriors-careers',
+
++    'baseball-jobs/milwaukeebaseball/milwaukee-brewers-micro':'baseball-jobs/milwaukeebaseball/milwaukee-brewers',
+
++    'hockey-jobs/sharkssports/san-jose-sharks-careers':'hockey-jobs/sharkssports/san-jose-sharks',
+
++}
+
++
+
++
+
++class BoundedSession(requests.Session):
+
++    _teamwork_lock = threading.Lock()
+
++    _teamwork_last_request = 0.0
+
++    def __init__(self, source="sports_teams"):
+
++        super().__init__()
+
++        self.started = time.monotonic()
+
++        self.calls = 0
+
++        self.workday = WorkdayHTTP(self._request_once, source=source,
+
++                                   deadline=self.started + SOURCE_SECONDS - 5)
+
++
+
++    def request(self, method, url, **kwargs):
+
++        # Workday's listing POST is read-only; unrelated POSTs keep their policy.
+
++        if is_workday_read(method, url):
+
++            return self.workday.request(method, url, **kwargs)
+
++        # Retry read-only requests, with the same total source budget and pacing.
+
++        retryable = method.upper() in ('GET', 'HEAD')
+
++        for attempt in range(3):
+
++            delay = 2 ** attempt
+
++            try:
+
++                response = self._request_once(method, url, **kwargs)
+
++            except (requests.Timeout, requests.ConnectionError):
+
++                if not retryable or attempt == 2:
+
++                    raise
+
++            else:
+
++                if not retryable or response.status_code not in (429, 500, 502, 503, 504) or attempt == 2:
+
++                    return response
+
++                try:
+
++                    delay = max(delay, min(30, int(response.headers.get('Retry-After', delay))))
+
++                except (TypeError, ValueError):
+
++                    pass
+
++            time.sleep(delay)
+
++
+
++    def _request_once(self, method, url, **kwargs):
+
++        self.calls += 1
+
++        remaining = SOURCE_SECONDS - (time.monotonic() - self.started)
+
++        if self.calls > MAX_REQUESTS or remaining <= 0:
+
++            raise TimeoutError('source request/time budget exceeded')
+
++        if 'teamworkonline.com' in urlsplit(url).netloc:
+
++            # One host-wide request every two seconds across all workers.
+
++            with self._teamwork_lock:
+
++                wait = 2.0 - (time.monotonic() - type(self)._teamwork_last_request)
+
++                if wait > 0:
+
++                    time.sleep(wait)
+
++                type(self)._teamwork_last_request = time.monotonic()
+
++        remaining = SOURCE_SECONDS - (time.monotonic() - self.started)
+
++        if remaining <= 0:
+
++            raise TimeoutError('source request/time budget exceeded')
+
++        timeout = kwargs.get('timeout', 25)
+
++        if isinstance(timeout, tuple):
+
++            kwargs['timeout'] = tuple(min(float(t), 25, remaining / len(timeout)) for t in timeout)
+
++        else:
+
++            kwargs['timeout'] = min(float(timeout), 25, remaining)
+
++        relay=os.environ.get('TEAMS_SOURCE_RELAY_URL')
+
++        if relay and method.upper()=='GET' and urlsplit(url).netloc=='www.teamworkonline.com':
+
++            original=requests.Request('GET',url,params=kwargs.pop('params',None)).prepare().url
+
++            kwargs['params']={'url':original}
+
++            kwargs['headers']={'Authorization':'Bearer '+os.environ['DISCORD_RELAY_TOKEN']}
+
++            response=super().request(method,relay,**kwargs)
+
++            if response.headers.get('X-Source-URL'):response.url=response.headers['X-Source-URL']
+
++            return response
+
++        return super().request(method, url, **kwargs)
+
++
+
++
+
++def source_from_row(row):
+
++    url = row.get('url') or row.get('careers_url') or ''
+
++    p = urlsplit(url)
+
++    parts = [x for x in p.path.split('/') if x]
+
++    team, league = row.get('team', ''), row.get('league', '')
+
++    base = {'team': team, 'league': league}
+
++    if p.netloc=='careers.delawarenorth.com' and p.path=='/bruins-jobs/':
+
++        return dict(base,kind='bruins',key='official:bruins',url=url)
+
++    if p.netloc=='www.teamworkonline.com' and len(parts) >= 3:
+
++        path = '/'.join(parts[:3])
+
++        path = SOURCE_ALIASES.get(path,path)
+
++        org_id=parse_qs(p.query).get('employment_opportunity_search[organization_id]',[''])[0]
+
++        return dict(base, kind='teamworkonline', key='tw:' + path + (':org:'+org_id if org_id else ''), path=path,org_id=org_id)
+
++    if p.netloc=='jobs.lever.co' and parts:
+
++        return dict(base,kind='lever',key='lever:'+parts[0],board=parts[0])
+
++    if p.netloc=='jobs.jobvite.com' and parts:
+
++        board=parts[1] if parts[0]=='careers' else parts[0]
+
++        return dict(base,kind='jobvite',key='jobvite:'+board,url=f'https://jobs.jobvite.com/{board}/jobs')
+
++    if p.netloc in ('recruitingbypaycor.com','newton.newtonsoftware.com'):
+
++        cid=parse_qs(p.query).get('clientId',[''])[0]
+
++        if cid:return dict(base,kind='paycor',key='paycor:'+cid,url='https://recruitingbypaycor.com/career/CareerHome.action?clientId='+cid)
+
++    if p.netloc.endswith('.applytojob.com') and p.path.startswith('/apply/jobs'):
+
++        return dict(base,kind='jazzhr',key='jazzhr:'+p.netloc,url=url)
+
++    if p.netloc=='www.tnse.com' and p.path=='/join-our-team/':
+
++        return dict(base,kind='tnse',key='official:tnse',url=url,team='True North Sports & Entertainment')
+
++    if p.netloc=='apply.clearcompany.com':
+
++        return dict(base,kind='clearcompany',key='clearcompany:'+p.path.strip('/'),url=url)
+
++    if p.netloc.endswith(('.aaimtrack.com','.isolvedhire.com')):
+
++        return dict(base,kind='applicantpro',key='applicantpro:'+p.netloc,url=f'https://{p.netloc}/jobs/')
+
++    if p.netloc.endswith('.icims.com') and p.path=='/jobs/search':
+
++        return dict(base,kind='icims',key='icims:'+p.netloc,url=url)
+
++    if p.netloc in ('www.msgknicks.com','www.msgrangers.com'):
+
++        return dict(base,kind='msg',key='official:'+p.netloc,url=f'https://{p.netloc}/jobs/')
+
++    if p.netloc=='bkse.com' and p.path=='/careers':
+
++        return dict(base,kind='bkse',key='official:bkse',url=url)
+
++    if p.netloc=='careers.hireology.com' and parts:
+
++        return dict(base,kind='hireology',key='hireology:'+parts[0],url='https://careers.hireology.com/'+parts[0])
+
++    if p.netloc=='recruit.hirebridge.com':
+
++        cid=parse_qs(p.query).get('cid',[''])[0]
+
++        if cid:return dict(base,kind='hirebridge',key='hirebridge:'+cid,cid=cid,url=url)
+
++    if p.netloc in ('aegworldwide.com','www.aegworldwide.com') and p.path=='/careers/job-search':
+
++        return dict(base,kind='aeg_kings',key='official:aeg_kings',url=url)
+
++    if p.netloc in ('www.paycomonline.net','paycomonline.net'):
+
++        m=re.search(r'/portal/([A-Fa-f0-9]{32})',p.path)
+
++        board=m[1] if m else parse_qs(p.query).get('clientkey',[''])[0]
+
++        if board:return dict(base,kind='paycom',key='paycom:'+board,board=board,url=url)
+
++    if p.netloc.endswith('.bamboohr.com') and parts and parts[0]=='careers':
+
++        return dict(base,kind='bamboohr',key='bamboohr:'+p.netloc,url=f'https://{p.netloc}/careers')
+
++    if p.netloc=='recruiting.paylocity.com' and len(parts)>=4 and parts[2].lower()=='all':
+
++        return dict(base,kind='paylocity',key='paylocity:'+parts[3],url=url)
+
++    if p.netloc=='jobs.dayforcehcm.com' and len(parts)>=3:
+
++        culture='en-US'
+
++        if re.fullmatch(r'[a-z]{2}-[A-Z]{2}',parts[0]):culture=parts[0];parts=parts[1:]
+
++        tenant,board=parts[:2]
+
++        suffix=':'+culture if culture!='en-US' else ''
+
++        return dict(base,kind='dayforce',key=f'dayforce:{tenant}/{board}'+suffix,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}')
+
++    if p.netloc.endswith('dayforcehcm.com') and len(parts)>=3 and parts[0]=='CandidatePortal':
+
++        culture,tenant=parts[1:3]
+
++        board=parts[4] if len(parts)>=5 and parts[3].upper()=='SITE' else 'CANDIDATEPORTAL'
+
++        return source_from_row(dict(base,url=f'https://jobs.dayforcehcm.com/{culture}/{tenant}/{board}'))
+
++    if p.netloc.endswith('.myworkdaysite.com') and 'recruiting' in parts:
+
++        i=parts.index('recruiting');tenant,site=parts[i+1:i+3]
+
++        # Same public Workday CXS API, hosted on the explicitly linked site.
+
++        return dict(base,kind='workday',key='wd:'+p.netloc+'/'+tenant+'/'+site,host=p.netloc,tenant=tenant,site=site,
+
++                    public_base=f'https://{p.netloc}/en-US/recruiting/{tenant}/{site}')
+
++    if 'greenhouse.io' in p.netloc and parts:
+
++        board = parts[0]
+
++        return dict(base, kind='greenhouse', key='gh:' + board, board=board)
+
++    if 'myworkdayjobs.com' in p.netloc and parts:
+
++        site = parts[1] if re.fullmatch(r'[a-z]{2}-[A-Z]{2}', parts[0]) and len(parts) > 1 else parts[0]
+
++        if site.lower() == 'job':
+
++            return None  # Old snapshots omitted the Workday site; use registry below.
+
++        tenant = p.netloc.split('.')[0]
+
++        return dict(base, kind='workday', key='wd:' + p.netloc + '/' + site,
+
++                    host=p.netloc, tenant=tenant, site=site)
+
++    if ('ultipro.com' in p.netloc or 'ultipro.ca' in p.netloc or p.netloc.endswith('.rec.pro.ukg.net')) and len(parts) >= 3 and parts[1] == 'JobBoard':
+
++        return dict(base, kind='ultipro', key='ukg:' + p.netloc + '/' + '/'.join(parts[:3]),
+
++                    host=p.netloc, company_id=parts[0], board_guid=parts[2])
+
++    if 'adp.com' in p.netloc:
+
++        cid = parse_qs(p.query).get('cid', [''])[0]
+
++        if cid:
+
++            ccid=parse_qs(p.query).get('ccId',['19000101_000001'])[0]
+
++            return dict(base, kind='adp', key='adp:' + cid+(':'+ccid if ccid!='19000101_000001' else ''), cid=cid,ccid=ccid)
+
++    return None
+
++
+
++
+
++def build_sources(pt):
+
++    # Same organization registry model as robotics/tech/sportsbook. Never turn
+
++    # an old job URL or a broad league search into a new production source.
+
++    registry=json.loads((pt.ROOT/'sources.json').read_text(encoding='utf-8'))
+
++    teams=json.loads((pt.ROOT/'official_careers_registry.json').read_text(encoding='utf-8'))
+
++    allowed={key for team in teams for key in team['source_keys']}
+
++    sources={s['key']:s for s in registry if s['key'] in allowed}
+
++    missing=allowed-sources.keys()
+
++    if missing:raise ValueError('Official team source configuration missing: '+', '.join(sorted(missing)))
+
++    return sources
+
++
+
++
+
++def retired_replacements(pt):
+
++    teams=json.loads((pt.ROOT/'official_careers_registry.json').read_text(encoding='utf-8'))
+
++    return {route['source_key']:route['replacement_source_key'] for team in teams
+
++            for route in team.get('retired_routes',[]) if route.get('status')=='retired'}
+
++
+
++
+
++def fetch_source(source):
+
++    start = time.monotonic()
+
++    try:
+
++        with BoundedSession(source["key"]) as client:
+
++            kind = source['kind']
+
++            if kind in official_ats.SCRAPERS:
+
++                jobs=official_ats.SCRAPERS[kind](source,client)
+
++            elif kind == 'teamworkonline':
+
++                jobs = teamwork.scrape_org(teamwork.TeamWorkOrg(source['league'], source['team'], source['path'], source.get('org_id','')), session=client)
+
++            elif kind == 'nba':
+
++                jobs = nba.scrape(session=client)
+
++            elif kind == 'ultipro':
+
++                jobs = ultipro.scrape(source['league'], source['team'], source['company_id'], source['board_guid'], host=source['host'], session=client)
+
++            elif kind == 'adp':
+
++                jobs = adp.scrape(source['league'], source['team'], source['cid'], session=client,ccid=source.get('ccid','19000101_000001'))
+
++            elif kind == 'official_links':
+
++                from bs4 import BeautifulSoup
+
++                response=client.get(source['url']);response.raise_for_status()
+
++                soup=BeautifulSoup(response.text,'html.parser')
+
++                jobs=[]
+
++                for link in soup.find_all('a',href=True):
+
++                    if urlsplit(link['href']).netloc=='career4.successfactors.com' and 'jobId=' in link['href']:
+
++                        jobs.append(dict(title=link.get_text(' ',strip=True),url=link['href'],platform='successfactors'))
+
++                if not jobs:raise ValueError('Official careers page has no recognized job links')
+
++            elif kind == 'greenhouse':
+
++                response = client.get(f'https://boards-api.greenhouse.io/v1/boards/{source["board"]}/jobs', params={'content': 'true'})
+
++                response.raise_for_status()
+
++                data = response.json()
+
++                if not isinstance(data.get('jobs'), list):
+
++                    raise ValueError('missing Greenhouse jobs array')
+
++                jobs = [dict(title=j.get('title'), url=j.get('absolute_url'), location=(j.get('location') or {}).get('name'),
+
++                             description=j.get('content'), posted_at=j.get('first_published')) for j in data['jobs']]
+
++            elif kind == 'workday':
+
++                jobs, seen = [], set()
+
++                total=None
+
++                for offset in range(0, 1000, 20):
+
++                    response = client.post(f'https://{source["host"]}/wday/cxs/{source["tenant"]}/{source["site"]}/jobs',
+
++                                           json={'appliedFacets': {}, 'limit': 20, 'offset': offset, 'searchText': ''})
+
++                    response.raise_for_status()
+
++                    data = response.json()
+
++                    if not isinstance(data.get('jobPostings'), list) or 'total' not in data:
+
++                        raise ValueError('missing Workday jobPostings array or total')
+
++                    count=int(data['total'])
+
++                    # CXS returns the total on page one; some tenants return 0
+
++                    # on later pages even when that page contains jobs (Mets).
+
++                    if total is not None and count not in (0,total):raise ValueError('Workday total changed during pagination')
+
++                    if total is None:total=count
+
++                    batch = data['jobPostings']
+
++                    for j in batch:
+
++                        path = j.get('externalPath')
+
++                        if not path or path in seen:
+
++                            raise ValueError('missing or repeated Workday job path')
+
++                        seen.add(path)
+
++                        public_base=source.get('public_base') or f'https://{source["host"]}/{source["site"]}'
+
++                        jobs.append(dict(title=j.get('title'), url=public_base+path, location=j.get('locationsText')))
+
++                    if len(jobs) == total:
+
++                        break
+
++                    if not batch or len(jobs)>total:
+
++                        raise ValueError('incomplete Workday pagination')
+
++                else:
+
++                    raise ValueError('Workday pagination cap reached')
+
++            else:
+
++                raise ValueError('unsupported provider')
+
++        observed_at = datetime.now(timezone.utc).isoformat()
+
++        rows = []
+
++        for job in jobs:
+
++            row = dict(job) if isinstance(job, dict) else asdict(job)
+
++            if not row.get('title') or not row.get('url'):
+
++                raise ValueError('source returned a job without title or URL')
+
++            team=row.get('team') or source['team']
+
++            league=row.get('league') or source['league']
+
++            if source['kind']=='teamworkonline':
+
++                import publish_teams as labels
+
++                for key,meta in labels.LOGO_MAP.items():
+
++                    if labels._norm(team) in (labels._norm(key.partition(':')[2]),labels._norm(meta.get('espn_name'))):
+
++                        league=key.partition(':')[0];break
+
++            row.update(league=league, team=team, platform=row.get('platform') or source['kind'], source_id=source['key'], scraped_at=observed_at)
+
++            row['description'] = row.get('description') or row.get('description_clean') or ''
+
++            rows.append(row)
+
++        return {'source': source, 'rows': rows, 'status': 'success',
+
++                'observed_at': observed_at, 'duration_ms': int((time.monotonic() - start) * 1000), 'error': None}
+
++    except Exception as exc:
+
++        return {'source': source, 'rows': [], 'status': 'error', 'observed_at': datetime.now(timezone.utc).isoformat(),
+
++                'duration_ms': int((time.monotonic() - start) * 1000), 'error': f'{type(exc).__name__}: {exc}'[:500]}
+
++
+
++
+
++def collect(pt):
+
++    sources = build_sources(pt)
+
++    discovery=[{'mode':'organization_careers_registry','sources':len(sources),'status':'success'}]
+
++    print(f'[SOURCES] {len(sources)} registered organization career boards',flush=True)
+
++    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as pool:
+
++        results=[]
+
++        futures=[pool.submit(fetch_source,s) for s in sources.values()]
+
++        for future in as_completed(futures):
+
++            result=future.result();results.append(result)
+
++            print(f'[SOURCE] {result["source"]["key"]}: {result["status"]} {len(result["rows"])} jobs',flush=True)
+
++    return results, discovery
+
++
+
++
+
++def apply_results(con, results, pipeline, retired_sources=None):
+
++    con.execute('create table if not exists team_job_observations (source_id text not null,url text not null,is_active integer not null default 1,observed_at text,primary key(source_id,url))')
+
++    columns = {r[1] for r in con.execute('pragma table_info(team_jobs)')}
+
++    if 'source_id' not in columns:
+
++        con.execute('alter table team_jobs add column source_id text')
+
++    # Bootstrap only legacy rows with no observation history. Re-inferring a
+
++    # source from every URL creates phantom active copies of cross-listed jobs.
+
++    for row in con.execute('''select id,team,league,url,is_active,last_seen_at from team_jobs j
+
++                             where not exists(select 1 from team_job_observations o where o.url=j.url)''').fetchall():
+
++        source = source_from_row(dict(zip(('id','team','league','url','is_active','last_seen_at'), row)))
+
++        if source:
+
++            key = 'nba:league' if source['key'].startswith('wd:nba.') else source['key']
+
++            con.execute('update team_jobs set source_id=? where id=?', (key, row[0]))
+
++            con.execute('insert or ignore into team_job_observations(source_id,url,is_active,observed_at) values(?,?,?,?)', (key,row[3],row[4],row[5]))
+
++    # Historical inferred rows have no observation timestamp. A real source
+
++    # receipt supersedes them; retain the records as inactive for cloud upsert.
+
++    con.execute('''update team_job_observations set is_active=0 where observed_at is null
+
++                   and exists(select 1 from team_job_observations actual
+
++                              where actual.url=team_job_observations.url and actual.observed_at is not null)''')
+
++    new = updated = closed = 0
+
++    for result in results:
+
++        source, status = result['source'], result['status']
+
++        if status == 'success':
+
++            n, u = pipeline.ingest(con, result['rows'], record_runs=False)
+
++            new += n; updated += u
+
++            urls = {r['url'] for r in result['rows']}
+
++            for old,new_path in SOURCE_ALIASES.items():
+
++                if source['key']=='tw:'+new_path:
+
++                    con.execute('delete from team_job_observations where source_id=?',('tw:'+old,))
+
++            con.execute('update team_job_observations set is_active=0,observed_at=? where source_id=?', (result['observed_at'], source['key']))
+
++            for url in urls:
+
++                con.execute('update team_jobs set source_id=? where url=?', (source['key'], url))
+
++                con.execute('insert into team_job_observations(source_id,url,is_active,observed_at) values(?,?,1,?) on conflict(source_id,url) do update set is_active=1,observed_at=excluded.observed_at', (source['key'],url,result['observed_at']))
+
++        con.execute('insert into team_job_scrape_runs(source,platform,status,job_count,duration_ms,error_summary,created_at) values(?,?,?,?,?,?,?)',
+
++                    (source['key'], source['kind'], status, len(result['rows']), result['duration_ms'], result['error'], result['observed_at']))
+
++    succeeded={r['source']['key']:r['observed_at'] for r in results if r['status']=='success'}
+
++    for retired,replacement in (retired_sources or {}).items():
+
++        if replacement in succeeded:
+
++            con.execute('update team_job_observations set is_active=0,observed_at=? where source_id=?',
+
++                        (succeeded[replacement],retired))
+
++    # A cross-listed job closes only when all its known sources report it absent.
+
++    cur = con.execute('''update team_jobs set is_active=0,closed_at=? where is_active=1
+
++                         and exists (select 1 from team_job_observations o where o.url=team_jobs.url)
+
++                         and not exists (select 1 from team_job_observations o where o.url=team_jobs.url and o.is_active=1)''', (pipeline.now(),))
+
++    closed = cur.rowcount
+
++    con.commit()
+
++    return new, updated, closed
+
+--- a/.github/workflows/sports-teams.yml
++++ b/.github/workflows/sports-teams.yml
+@@ -1,108 +1,111 @@
+-name: sports-teams-jobs
+-run-name: sports-teams ${{ inputs.scheduler_slot || github.event_name }}
+-on:
+-  workflow_dispatch:
+-    inputs:
+-      scheduler_slot:
+-        description: UTC hourly slot assigned by the Cloudflare scheduler
+-        type: string
+-        required: false
+-      trigger_source:
+-        description: Dispatch origin
+-        type: string
+-        default: manual
+-        required: false
+-      detail_limit:
+-        description: 'Detail-page batch (0 verifies sources using cached descriptions)'
+-        type: choice
+-        options: ['250', '0']
+-        default: '250'
+-      recover_pending:
+-        description: 'Recover missed individual alerts from the paused repair runs'
+-        type: boolean
+-        default: false
+-# Cloudflare Durable Object alarms own hourly dispatch at :23 UTC.
+-permissions:
+-  contents: read
+-  pages: write
+-  id-token: write
+-concurrency:
+-  group: sports-teams-jobs
+-  cancel-in-progress: false
+-jobs:
+-  scrape:
+-    runs-on: ubuntu-latest
+-    timeout-minutes: 45
+-    environment:
+-      name: github-pages
+-      url: ${{ steps.deployment.outputs.page_url }}
+-    defaults:
+-      run:
+-        working-directory: sports_teams
+-    env:
+-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+-      DISCORD_WEBHOOK_TEAMS: ${{ secrets.DISCORD_WEBHOOK_TEAMS }}
+-      NOTIFICATIONS_PAUSED: '0'
+-      JOBRADAR_SCHEDULER_SLOT: ${{ inputs.scheduler_slot }}
+-    steps:
+-      - uses: actions/checkout@v4
+-      - uses: actions/setup-python@v5
+-        with:
+-          python-version: '3.12'
+-      - run: pip install -r requirements.txt
+-      - name: Regression checks
+-        run: python -m unittest discover -p 'test_*.py'
+-      - name: Scrape and persist all supported sources
+-        id: scrape
+-        run: python -u pipeline_local.py --cloud --trigger '${{ inputs.trigger_source || github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}' ${{ github.event.inputs.recover_pending == 'true' && '--recover-pending' || '' }}
+-      - name: Notification guard and delivery
+-        id: delivery
+-        continue-on-error: true
+-        run: |
+-          if [ "$NOTIFICATIONS_PAUSED" = "0" ]; then
+-            python publish_teams.py --post --limit 0
+-          else
+-            echo "Notifications paused by runtime configuration."
+-          fi
+-      - name: Prepare live board and health receipt
+-        run: |
+-          python - <<'PY'
+-          import json, shutil
+-          from pathlib import Path
+-          out=Path('out');out.mkdir(exist_ok=True)
+-          out.joinpath('index.html').write_text(Path('board/live.html').read_text().replace('api/health','health.json'))
+-          shutil.copy2('board/job-board-core.mjs',out/'job-board-core.mjs')
+-          for asset in ['standalone.css','standalone-ui.mjs']:shutil.copy2(Path('board')/asset,out/asset)
+-          shutil.copy2('board/team_jobs.json',out/'team_jobs.json')
+-          shutil.copy2('board/coverage.json',out/'coverage.json')
+-          shutil.copy2('board/coverage.html',out/'coverage.html')
+-          evidence=Path('verification-20261111')
+-          if evidence.exists():shutil.copytree(evidence,out/'verification-20261111',dirs_exist_ok=True)
+-          m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
+-          delivery='${{ steps.delivery.outcome }}'
+-          health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'] if delivery=='success' else 'degraded','last_run_end':m['generated_at'],'notifications_paused':False,'delivery_status':delivery,'schedule':{'owner':'cloudflare-durable-object-alarm','minute_utc':23,'timezone':'UTC','health_url':'https://abet-jobs-scheduler.abetscrape.workers.dev/health'},'latest_manifest':m}
+-          out.joinpath('health.json').write_text(json.dumps(health,indent=2))
+-          PY
+-      - uses: actions/configure-pages@v5
+-      - uses: actions/upload-pages-artifact@v3
+-        with:
+-          path: sports_teams/out
+-      - uses: actions/deploy-pages@v4
+-        id: deployment
+-      - uses: actions/upload-artifact@v4
+-        if: always()
+-        with:
+-          name: sports-teams-scrape-receipt
+-          path: sports_teams/data/runtime/latest_scrape_manifest.json
+-      - name: Surface source failures
+-        run: |
+-          python - <<'PY'
+-          import json
+-          from pathlib import Path
+-          m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
+-          print(json.dumps(m['totals']))
+-          if m['runtime_status']!='healthy':raise SystemExit('Source failures: see published health receipt')
+-          if m['career_link_audit_status']!='verified':print('::warning::Career-link audit remains partial; see coverage.json. Overall health remains degraded until all links are proved.')
+-          if '${{ steps.delivery.outcome }}'!='success':raise SystemExit('Delivery incomplete; unsent jobs remain queued')
+-          PY
++name: sports-teams-jobs
+
++run-name: sports-teams ${{ inputs.scheduler_slot || github.event_name }}
+
++on:
+
++  workflow_dispatch:
+
++    inputs:
+
++      scheduler_slot:
+
++        description: UTC hourly slot assigned by the Cloudflare scheduler
+
++        type: string
+
++        required: false
+
++      trigger_source:
+
++        description: Dispatch origin
+
++        type: string
+
++        default: manual
+
++        required: false
+
++      detail_limit:
+
++        description: 'Detail-page batch (0 verifies sources using cached descriptions)'
+
++        type: choice
+
++        options: ['250', '0']
+
++        default: '250'
+
++      recover_pending:
+
++        description: 'Recover missed individual alerts from the paused repair runs'
+
++        type: boolean
+
++        default: false
+
++# Cloudflare Durable Object alarms own hourly dispatch at :23 UTC.
+
++permissions:
+
++  contents: read
+
++  pages: write
+
++  id-token: write
+
++concurrency:
+
++  group: sports-teams-jobs
+
++  cancel-in-progress: false
+
++jobs:
+
++  scrape:
+
++    runs-on: ubuntu-latest
+
++    timeout-minutes: 45
+
++    environment:
+
++      name: github-pages
+
++      url: ${{ steps.deployment.outputs.page_url }}
+
++    defaults:
+
++      run:
+
++        working-directory: sports_teams
+
++    env:
+
++      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+
++      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+
++      DISCORD_WEBHOOK_TEAMS: ${{ secrets.DISCORD_WEBHOOK_TEAMS }}
+
++      NOTIFICATIONS_PAUSED: '0'
+
++      JOBRADAR_SCHEDULER_SLOT: ${{ inputs.scheduler_slot }}
+
++    steps:
+
++      - uses: actions/checkout@v4
+
++      - uses: actions/setup-python@v5
+
++        with:
+
++          python-version: '3.12'
+
++      - run: pip install -r requirements.txt
+
++      - name: Regression checks
+
++        run: python -m unittest discover -p 'test_*.py'
+
++      - name: Scrape and persist all supported sources
+
++        id: scrape
+
++        run: python -u pipeline_local.py --cloud --trigger '${{ inputs.trigger_source || github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}' ${{ github.event.inputs.recover_pending == 'true' && '--recover-pending' || '' }}
+
++      - name: Notification guard and delivery
+
++        id: delivery
+
++        continue-on-error: true
+
++        run: |
+
++          if [ "$NOTIFICATIONS_PAUSED" = "0" ]; then
+
++            python publish_teams.py --post --limit 0
+
++          else
+
++            echo "Notifications paused by runtime configuration."
+
++          fi
+
++      - name: Prepare live board and health receipt
+
++        run: |
+
++          python - <<'PY'
+
++          import json, shutil
+
++          from pathlib import Path
+
++          out=Path('out');out.mkdir(exist_ok=True)
+
++          out.joinpath('index.html').write_text(Path('board/live.html').read_text().replace('api/health','health.json'))
+
++          shutil.copy2('board/job-board-core.mjs',out/'job-board-core.mjs')
+
++          for asset in ['standalone.css','standalone-ui.mjs']:shutil.copy2(Path('board')/asset,out/asset)
+
++          shutil.copy2('board/team_jobs.json',out/'team_jobs.json')
+
++          shutil.copy2('board/coverage.json',out/'coverage.json')
+
++          shutil.copy2('board/coverage.html',out/'coverage.html')
+
++          evidence=Path('verification-20261111')
+
++          if evidence.exists():shutil.copytree(evidence,out/'verification-20261111',dirs_exist_ok=True)
+
++          m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
+
++          delivery='${{ steps.delivery.outcome }}'
+
++          health={'service':'abet-sports-teams-jobs','runtime':'github-actions','status':m['overall_status'] if delivery=='success' else 'degraded','last_run_end':m['generated_at'],'notifications_paused':False,'delivery_status':delivery,'schedule':{'owner':'cloudflare-durable-object-alarm','minute_utc':23,'timezone':'UTC','health_url':'https://abet-jobs-scheduler.abetscrape.workers.dev/health'},'latest_manifest':m}
+
++          out.joinpath('health.json').write_text(json.dumps(health,indent=2))
+
++          PY
+
++      - uses: actions/configure-pages@v5
+
++      - uses: actions/upload-pages-artifact@v3
+
++        with:
+
++          path: sports_teams/out
+
++      - uses: actions/deploy-pages@v4
+
++        id: deployment
+
++      - uses: actions/upload-artifact@v4
+
++        if: always()
+
++        with:
+
++          name: sports-teams-scrape-receipt
+
++          path: |
+
++            sports_teams/data/runtime/latest_scrape_manifest.json
+
++            sports_teams/data/runtime/workday-http/*.jsonl
+
++          retention-days: 7
+
++      - name: Surface source failures
+
++        run: |
+
++          python - <<'PY'
+
++          import json
+
++          from pathlib import Path
+
++          m=json.loads(Path('data/runtime/latest_scrape_manifest.json').read_text())
+
++          print(json.dumps(m['totals']))
+
++          if m['runtime_status']!='healthy':raise SystemExit('Source failures: see published health receipt')
+
++          if m['career_link_audit_status']!='verified':print('::warning::Career-link audit remains partial; see coverage.json. Overall health remains degraded until all links are proved.')
+
++          if '${{ steps.delivery.outcome }}'!='success':raise SystemExit('Delivery incomplete; unsent jobs remain queued')
+
++          PY
+
+--- a/sports_teams/test_workday_retry.py
++++ b/sports_teams/test_workday_retry.py
+@@ -0,0 +1,24 @@
++"""Exercise the actual BoundedSession dispatch with mocked HTTP."""
+
++import unittest
+
++from unittest.mock import patch
+
++import requests
+
++import live_refresh
+
++from jobradar import workday_http as http
+
++
+
++class WorkdayTeamRetry(unittest.TestCase):
+
++    def test_workday_post_enters_policy_other_posts_do_not(self):
+
++        with patch.object(live_refresh, "WorkdayHTTP") as factory:
+
++            with live_refresh.BoundedSession("wd:test") as client:
+
++                client.workday.request.return_value = "workday"
+
++                got = client.post("https://example.wd1.myworkdayjobs.com/wday/cxs/example/External/jobs", json={})
+
++                self.assertEqual(got, "workday")
+
++                client.workday.request.assert_called_once()
+
++                with patch.object(client, "_request_once", return_value=requests.Response()) as other:
+
++                    client.post("https://example.com/write", json={})
+
++                    other.assert_called_once()
+
++                    self.assertEqual(client.workday.request.call_count, 1)
+
++    def test_policy_timeout_tuple_is_accepted_by_bounded_transport(self):
+
++        with live_refresh.BoundedSession("wd:test") as client, patch.object(requests.Session, "request") as send:
+
++            client._request_once("POST", "https://example.wd1.myworkdayjobs.com/wday/cxs/example/External/jobs",
+
++                                 timeout=(10,25))
+
++            self.assertEqual(send.call_args.kwargs["timeout"], (10,25))
+
+--- a/tests/test_provider_completeness.py
++++ b/tests/test_provider_completeness.py
+@@ -1,78 +1,92 @@
+-import contextlib
+-import datetime
+-import io
+-import json
+-from pathlib import Path
+-import subprocess
+-import tempfile
+-import types
+-import unittest
+-from unittest.mock import patch
+-
+-from jobradar.providers.greenhouse import GreenhouseProvider
+-from jobradar.providers.lever import LeverProvider
+-from jobradar.providers.ashby import AshbyProvider
+-from jobradar.providers.amazon import AmazonProvider
+-from jobradar.providers.workday import WorkdayProvider
+-from jobradar.fetch_worker import fetch_provider
+-from jobradar import publish
+-import run
+-
+-def response(data):
+-    return types.SimpleNamespace(json=lambda: data, raise_for_status=lambda: None)
+-
+-class CompletenessTests(unittest.TestCase):
+-    def test_http_errors_never_become_successful_empty_boards(self):
+-        for name, provider in [('greenhouse', GreenhouseProvider('x')), ('lever', LeverProvider('x')), ('ashby', AshbyProvider('x'))]:
+-            with self.subTest(provider=name), patch(f'jobradar.providers.{name}.http_get', side_effect=RuntimeError('HTTP failed')):
+-                with self.assertRaises(RuntimeError): provider.fetch('test')
+-
+-    def test_invalid_board_payload_is_not_empty(self):
+-        with patch('jobradar.providers.greenhouse.http_get', return_value=response({'error': 'denied'})):
+-            with self.assertRaises(ValueError): GreenhouseProvider('x').fetch('test')
+-
+-    def test_amazon_page_failure_is_not_partial_success(self):
+-        first = {'hits': 200, 'jobs': [{'job_id': '1', 'title': 'Operations', 'job_path': '/jobs/1'}]}
+-        with patch('jobradar.providers.amazon.http_get', side_effect=[response(first), RuntimeError('page 2 failed')]), patch('jobradar.providers.amazon.time.sleep'):
+-            with self.assertRaises(RuntimeError): AmazonProvider('robotics').fetch('test')
+-
+-    def test_workday_page_failure_is_not_partial_success(self):
+-        first = {'total': 40, 'jobPostings': [{'title': 'Operations', 'externalPath': '/job/1'}]}
+-        with patch('jobradar.providers.workday.requests.post', side_effect=[response(first), RuntimeError('page 2 failed')]):
+-            with self.assertRaises(RuntimeError): WorkdayProvider('bostondynamics').fetch('test')
+-
+-    def test_provider_process_has_a_real_deadline(self):
+-        with patch('jobradar.fetch_worker.subprocess.run', side_effect=subprocess.TimeoutExpired('provider', 1)) as child:
+-            with self.assertRaises(subprocess.TimeoutExpired): fetch_provider(GreenhouseProvider('x'), 'test', timeout=1)
+-            self.assertEqual(child.call_args.kwargs['timeout'], 1)
+-
+-    def test_workday_retains_first_page_total_when_later_totals_are_zero(self):
+-        pages = [response({'total': 60 if page == 0 else 0,
+-            'jobPostings': [{'title': f'Job {page * 20 + i}', 'externalPath': f'/job/{page * 20 + i}'}
+-                            for i in range(20)]}) for page in range(3)]
+-        with patch('jobradar.providers.workday.requests.post', side_effect=pages) as http:
+-            self.assertEqual(len(WorkdayProvider('bostondynamics').fetch('test')), 60)
+-            self.assertEqual(http.call_count, 3)
+-
+-    def test_partial_run_writes_degraded_manifest_and_preserves_existing_jobs(self):
+-        good = types.SimpleNamespace(source='greenhouse', provider_slug='good')
+-        bad = types.SimpleNamespace(source='greenhouse', provider_slug='bad')
+-        with tempfile.TemporaryDirectory() as tmp:
+-            root = Path(tmp)
+-            with patch.object(run, 'Path', side_effect=lambda value: root/value), patch.object(run, 'build_providers', return_value=[good, bad]), patch.object(publish, 'supabase_env', return_value=('offline', 'fake')), patch.object(publish, 'record_run'), patch.object(publish, 'publish', return_value={}) as writer, patch('jobradar.fetch_worker.fetch_provider', side_effect=[[object()], RuntimeError('provider failed')]), contextlib.redirect_stdout(io.StringIO()):
+-                with self.assertRaisesRegex(RuntimeError, 'Partial scrape'): run._ingest_supabase()
+-            self.assertFalse(writer.call_args.kwargs['allow_deactivate'])
+-            manifest = json.loads((root/'data/runtime/latest_manifest.json').read_text())
+-            self.assertEqual(manifest['status'], 'degraded')
+-            self.assertEqual([r['complete'] for r in manifest['providers']], [True, False])
+-
+-    def test_verified_empty_source_is_passed_for_reconciliation(self):
+-        provider = types.SimpleNamespace(source='greenhouse', provider_slug='empty')
+-        with tempfile.TemporaryDirectory() as tmp:
+-            root = Path(tmp)
+-            with patch.object(run, 'Path', side_effect=lambda value: root/value), patch.object(run, 'build_providers', return_value=[provider]), patch.object(publish, 'supabase_env', return_value=('offline', 'fake')), patch.object(publish, 'record_run'), patch.object(publish, 'publish', return_value={}) as writer, patch('jobradar.fetch_worker.fetch_provider', return_value=[]), contextlib.redirect_stdout(io.StringIO()):
+-                self.assertEqual(run._ingest_supabase(), 0)
+-            self.assertEqual(writer.call_args.kwargs['empty_providers'], [('greenhouse', 'empty')])
+-            self.assertTrue(writer.call_args.kwargs['allow_deactivate'])
+-
+-if __name__ == '__main__': unittest.main()
++import contextlib
+
++import datetime
+
++import io
+
++import json
+
++from pathlib import Path
+
++import subprocess
+
++import tempfile
+
++import types
+
++import unittest
+
++from unittest.mock import patch
+
++
+
++from jobradar.providers.greenhouse import GreenhouseProvider
+
++from jobradar.providers.lever import LeverProvider
+
++from jobradar.providers.ashby import AshbyProvider
+
++from jobradar.providers.amazon import AmazonProvider
+
++from jobradar.providers.workday import WorkdayProvider
+
++from jobradar.providers import workday
+
++from jobradar import workday_http as http
+
++from test_workday_http import Clock
+
++from jobradar.fetch_worker import fetch_provider
+
++from jobradar import publish
+
++import run
+
++
+
++def response(data):
+
++    return types.SimpleNamespace(status_code=200, headers={}, content=b'', json=lambda: data, raise_for_status=lambda: None)
+
++
+
++class CompletenessTests(unittest.TestCase):
+
++    def setUp(self):
+
++        http._HOSTS.clear()
+
++        clock = Clock()
+
++        def client(source):
+
++            return http.WorkdayHTTP(lambda method, url, **kw: workday.requests.post(url, **kw),
+
++                source=source, deadline=clock()+175, clock=clock, sleep=clock.sleep,
+
++                jitter=lambda: 0, logger=lambda event: None)
+
++        patcher = patch('jobradar.providers.workday._new_client', side_effect=client)
+
++        patcher.start()
+
++        self.addCleanup(patcher.stop)
+
++
+
++    def test_http_errors_never_become_successful_empty_boards(self):
+
++        for name, provider in [('greenhouse', GreenhouseProvider('x')), ('lever', LeverProvider('x')), ('ashby', AshbyProvider('x'))]:
+
++            with self.subTest(provider=name), patch(f'jobradar.providers.{name}.http_get', side_effect=RuntimeError('HTTP failed')):
+
++                with self.assertRaises(RuntimeError): provider.fetch('test')
+
++
+
++    def test_invalid_board_payload_is_not_empty(self):
+
++        with patch('jobradar.providers.greenhouse.http_get', return_value=response({'error': 'denied'})):
+
++            with self.assertRaises(ValueError): GreenhouseProvider('x').fetch('test')
+
++
+
++    def test_amazon_page_failure_is_not_partial_success(self):
+
++        first = {'hits': 200, 'jobs': [{'job_id': '1', 'title': 'Operations', 'job_path': '/jobs/1'}]}
+
++        with patch('jobradar.providers.amazon.http_get', side_effect=[response(first), RuntimeError('page 2 failed')]), patch('jobradar.providers.amazon.time.sleep'):
+
++            with self.assertRaises(RuntimeError): AmazonProvider('robotics').fetch('test')
+
++
+
++    def test_workday_page_failure_is_not_partial_success(self):
+
++        first = {'total': 40, 'jobPostings': [{'title': 'Operations', 'externalPath': '/job/1'}]}
+
++        with patch('jobradar.providers.workday.requests.post', side_effect=[response(first), RuntimeError('page 2 failed')]):
+
++            with self.assertRaises(RuntimeError): WorkdayProvider('bostondynamics').fetch('test')
+
++
+
++    def test_provider_process_has_a_real_deadline(self):
+
++        with patch('jobradar.fetch_worker.subprocess.run', side_effect=subprocess.TimeoutExpired('provider', 1)) as child:
+
++            with self.assertRaises(subprocess.TimeoutExpired): fetch_provider(GreenhouseProvider('x'), 'test', timeout=1)
+
++            self.assertEqual(child.call_args.kwargs['timeout'], 1)
+
++
+
++    def test_workday_retains_first_page_total_when_later_totals_are_zero(self):
+
++        pages = [response({'total': 60 if page == 0 else 0,
+
++            'jobPostings': [{'title': f'Job {page * 20 + i}', 'externalPath': f'/job/{page * 20 + i}'}
+
++                            for i in range(20)]}) for page in range(3)]
+
++        with patch('jobradar.providers.workday.requests.post', side_effect=pages) as http:
+
++            self.assertEqual(len(WorkdayProvider('bostondynamics').fetch('test')), 60)
+
++            self.assertEqual(http.call_count, 3)
+
++
+
++    def test_partial_run_writes_degraded_manifest_and_preserves_existing_jobs(self):
+
++        good = types.SimpleNamespace(source='greenhouse', provider_slug='good')
+
++        bad = types.SimpleNamespace(source='greenhouse', provider_slug='bad')
+
++        with tempfile.TemporaryDirectory() as tmp:
+
++            root = Path(tmp)
+
++            with patch.object(run, 'Path', side_effect=lambda value: root/value), patch.object(run, 'build_providers', return_value=[good, bad]), patch.object(publish, 'supabase_env', return_value=('offline', 'fake')), patch.object(publish, 'record_run'), patch.object(publish, 'publish', return_value={}) as writer, patch('jobradar.fetch_worker.fetch_provider', side_effect=[[object()], RuntimeError('provider failed')]), contextlib.redirect_stdout(io.StringIO()):
+
++                with self.assertRaisesRegex(RuntimeError, 'Partial scrape'): run._ingest_supabase()
+
++            self.assertFalse(writer.call_args.kwargs['allow_deactivate'])
+
++            manifest = json.loads((root/'data/runtime/latest_manifest.json').read_text())
+
++            self.assertEqual(manifest['status'], 'degraded')
+
++            self.assertEqual([r['complete'] for r in manifest['providers']], [True, False])
+
++
+
++    def test_verified_empty_source_is_passed_for_reconciliation(self):
+
++        provider = types.SimpleNamespace(source='greenhouse', provider_slug='empty')
+
++        with tempfile.TemporaryDirectory() as tmp:
+
++            root = Path(tmp)
+
++            with patch.object(run, 'Path', side_effect=lambda value: root/value), patch.object(run, 'build_providers', return_value=[provider]), patch.object(publish, 'supabase_env', return_value=('offline', 'fake')), patch.object(publish, 'record_run'), patch.object(publish, 'publish', return_value={}) as writer, patch('jobradar.fetch_worker.fetch_provider', return_value=[]), contextlib.redirect_stdout(io.StringIO()):
+
++                self.assertEqual(run._ingest_supabase(), 0)
+
++            self.assertEqual(writer.call_args.kwargs['empty_providers'], [('greenhouse', 'empty')])
+
++            self.assertTrue(writer.call_args.kwargs['allow_deactivate'])
+
++
+
++if __name__ == '__main__': unittest.main()
+
+--- a/tests/test_workday_http.py
++++ b/tests/test_workday_http.py
+@@ -0,0 +1,143 @@
++"""Run in cloud CI only. All transport and clocks are fake."""
+
++import io
+
++import json
+
++import os
+
++import tempfile
+
++import unittest
+
++from contextlib import redirect_stderr
+
++from email.utils import formatdate
+
++from unittest.mock import Mock, patch
+
++try:
+
++    from jobradar import workday_http as http
+
++except ModuleNotFoundError:
+
++    from lib import workday_http as http
+
++import requests
+
++
+
++URL = "https://example.wd1.myworkdayjobs.com/wday/cxs/example/External/jobs"
+
++
+
++class Clock:
+
++    def __init__(self):
+
++        self.now = 1000.0
+
++        self.waits = []
+
++    def __call__(self):
+
++        return self.now
+
++    def sleep(self, seconds):
+
++        self.waits.append(seconds)
+
++        self.now += seconds
+
++
+
++def response(status=200, body=None, headers=None):
+
++    r = requests.Response()
+
++    r.status_code = status
+
++    r.url = URL
+
++    r.headers.update(headers or {})
+
++    r._content = (json.dumps(body if body is not None else {"total": 0, "jobPostings": []})).encode()
+
++    return r
+
++
+
++class WorkdayPolicyTests(unittest.TestCase):
+
++    def setUp(self):
+
++        http._HOSTS.clear()
+
++        self.clock, self.events = Clock(), []
+
++    def client(self, replies, budget=175):
+
++        send = Mock(side_effect=replies)
+
++        client = http.WorkdayHTTP(send, source="test", deadline=self.clock()+budget,
+
++                 clock=self.clock, sleep=self.clock.sleep, jitter=lambda: 0, logger=self.events.append)
+
++        return client, send
+
++    def test_read_only_post_recovers_and_records_attempts(self):
+
++        client, send = self.client([response(429), response(503), response()])
+
++        client.request("POST", URL, json={"offset": 20})
+
++        self.assertEqual(self.clock.waits, [5, 10])
+
++        self.assertEqual(send.call_count, 3)
+
++        self.assertEqual([e["decision"] for e in self.events], ["retry", "retry", "success"])
+
++        self.assertTrue(all(e["offset"] == 20 for e in self.events))
+
++        self.assertTrue(all(c.kwargs["json"] == {"offset": 20} for c in send.call_args_list))
+
++    def test_numeric_retry_after_is_not_shortened(self):
+
++        client, _ = self.client([response(429, headers={"Retry-After": "120"}), response()])
+
++        client.request("POST", URL)
+
++        self.assertEqual(self.clock.waits, [120])
+
++    def test_http_date_retry_after(self):
+
++        with patch.object(http.time, "time", return_value=1700000000):
+
++            raw = formatdate(1700000090, usegmt=True)
+
++            client, _ = self.client([response(429, headers={"Retry-After": raw}), response()])
+
++            client.request("POST", URL)
+
++        self.assertEqual(self.clock.waits, [90])
+
++    def test_long_wait_defers_without_early_retry(self):
+
++        client, send = self.client([response(429, headers={"Retry-After": "600"})])
+
++        with self.assertRaises(http.WorkdayDeferred):
+
++            client.request("POST", URL)
+
++        self.assertEqual(send.call_count, 1)
+
++        self.assertEqual(self.clock.waits, [])
+
++        self.assertEqual(self.events[-1]["decision"], "deferred")
+
++    def test_repeated_429_is_bounded(self):
+
++        client, send = self.client([response(429)]*5)
+
++        with self.assertRaises(http.WorkdayDeferred):
+
++            client.request("POST", URL)
+
++        self.assertEqual(send.call_count, 5)
+
++        self.assertEqual(self.clock.waits, [5, 10, 20, 40])
+
++    def test_forbidden_is_terminal(self):
+
++        client, send = self.client([response(403)])
+
++        with self.assertRaises(requests.HTTPError):
+
++            client.request("POST", URL)
+
++        self.assertEqual(send.call_count, 1)
+
++    def test_write_posts_are_never_sent(self):
+
++        client, send = self.client([])
+
++        for url in (URL.replace("/jobs", "/apply"), "https://discord.com/api/webhooks/test"):
+
++            with self.assertRaises(ValueError):
+
++                client.request("POST", url)
+
++        send.assert_not_called()
+
++    def test_successful_pages_are_paced(self):
+
++        client, send = self.client([response(), response()])
+
++        client.request("POST", URL)
+
++        client.request("POST", URL)
+
++        self.assertEqual(send.call_count, 2)
+
++        self.assertEqual(self.clock.waits, [0.25])
+
++    def test_same_host_clients_share_cooldown(self):
+
++        one, _ = self.client([response(429, headers={"Retry-After": "600"})])
+
++        with self.assertRaises(http.WorkdayDeferred):
+
++            one.request("POST", URL)
+
++        two, send = self.client([])
+
++        with self.assertRaises(http.WorkdayDeferred):
+
++            two.request("POST", URL)
+
++        send.assert_not_called()
+
++    def test_non_json_and_timeout_recover(self):
+
++        bad = response()
+
++        bad._content = b"<html>temporarily unavailable</html>"
+
++        client, _ = self.client([bad, requests.Timeout(), response()])
+
++        client.request("POST", URL)
+
++        self.assertEqual([e["reason"] for e in self.events[:2]], ["non-JSON response", "Timeout"])
+
++    def test_context_deadline_is_used(self):
+
++        with http.source_budget(1005):
+
++            client = http.WorkdayHTTP(Mock(), source="test", clock=self.clock)
+
++        self.assertEqual(client.deadline, 1005)
+
++    def test_explicit_security_challenge_is_not_retried(self):
+
++        challenged = response(429, headers={"Content-Type":"text/html", "CF-Mitigated":"challenge", "CF-Ray":"proof-ray"})
+
++        challenged._content = b"<svg><path d='" + b"x"*6000 + b"'/></svg><h1>Security Check</h1><p>Enable JavaScript and cookies to continue</p>"
+
++        client, send = self.client([challenged])
+
++        with self.assertRaises(http.WorkdayChallenge):client.request("POST", URL)
+
++        self.assertEqual(send.call_count, 1)
+
++        self.assertEqual(self.clock.waits, [])
+
++        self.assertEqual(self.events[-1]["decision"], "access_challenge")
+
++        self.assertIn("Enable JavaScript and cookies", self.events[-1]["response_excerpt"])
+
++        self.assertEqual(self.events[-1]["cf_mitigated"], "challenge")
+
++        another, transport = self.client([])
+
++        with self.assertRaises(http.WorkdayDeferred):another.request("POST", URL)
+
++        transport.assert_not_called()
+
++    def test_challenge_body_is_detected_when_header_is_absent(self):
+
++        challenged=response(403,headers={"Content-Type":"text/html"})
+
++        challenged._content=b"<h1>Security Check</h1><p>Enable JavaScript and cookies to continue</p>"
+
++        client, send=self.client([challenged])
+
++        with self.assertRaises(http.WorkdayChallenge):client.request("POST",URL)
+
++        self.assertEqual(send.call_count,1)
+
++    def test_logs_are_redacted_and_bounded(self):
+
++        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {
+
++             "ABET_BASE_DIR": directory, "FAKE_SECRET_KEY": "super-secret-value"}), redirect_stderr(io.StringIO()):
+
++            clean = http._clean("<html>super-secret-value somebody@example.com https://example.com/token</html>")
+
++            http.emit({"decision": "retry", "response_excerpt": clean})
+
++            text = http.diagnostic_path().read_text()
+
++            self.assertNotIn("super-secret-value", text)
+
++            self.assertNotIn("somebody@example.com", text)
+
++            self.assertNotIn("/token", text)
+
++            self.assertEqual(http.diagnostic_summary()["attempts_recorded"], 1)
+
++            with patch.object(http, "MAX_LOG_BYTES", 1):
+
++                http.emit({"decision": "retry"})
+
++            self.assertEqual(http.diagnostic_summary()["file_events_dropped"], 1)
+
++        http._LOG_DROPPED = 0
+
+--- a/tests/test_workday_recovery.py
++++ b/tests/test_workday_recovery.py
+@@ -1,66 +1,54 @@
+-"""Reproduce the November 14 failures without contacting employer sites."""
+-import unittest
+-from unittest.mock import patch
+-import requests
+-from jobradar.providers.workday import WorkdayProvider
+-
+-
+-class Response:
+-    def __init__(self, status=200, data=None, malformed=False, headers=None):
+-        self.status_code, self.data, self.malformed = status, data, malformed
+-        self.headers = headers or {'Content-Type': 'text/html' if malformed else 'application/json'}
+-    def raise_for_status(self):
+-        if self.status_code >= 400:
+-            raise requests.HTTPError(f'HTTP {self.status_code}', response=self)
+-    def json(self):
+-        if self.malformed:
+-            raise ValueError('not JSON')
+-        return self.data
+-
+-
+-def page(start=0, total=1, count=1):
+-    return Response(data={'total': total, 'jobPostings': [
+-        {'title': f'Job {i}', 'externalPath': f'/job/{i}'} for i in range(start, start + count)]})
+-
+-
+-class WorkdayRecovery(unittest.TestCase):
+-    @patch('jobradar.providers.workday.time.sleep')
+-    def test_521_then_non_json_then_success_retries_identical_page(self, sleep):
+-        with patch('jobradar.providers.workday.requests.post', side_effect=[Response(521), Response(malformed=True), page()]) as post:
+-            self.assertEqual(len(WorkdayProvider('bostondynamics').fetch('test')), 1)
+-        self.assertEqual(post.call_args_list[0], post.call_args_list[1])
+-        self.assertEqual(post.call_args_list[1], post.call_args_list[2])
+-        self.assertEqual([c.args[0] for c in sleep.call_args_list], [1, 2])
+-
+-    @patch('jobradar.providers.workday.time.sleep')
+-    def test_second_page_retry_keeps_first_page_and_has_no_duplicates(self, sleep):
+-        with patch('jobradar.providers.workday.requests.post', side_effect=[page(0, 40, 20), requests.Timeout(), page(20, 0, 20)]) as post:
+-            jobs = WorkdayProvider('rockwellautomation').fetch('test')
+-        self.assertEqual(len({j.url for j in jobs}), 40)
+-        self.assertEqual([c.kwargs['json']['offset'] for c in post.call_args_list], [0, 20, 20])
+-
+-    @patch('jobradar.providers.workday.time.sleep')
+-    def test_exhaustion_raises_instead_of_returning_partial_data(self, sleep):
+-        with patch('jobradar.providers.workday.requests.post', side_effect=[page(0, 40, 20)] + [Response(malformed=True)] * 3):
+-            with self.assertRaisesRegex(RuntimeError, 'offset=20 failed after 3 attempts'):
+-                WorkdayProvider('autostore').fetch('test')
+-
+-    @patch('jobradar.providers.workday.time.sleep')
+-    def test_rate_limit_wait_is_honored_and_bounded(self, sleep):
+-        with patch('jobradar.providers.workday.requests.post', side_effect=[Response(429, headers={'Retry-After': '7'}), page()]):
+-            WorkdayProvider('autostore').fetch('test')
+-        sleep.assert_called_once_with(7)
+-        with patch('jobradar.providers.workday.requests.post', return_value=Response(429, headers={'Retry-After': '120'})) as post:
+-            with self.assertRaisesRegex(RuntimeError, 'retry budget'):
+-                WorkdayProvider('autostore').fetch('test')
+-            self.assertEqual(post.call_count, 1)
+-
+-    def test_auth_or_schema_errors_are_not_retried_or_hidden(self):
+-        for response, error in [(Response(403), requests.HTTPError), (Response(data={'error':'denied'}), ValueError), (Response(data=[]), ValueError)]:
+-            with self.subTest(response=response), patch('jobradar.providers.workday.requests.post', return_value=response) as post:
+-                with self.assertRaises(error): WorkdayProvider('bostondynamics').fetch('test')
+-                self.assertEqual(post.call_count, 1)
+-
+-    def test_verified_empty_is_valid(self):
+-        with patch('jobradar.providers.workday.requests.post', return_value=page(total=0, count=0)):
+-            self.assertEqual(WorkdayProvider('bostondynamics').fetch('test'), [])
++"""Provider integration: fake HTTP and clocks; run only in cloud CI."""
+
++import io
+
++import json
+
++import tempfile
+
++import unittest
+
++from pathlib import Path
+
++from contextlib import redirect_stderr
+
++from types import SimpleNamespace
+
++from unittest.mock import Mock, patch
+
++from jobradar.providers import workday
+
++from jobradar import workday_http as http
+
++from test_workday_http import Clock, response
+
++
+
++def page(start=0, total=1, count=1):
+
++    return response(body={"total": total, "jobPostings": [
+
++        {"title": f"Job {i}", "externalPath": f"/job/{i}"} for i in range(start, start+count)]})
+
++
+
++class WorkdayRecovery(unittest.TestCase):
+
++    def setUp(self):
+
++        http._HOSTS.clear()
+
++        self.clock, self.events = Clock(), []
+
++    def run_provider(self, replies):
+
++        send = Mock(side_effect=replies)
+
++        client = http.WorkdayHTTP(send, source="test", deadline=self.clock()+175,
+
++             clock=self.clock, sleep=self.clock.sleep, jitter=lambda: 0, logger=self.events.append)
+
++        with patch.object(workday, "_new_client", return_value=client):
+
++            jobs = workday.WorkdayProvider("bostondynamics").fetch("test")
+
++        return jobs, send
+
++    def test_recovery_does_not_duplicate_first_page(self):
+
++        jobs, send = self.run_provider([page(0,40,20), response(429), page(20,0,20)])
+
++        self.assertEqual(len({j.url for j in jobs}), 40)
+
++        self.assertEqual([c.kwargs["json"]["offset"] for c in send.call_args_list], [0,20,20])
+
++    def test_failed_later_page_does_not_return_partial_source(self):
+
++        with self.assertRaises(http.WorkdayDeferred):
+
++            self.run_provider([page(0,40,20)] + [response(429)]*5)
+
++    def test_missing_schema_and_early_empty_fail(self):
+
++        for replies in ([response(body={"error":"denied"})], [page(0,40,20), page(20,0,0)]):
+
++            with self.subTest(replies=replies), self.assertRaises(ValueError):
+
++                self.run_provider(replies)
+
++            http._HOSTS.clear()
+
++    def test_verified_empty_remains_valid(self):
+
++        jobs, _ = self.run_provider([page(0,0,0)])
+
++        self.assertEqual(jobs, [])
+
++    def test_recovered_child_diagnostics_are_forwarded(self):
+
++        from jobradar.fetch_worker import fetch_provider
+
++        def complete(args, **kwargs):
+
++            Path(args[-1]).write_text("[]")
+
++            self.assertIn("WORKDAY_SOURCE_SECONDS", kwargs["env"])
+
++            return SimpleNamespace(returncode=0, stderr='[WORKDAY_HTTP] {"decision":"retry"}\n')
+
++        captured = io.StringIO()
+
++        provider = SimpleNamespace(source="workday", slug="bostondynamics")
+
++        with patch("jobradar.fetch_worker.subprocess.run", side_effect=complete), redirect_stderr(captured):
+
++            self.assertEqual(fetch_provider(provider, "test"), [])
+
++        self.assertIn('"decision":"retry"', captured.getvalue())
+
+--- a/.github/workflows/workday-retry-review.yml
++++ b/.github/workflows/workday-retry-review.yml
+@@ -0,0 +1,25 @@
++name: workday-repair-validation
+
++on:
+
++  workflow_dispatch:
+
++permissions:
+
++  contents: read
+
++concurrency:
+
++  group: workday-cloud-development
+
++  cancel-in-progress: false
+
++jobs:
+
++  regression:
+
++    runs-on: ubuntu-latest
+
++    timeout-minutes: 6
+
++    steps:
+
++      - uses: actions/checkout@v4
+
++        with: {persist-credentials: false}
+
++      - uses: actions/setup-python@v5
+
++        with: {python-version: '3.12'}
+
++      - run: pip install -r requirements.txt
+
++      - name: Retry, challenge, completeness and persistence regression suites
+
++        env:
+
++          PYTHONPATH: runtime/verification/isolation:sports_teams:.
+
++          STAGING_TEST_NETWORK_OFF: '1'
+
++        run: |
+
++          python -m unittest discover -s tests -v
+
++          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+
+--- a/runtime/verification/isolation/sitecustomize.py
++++ b/runtime/verification/isolation/sitecustomize.py
+@@ -0,0 +1,9 @@
++"""Imported only in cloud regression subprocesses: no external socket access."""
++import socket,os
++if os.environ.get('STAGING_TEST_NETWORK_OFF')=='1':
++    original=socket.socket.connect
++    def connect(sock,address):
++        if isinstance(address,tuple) and str(address[0]) not in ('127.0.0.1','::1','localhost'):
++            raise RuntimeError('Staging regression tests cannot open external sockets')
++        return original(sock,address)
++    socket.socket.connect=connect

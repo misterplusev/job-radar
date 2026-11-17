@@ -1,16 +1,18 @@
 # ABET job scrapers — start here
 
+Latest release: [November 17 Workday handling repair and remaining access block](20261117_workday_source_repair/2026-11-17%200340%20Workday%20Repair%20Release%20and%20Remaining%20Access%20Block.md). The request-handling, diagnostics and incomplete-source fixes are deployed after329 passing cloud regression tests (four explicit skips). Complete Workday access is still unresolved. Exact code diffs, source inventory, tests, deployment receipts and rollback are in that package; do not interpret the release as all-source recovery.
+
 ## Recurring isolated staging — November 17, 2026 UTC
 
 A separate cloud staging controller is now enabled: [live status](https://abet-jobs-staging.abetscrape.workers.dev/). Robotics, tech and sports teams validate hourly; sportsbook every four hours, capped at 800 reserved private Actions minutes/month. It runs pinned candidate regression suites and bounded rotating live canaries, keeps its own SQLite-backed Durable Object state, and has no production database or Discord credentials. This is not a full Supabase clone or an all-source scrape every hour. Production remains every twelve hours.
 
-[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday failures remain visible and unpromoted. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
+[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday access failures remain visible; the scoped handling repair above is released. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
 
 **Current documentation index: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md).** Read it with [RUNBOOK.md](RUNBOOK.md) and [AGENTS.md](AGENTS.md) before working on the system.
 
 The four scrapers run in the cloud. One Cloudflare scheduler starts each every twelve hours temporarily on staggered hours. GitHub Actions runs robotics, tech, sports teams and the sportsbook delivery worker; Hugging Face runs the sportsbook scraper. One Supabase project holds the job data. Each module has exactly one Discord sender using the shared send implementation. The retired watchdog job announcer and independent Space timer must not be restored as extra senders/clocks.
 
-Current cadence and development release gate: [2026-11-17 0029 Temporary Cadence and Cloud Validation.md](2026-11-17%200029%20Temporary%20Cadence%20and%20Cloud%20Validation.md). Workday live probes still fail; the retry candidate is not deployed.
+Current cadence and original development release gate: [2026-11-17 0029 Temporary Cadence and Cloud Validation.md](2026-11-17%200029%20Temporary%20Cadence%20and%20Cloud%20Validation.md). The later scoped handling release above supersedes its unpromoted-code status; Workday source-access failures remain unresolved.
 
 | Need | Document |
 |---|---|

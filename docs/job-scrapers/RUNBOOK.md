@@ -1,10 +1,18 @@
 # ABET job scrapers: runbook
 
+## Workday failure-handling repair — November 17, 2026, 03:39 UTC
+
+The tested request-handling and data-integrity repair is released: main/teams `a47faad85f70bf3ea57c853973c1b4ad6bd768e5`, tech `3d5c1e89ecded51fff43dcaca253d65e08b47f98`, sportsbook `03e7f50efd72f94e70f131197d031bce52231320`, existing sportsbook HF Space `e43043fa23fc741eaaf71a902150f64dfab6f550`. Explicit upstream security challenges stop after one response; ordinary transient failures retain bounded retry/backoff and Retry-After handling. Incomplete sportsbook Workday details/pagination now fail the source instead of publishing a partial result. Structured redacted diagnostics are retained in bounded cloud files. Production cadence, database schema and one-sender design are unchanged.
+
+**Full source recovery is NOT proven.** Actual Workday responses contain `CF-Mitigated: challenge` and a security-check page. The new live staging run proves one-request challenge handling and a successful unaffected source, not restored Workday access. Production remains every twelve hours and staging remains isolated. Release cloud suites: 329 passed, four explicitly skipped. A bounded ordinary cloud-browser compatibility test is prepared but waiting for the operator's exception to the existing machine-wide browser stop; do not dispatch it without that exception.
+
+[Exact scripts, full diffs, cloud runs, deployed versions, remaining access block and rollback](20261117_workday_source_repair/2026-11-17%200340%20Workday%20Repair%20Release%20and%20Remaining%20Access%20Block.md). This entry supersedes older statements that the entire Workday candidate is still unpromoted; it does not supersede their evidence that source access failed.
+
 ## Recurring isolated staging — November 17, 2026 UTC
 
 A separate cloud staging controller is now enabled: [live status](https://abet-jobs-staging.abetscrape.workers.dev/). Robotics, tech and sports teams validate hourly; sportsbook every four hours, capped at 800 reserved private Actions minutes/month. It runs pinned candidate regression suites and bounded rotating live canaries, keeps its own SQLite-backed Durable Object state, and has no production database or Discord credentials. This is not a full Supabase clone or an all-source scrape every hour. Production remains every twelve hours.
 
-[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday failures remain visible and unpromoted. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
+[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday access failures remain visible; the scoped handling repair above is released. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
 
 ## Temporary lower cadence from November 17 2026 UTC
 
@@ -12,7 +20,7 @@ Production now runs each scraper every 12 hours: eight scheduled collection runs
 
 The sportsbook launcher reports the same 12-hour schedule with its existing 30-minute grace. It no longer starts a scrape on boot, even if an obsolete RUN_ON_BOOT variable is set. The scheduler preserves completed degraded/failed sportsbook slots across runtime restarts; they are not silently retried. The watchdog keeps its two-hour health-check timer and existing error reporting; its fallback stale threshold is 14 hours. This health-check timer is not a collection schedule.
 
-The longer-backoff Workday proposal remains on development branches. Mocked regression suites passed, but the three robotics live sources still returned HTTP 429 after all five attempts, and the three sportsbook live probes also failed (retry exhaustion or source-budget exhaustion). Passing retry simulations is not proof of restored source access. No Workday candidate is promoted on that evidence. All runtime verification executes in the cloud; development workflows receive no production database or Discord credentials.
+The initial longer-backoff-only proposal failed its live-source probes and was not promoted at that checkpoint. The later 03:39 UTC release above adds explicit challenge handling, completeness protection and usable diagnostics, proven by scoped cloud regression tests and a live one-request challenge receipt. Source access remains unresolved. Passing retry simulations is not proof of restored source access. All runtime verification executes in the cloud; development workflows receive no production database or Discord credentials.
 
 This reduces scheduled scrape load, not all account consumption. Public board/dashboard reads, monitoring traffic and other projects remain. Supabase monthly transfer is not measured, so this change does not guarantee every free-tier limit. The database measured 287,386,771 bytes at November 17 00:25 UTC. Current provider failures must remain visible.
 
@@ -170,7 +178,7 @@ Rules for changes:
 1. Change code in the repository, run the tests, commit, push. Robotics, tech and teams run from `master` on their next slot; nothing else to deploy.
 2. The scheduler and the Space do not deploy from a push. Deploy them from the exact committed file with the commands above; both commands verify the deployed file matches.
 3. To change the schedule, edit `MODULES` in `worker.mjs` **and** `SCHEDULE_EVERY_HOURS` / `SCHEDULE_HOUR_OFFSET_UTC` in the sportsbook `launcher.py` (it only describes the cadence for its health report). Execute the scheduler Node tests and Python regression suite in GitHub-hosted CI, never locally. Section 3 still applies.
-4. Deploying the Space restarts it, and it scrapes once on start (`RUN_ON_BOOT=1`). Deploy it when no other scraper is running.
+4. Deploying the Space restarts it. Since November 17, the launcher does **not** scrape on boot, even if an obsolete `RUN_ON_BOOT=1` variable exists. Deploy only when no production scraper is running; verify the running revision, cadence and health after restart. The next collection is started by the existing scheduler.
 5. Never run a manual scrape while another scraper is running. Check the scheduler first.
 
 Scheduler settings (Cloudflare Worker secrets): `GITHUB_TOKEN`, `CONTROL_TOKEN` (for pause/enable/tick), `SPORTSBOOK_SPACE_URL`, `SPACE_READ_TOKEN`, `SPACE_RUN_TOKEN` (equals the Space's `RUN_TOKEN`), `SUPABASE_URL`, `SUPABASE_ANON_KEY` (the public key; turns the circuit breaker on), `SPORTSBOOK_DELIVERY` (`on` starts the sportsbook delivery workflow after each sportsbook slot), `ALERT_WEBHOOK` (optional Discord webhook; when set, one message after 15 minutes of bad health, a reminder every 6 hours, one on recovery).

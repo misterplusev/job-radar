@@ -1,0 +1,1078 @@
+{
+  "method": "Static byte/hash counts and Python ast.parse; no imports or runtime execution",
+  "files": [
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "jobradar/workday_http.py",
+      "physical_lines": 257,
+      "nonblank_lines": 233,
+      "bytes": 12701,
+      "sha256": "c93e3cfc002539667947340766648a9962918c62c4f4004b0945657dc781ba89",
+      "symbols": [
+        {
+          "name": "WorkdayChallenge",
+          "kind": "ClassDef",
+          "line": 32,
+          "end_line": 35
+        },
+        {
+          "name": "WorkdayDeferred",
+          "kind": "ClassDef",
+          "line": 38,
+          "end_line": 39
+        },
+        {
+          "name": "source_budget",
+          "kind": "FunctionDef",
+          "line": 43,
+          "end_line": 48
+        },
+        {
+          "name": "is_workday_read",
+          "kind": "FunctionDef",
+          "line": 51,
+          "end_line": 61
+        },
+        {
+          "name": "retry_after_seconds",
+          "kind": "FunctionDef",
+          "line": 64,
+          "end_line": 76
+        },
+        {
+          "name": "diagnostic_path",
+          "kind": "FunctionDef",
+          "line": 79,
+          "end_line": 81
+        },
+        {
+          "name": "_clean",
+          "kind": "FunctionDef",
+          "line": 84,
+          "end_line": 94
+        },
+        {
+          "name": "emit",
+          "kind": "FunctionDef",
+          "line": 97,
+          "end_line": 123
+        },
+        {
+          "name": "diagnostic_summary",
+          "kind": "FunctionDef",
+          "line": 126,
+          "end_line": 148
+        },
+        {
+          "name": "WorkdayHTTP",
+          "kind": "ClassDef",
+          "line": 151,
+          "end_line": 253
+        },
+        {
+          "name": "__init__",
+          "kind": "FunctionDef",
+          "line": 152,
+          "end_line": 161
+        },
+        {
+          "name": "request",
+          "kind": "FunctionDef",
+          "line": 163,
+          "end_line": 253
+        }
+      ]
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "jobradar/providers/workday.py",
+      "physical_lines": 106,
+      "nonblank_lines": 93,
+      "bytes": 4364,
+      "sha256": "5a6e357cc15a99424a58cde464c2a2b34d96b1e28435306333afd9e817c07c6f",
+      "symbols": [
+        {
+          "name": "_new_client",
+          "kind": "FunctionDef",
+          "line": 38,
+          "end_line": 39
+        },
+        {
+          "name": "_fetch_page",
+          "kind": "FunctionDef",
+          "line": 42,
+          "end_line": 44
+        },
+        {
+          "name": "WorkdayProvider",
+          "kind": "ClassDef",
+          "line": 47,
+          "end_line": 106
+        },
+        {
+          "name": "__init__",
+          "kind": "FunctionDef",
+          "line": 50,
+          "end_line": 51
+        },
+        {
+          "name": "fetch",
+          "kind": "FunctionDef",
+          "line": 53,
+          "end_line": 106
+        }
+      ]
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "jobradar/fetch_worker.py",
+      "physical_lines": 54,
+      "nonblank_lines": 48,
+      "bytes": 2869,
+      "sha256": "304a72b192e69c97c21ff599903dc5250f9c89267d0cbb66b05600c62554886d",
+      "symbols": [
+        {
+          "name": "fetch_provider",
+          "kind": "FunctionDef",
+          "line": 11,
+          "end_line": 37
+        },
+        {
+          "name": "main",
+          "kind": "FunctionDef",
+          "line": 40,
+          "end_line": 50
+        }
+      ]
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": ".github/workflows/pipeline.yml",
+      "physical_lines": 71,
+      "nonblank_lines": 67,
+      "bytes": 2608,
+      "sha256": "0b4619458e2e80c85045fbf18f1c3d43b01e7c482412b1aa325a77092a3aa663",
+      "symbols": []
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "sports_teams/live_refresh.py",
+      "physical_lines": 353,
+      "nonblank_lines": 331,
+      "bytes": 21996,
+      "sha256": "60a89f779ce5395756ced281a1758608b9605610c823a77b5c0ac3779f522552",
+      "symbols": [
+        {
+          "name": "BoundedSession",
+          "kind": "ClassDef",
+          "line": 41,
+          "end_line": 101
+        },
+        {
+          "name": "__init__",
+          "kind": "FunctionDef",
+          "line": 44,
+          "end_line": 49
+        },
+        {
+          "name": "request",
+          "kind": "FunctionDef",
+          "line": 51,
+          "end_line": 71
+        },
+        {
+          "name": "_request_once",
+          "kind": "FunctionDef",
+          "line": 73,
+          "end_line": 101
+        },
+        {
+          "name": "source_from_row",
+          "kind": "FunctionDef",
+          "line": 104,
+          "end_line": 187
+        },
+        {
+          "name": "build_sources",
+          "kind": "FunctionDef",
+          "line": 190,
+          "end_line": 199
+        },
+        {
+          "name": "retired_replacements",
+          "kind": "FunctionDef",
+          "line": 202,
+          "end_line": 205
+        },
+        {
+          "name": "fetch_source",
+          "kind": "FunctionDef",
+          "line": 208,
+          "end_line": 291
+        },
+        {
+          "name": "collect",
+          "kind": "FunctionDef",
+          "line": 294,
+          "end_line": 304
+        },
+        {
+          "name": "apply_results",
+          "kind": "FunctionDef",
+          "line": 307,
+          "end_line": 353
+        }
+      ]
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": ".github/workflows/sports-teams.yml",
+      "physical_lines": 111,
+      "nonblank_lines": 111,
+      "bytes": 5164,
+      "sha256": "1e983be6b79c7d668c966c2eabea7a8b90868a932a91433185958fa6e4c050e7",
+      "symbols": []
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "sports_teams/test_workday_retry.py",
+      "physical_lines": 24,
+      "nonblank_lines": 23,
+      "bytes": 1468,
+      "sha256": "10ef7b5c2378e1256ac26ce839baca6e337804ff9ab1f6b0729d8bfbccbb8d8a",
+      "symbols": [
+        {
+          "name": "WorkdayTeamRetry",
+          "kind": "ClassDef",
+          "line": 8,
+          "end_line": 24
+        },
+        {
+          "name": "test_workday_post_enters_policy_other_posts_do_not",
+          "kind": "FunctionDef",
+          "line": 9,
+          "end_line": 19
+        },
+        {
+          "name": "test_policy_timeout_tuple_is_accepted_by_bounded_transport",
+          "kind": "FunctionDef",
+          "line": 20,
+          "end_line": 24
+        }
+      ]
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "tests/test_provider_completeness.py",
+      "physical_lines": 92,
+      "nonblank_lines": 80,
+      "bytes": 5960,
+      "sha256": "f8065b4772fc58ff23e5695bf2cfcee952d91f295f61bfbc36a1d2bb22ed045b",
+      "symbols": [
+        {
+          "name": "response",
+          "kind": "FunctionDef",
+          "line": 24,
+          "end_line": 25
+        },
+        {
+          "name": "CompletenessTests",
+          "kind": "ClassDef",
+          "line": 27,
+          "end_line": 90
+        },
+        {
+          "name": "setUp",
+          "kind": "FunctionDef",
+          "line": 28,
+          "end_line": 37
+        },
+        {
+          "name": "client",
+          "kind": "FunctionDef",
+          "line": 31,
+          "end_line": 34
+        },
+        {
+          "name": "test_http_errors_never_become_successful_empty_boards",
+          "kind": "FunctionDef",
+          "line": 39,
+          "end_line": 42
+        },
+        {
+          "name": "test_invalid_board_payload_is_not_empty",
+          "kind": "FunctionDef",
+          "line": 44,
+          "end_line": 46
+        },
+        {
+          "name": "test_amazon_page_failure_is_not_partial_success",
+          "kind": "FunctionDef",
+          "line": 48,
+          "end_line": 51
+        },
+        {
+          "name": "test_workday_page_failure_is_not_partial_success",
+          "kind": "FunctionDef",
+          "line": 53,
+          "end_line": 56
+        },
+        {
+          "name": "test_provider_process_has_a_real_deadline",
+          "kind": "FunctionDef",
+          "line": 58,
+          "end_line": 61
+        },
+        {
+          "name": "test_workday_retains_first_page_total_when_later_totals_are_zero",
+          "kind": "FunctionDef",
+          "line": 63,
+          "end_line": 69
+        },
+        {
+          "name": "test_partial_run_writes_degraded_manifest_and_preserves_existing_jobs",
+          "kind": "FunctionDef",
+          "line": 71,
+          "end_line": 81
+        },
+        {
+          "name": "test_verified_empty_source_is_passed_for_reconciliation",
+          "kind": "FunctionDef",
+          "line": 83,
+          "end_line": 90
+        }
+      ]
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "tests/test_workday_http.py",
+      "physical_lines": 143,
+      "nonblank_lines": 139,
+      "bytes": 7439,
+      "sha256": "1ba05f12f35cc429121e84f255e664940dc307a4115ae450ef31c856c6303fc0",
+      "symbols": [
+        {
+          "name": "Clock",
+          "kind": "ClassDef",
+          "line": 18,
+          "end_line": 26
+        },
+        {
+          "name": "__init__",
+          "kind": "FunctionDef",
+          "line": 19,
+          "end_line": 21
+        },
+        {
+          "name": "__call__",
+          "kind": "FunctionDef",
+          "line": 22,
+          "end_line": 23
+        },
+        {
+          "name": "sleep",
+          "kind": "FunctionDef",
+          "line": 24,
+          "end_line": 26
+        },
+        {
+          "name": "response",
+          "kind": "FunctionDef",
+          "line": 28,
+          "end_line": 34
+        },
+        {
+          "name": "WorkdayPolicyTests",
+          "kind": "ClassDef",
+          "line": 36,
+          "end_line": 143
+        },
+        {
+          "name": "setUp",
+          "kind": "FunctionDef",
+          "line": 37,
+          "end_line": 39
+        },
+        {
+          "name": "client",
+          "kind": "FunctionDef",
+          "line": 40,
+          "end_line": 44
+        },
+        {
+          "name": "test_read_only_post_recovers_and_records_attempts",
+          "kind": "FunctionDef",
+          "line": 45,
+          "end_line": 52
+        },
+        {
+          "name": "test_numeric_retry_after_is_not_shortened",
+          "kind": "FunctionDef",
+          "line": 53,
+          "end_line": 56
+        },
+        {
+          "name": "test_http_date_retry_after",
+          "kind": "FunctionDef",
+          "line": 57,
+          "end_line": 62
+        },
+        {
+          "name": "test_long_wait_defers_without_early_retry",
+          "kind": "FunctionDef",
+          "line": 63,
+          "end_line": 69
+        },
+        {
+          "name": "test_repeated_429_is_bounded",
+          "kind": "FunctionDef",
+          "line": 70,
+          "end_line": 75
+        },
+        {
+          "name": "test_forbidden_is_terminal",
+          "kind": "FunctionDef",
+          "line": 76,
+          "end_line": 80
+        },
+        {
+          "name": "test_write_posts_are_never_sent",
+          "kind": "FunctionDef",
+          "line": 81,
+          "end_line": 86
+        },
+        {
+          "name": "test_successful_pages_are_paced",
+          "kind": "FunctionDef",
+          "line": 87,
+          "end_line": 92
+        },
+        {
+          "name": "test_same_host_clients_share_cooldown",
+          "kind": "FunctionDef",
+          "line": 93,
+          "end_line": 100
+        },
+        {
+          "name": "test_non_json_and_timeout_recover",
+          "kind": "FunctionDef",
+          "line": 101,
+          "end_line": 106
+        },
+        {
+          "name": "test_context_deadline_is_used",
+          "kind": "FunctionDef",
+          "line": 107,
+          "end_line": 110
+        },
+        {
+          "name": "test_explicit_security_challenge_is_not_retried",
+          "kind": "FunctionDef",
+          "line": 111,
+          "end_line": 123
+        },
+        {
+          "name": "test_challenge_body_is_detected_when_header_is_absent",
+          "kind": "FunctionDef",
+          "line": 124,
+          "end_line": 129
+        },
+        {
+          "name": "test_logs_are_redacted_and_bounded",
+          "kind": "FunctionDef",
+          "line": 130,
+          "end_line": 143
+        }
+      ]
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "tests/test_workday_recovery.py",
+      "physical_lines": 54,
+      "nonblank_lines": 52,
+      "bytes": 2848,
+      "sha256": "79b5d745e1cbcaaecdc68ca9c42bfa25b4f5385c3585a2a4de054afd888a6d12",
+      "symbols": [
+        {
+          "name": "page",
+          "kind": "FunctionDef",
+          "line": 14,
+          "end_line": 16
+        },
+        {
+          "name": "WorkdayRecovery",
+          "kind": "ClassDef",
+          "line": 18,
+          "end_line": 54
+        },
+        {
+          "name": "setUp",
+          "kind": "FunctionDef",
+          "line": 19,
+          "end_line": 21
+        },
+        {
+          "name": "run_provider",
+          "kind": "FunctionDef",
+          "line": 22,
+          "end_line": 28
+        },
+        {
+          "name": "test_recovery_does_not_duplicate_first_page",
+          "kind": "FunctionDef",
+          "line": 29,
+          "end_line": 32
+        },
+        {
+          "name": "test_failed_later_page_does_not_return_partial_source",
+          "kind": "FunctionDef",
+          "line": 33,
+          "end_line": 35
+        },
+        {
+          "name": "test_missing_schema_and_early_empty_fail",
+          "kind": "FunctionDef",
+          "line": 36,
+          "end_line": 40
+        },
+        {
+          "name": "test_verified_empty_remains_valid",
+          "kind": "FunctionDef",
+          "line": 41,
+          "end_line": 43
+        },
+        {
+          "name": "test_recovered_child_diagnostics_are_forwarded",
+          "kind": "FunctionDef",
+          "line": 44,
+          "end_line": 54
+        },
+        {
+          "name": "complete",
+          "kind": "FunctionDef",
+          "line": 46,
+          "end_line": 49
+        }
+      ]
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": ".github/workflows/workday-retry-review.yml",
+      "physical_lines": 25,
+      "nonblank_lines": 25,
+      "bytes": 805,
+      "sha256": "533b7c2ef7266137247b9574dbaa7b8423c8982c5f98b2a2ed7ad1e88193dbe3",
+      "symbols": []
+    },
+    {
+      "module": "main",
+      "repo": "misterplusev/job-radar",
+      "path": "runtime/verification/isolation/sitecustomize.py",
+      "physical_lines": 9,
+      "nonblank_lines": 9,
+      "bytes": 473,
+      "sha256": "2890d8952533ea4fb1135023f2701013d02998ab9ee33a1298ce746464d28145",
+      "symbols": [
+        {
+          "name": "connect",
+          "kind": "FunctionDef",
+          "line": 5,
+          "end_line": 8
+        }
+      ]
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": "jobradar/workday_http.py",
+      "physical_lines": 257,
+      "nonblank_lines": 233,
+      "bytes": 12701,
+      "sha256": "c93e3cfc002539667947340766648a9962918c62c4f4004b0945657dc781ba89",
+      "symbols": [
+        {
+          "name": "WorkdayChallenge",
+          "kind": "ClassDef",
+          "line": 32,
+          "end_line": 35
+        },
+        {
+          "name": "WorkdayDeferred",
+          "kind": "ClassDef",
+          "line": 38,
+          "end_line": 39
+        },
+        {
+          "name": "source_budget",
+          "kind": "FunctionDef",
+          "line": 43,
+          "end_line": 48
+        },
+        {
+          "name": "is_workday_read",
+          "kind": "FunctionDef",
+          "line": 51,
+          "end_line": 61
+        },
+        {
+          "name": "retry_after_seconds",
+          "kind": "FunctionDef",
+          "line": 64,
+          "end_line": 76
+        },
+        {
+          "name": "diagnostic_path",
+          "kind": "FunctionDef",
+          "line": 79,
+          "end_line": 81
+        },
+        {
+          "name": "_clean",
+          "kind": "FunctionDef",
+          "line": 84,
+          "end_line": 94
+        },
+        {
+          "name": "emit",
+          "kind": "FunctionDef",
+          "line": 97,
+          "end_line": 123
+        },
+        {
+          "name": "diagnostic_summary",
+          "kind": "FunctionDef",
+          "line": 126,
+          "end_line": 148
+        },
+        {
+          "name": "WorkdayHTTP",
+          "kind": "ClassDef",
+          "line": 151,
+          "end_line": 253
+        },
+        {
+          "name": "__init__",
+          "kind": "FunctionDef",
+          "line": 152,
+          "end_line": 161
+        },
+        {
+          "name": "request",
+          "kind": "FunctionDef",
+          "line": 163,
+          "end_line": 253
+        }
+      ]
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": "jobradar/providers/workday.py",
+      "physical_lines": 106,
+      "nonblank_lines": 93,
+      "bytes": 4364,
+      "sha256": "5a6e357cc15a99424a58cde464c2a2b34d96b1e28435306333afd9e817c07c6f",
+      "symbols": [
+        {
+          "name": "_new_client",
+          "kind": "FunctionDef",
+          "line": 38,
+          "end_line": 39
+        },
+        {
+          "name": "_fetch_page",
+          "kind": "FunctionDef",
+          "line": 42,
+          "end_line": 44
+        },
+        {
+          "name": "WorkdayProvider",
+          "kind": "ClassDef",
+          "line": 47,
+          "end_line": 106
+        },
+        {
+          "name": "__init__",
+          "kind": "FunctionDef",
+          "line": 50,
+          "end_line": 51
+        },
+        {
+          "name": "fetch",
+          "kind": "FunctionDef",
+          "line": 53,
+          "end_line": 106
+        }
+      ]
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": "jobradar/fetch_worker.py",
+      "physical_lines": 54,
+      "nonblank_lines": 48,
+      "bytes": 2869,
+      "sha256": "304a72b192e69c97c21ff599903dc5250f9c89267d0cbb66b05600c62554886d",
+      "symbols": [
+        {
+          "name": "fetch_provider",
+          "kind": "FunctionDef",
+          "line": 11,
+          "end_line": 37
+        },
+        {
+          "name": "main",
+          "kind": "FunctionDef",
+          "line": 40,
+          "end_line": 50
+        }
+      ]
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": ".github/workflows/pipeline.yml",
+      "physical_lines": 71,
+      "nonblank_lines": 67,
+      "bytes": 2604,
+      "sha256": "a70c7bf0beeeade580b6de9765783d1292873f5571e1ea396c84a4f67aace0fd",
+      "symbols": []
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": "tests/test_provider_completeness.py",
+      "physical_lines": 92,
+      "nonblank_lines": 80,
+      "bytes": 5960,
+      "sha256": "f8065b4772fc58ff23e5695bf2cfcee952d91f295f61bfbc36a1d2bb22ed045b",
+      "symbols": [
+        {
+          "name": "response",
+          "kind": "FunctionDef",
+          "line": 24,
+          "end_line": 25
+        },
+        {
+          "name": "CompletenessTests",
+          "kind": "ClassDef",
+          "line": 27,
+          "end_line": 90
+        },
+        {
+          "name": "setUp",
+          "kind": "FunctionDef",
+          "line": 28,
+          "end_line": 37
+        },
+        {
+          "name": "client",
+          "kind": "FunctionDef",
+          "line": 31,
+          "end_line": 34
+        },
+        {
+          "name": "test_http_errors_never_become_successful_empty_boards",
+          "kind": "FunctionDef",
+          "line": 39,
+          "end_line": 42
+        },
+        {
+          "name": "test_invalid_board_payload_is_not_empty",
+          "kind": "FunctionDef",
+          "line": 44,
+          "end_line": 46
+        },
+        {
+          "name": "test_amazon_page_failure_is_not_partial_success",
+          "kind": "FunctionDef",
+          "line": 48,
+          "end_line": 51
+        },
+        {
+          "name": "test_workday_page_failure_is_not_partial_success",
+          "kind": "FunctionDef",
+          "line": 53,
+          "end_line": 56
+        },
+        {
+          "name": "test_provider_process_has_a_real_deadline",
+          "kind": "FunctionDef",
+          "line": 58,
+          "end_line": 61
+        },
+        {
+          "name": "test_workday_retains_first_page_total_when_later_totals_are_zero",
+          "kind": "FunctionDef",
+          "line": 63,
+          "end_line": 69
+        },
+        {
+          "name": "test_partial_run_writes_degraded_manifest_and_preserves_existing_jobs",
+          "kind": "FunctionDef",
+          "line": 71,
+          "end_line": 81
+        },
+        {
+          "name": "test_verified_empty_source_is_passed_for_reconciliation",
+          "kind": "FunctionDef",
+          "line": 83,
+          "end_line": 90
+        }
+      ]
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": "tests/test_workday_http.py",
+      "physical_lines": 143,
+      "nonblank_lines": 139,
+      "bytes": 7439,
+      "sha256": "1ba05f12f35cc429121e84f255e664940dc307a4115ae450ef31c856c6303fc0",
+      "symbols": [
+        {
+          "name": "Clock",
+          "kind": "ClassDef",
+          "line": 18,
+          "end_line": 26
+        },
+        {
+          "name": "__init__",
+          "kind": "FunctionDef",
+          "line": 19,
+          "end_line": 21
+        },
+        {
+          "name": "__call__",
+          "kind": "FunctionDef",
+          "line": 22,
+          "end_line": 23
+        },
+        {
+          "name": "sleep",
+          "kind": "FunctionDef",
+          "line": 24,
+          "end_line": 26
+        },
+        {
+          "name": "response",
+          "kind": "FunctionDef",
+          "line": 28,
+          "end_line": 34
+        },
+        {
+          "name": "WorkdayPolicyTests",
+          "kind": "ClassDef",
+          "line": 36,
+          "end_line": 143
+        },
+        {
+          "name": "setUp",
+          "kind": "FunctionDef",
+          "line": 37,
+          "end_line": 39
+        },
+        {
+          "name": "client",
+          "kind": "FunctionDef",
+          "line": 40,
+          "end_line": 44
+        },
+        {
+          "name": "test_read_only_post_recovers_and_records_attempts",
+          "kind": "FunctionDef",
+          "line": 45,
+          "end_line": 52
+        },
+        {
+          "name": "test_numeric_retry_after_is_not_shortened",
+          "kind": "FunctionDef",
+          "line": 53,
+          "end_line": 56
+        },
+        {
+          "name": "test_http_date_retry_after",
+          "kind": "FunctionDef",
+          "line": 57,
+          "end_line": 62
+        },
+        {
+          "name": "test_long_wait_defers_without_early_retry",
+          "kind": "FunctionDef",
+          "line": 63,
+          "end_line": 69
+        },
+        {
+          "name": "test_repeated_429_is_bounded",
+          "kind": "FunctionDef",
+          "line": 70,
+          "end_line": 75
+        },
+        {
+          "name": "test_forbidden_is_terminal",
+          "kind": "FunctionDef",
+          "line": 76,
+          "end_line": 80
+        },
+        {
+          "name": "test_write_posts_are_never_sent",
+          "kind": "FunctionDef",
+          "line": 81,
+          "end_line": 86
+        },
+        {
+          "name": "test_successful_pages_are_paced",
+          "kind": "FunctionDef",
+          "line": 87,
+          "end_line": 92
+        },
+        {
+          "name": "test_same_host_clients_share_cooldown",
+          "kind": "FunctionDef",
+          "line": 93,
+          "end_line": 100
+        },
+        {
+          "name": "test_non_json_and_timeout_recover",
+          "kind": "FunctionDef",
+          "line": 101,
+          "end_line": 106
+        },
+        {
+          "name": "test_context_deadline_is_used",
+          "kind": "FunctionDef",
+          "line": 107,
+          "end_line": 110
+        },
+        {
+          "name": "test_explicit_security_challenge_is_not_retried",
+          "kind": "FunctionDef",
+          "line": 111,
+          "end_line": 123
+        },
+        {
+          "name": "test_challenge_body_is_detected_when_header_is_absent",
+          "kind": "FunctionDef",
+          "line": 124,
+          "end_line": 129
+        },
+        {
+          "name": "test_logs_are_redacted_and_bounded",
+          "kind": "FunctionDef",
+          "line": 130,
+          "end_line": 143
+        }
+      ]
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": "tests/test_workday_recovery.py",
+      "physical_lines": 54,
+      "nonblank_lines": 52,
+      "bytes": 2848,
+      "sha256": "79b5d745e1cbcaaecdc68ca9c42bfa25b4f5385c3585a2a4de054afd888a6d12",
+      "symbols": [
+        {
+          "name": "page",
+          "kind": "FunctionDef",
+          "line": 14,
+          "end_line": 16
+        },
+        {
+          "name": "WorkdayRecovery",
+          "kind": "ClassDef",
+          "line": 18,
+          "end_line": 54
+        },
+        {
+          "name": "setUp",
+          "kind": "FunctionDef",
+          "line": 19,
+          "end_line": 21
+        },
+        {
+          "name": "run_provider",
+          "kind": "FunctionDef",
+          "line": 22,
+          "end_line": 28
+        },
+        {
+          "name": "test_recovery_does_not_duplicate_first_page",
+          "kind": "FunctionDef",
+          "line": 29,
+          "end_line": 32
+        },
+        {
+          "name": "test_failed_later_page_does_not_return_partial_source",
+          "kind": "FunctionDef",
+          "line": 33,
+          "end_line": 35
+        },
+        {
+          "name": "test_missing_schema_and_early_empty_fail",
+          "kind": "FunctionDef",
+          "line": 36,
+          "end_line": 40
+        },
+        {
+          "name": "test_verified_empty_remains_valid",
+          "kind": "FunctionDef",
+          "line": 41,
+          "end_line": 43
+        },
+        {
+          "name": "test_recovered_child_diagnostics_are_forwarded",
+          "kind": "FunctionDef",
+          "line": 44,
+          "end_line": 54
+        },
+        {
+          "name": "complete",
+          "kind": "FunctionDef",
+          "line": 46,
+          "end_line": 49
+        }
+      ]
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": ".github/workflows/workday-retry-review.yml",
+      "physical_lines": 24,
+      "nonblank_lines": 24,
+      "bytes": 715,
+      "sha256": "3abbc8abec10d067c6586aca110f2d684d78f1716f6d8099023ead187f512d4d",
+      "symbols": []
+    },
+    {
+      "module": "tech",
+      "repo": "misterplusev/job-radar-tech",
+      "path": "runtime/verification/isolation/sitecustomize.py",
+      "physical_lines": 9,
+      "nonblank_lines": 9,
+      "bytes": 473,
+      "sha256": "2890d8952533ea4fb1135023f2701013d02998ab9ee33a1298ce746464d28145",
+      "symbols": [
+        {
+          "name": "connect",
+          "kind": "FunctionDef",
+          "line": 5,
+          "end_line": 8
+        }
+      ]
+    }
+  ],
+  "scope": "Changed public main and tech source only; full31-path inventory and sportsbook source diff remain in the private sportsbook repository/operator package"
+}

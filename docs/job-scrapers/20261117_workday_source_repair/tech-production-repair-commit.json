@@ -1,0 +1,20 @@
+{
+  "at": "2026-11-17T03:38:21.498320+00:00",
+  "repo": "misterplusev/job-radar-tech",
+  "branch": "master",
+  "before": "b1bae9fd0b8f652ec289086c1d3277f1593fe9c4",
+  "after": "3d5c1e89ecded51fff43dcaca253d65e08b47f98",
+  "validation_run": "https://github.com/misterplusev/job-radar-tech/actions/runs/44011289470",
+  "files": [
+    "jobradar/workday_http.py",
+    "jobradar/providers/workday.py",
+    "jobradar/fetch_worker.py",
+    ".github/workflows/pipeline.yml",
+    "tests/test_provider_completeness.py",
+    "tests/test_workday_http.py",
+    "tests/test_workday_recovery.py",
+    ".github/workflows/workday-retry-review.yml",
+    "runtime/verification/isolation/sitecustomize.py"
+  ],
+  "method": "non-forced fast-forward of exact cloud-tested commit"
+}

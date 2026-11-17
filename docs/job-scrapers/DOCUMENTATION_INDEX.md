@@ -1,10 +1,14 @@
 # ABET jobs documentation — current index and coverage
 
+## Latest scoped repair — November 17, 2026, 03:39 UTC
+
+[Workday failure-handling release, exact scripts/diffs, cloud tests, deployment receipts, rollback and remaining access block](20261117_workday_source_repair/2026-11-17%200340%20Workday%20Repair%20Release%20and%20Remaining%20Access%20Block.md). This repair is deployed, with 329 passing cloud regression tests and four explicit skips. It corrects retry/challenge handling, diagnostics and partial-source protection; it does not establish restored access to challenged career sites. Affected-file/symbol inventory and before/after hashes accompany that package. Production remains every twelve hours; staging remains isolated and recurring.
+
 ## Recurring isolated staging — November 17, 2026 UTC
 
 A separate cloud staging controller is now enabled: [live status](https://abet-jobs-staging.abetscrape.workers.dev/). Robotics, tech and sports teams validate hourly; sportsbook every four hours, capped at 800 reserved private Actions minutes/month. It runs pinned candidate regression suites and bounded rotating live canaries, keeps its own SQLite-backed Durable Object state, and has no production database or Discord credentials. This is not a full Supabase clone or an all-source scrape every hour. Production remains every twelve hours.
 
-[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday failures remain visible and unpromoted. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
+[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday access failures remain visible; the scoped handling repair above is released. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
 
 Reviewed November 14, 2026 Pacific. Scope: the four job scrapers, their cloud runtime, shared database dependencies, Discord delivery, standalone boards and installed ABET dashboard job modules. This is not an inventory of every unrelated ABET account, Worker, application or database.
 
@@ -15,7 +19,7 @@ Latest cadence change and isolated cloud validation: [2026-11-17 0029 Temporary 
 ## Read order for a new maintainer
 
 1. [Execution and operating rules](AGENTS.md), then [current runbook](RUNBOOK.md).
-2. [Latest recovery release and evidence](2026-11-14%20Recovery%20Proof.md): deployed commits, full production run receipts, screenshots, database indexes, rollback and seven-day observation boundaries.
+2. Read the November 17 scoped repair above, then [November 14 recovery evidence](2026-11-14%20Recovery%20Proof.md) for historical full production runs, screenshots, database indexes and observation boundaries. Do not present the November 14 source coverage as current.
 3. [Fresh repository file/function inventory](20261114_documentation_audit/source_inventory/README.md): exact source revisions, filenames, hashes, physical/nonblank line counts, Python symbols, JavaScript declaration scan, imports, workflows and secret-variable names.
 4. [Fresh public database dictionary](20261114_documentation_audit/DATABASE.md) and [raw catalog](20261114_documentation_audit/public_database_catalog.json): structures and permissions read from the cloud, not inferred from migration files.
 5. Private operator copy: `D:\abet_ops\jobs_scrapers\OPERATOR_APPENDIX.md`, for account IDs, credential *locations/names*, cloud secret assignments and operator recovery access. No credential values belong in review packages or public repositories.

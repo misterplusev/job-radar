@@ -1,0 +1,21 @@
+{
+  "at": "2026-11-17T03:38:23.842876+00:00",
+  "repo": "misterplusev/sportsbook-jobs-dashboard",
+  "branch": "prod/sportsbook-jobs",
+  "before": "008bfd4f0df76f1c1c96c75f31f0c3c0744747c0",
+  "after": "03e7f50efd72f94e70f131197d031bce52231320",
+  "validation_run": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44011293196",
+  "files": [
+    "scripts/lib/workday_http.py",
+    "scripts/providers/betmgm.py",
+    "scripts/providers/betway.py",
+    "scripts/providers/hardrock.py",
+    "scripts/provider_runner.py",
+    "scripts/scrape.py",
+    "tests/test_workday_http.py",
+    "tests/test_workday_providers.py",
+    ".github/workflows/workday-retry-review.yml",
+    "runtime/verification/isolation/sitecustomize.py"
+  ],
+  "method": "non-forced fast-forward of exact cloud-tested commit"
+}

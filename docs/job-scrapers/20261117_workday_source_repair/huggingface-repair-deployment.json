@@ -1,0 +1,23 @@
+{
+  "at": "2026-11-17T03:39:20.594595+00:00",
+  "before": "7026b4a72b90747c13d6b94f426044f8bdf40cf8",
+  "after": "e43043fa23fc741eaaf71a902150f64dfab6f550",
+  "source_commit": "03e7f50efd72f94e70f131197d031bce52231320",
+  "commit_url": "https://huggingface.co/spaces/abetco/sportsbook-jobs/commit/e43043fa23fc741eaaf71a902150f64dfab6f550",
+  "changed_files": [
+    "scripts/lib/workday_http.py",
+    "scripts/provider_runner.py",
+    "scripts/providers/betmgm.py",
+    "scripts/providers/betway.py",
+    "scripts/providers/hardrock.py",
+    "scripts/scrape.py"
+  ],
+  "deployed_matches": {
+    "scripts/lib/workday_http.py": true,
+    "scripts/providers/betmgm.py": true,
+    "scripts/providers/betway.py": true,
+    "scripts/providers/hardrock.py": true,
+    "scripts/provider_runner.py": true,
+    "scripts/scrape.py": true
+  }
+}

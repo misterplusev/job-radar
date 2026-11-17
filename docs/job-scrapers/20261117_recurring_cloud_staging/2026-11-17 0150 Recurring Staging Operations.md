@@ -1,12 +1,12 @@
 # ABET jobs: recurring isolated cloud staging
 
-Status: deployed and recurring operation verified; live scraper repair acceptance remains incomplete. This document describes the staging environment built November 17, 2026 UTC. See the adjacent build handoff for the latest execution checkpoint and acceptance evidence for observed results. It does not declare the proposed Workday repair successful.
+Status: deployed and recurring operation verified; live scraper repair acceptance remains incomplete. This document describes the staging environment built November 17, 2026 UTC. See the adjacent build handoff for the latest execution checkpoint and acceptance evidence for observed results. The request-handling repair is released; complete Workday source access remains unresolved. Current controller version: `a5fe8270-44eb-46c4-a734-a5fc1a04d3c1`, source `91af158bab61db76797db53eefdd185857da84ad`. Exact production release commits and evidence are in the adjacent `20261117_workday_source_repair` package.
 
 ## Purpose and boundary
 
 Production continues collecting and announcing jobs every twelve hours. Staging repeatedly runs the pinned development code's regression tests and a small rotating sample of real employer sources. This permits measurement of retry behavior without giving development code production database keys or Discord webhooks. No candidate is automatically promoted.
 
-Staging is a bounded validation environment, not another full scrape of every employer every hour. Its database contains run receipts, source observations, cooldowns and small job samples. It does not clone the production Supabase schema or hold the complete jobs history. Persistence and notification behavior are exercised by the existing module tests with isolated cloud fixtures and mocked services. Full isolated PostgreSQL integration, all-source coverage and actual Discord delivery are separate acceptance requirements before promoting a repair.
+Staging is a bounded validation environment, not another full scrape of every employer every hour. Its database contains run receipts, source observations, cooldowns and small job samples. It does not clone the production Supabase schema or hold the complete jobs history. Persistence and notification behavior are exercised by the existing module tests with isolated cloud fixtures and mocked services. Full isolated PostgreSQL integration, all-source coverage and actual Discord delivery remain separate requirements for declaring end-to-end recovery. The November 17 03:39 UTC release is limited to proven request handling, diagnostics and incomplete-source protection; it does not make that broader recovery claim.
 
 ## Accounts and components
 
@@ -19,10 +19,10 @@ Staging is a bounded validation environment, not another full scrape of every em
 | Harness source | `misterplusev/job-radar`, branch `codex/recurring-staging-20261117`, folder `runtime/staging/` | Controller, catalog, runner, sandbox and tests |
 | Robotics / teams execution | `misterplusev/job-radar`, `master`, `.github/workflows/staging-recurring.yml` | GitHub-hosted Ubuntu jobs, eight-minute job ceiling |
 | Tech execution | `misterplusev/job-radar-tech`, `master`, same workflow path | GitHub-hosted Ubuntu jobs, eight-minute ceiling |
-| Sportsbook execution | Private `misterplusev/sportsbook-jobs-dashboard`, `prod/sportsbook-jobs`, same workflow path (also registered on default branch `main`) (also registered on default branch `main`) (also registered on default branch `main`) (also registered on default branch `main`) (also registered on default branch `main`) (also registered on default branch `main`) | GitHub-hosted Ubuntu jobs, four-minute ceiling |
+| Sportsbook execution | Private `misterplusev/sportsbook-jobs-dashboard`, `prod/sportsbook-jobs`, same workflow path (also registered on default branch `main`) | GitHub-hosted Ubuntu jobs, four-minute ceiling |
 | Production | Existing `abet-jobs-scheduler`, Supabase, GitHub pipelines, private `abetco/sportsbook-jobs` Space and four Discord senders | Unchanged by staging; no staging calls dispatch their pipelines |
 
-The workflows must be present on their registered branches for `workflow_dispatch`. Sportsbook also requires the workflow file on its default branch `main` for GitHub discovery; execution still selects `prod/sportsbook-jobs`. Sportsbook also requires the workflow file on its default branch `main` for GitHub discovery; execution still selects `prod/sportsbook-jobs`. Sportsbook also requires the workflow file on its default branch `main` for GitHub discovery; execution still selects `prod/sportsbook-jobs`. Sportsbook also requires the workflow file on its default branch `main` for GitHub discovery; execution still selects `prod/sportsbook-jobs`. Sportsbook also requires the workflow file on its default branch `main` for GitHub discovery; execution still selects `prod/sportsbook-jobs`. Sportsbook also requires the workflow file on its default branch `main` for GitHub discovery; execution still selects `prod/sportsbook-jobs`. Their registration changed only a new workflow file, not scraper code, production schedules, sender code or database schemas. They have no GitHub cron. The staging controller is a separate clock for isolated validation, never a second clock for production.
+The workflows must be present on their registered branches for `workflow_dispatch`. Sportsbook also requires the workflow file on its default branch `main` for GitHub discovery; execution still selects `prod/sportsbook-jobs`. Their registration changed only a new workflow file, not scraper code, production schedules, sender code or database schemas. They have no GitHub cron. The staging controller is a separate clock for isolated validation, never a second clock for production.
 
 Hugging Face rejected creation of the proposed new `abetco/jobs-staging` Docker Space with HTTP 402 requiring PRO. No staging Space was created and no upgrade was purchased. Initial Docker/HTTP-server design files are historical; GitHub Actions is the deployed execution host. The existing production Space was not changed.
 
@@ -39,12 +39,12 @@ flowchart LR
   SD --> VIEW[Live staging status]
 ```
 
-| Module | Pinned candidate SHA | Production code promoted? |
+| Module | Pinned candidate SHA | Handling repair released? |
 |---|---|---|
-| Robotics | `ac5370eb792394cfc0dd289305bc104992479cd0` | No |
-| Sports teams | `ac5370eb792394cfc0dd289305bc104992479cd0` | No |
-| Tech | `f631e0b6f165cf4764ab857f1b4164ec76f83dc8` | No |
-| Sportsbook | `bcf53bb7c2371601e92f247ddf0aa36d3f9fecdc` | No |
+| Robotics | `75c94ecd586208df30a0bcb847081316720bfede` | Yes; source access unresolved |
+| Sports teams | `75c94ecd586208df30a0bcb847081316720bfede` | Yes; source access unresolved |
+| Tech | `9c8cd1c4ba4af58bcbb7fb88867acf038a144768` | Yes; source access unresolved |
+| Sportsbook | `d49ad7051954cdb09212fa36b0a49327940544d6` | Yes; source access unresolved |
 
 These are the `codex/workday-validation-20261117` candidates. Each lease contains the SHA. The runner compares it to `git rev-parse HEAD`; the controller rejects a report with another SHA. The harness is checked out separately; its actual SHA is recorded as `runner_build` in every receipt. See deployment receipts for the controller version and SHA-256 hashes; a branch name alone is not proof of deployed parity.
 
@@ -61,7 +61,7 @@ These are the `codex/workday-validation-20261117` candidates. Each lease contain
 - A lease expires after twelve minutes without an accepted report. A missing report is `runner_timeout`, never success. The next regular slot can proceed.
 - Public modules probe at most two sources per lease; sportsbook one. Fail-prone sources are prioritized alongside rotating controls. For sportsbook, three cycles prioritize failure sources and every fourth favors a normal source when available.
 - Each source is limited to twelve HTTP requests, 105 seconds of guarded network work, a 120-second process deadline, 16 MiB per response and 24 MiB total response bodies. A source exceeding the budget is incomplete; partial results cannot be promoted.
-- Failed sources wait 1, 2, 4, 8, 16, then 24 hours across consecutive failures. A longer server `Retry-After` wins. HTTP 403 imposes at least 24 hours. Cooldowns survive controller restarts.
+- Failed sources wait 1, 2, 4, 8, 16, then 24 hours across consecutive failures. A longer server `Retry-After` wins. HTTP 403 and an explicit security challenge (`blocked_access` / `CF-Mitigated: challenge`) impose at least 24 hours. Cooldowns survive controller restarts.
 - Sportsbook is private: maximum 200 leases/month at a four-minute job ceiling reserves at most 800 minutes/month for this new staging workload. Exhaustion produces `private_budget_hold`. Other private Actions usage is not measured by this controller; this cap is not an account-wide billing guarantee.
 - Receipts are retained seven days, at most 672. Keep at most ten job summaries per observed source; failed fetches preserve the previous successful sample. No descriptions are stored. GitHub artifacts retain seven days.
 - Ordinary schedule maximum is 150 source probes/day and 1,800 career HTTP requests/day before cooldowns (72 public runs × two sources + six sportsbook runs × one). The absolute 96-lease cap allows at most 192 probes/2,304 requests, although private limits and scheduling reduce that. Regressions forbid external network; dependency downloads and controller/Actions calls are additional cloud traffic.
