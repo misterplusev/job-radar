@@ -26,7 +26,7 @@ def command(cmd,cwd,env,timeout):
 
 def execute(task):
     module=task['module'];base=ROOT/'sources'/('robotics' if module=='sports_teams' else module)
-    report={'lease_id':task['lease_id'],'module':module,'slot':task['slot'],'source_sha':MANIFEST[module]['sha'],'runner_build':os.environ.get('STAGING_BUILD','unknown'),'started_at':now(),'tests':[],'sources':[],'production_writes':0,'discord_sends':0}
+    report={'lease_id':task['lease_id'],'module':module,'slot':task['slot'],'source_sha':MANIFEST[module]['sha'],'runner_build':os.environ.get('STAGING_BUILD','unknown'),'github_run_url':'https://github.com/'+os.environ.get('GITHUB_REPOSITORY','')+'/actions/runs/'+os.environ.get('GITHUB_RUN_ID',''),'started_at':now(),'tests':[],'sources':[],'production_writes':0,'discord_sends':0}
     try:
         with tempfile.TemporaryDirectory(prefix='abet-staging-') as tmp:
             # Existing tests may write local cloud fixture files; source snapshots remain intact.
@@ -52,10 +52,13 @@ def execute(task):
         report['finished_at']=now()
         # Persist at most one active report locally until the controller acknowledges it.
         STATE['latest']=report;STATE['completed']+=1
-        try:
-            response=requests.post(os.environ['STAGING_REPORT_URL'],headers={'Authorization':'Bearer '+os.environ['STAGING_REPORT_TOKEN']},json=report,timeout=20)
-            response.raise_for_status();STATE['report_error']=None
-        except Exception as exc:STATE['report_error']=type(exc).__name__+': '+str(exc)[:160]
+        for attempt in range(3):
+            try:
+                response=requests.post(os.environ['STAGING_REPORT_URL'],headers={'Authorization':'Bearer '+os.environ['STAGING_REPORT_TOKEN']},json=report,timeout=15)
+                response.raise_for_status();STATE['report_error']=None;break
+            except Exception as exc:
+                STATE['report_error']=type(exc).__name__+': '+str(exc)[:160]
+                if attempt<2:time.sleep(2**attempt)
         STATE['active']=None;LOCK.release()
 
 class Handler(BaseHTTPRequestHandler):
