@@ -1,0 +1,18 @@
+name: cadence-cloud-validation
+on:
+  push:
+    branches: [codex/cadence-validation-20261117]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Scheduler slots, database breaker, delivery and restart regression
+        run: node --test runtime/cloudflare/test_*.mjs
