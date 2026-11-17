@@ -34,7 +34,7 @@ class NetworkBudget:
             try:
                 # Redirects are recursively sent through this same guard by Requests.
                 response=budget.original(session,request,**kw)
-                event.update(status=response.status_code,retry_after=response.headers.get('Retry-After','')[:100],cf_ray=response.headers.get('CF-Ray','')[:100])
+                event.update(status=response.status_code,cf_mitigated=response.headers.get('CF-Mitigated','')[:80],retry_after=response.headers.get('Retry-After','')[:100],cf_ray=response.headers.get('CF-Ray','')[:100])
                 if not response._content_consumed:
                     chunks=[];size=0
                     for part in response.iter_content(65536):

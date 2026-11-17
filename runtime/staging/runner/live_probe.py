@@ -53,7 +53,8 @@ def run(module,source,run_id):
         if any(not j.get('title') or not j.get('url') for j in rows) or len(set(urls))!=len(urls):raise ValueError('Incomplete or duplicate job identity')
         result.update(status='passed' if rows else 'empty',complete=True,jobs_total=len(rows),sample=[{'title':str(j['title'])[:180],'url':str(j['url'])[:600],'location':str(j.get('location') or '')[:160]} for j in rows[:25]])
     except Exception as exc:
-        result.update(status='budget_exhausted' if isinstance(exc,BudgetExceeded) else 'failed',error=(type(exc).__name__+': '+str(exc))[-600:])
+        challenged=any(e.get('cf_mitigated')=='challenge' for e in guard.events) or 'WorkdayChallenge' in (type(exc).__name__+': '+str(exc))
+        result.update(status='blocked_access' if challenged else 'budget_exhausted' if isinstance(exc,BudgetExceeded) else 'failed',error=(type(exc).__name__+': '+str(exc))[-600:])
     finally:
         guard.close();result.update(requests=guard.count,bytes=guard.bytes,seconds=round(time.monotonic()-start,3),http=guard.events[-12:])
     return result

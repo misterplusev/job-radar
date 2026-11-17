@@ -1,6 +1,6 @@
 import { CATALOG } from './catalog.mjs';
 export const MODULES = {robotics:5,tech:20,sports_teams:35,sportsbook:50};
-export const SHAS = {robotics:'ac5370eb792394cfc0dd289305bc104992479cd0',tech:'f631e0b6f165cf4764ab857f1b4164ec76f83dc8',sports_teams:'ac5370eb792394cfc0dd289305bc104992479cd0',sportsbook:'bcf53bb7c2371601e92f247ddf0aa36d3f9fecdc'};
+export const SHAS = {robotics:'75c94ecd586208df30a0bcb847081316720bfede',tech:'9c8cd1c4ba4af58bcbb7fb88867acf038a144768',sports_teams:'75c94ecd586208df30a0bcb847081316720bfede',sportsbook:'d49ad7051954cdb09212fa36b0a49327940544d6'};
 export const PERIOD_HOURS={robotics:1,tech:1,sports_teams:1,sportsbook:4};
 const TARGETS={robotics:['misterplusev/job-radar','master'],sports_teams:['misterplusev/job-radar','master'],tech:['misterplusev/job-radar-tech','master'],sportsbook:['misterplusev/sportsbook-jobs-dashboard','prod/sportsbook-jobs']};
 const WORKFLOW='staging-recurring.yml';
@@ -12,6 +12,7 @@ export function slotAt(now,minute,hours=1){const d=new Date(now);d.setUTCMinutes
 export function retryAt(source,previous,now){
  const failures=(previous?.failures||0)+1;
  let delay=Math.min(24,2**Math.min(failures-1,5))*HOUR;
+ if(source.status==='blocked_access'||(source.http||[]).some(e=>e.cf_mitigated==='challenge'))delay=Math.max(delay,DAY);
  for(const event of source.http||[]){const raw=event.retry_after||'';const parsed=/^\d+$/.test(raw)?Number(raw)*1000:Date.parse(raw)-now;if(Number.isFinite(parsed))delay=Math.max(delay,parsed);if(event.status===403)delay=Math.max(delay,DAY);}
  return now+delay;
 }
@@ -33,7 +34,7 @@ export function normalizeReport(body,lease){
  for(const s of body.sources||[]){
   if(!lease.source_ids.includes(s.source_id)||seen.has(s.source_id)||!Number.isInteger(s.requests)||s.requests<0||s.requests>12)throw Error('source identity/request budget mismatch');
   seen.add(s.source_id);
-  sources.push({source_id:s.source_id,status:s.status,complete:s.complete===true,jobs_total:Math.min(Number(s.jobs_total)||0,100000),requests:s.requests,bytes:Number(s.bytes)||0,seconds:Number(s.seconds)||0,error:String(s.error||'').slice(-600),http:(s.http||[]).slice(-12).map(e=>({host:String(e.host||'').slice(0,160),path:String(e.path||'').slice(0,200),status:e.status,retry_after:String(e.retry_after||'').slice(0,100),cf_ray:String(e.cf_ray||'').slice(0,100),response_title:String(e.response_title||'').slice(0,180)})),sample:(s.sample||[]).slice(0,10).map(j=>({title:String(j.title||'').slice(0,160),url:String(j.url||'').slice(0,500),location:String(j.location||'').slice(0,120)}))});
+  sources.push({source_id:s.source_id,status:s.status,complete:s.complete===true,jobs_total:Math.min(Number(s.jobs_total)||0,100000),requests:s.requests,bytes:Number(s.bytes)||0,seconds:Number(s.seconds)||0,error:String(s.error||'').slice(-600),http:(s.http||[]).slice(-12).map(e=>({host:String(e.host||'').slice(0,160),path:String(e.path||'').slice(0,200),status:e.status,retry_after:String(e.retry_after||'').slice(0,100),cf_ray:String(e.cf_ray||'').slice(0,100),cf_mitigated:String(e.cf_mitigated||'').slice(0,80),response_title:String(e.response_title||'').slice(0,180)})),sample:(s.sample||[]).slice(0,10).map(j=>({title:String(j.title||'').slice(0,160),url:String(j.url||'').slice(0,500),location:String(j.location||'').slice(0,120)}))});
  }
  const full=seen.size===lease.source_ids.length;
  const status=!testOK?'test_failed':!full?'incomplete':!sources.length?'cooldown':sources.every(s=>s.status==='passed'&&s.complete)?'passed':'degraded';
