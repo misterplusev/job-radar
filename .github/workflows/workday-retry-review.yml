@@ -1,0 +1,39 @@
+name: workday-retry-cloud-validation
+on:
+  push:
+    branches: [codex/workday-validation-20261117]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: workday-cloud-development
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test dependencies
+        run: pip install -r requirements.txt
+      - name: Mocked retry, completeness and existing regression suite
+        env:
+          PYTHONPATH: sports_teams:.
+        run: |
+          python -m unittest discover -s tests -v
+          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+      - name: Read three actual Workday sources without database writes or notifications
+        env:
+          PYTHONPATH: .
+        run: python runtime/verification/probe_workday.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: workday-development-proof
+          path: |
+            proof/
+            data/runtime/workday-http/*.jsonl
+          retention-days: 7

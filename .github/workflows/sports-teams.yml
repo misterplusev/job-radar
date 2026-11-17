@@ -94,7 +94,10 @@ jobs:
         if: always()
         with:
           name: sports-teams-scrape-receipt
-          path: sports_teams/data/runtime/latest_scrape_manifest.json
+          path: |
+            sports_teams/data/runtime/latest_scrape_manifest.json
+            sports_teams/data/runtime/workday-http/*.jsonl
+          retention-days: 7
       - name: Surface source failures
         run: |
           python - <<'PY'
