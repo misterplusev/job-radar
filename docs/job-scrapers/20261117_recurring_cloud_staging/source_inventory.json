@@ -1,0 +1,599 @@
+{
+  "generated_at": "2026-11-17T02:08:44.315405+00:00",
+  "method": "Static UTF-8 line counts/SHA-256; Python AST; JS declaration scan (not complete call graph)",
+  "scope": "Current staging controller, runner, workflow and operator/documentation source; historical Docker prototype and full candidate snapshots excluded from this active inventory",
+  "files": [
+    {
+      "path": "build_catalog.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\build_catalog.py",
+      "bytes": 2327,
+      "physical_lines": 32,
+      "nonblank_lines": 32,
+      "sha256": "0d18f5cb45aab21e94dd6b894bae102dd256f320c7720788175e30267fd2466b",
+      "symbols": []
+    },
+    {
+      "path": "bundle/catalog.json",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\bundle\\catalog.json",
+      "bytes": 107903,
+      "physical_lines": 3665,
+      "nonblank_lines": 3665,
+      "sha256": "b4eee1968a4bda5734318b0e22ea54f4abaec270e2a95a8cbcfc5e37b41a38f7",
+      "symbols": []
+    },
+    {
+      "path": "bundle/ci_run.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\bundle\\ci_run.py",
+      "bytes": 2365,
+      "physical_lines": 27,
+      "nonblank_lines": 27,
+      "sha256": "6b9b235777981e1435dd76849966739b725a27dd5737f9367ce5e4652aabc2f9",
+      "symbols": []
+    },
+    {
+      "path": "bundle/isolation/sitecustomize.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\bundle\\isolation\\sitecustomize.py",
+      "bytes": 473,
+      "physical_lines": 9,
+      "nonblank_lines": 9,
+      "sha256": "2890d8952533ea4fb1135023f2701013d02998ab9ee33a1298ce746464d28145",
+      "symbols": [
+        {
+          "name": "connect",
+          "kind": "FunctionDef",
+          "start": 5,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "path": "bundle/live_probe.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\bundle\\live_probe.py",
+      "bytes": 4230,
+      "physical_lines": 66,
+      "nonblank_lines": 63,
+      "sha256": "83c4827e8f23ea5190cd77a6690fb26bbd99340834c21b3387992700998d3808",
+      "symbols": [
+        {
+          "name": "hosts_for",
+          "kind": "FunctionDef",
+          "start": 8,
+          "end": 22
+        },
+        {
+          "name": "run",
+          "kind": "FunctionDef",
+          "start": 24,
+          "end": 59
+        }
+      ]
+    },
+    {
+      "path": "bundle/network_guard.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\bundle\\network_guard.py",
+      "bytes": 3864,
+      "physical_lines": 61,
+      "nonblank_lines": 56,
+      "sha256": "22fd41d479cd72dac2efd73816861d15b37b211e5f494d55ab10471f309ebd55",
+      "symbols": [
+        {
+          "name": "BudgetExceeded",
+          "kind": "ClassDef",
+          "start": 6,
+          "end": 6
+        },
+        {
+          "name": "NetworkBudget",
+          "kind": "ClassDef",
+          "start": 8,
+          "end": 61
+        },
+        {
+          "name": "__init__",
+          "kind": "FunctionDef",
+          "start": 9,
+          "end": 12
+        },
+        {
+          "name": "validate",
+          "kind": "FunctionDef",
+          "start": 14,
+          "end": 22
+        },
+        {
+          "name": "install",
+          "kind": "FunctionDef",
+          "start": 24,
+          "end": 58
+        },
+        {
+          "name": "close",
+          "kind": "FunctionDef",
+          "start": 60,
+          "end": 61
+        },
+        {
+          "name": "guarded",
+          "kind": "FunctionDef",
+          "start": 27,
+          "end": 56
+        }
+      ]
+    },
+    {
+      "path": "bundle/requirements.txt",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\bundle\\requirements.txt",
+      "bytes": 147,
+      "physical_lines": 8,
+      "nonblank_lines": 8,
+      "sha256": "047d5d258723268dc963340966b85673e0a9e3d5493d7604ffe34e3b06e632e5",
+      "symbols": []
+    },
+    {
+      "path": "bundle/server.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\bundle\\server.py",
+      "bytes": 4987,
+      "physical_lines": 61,
+      "nonblank_lines": 58,
+      "sha256": "c4d25cc1c4c6c63d45aced040e846a7e1425b24dd9ed4bc54f5fbe2e7d0de62f",
+      "symbols": [
+        {
+          "name": "now",
+          "kind": "FunctionDef",
+          "start": 10,
+          "end": 10
+        },
+        {
+          "name": "child_env",
+          "kind": "FunctionDef",
+          "start": 11,
+          "end": 17
+        },
+        {
+          "name": "command",
+          "kind": "FunctionDef",
+          "start": 19,
+          "end": 24
+        },
+        {
+          "name": "execute",
+          "kind": "FunctionDef",
+          "start": 26,
+          "end": 61
+        }
+      ]
+    },
+    {
+      "path": "catalog.mjs",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\catalog.mjs",
+      "bytes": 73511,
+      "physical_lines": 1,
+      "nonblank_lines": 1,
+      "sha256": "146cf8711bcc70349377dcf85bc5ab0f92b194ff0334791ed733119964393e61",
+      "symbols": []
+    },
+    {
+      "path": "check_documentation.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\check_documentation.py",
+      "bytes": 1781,
+      "physical_lines": 26,
+      "nonblank_lines": 26,
+      "sha256": "2ddc459a6ba74ceba159f49e212d48943b74b0de2b699f011116b1ed7456a769",
+      "symbols": []
+    },
+    {
+      "path": "cloud_admin.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\cloud_admin.py",
+      "bytes": 5308,
+      "physical_lines": 63,
+      "nonblank_lines": 63,
+      "sha256": "aab02509f915c20b42801c09d57f1b171929cb6f6c2f3f39c9441ade09add0a3",
+      "symbols": [
+        {
+          "name": "save",
+          "kind": "FunctionDef",
+          "start": 19,
+          "end": 19
+        },
+        {
+          "name": "cloud_req",
+          "kind": "FunctionDef",
+          "start": 20,
+          "end": 23
+        }
+      ]
+    },
+    {
+      "path": "document_build.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\document_build.py",
+      "bytes": 6651,
+      "physical_lines": 47,
+      "nonblank_lines": 47,
+      "sha256": "f4db66075e30469163373cb674faa1be0a21890268a98c44bd9a19ca9e6cf714",
+      "symbols": []
+    },
+    {
+      "path": "finalize_documentation.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\finalize_documentation.py",
+      "bytes": 13009,
+      "physical_lines": 84,
+      "nonblank_lines": 63,
+      "sha256": "90eb9149610731a4702f8f53edd6719af366d829ae1e549caa0f2c50df0474d1",
+      "symbols": []
+    },
+    {
+      "path": "finalize_sources.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\finalize_sources.py",
+      "bytes": 1359,
+      "physical_lines": 15,
+      "nonblank_lines": 15,
+      "sha256": "e4e3b1129ef9aa2f3f098fb5d50e57b7216515c223494e8f6d37cd67ae5c248d",
+      "symbols": []
+    },
+    {
+      "path": "github_admin.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\github_admin.py",
+      "bytes": 3168,
+      "physical_lines": 44,
+      "nonblank_lines": 44,
+      "sha256": "dfbf5b8f2aa0e8d5186167939e2bba65d99117a497796bb33a3aef7193e74fef",
+      "symbols": [
+        {
+          "name": "api",
+          "kind": "FunctionDef",
+          "start": 9,
+          "end": 12
+        },
+        {
+          "name": "main",
+          "kind": "FunctionDef",
+          "start": 13,
+          "end": 43
+        }
+      ]
+    },
+    {
+      "path": "inspect_cloud.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\inspect_cloud.py",
+      "bytes": 1987,
+      "physical_lines": 23,
+      "nonblank_lines": 23,
+      "sha256": "2d0e9c9befbc458ab81ec8bca5363ed0ea4a546b1a4461b9fd0feac5a3e933f0",
+      "symbols": [
+        {
+          "name": "gh",
+          "kind": "FunctionDef",
+          "start": 10,
+          "end": 11
+        }
+      ]
+    },
+    {
+      "path": "main-staging-recurring.yml",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\main-staging-recurring.yml",
+      "bytes": 2774,
+      "physical_lines": 74,
+      "nonblank_lines": 74,
+      "sha256": "eaa24b991e77d02b09a1f27aadf02cfc3dfdf57b761f2b3fc9c91faa4df00c8f",
+      "symbols": []
+    },
+    {
+      "path": "pivot_to_actions.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\pivot_to_actions.py",
+      "bytes": 6807,
+      "physical_lines": 40,
+      "nonblank_lines": 40,
+      "sha256": "dcbcd5c71bfba13e8ee974a00a3655dd11e897670b2de11953b2e8374fe547ec",
+      "symbols": []
+    },
+    {
+      "path": "prepare_actions.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\prepare_actions.py",
+      "bytes": 2000,
+      "physical_lines": 18,
+      "nonblank_lines": 18,
+      "sha256": "83f93a51682c8099dd7abc4ed07e9e0f1672e95097a410bc45f5db54654e24f0",
+      "symbols": [
+        {
+          "name": "head",
+          "kind": "FunctionDef",
+          "start": 5,
+          "end": 5
+        }
+      ]
+    },
+    {
+      "path": "prepare_documentation_commit.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\prepare_documentation_commit.py",
+      "bytes": 2741,
+      "physical_lines": 18,
+      "nonblank_lines": 18,
+      "sha256": "39be09ce1411cb55b66a5a71c0197de4a469c39d7d6dc5213313af9c41671e6b",
+      "symbols": [
+        {
+          "name": "head",
+          "kind": "FunctionDef",
+          "start": 5,
+          "end": 5
+        }
+      ]
+    },
+    {
+      "path": "prepare_staging_commit.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\prepare_staging_commit.py",
+      "bytes": 1080,
+      "physical_lines": 12,
+      "nonblank_lines": 12,
+      "sha256": "059a59bdd84f4c631a6cc5ab5fd67f340802bab0c1fa4e46d508a4c43c9221ca",
+      "symbols": []
+    },
+    {
+      "path": "snapshot_sources.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\snapshot_sources.py",
+      "bytes": 2192,
+      "physical_lines": 27,
+      "nonblank_lines": 27,
+      "sha256": "8111e761227c8b0c15a0f60ca0795f2af47b4c50fe4c6d1aac77768158b377c1",
+      "symbols": []
+    },
+    {
+      "path": "sportsbook-staging-recurring.yml",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\sportsbook-staging-recurring.yml",
+      "bytes": 2774,
+      "physical_lines": 74,
+      "nonblank_lines": 74,
+      "sha256": "e07bd7ad1c8fa2bf725eb8c1ceb0a9abbaaa503812b65241e04e2e4b1b262e61",
+      "symbols": []
+    },
+    {
+      "path": "staging-cloud-tests.yml",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\staging-cloud-tests.yml",
+      "bytes": 797,
+      "physical_lines": 26,
+      "nonblank_lines": 26,
+      "sha256": "25c8fe2b3ae538ee947027648976dcc874011b42706a5354327bbd3cffb9f43e",
+      "symbols": []
+    },
+    {
+      "path": "staging-recurring.yml",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\staging-recurring.yml",
+      "bytes": 2710,
+      "physical_lines": 74,
+      "nonblank_lines": 74,
+      "sha256": "0f94e842fd3562b5eb2819e026e82da5772be0d4aecd29c1d9f045dbac7a26d4",
+      "symbols": []
+    },
+    {
+      "path": "tech-staging-recurring.yml",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\tech-staging-recurring.yml",
+      "bytes": 2774,
+      "physical_lines": 74,
+      "nonblank_lines": 74,
+      "sha256": "eaa24b991e77d02b09a1f27aadf02cfc3dfdf57b761f2b3fc9c91faa4df00c8f",
+      "symbols": []
+    },
+    {
+      "path": "test_network_guard.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\test_network_guard.py",
+      "bytes": 2449,
+      "physical_lines": 37,
+      "nonblank_lines": 37,
+      "sha256": "4647456955ee34c1cca0d09871cdfa71e2acf871780238f89248d3743e2c6eab",
+      "symbols": [
+        {
+          "name": "GuardTests",
+          "kind": "ClassDef",
+          "start": 5,
+          "end": 36
+        },
+        {
+          "name": "test_production_and_unapproved_methods_are_blocked",
+          "kind": "FunctionDef",
+          "start": 6,
+          "end": 10
+        },
+        {
+          "name": "test_request_limit_and_deadline_are_hard",
+          "kind": "FunctionDef",
+          "start": 11,
+          "end": 15
+        },
+        {
+          "name": "test_guard_records_status_and_swallowed_budget_violation",
+          "kind": "FunctionDef",
+          "start": 16,
+          "end": 25
+        },
+        {
+          "name": "test_stream_response_and_cumulative_byte_caps",
+          "kind": "FunctionDef",
+          "start": 26,
+          "end": 36
+        },
+        {
+          "name": "fake",
+          "kind": "FunctionDef",
+          "start": 17,
+          "end": 18
+        },
+        {
+          "name": "fake",
+          "kind": "FunctionDef",
+          "start": 27,
+          "end": 28
+        }
+      ]
+    },
+    {
+      "path": "test_staging.mjs",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\test_staging.mjs",
+      "bytes": 7109,
+      "physical_lines": 27,
+      "nonblank_lines": 27,
+      "sha256": "6087cbefa34b0baebbf95b532ec489ab46ea206d8d8c29da13b6fc1e250f970a",
+      "symbols": [
+        {
+          "name": "fixture",
+          "kind": "JS declaration scan",
+          "start": 4
+        },
+        {
+          "name": "body",
+          "kind": "JS declaration scan",
+          "start": 12
+        }
+      ]
+    },
+    {
+      "path": "verify_deployments.py",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\verify_deployments.py",
+      "bytes": 3441,
+      "physical_lines": 38,
+      "nonblank_lines": 38,
+      "sha256": "52ac17b62eab4b612045456c7e7f4121b24c71a214ff0d05600eab8b3254b056",
+      "symbols": [
+        {
+          "name": "gh",
+          "kind": "FunctionDef",
+          "start": 11,
+          "end": 12
+        }
+      ]
+    },
+    {
+      "path": "worker.mjs",
+      "absolute_path": "D:\\abet_ops\\jobs_scrapers\\20261117_recurring_cloud_staging\\worker.mjs",
+      "bytes": 16356,
+      "physical_lines": 143,
+      "nonblank_lines": 142,
+      "sha256": "535da829abd0554d4bc2ffe0b4a92130d563f52e121ba616f9e41fa1d8fa9cd1",
+      "symbols": [
+        {
+          "name": "slotAt",
+          "kind": "JS declaration scan",
+          "start": 11
+        },
+        {
+          "name": "retryAt",
+          "kind": "JS declaration scan",
+          "start": 12
+        },
+        {
+          "name": "for",
+          "kind": "JS declaration scan",
+          "start": 15
+        },
+        {
+          "name": "chooseSources",
+          "kind": "JS declaration scan",
+          "start": 18
+        },
+        {
+          "name": "if",
+          "kind": "JS declaration scan",
+          "start": 24
+        },
+        {
+          "name": "normalizeReport",
+          "kind": "JS declaration scan",
+          "start": 27
+        },
+        {
+          "name": "for",
+          "kind": "JS declaration scan",
+          "start": 33
+        },
+        {
+          "name": "StagingControl",
+          "kind": "JS declaration scan",
+          "start": 43
+        },
+        {
+          "name": "constructor",
+          "kind": "JS declaration scan",
+          "start": 44
+        },
+        {
+          "name": "config",
+          "kind": "JS declaration scan",
+          "start": 45
+        },
+        {
+          "name": "pruneReports",
+          "kind": "JS declaration scan",
+          "start": 46
+        },
+        {
+          "name": "dispatch",
+          "kind": "JS declaration scan",
+          "start": 50
+        },
+        {
+          "name": "for",
+          "kind": "JS declaration scan",
+          "start": 61
+        },
+        {
+          "name": "if",
+          "kind": "JS declaration scan",
+          "start": 78
+        },
+        {
+          "name": "if",
+          "kind": "JS declaration scan",
+          "start": 79
+        },
+        {
+          "name": "if",
+          "kind": "JS declaration scan",
+          "start": 84
+        },
+        {
+          "name": "if",
+          "kind": "JS declaration scan",
+          "start": 89
+        },
+        {
+          "name": "catch",
+          "kind": "JS declaration scan",
+          "start": 96
+        },
+        {
+          "name": "health",
+          "kind": "JS declaration scan",
+          "start": 102
+        },
+        {
+          "name": "alarm",
+          "kind": "JS declaration scan",
+          "start": 113
+        },
+        {
+          "name": "fetch",
+          "kind": "JS declaration scan",
+          "start": 116
+        },
+        {
+          "name": "if",
+          "kind": "JS declaration scan",
+          "start": 122
+        },
+        {
+          "name": "fetch",
+          "kind": "JS declaration scan",
+          "start": 129
+        },
+        {
+          "name": "catch",
+          "kind": "JS declaration scan",
+          "start": 140
+        },
+        {
+          "name": "refresh",
+          "kind": "JS declaration scan",
+          "start": 143
+        }
+      ]
+    }
+  ]
+}

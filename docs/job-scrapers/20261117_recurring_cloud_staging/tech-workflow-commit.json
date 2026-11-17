@@ -1,0 +1,10 @@
+{
+  "repo": "misterplusev/job-radar-tech",
+  "branch": "master",
+  "before": "4a97502b24ccb74ee70584f0d74f6f2c6aa1c7cf",
+  "after": "b1bae9fd0b8f652ec289086c1d3277f1593fe9c4",
+  "url": "https://github.com/misterplusev/job-radar-tech/commit/b1bae9fd0b8f652ec289086c1d3277f1593fe9c4",
+  "files": [
+    ".github/workflows/staging-recurring.yml"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "repo": "misterplusev/sportsbook-jobs-dashboard",
+  "branch": "prod/sportsbook-jobs",
+  "before": "dd0e212208694beef464bdb1f3be22455b0fa744",
+  "after": "008bfd4f0df76f1c1c96c75f31f0c3c0744747c0",
+  "url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/commit/008bfd4f0df76f1c1c96c75f31f0c3c0744747c0",
+  "files": [
+    ".github/workflows/staging-recurring.yml"
+  ]
+}

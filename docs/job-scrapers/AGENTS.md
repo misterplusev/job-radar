@@ -10,3 +10,5 @@ User instruction reaffirmed November 13, 2026: **CLOUD ONLY. No local-machine ex
 - The November 13 shared-engine local candidate is undeployed and is NOT evidence that the cloud system is fixed. Its local PostgreSQL harness is not an authorized next step. Port any further tests to a reviewed cloud workflow before execution.
 - Report actual cloud run links, source coverage/failures, persistence results, and delivery receipts. Distinguish infrastructure availability from complete source collection and delivery. Never call a degraded source run fully healthy.
 - Consult this file and RUNBOOK.md before implementation or verification. A local path in older documentation is not permission to run a local service.
+
+- Authorized recurring staging, November 17 UTC: `abet-jobs-staging` is a separate isolated cloud clock, not a second production clock. Use the dedicated staging runbook linked from RUNBOOK.md. It may dispatch only `staging-recurring.yml`, has no production database/Discord credentials, and performs bounded canaries plus fixtures. Keep production at twelve hours. No automatic promotion; existing Workday failures remain unproven.

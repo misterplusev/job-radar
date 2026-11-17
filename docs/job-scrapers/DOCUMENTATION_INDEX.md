@@ -1,5 +1,11 @@
 # ABET jobs documentation — current index and coverage
 
+## Recurring isolated staging — November 17, 2026 UTC
+
+A separate cloud staging controller is now enabled: [live status](https://abet-jobs-staging.abetscrape.workers.dev/). Robotics, tech and sports teams validate hourly; sportsbook every four hours, capped at 800 reserved private Actions minutes/month. It runs pinned candidate regression suites and bounded rotating live canaries, keeps its own SQLite-backed Durable Object state, and has no production database or Discord credentials. This is not a full Supabase clone or an all-source scrape every hour. Production remains every twelve hours.
+
+[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday failures remain visible and unpromoted. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
+
 Reviewed November 14, 2026 Pacific. Scope: the four job scrapers, their cloud runtime, shared database dependencies, Discord delivery, standalone boards and installed ABET dashboard job modules. This is not an inventory of every unrelated ABET account, Worker, application or database.
 
 **Start with this index and RUNBOOK.md.** A file labelled historical is evidence of that time, not an instruction to restore an obsolete design. No single document currently provides a complete semantic description of every function or proves that documentation can never drift.

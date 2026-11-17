@@ -1,0 +1,149 @@
+{
+  "at": "2026-11-17T02:07:43.779070+00:00",
+  "first_robotics_run": "https://github.com/misterplusev/job-radar/actions/runs/43997984357",
+  "second_robotics_run": "https://github.com/misterplusev/job-radar/actions/runs/44000337581",
+  "first_slot": "2026-11-17T01:05:00.000Z",
+  "second_slot": "2026-11-17T02:05:00.000Z",
+  "harness_sha": "34670ee4687d8d6346c195d3c286e02a2312778a",
+  "same_enable_timestamp": true,
+  "run_count": 5,
+  "active": null,
+  "alarm_present": true,
+  "previous_boston_dynamics_cooldown_respected": true,
+  "no_manual_trigger_sent_by_this_task": true,
+  "tests": [
+    {
+      "passed": true,
+      "tests": 112,
+      "returncode": 0,
+      "tail": "f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_reappearing_posting_is_reactivated_without_a_new_alert (test_write_volume.WriteVolumeTests.test_reappearing_posting_is_reactivated_without_a_new_alert) ... /tmp/abet-staging-f34f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_rows_hashed_by_the_old_key_go_through_the_capped_backfill (test_write_volume.WriteVolumeTests.test_rows_hashed_by_the_old_key_go_through_the_capped_backfill) ... /tmp/abet-staging-f34f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_run_bookkeeping_does_not_count_as_a_change (test_write_volume.WriteVolumeTests.test_run_bookkeeping_does_not_count_as_a_change) ... /tmp/abet-staging-f34f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_unchanged_posting_only_refreshes_tracking_columns (test_write_volume.WriteVolumeTests.test_unchanged_posting_only_refreshes_tracking_columns) ... /tmp/abet-staging-f34f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\n\n----------------------------------------------------------------------\nRan 112 tests in 1.014s\n\nOK\n"
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "workday:rockwellautomation",
+      "status": "failed",
+      "complete": false,
+      "jobs_total": 0,
+      "requests": 5,
+      "bytes": 144950,
+      "seconds": 76.84,
+      "error": "WorkdayDeferred: rockwellautomation.wd1.myworkdayjobs.com offset=0: HTTP 429; 5 attempts exhausted",
+      "http": [
+        {
+          "host": "rockwellautomation.wd1.myworkdayjobs.com",
+          "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+          "status": 429,
+          "retry_after": "",
+          "cf_ray": "a5bb2b6339798844-IAD",
+          "response_title": ""
+        },
+        {
+          "host": "rockwellautomation.wd1.myworkdayjobs.com",
+          "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+          "status": 429,
+          "retry_after": "",
+          "cf_ray": "a5bb2b83ab73d6c4-IAD",
+          "response_title": ""
+        },
+        {
+          "host": "rockwellautomation.wd1.myworkdayjobs.com",
+          "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+          "status": 429,
+          "retry_after": "",
+          "cf_ray": "a5bb2bc2efc88844-IAD",
+          "response_title": ""
+        },
+        {
+          "host": "rockwellautomation.wd1.myworkdayjobs.com",
+          "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+          "status": 429,
+          "retry_after": "",
+          "cf_ray": "a5bb2c42ae998844-IAD",
+          "response_title": ""
+        },
+        {
+          "host": "rockwellautomation.wd1.myworkdayjobs.com",
+          "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+          "status": 429,
+          "retry_after": "",
+          "cf_ray": "a5bb2d42af468844-IAD",
+          "response_title": ""
+        }
+      ],
+      "sample": []
+    },
+    {
+      "source_id": "greenhouse:stripe",
+      "status": "passed",
+      "complete": true,
+      "jobs_total": 791,
+      "requests": 1,
+      "bytes": 6188188,
+      "seconds": 1.56,
+      "error": "",
+      "http": [
+        {
+          "host": "boards-api.greenhouse.io",
+          "path": "/v1/boards/stripe/jobs",
+          "status": 200,
+          "retry_after": "",
+          "cf_ray": "",
+          "response_title": ""
+        }
+      ],
+      "sample": [
+        {
+          "title": "Abuse Investigator",
+          "url": "https://stripe.com/jobs/search?gh_jid=8172508",
+          "location": "Dublin"
+        },
+        {
+          "title": "Abuse Investigator",
+          "url": "https://stripe.com/jobs/search?gh_jid=8172510",
+          "location": "Seattle, San Francisco, New York City"
+        },
+        {
+          "title": "Abuse Investigator",
+          "url": "https://stripe.com/jobs/search?gh_jid=8172487",
+          "location": "Dublin"
+        },
+        {
+          "title": "Account Executive, AI Sales",
+          "url": "https://stripe.com/jobs/search?gh_jid=8138044",
+          "location": "San Francisco, CA"
+        },
+        {
+          "title": "Account Executive, AI Sales",
+          "url": "https://stripe.com/jobs/search?gh_jid=8332467",
+          "location": "San Francisco, CA"
+        },
+        {
+          "title": "Account Executive, AI Startups - Grower",
+          "url": "https://stripe.com/jobs/search?gh_jid=8238731",
+          "location": "San Francisco"
+        },
+        {
+          "title": "Account Executive, Amer Platform Grower (Velocity)",
+          "url": "https://stripe.com/jobs/search?gh_jid=8393708",
+          "location": "San Francisco"
+        },
+        {
+          "title": "Account Executive - Bridge",
+          "url": "https://stripe.com/jobs/search?gh_jid=8215824",
+          "location": "SF, NYC, CHI, ATL, SEA"
+        },
+        {
+          "title": "Account Executive, Bridge",
+          "url": "https://stripe.com/jobs/search?gh_jid=8077887",
+          "location": "SF, NYC, SEA, CHI"
+        },
+        {
+          "title": "Account Executive, Commercial (Grower)",
+          "url": "https://stripe.com/jobs/search?gh_jid=8123027",
+          "location": "Chicago"
+        }
+      ]
+    }
+  ]
+}

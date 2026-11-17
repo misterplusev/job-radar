@@ -1,0 +1,32 @@
+{
+  "at": "2026-11-17T02:05:30.853797+00:00",
+  "worker": "abet-jobs-staging",
+  "url": "https://abet-jobs-staging.abetscrape.workers.dev",
+  "deployment": {
+    "id": "0150fe79-5b5f-425e-b31a-332191588375",
+    "source": "api",
+    "strategy": "percentage",
+    "author_email": "abethq@proton.me",
+    "annotations": {
+      "workers/message": "Automatic deployment on upload.",
+      "workers/triggered_by": "upload"
+    },
+    "versions": [
+      {
+        "version_id": "edf0ca19-1015-4cf6-9d90-705993bae74a",
+        "percentage": 100
+      }
+    ],
+    "created_on": "2026-11-17T02:05:32.355671Z"
+  },
+  "files": {
+    "worker.mjs": "535da829abd0554d4bc2ffe0b4a92130d563f52e121ba616f9e41fa1d8fa9cd1",
+    "catalog.mjs": "146cf8711bcc70349377dcf85bc5ab0f92b194ff0334791ed733119964393e61"
+  },
+  "binding_names": [
+    "STAGING",
+    "GITHUB_TOKEN",
+    "REPORT_TOKEN",
+    "CONTROL_TOKEN"
+  ]
+}

@@ -1,5 +1,11 @@
 # ABET job scrapers: runbook
 
+## Recurring isolated staging — November 17, 2026 UTC
+
+A separate cloud staging controller is now enabled: [live status](https://abet-jobs-staging.abetscrape.workers.dev/). Robotics, tech and sports teams validate hourly; sportsbook every four hours, capped at 800 reserved private Actions minutes/month. It runs pinned candidate regression suites and bounded rotating live canaries, keeps its own SQLite-backed Durable Object state, and has no production database or Discord credentials. This is not a full Supabase clone or an all-source scrape every hour. Production remains every twelve hours.
+
+[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday failures remain visible and unpromoted. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
+
 ## Temporary lower cadence from November 17 2026 UTC
 
 Production now runs each scraper every 12 hours: eight scheduled collection runs per day instead of 24 (66.7% fewer). The Cloudflare Durable Object remains the only scheduler. UTC slots: robotics 00:09/12:09; tech 09:37/21:37; sports teams 10:23/22:23; sportsbook 11:00/23:00. The offsets preserve the last pre-change receipts and avoid replaying older slots during the cutover.
@@ -52,7 +58,7 @@ Released production runs passed: [robotics 66/66 sources](https://github.com/mis
 Shared pieces:
 
 - **Database:** Supabase project `abet-app-core`, Free plan, smallest compute: 411 MB of memory (project metrics endpoint, November 12 08:30 UTC). All four scrapers, all four boards and all four dashboard tabs read and write it through its REST API.
-- **Scheduler:** Cloudflare Worker `abet-jobs-scheduler`. Source: `runtime/cloudflare/worker.mjs` in `job-radar`. It is the only clock. No workflow has a cron line and the sportsbook launcher has no timer.
+- **Scheduler:** Cloudflare Worker `abet-jobs-scheduler`. Source: `runtime/cloudflare/worker.mjs` in `job-radar`. It is the only production clock; the isolated staging controller cannot dispatch production pipelines. No workflow has a cron line and the sportsbook launcher has no timer.
 - **Boards and dashboard tabs** read the jobs tables directly from the browser with the public key. If the REST API is down, every board and tab is blank even though the pages load.
 
 ## 2. How a run flows
@@ -85,7 +91,7 @@ These are why the November 11–12 outage happened. `tests/test_guardrails.py` e
 
 | Rule | Why | Enforced by |
 |---|---|---|
-| One scheduler. No cron in any workflow, no timer in the launcher. | A second clock starts runs nobody can see or stagger. | `test_no_workflow_has_its_own_timer`; launcher test `test_launcher_has_no_timer_of_its_own` |
+| One production scheduler. No cron in any workflow, no timer in the launcher. | A second clock starts runs nobody can see or stagger. | `test_no_workflow_has_its_own_timer`; launcher test `test_launcher_has_no_timer_of_its_own` |
 | No scraper more often than every 4 hours. | The database has 411 MB of memory. With three scrapers every hour its REST API was down November 11 21:18 to November 12 05:18 UTC and again November 12 15:09 to November 13 02:58 UTC. | `test_no_scraper_runs_more_often_than_every_four_hours` |
 | No two scrapers in the same hour. | Two writers at once push the database into swap. | `test_no_two_scrapers_share_an_hour` |
 | A scrape never applies schema or reloads the REST schema cache. Schema changes go through the manual `apply-schema.yml` only. | A schema reload on a busy small database left the REST API unable to load its schema. | `test_scrape_workflows_never_apply_schema` |

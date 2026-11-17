@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "same_run_count": true,
+  "alarm_survived": true,
+  "receipts_preserved": true,
+  "source_state_preserved": true
+}

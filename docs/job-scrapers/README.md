@@ -1,5 +1,11 @@
 # ABET job scrapers — start here
 
+## Recurring isolated staging — November 17, 2026 UTC
+
+A separate cloud staging controller is now enabled: [live status](https://abet-jobs-staging.abetscrape.workers.dev/). Robotics, tech and sports teams validate hourly; sportsbook every four hours, capped at 800 reserved private Actions minutes/month. It runs pinned candidate regression suites and bounded rotating live canaries, keeps its own SQLite-backed Durable Object state, and has no production database or Discord credentials. This is not a full Supabase clone or an all-source scrape every hour. Production remains every twelve hours.
+
+[Staging operations, schema, source paths, budgets and rollback](20261117_recurring_cloud_staging/2026-11-17%200150%20Recurring%20Staging%20Operations.md); [build handoff](20261117_recurring_cloud_staging/2026-11-17%200113%20Staging%20Build%20Handoff.md). Current Workday failures remain visible and unpromoted. One production clock and one isolated staging clock serve different environments; never let staging dispatch production pipelines.
+
 **Current documentation index: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md).** Read it with [RUNBOOK.md](RUNBOOK.md) and [AGENTS.md](AGENTS.md) before working on the system.
 
 The four scrapers run in the cloud. One Cloudflare scheduler starts each every twelve hours temporarily on staggered hours. GitHub Actions runs robotics, tech, sports teams and the sportsbook delivery worker; Hugging Face runs the sportsbook scraper. One Supabase project holds the job data. Each module has exactly one Discord sender using the shared send implementation. The retired watchdog job announcer and independent Space timer must not be restored as extra senders/clocks.

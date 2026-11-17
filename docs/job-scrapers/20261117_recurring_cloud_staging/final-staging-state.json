@@ -1,0 +1,940 @@
+{
+  "service": "abet-jobs-staging",
+  "environment": "isolated cloud development",
+  "enabled": true,
+  "modules": {
+    "robotics": {
+      "slot": "2026-11-17T02:05:00.000Z",
+      "cursor": 2,
+      "status": "degraded",
+      "last_run": 1794881195308,
+      "last_report": "2026-11-17T02:05:00.000Z:robotics",
+      "last_error": "WorkdayDeferred: rockwellautomation.wd1.myworkdayjobs.com offset=0: HTTP 429; 5 attempts exhausted",
+      "every_minutes": 60,
+      "minute_utc": 5,
+      "next_due_utc": "2026-11-17T03:05:00.000Z",
+      "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+      "registered_sources": 66,
+      "sandbox_supported_sources": 66,
+      "observed_sources": 4,
+      "passing_sources": 1,
+      "cooling_sources": 3,
+      "latest": {
+        "lease_id": "2026-11-17T02:05:00.000Z:robotics",
+        "module": "robotics",
+        "slot": "2026-11-17T02:05:00.000Z",
+        "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+        "runner_build": "34670ee4687d8d6346c195d3c286e02a2312778a",
+        "github_run_url": "https://github.com/misterplusev/job-radar/actions/runs/44000337581",
+        "status": "degraded",
+        "tests": [
+          {
+            "passed": true,
+            "tests": 112,
+            "returncode": 0,
+            "tail": "f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_reappearing_posting_is_reactivated_without_a_new_alert (test_write_volume.WriteVolumeTests.test_reappearing_posting_is_reactivated_without_a_new_alert) ... /tmp/abet-staging-f34f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_rows_hashed_by_the_old_key_go_through_the_capped_backfill (test_write_volume.WriteVolumeTests.test_rows_hashed_by_the_old_key_go_through_the_capped_backfill) ... /tmp/abet-staging-f34f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_run_bookkeeping_does_not_count_as_a_change (test_write_volume.WriteVolumeTests.test_run_bookkeeping_does_not_count_as_a_change) ... /tmp/abet-staging-f34f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_unchanged_posting_only_refreshes_tracking_columns (test_write_volume.WriteVolumeTests.test_unchanged_posting_only_refreshes_tracking_columns) ... /tmp/abet-staging-f34f32rh/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\n\n----------------------------------------------------------------------\nRan 112 tests in 1.014s\n\nOK\n"
+          }
+        ],
+        "sources": [
+          {
+            "source_id": "workday:rockwellautomation",
+            "status": "failed",
+            "complete": false,
+            "jobs_total": 0,
+            "requests": 5,
+            "bytes": 144950,
+            "seconds": 76.84,
+            "error": "WorkdayDeferred: rockwellautomation.wd1.myworkdayjobs.com offset=0: HTTP 429; 5 attempts exhausted",
+            "http": [
+              {
+                "host": "rockwellautomation.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb2b6339798844-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "rockwellautomation.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb2b83ab73d6c4-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "rockwellautomation.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb2bc2efc88844-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "rockwellautomation.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb2c42ae998844-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "rockwellautomation.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb2d42af468844-IAD",
+                "response_title": ""
+              }
+            ],
+            "sample": []
+          },
+          {
+            "source_id": "greenhouse:stripe",
+            "status": "passed",
+            "complete": true,
+            "jobs_total": 791,
+            "requests": 1,
+            "bytes": 6188188,
+            "seconds": 1.56,
+            "error": "",
+            "http": [
+              {
+                "host": "boards-api.greenhouse.io",
+                "path": "/v1/boards/stripe/jobs",
+                "status": 200,
+                "retry_after": "",
+                "cf_ray": "",
+                "response_title": ""
+              }
+            ],
+            "sample": [
+              {
+                "title": "Abuse Investigator",
+                "url": "https://stripe.com/jobs/search?gh_jid=8172508",
+                "location": "Dublin"
+              },
+              {
+                "title": "Abuse Investigator",
+                "url": "https://stripe.com/jobs/search?gh_jid=8172510",
+                "location": "Seattle, San Francisco, New York City"
+              },
+              {
+                "title": "Abuse Investigator",
+                "url": "https://stripe.com/jobs/search?gh_jid=8172487",
+                "location": "Dublin"
+              },
+              {
+                "title": "Account Executive, AI Sales",
+                "url": "https://stripe.com/jobs/search?gh_jid=8138044",
+                "location": "San Francisco, CA"
+              },
+              {
+                "title": "Account Executive, AI Sales",
+                "url": "https://stripe.com/jobs/search?gh_jid=8332467",
+                "location": "San Francisco, CA"
+              },
+              {
+                "title": "Account Executive, AI Startups - Grower",
+                "url": "https://stripe.com/jobs/search?gh_jid=8238731",
+                "location": "San Francisco"
+              },
+              {
+                "title": "Account Executive, Amer Platform Grower (Velocity)",
+                "url": "https://stripe.com/jobs/search?gh_jid=8393708",
+                "location": "San Francisco"
+              },
+              {
+                "title": "Account Executive - Bridge",
+                "url": "https://stripe.com/jobs/search?gh_jid=8215824",
+                "location": "SF, NYC, CHI, ATL, SEA"
+              },
+              {
+                "title": "Account Executive, Bridge",
+                "url": "https://stripe.com/jobs/search?gh_jid=8077887",
+                "location": "SF, NYC, SEA, CHI"
+              },
+              {
+                "title": "Account Executive, Commercial (Grower)",
+                "url": "https://stripe.com/jobs/search?gh_jid=8123027",
+                "location": "Chicago"
+              }
+            ]
+          }
+        ],
+        "started_at": "2026-11-17T02:05:14.852935+00:00",
+        "finished_at": "2026-11-17T02:06:35.158846+00:00",
+        "production_writes": 0,
+        "discord_sends": 0,
+        "scope": "bounded canaries; not a full production scrape",
+        "recorded_at": "2026-11-17T02:06:35.308Z"
+      },
+      "source_status": [
+        {
+          "module": "robotics",
+          "source_id": "greenhouse:anthropic",
+          "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+          "status": "budget_exhausted",
+          "last_at": 1794880034535,
+          "last_success": null,
+          "failures": 1,
+          "retry_at": 1794883634535,
+          "consecutive_passes": 0,
+          "jobs_total": 0,
+          "sample_observed_at": null,
+          "http": [
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/anthropic/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            },
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/anthropic/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            },
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/anthropic/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            }
+          ],
+          "error": "BudgetExceeded: Response byte/deadline budget exhausted"
+        },
+        {
+          "module": "robotics",
+          "source_id": "greenhouse:stripe",
+          "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+          "status": "passed",
+          "last_at": 1794881195308,
+          "last_success": 1794881195308,
+          "failures": 0,
+          "retry_at": null,
+          "consecutive_passes": 1,
+          "jobs_total": 791,
+          "sample_observed_at": 1794881195308,
+          "http": [
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/stripe/jobs",
+              "status": 200,
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            }
+          ],
+          "error": ""
+        },
+        {
+          "module": "robotics",
+          "source_id": "workday:bostondynamics",
+          "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+          "status": "failed",
+          "last_at": 1794880034535,
+          "last_success": null,
+          "failures": 1,
+          "retry_at": 1794883634535,
+          "consecutive_passes": 0,
+          "jobs_total": 0,
+          "sample_observed_at": null,
+          "http": [
+            {
+              "host": "bostondynamics.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/bostondynamics/Boston_Dynamics/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb0f39892886a6-IAD",
+              "response_title": ""
+            },
+            {
+              "host": "bostondynamics.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/bostondynamics/Boston_Dynamics/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb0fb71d0886a6-IAD",
+              "response_title": ""
+            },
+            {
+              "host": "bostondynamics.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/bostondynamics/Boston_Dynamics/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb10b77d4486a6-IAD",
+              "response_title": ""
+            }
+          ],
+          "error": "WorkdayDeferred: bostondynamics.wd1.myworkdayjobs.com offset=0: HTTP 429; 5 attempts exhausted"
+        },
+        {
+          "module": "robotics",
+          "source_id": "workday:rockwellautomation",
+          "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+          "status": "failed",
+          "last_at": 1794881195308,
+          "last_success": null,
+          "failures": 1,
+          "retry_at": 1794884795308,
+          "consecutive_passes": 0,
+          "jobs_total": 0,
+          "sample_observed_at": null,
+          "http": [
+            {
+              "host": "rockwellautomation.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb2bc2efc88844-IAD",
+              "response_title": ""
+            },
+            {
+              "host": "rockwellautomation.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb2c42ae998844-IAD",
+              "response_title": ""
+            },
+            {
+              "host": "rockwellautomation.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/rockwellautomation/External_Rockwell_Automation/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb2d42af468844-IAD",
+              "response_title": ""
+            }
+          ],
+          "error": "WorkdayDeferred: rockwellautomation.wd1.myworkdayjobs.com offset=0: HTTP 429; 5 attempts exhausted"
+        }
+      ],
+      "promotion_eligible": false
+    },
+    "tech": {
+      "slot": "2026-11-17T01:20:00.000Z",
+      "cursor": 1,
+      "status": "degraded",
+      "last_run": 1794880098847,
+      "last_report": "2026-11-17T01:20:00.000Z:tech",
+      "last_error": "BudgetExceeded: Response byte/deadline budget exhausted",
+      "every_minutes": 60,
+      "minute_utc": 20,
+      "next_due_utc": "2026-11-17T02:20:00.000Z",
+      "source_sha": "f631e0b6f165cf4764ab857f1b4164ec76f83dc8",
+      "registered_sources": 13,
+      "sandbox_supported_sources": 13,
+      "observed_sources": 2,
+      "passing_sources": 0,
+      "cooling_sources": 2,
+      "latest": {
+        "lease_id": "2026-11-17T01:20:00.000Z:tech",
+        "module": "tech",
+        "slot": "2026-11-17T01:20:00.000Z",
+        "source_sha": "f631e0b6f165cf4764ab857f1b4164ec76f83dc8",
+        "runner_build": "82a88f1277be667cddf143c31ebd2f4a0eeb4e4d",
+        "github_run_url": "https://github.com/misterplusev/job-radar-tech/actions/runs/43998255324",
+        "status": "degraded",
+        "tests": [
+          {
+            "passed": true,
+            "tests": 89,
+            "returncode": 0,
+            "tail": "e/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_reappearing_posting_is_reactivated_without_a_new_alert (test_write_volume.WriteVolumeTests.test_reappearing_posting_is_reactivated_without_a_new_alert) ... /tmp/abet-staging-947yaun5/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_rows_hashed_by_the_old_key_go_through_the_capped_backfill (test_write_volume.WriteVolumeTests.test_rows_hashed_by_the_old_key_go_through_the_capped_backfill) ... /tmp/abet-staging-947yaun5/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_run_bookkeeping_does_not_count_as_a_change (test_write_volume.WriteVolumeTests.test_run_bookkeeping_does_not_count_as_a_change) ... /tmp/abet-staging-947yaun5/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\ntest_unchanged_posting_only_refreshes_tracking_columns (test_write_volume.WriteVolumeTests.test_unchanged_posting_only_refreshes_tracking_columns) ... /tmp/abet-staging-947yaun5/source/jobradar/publish.py:32: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__\n  from .relevance import explain as _relevance_explain\nok\n\n----------------------------------------------------------------------\nRan 89 tests in 0.989s\n\nOK (skipped=4)\n"
+          }
+        ],
+        "sources": [
+          {
+            "source_id": "greenhouse:cloudflare",
+            "status": "budget_exhausted",
+            "complete": false,
+            "jobs_total": 0,
+            "requests": 3,
+            "bytes": 8456195,
+            "seconds": 9.937,
+            "error": "BudgetExceeded: Response byte/deadline budget exhausted",
+            "http": [
+              {
+                "host": "boards-api.greenhouse.io",
+                "path": "/v1/boards/cloudflare/jobs",
+                "retry_after": "",
+                "cf_ray": "",
+                "response_title": ""
+              },
+              {
+                "host": "boards-api.greenhouse.io",
+                "path": "/v1/boards/cloudflare/jobs",
+                "retry_after": "",
+                "cf_ray": "",
+                "response_title": ""
+              },
+              {
+                "host": "boards-api.greenhouse.io",
+                "path": "/v1/boards/cloudflare/jobs",
+                "retry_after": "",
+                "cf_ray": "",
+                "response_title": ""
+              }
+            ],
+            "sample": []
+          },
+          {
+            "source_id": "greenhouse:stripe",
+            "status": "budget_exhausted",
+            "complete": false,
+            "jobs_total": 0,
+            "requests": 3,
+            "bytes": 8448324,
+            "seconds": 9.764,
+            "error": "BudgetExceeded: Response byte/deadline budget exhausted",
+            "http": [
+              {
+                "host": "boards-api.greenhouse.io",
+                "path": "/v1/boards/stripe/jobs",
+                "retry_after": "",
+                "cf_ray": "",
+                "response_title": ""
+              },
+              {
+                "host": "boards-api.greenhouse.io",
+                "path": "/v1/boards/stripe/jobs",
+                "retry_after": "",
+                "cf_ray": "",
+                "response_title": ""
+              },
+              {
+                "host": "boards-api.greenhouse.io",
+                "path": "/v1/boards/stripe/jobs",
+                "retry_after": "",
+                "cf_ray": "",
+                "response_title": ""
+              }
+            ],
+            "sample": []
+          }
+        ],
+        "started_at": "2026-11-17T01:47:57.187768+00:00",
+        "finished_at": "2026-11-17T01:48:18.647002+00:00",
+        "production_writes": 0,
+        "discord_sends": 0,
+        "scope": "bounded canaries; not a full production scrape",
+        "recorded_at": "2026-11-17T01:48:18.847Z"
+      },
+      "source_status": [
+        {
+          "module": "tech",
+          "source_id": "greenhouse:cloudflare",
+          "source_sha": "f631e0b6f165cf4764ab857f1b4164ec76f83dc8",
+          "status": "budget_exhausted",
+          "last_at": 1794880098847,
+          "last_success": null,
+          "failures": 1,
+          "retry_at": 1794883698847,
+          "consecutive_passes": 0,
+          "jobs_total": 0,
+          "sample_observed_at": null,
+          "http": [
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/cloudflare/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            },
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/cloudflare/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            },
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/cloudflare/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            }
+          ],
+          "error": "BudgetExceeded: Response byte/deadline budget exhausted"
+        },
+        {
+          "module": "tech",
+          "source_id": "greenhouse:stripe",
+          "source_sha": "f631e0b6f165cf4764ab857f1b4164ec76f83dc8",
+          "status": "budget_exhausted",
+          "last_at": 1794880098847,
+          "last_success": null,
+          "failures": 1,
+          "retry_at": 1794883698847,
+          "consecutive_passes": 0,
+          "jobs_total": 0,
+          "sample_observed_at": null,
+          "http": [
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/stripe/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            },
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/stripe/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            },
+            {
+              "host": "boards-api.greenhouse.io",
+              "path": "/v1/boards/stripe/jobs",
+              "retry_after": "",
+              "cf_ray": "",
+              "response_title": ""
+            }
+          ],
+          "error": "BudgetExceeded: Response byte/deadline budget exhausted"
+        }
+      ],
+      "promotion_eligible": false
+    },
+    "sports_teams": {
+      "slot": "2026-11-17T01:35:00.000Z",
+      "cursor": 1,
+      "status": "degraded",
+      "last_run": 1794880226384,
+      "last_report": "2026-11-17T01:35:00.000Z:sports_teams",
+      "last_error": "RuntimeError: WorkdayDeferred: ambgroup.wd1.myworkdayjobs.com offset=0: HTTP 429; 5 attempts exhausted",
+      "every_minutes": 60,
+      "minute_utc": 35,
+      "next_due_utc": "2026-11-17T02:35:00.000Z",
+      "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+      "registered_sources": 152,
+      "sandbox_supported_sources": 152,
+      "observed_sources": 2,
+      "passing_sources": 1,
+      "cooling_sources": 1,
+      "latest": {
+        "lease_id": "2026-11-17T01:35:00.000Z:sports_teams",
+        "module": "sports_teams",
+        "slot": "2026-11-17T01:35:00.000Z",
+        "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+        "runner_build": "82a88f1277be667cddf143c31ebd2f4a0eeb4e4d",
+        "github_run_url": "https://github.com/misterplusev/job-radar/actions/runs/43998385133",
+        "status": "degraded",
+        "tests": [
+          {
+            "passed": true,
+            "tests": 74,
+            "returncode": 0,
+            "tail": "SourceRepairTests.test_confirmed_empty_team_is_valid) ... ok\ntest_failed_cross_listing_preserves_job (test_repair_nov10.SourceRepairTests.test_failed_cross_listing_preserves_job) ... ok\ntest_filtered_portal_must_confirm_requested_employer (test_repair_nov10.SourceRepairTests.test_filtered_portal_must_confirm_requested_employer) ... ok\ntest_phantom_inferred_observation_cannot_keep_absent_job_active (test_repair_nov10.SourceRepairTests.test_phantom_inferred_observation_cannot_keep_absent_job_active) ... ok\ntest_retired_route_waits_for_successful_replacement (test_repair_nov10.SourceRepairTests.test_retired_route_waits_for_successful_replacement) ... ok\ntest_no_generic_league_discovery (test_source_delivery_parity.Parity.test_no_generic_league_discovery) ... ok\ntest_old_dayforce_links_keep_team_tenant_board_and_language (test_source_delivery_parity.Parity.test_old_dayforce_links_keep_team_tenant_board_and_language) ... ok\ntest_only_explicit_team_sources_can_enter_production (test_source_delivery_parity.Parity.test_only_explicit_team_sources_can_enter_production) ... ok\ntest_queue_creation_never_resets_delivered_history (test_source_delivery_parity.Parity.test_queue_creation_never_resets_delivered_history) ... ok\ntest_queued_new_job_only_and_failed_delivery_stays_pending (test_source_delivery_parity.Parity.test_queued_new_job_only_and_failed_delivery_stays_pending) ... ok\ntest_policy_timeout_tuple_is_accepted_by_bounded_transport (test_workday_retry.WorkdayTeamRetry.test_policy_timeout_tuple_is_accepted_by_bounded_transport) ... ok\ntest_workday_post_enters_policy_other_posts_do_not (test_workday_retry.WorkdayTeamRetry.test_workday_post_enters_policy_other_posts_do_not) ... ok\n\n----------------------------------------------------------------------\nRan 74 tests in 0.194s\n\nOK\n"
+          }
+        ],
+        "sources": [
+          {
+            "source_id": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE",
+            "status": "failed",
+            "complete": false,
+            "jobs_total": 0,
+            "requests": 5,
+            "bytes": 143115,
+            "seconds": 77.717,
+            "error": "RuntimeError: WorkdayDeferred: ambgroup.wd1.myworkdayjobs.com offset=0: HTTP 429; 5 attempts exhausted",
+            "http": [
+              {
+                "host": "ambgroup.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/ambgroup/AMBSE/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb13bdaa9e09e5-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "ambgroup.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/ambgroup/AMBSE/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb13e0d83473a3-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "ambgroup.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/ambgroup/AMBSE/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb1425cebc09e5-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "ambgroup.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/ambgroup/AMBSE/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb14a6cffc09e5-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "ambgroup.wd1.myworkdayjobs.com",
+                "path": "/wday/cxs/ambgroup/AMBSE/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb15a24ff009e5-IAD",
+                "response_title": ""
+              }
+            ],
+            "sample": []
+          },
+          {
+            "source_id": "tw:football-jobs/texans/houston-texans",
+            "status": "passed",
+            "complete": true,
+            "jobs_total": 4,
+            "requests": 1,
+            "bytes": 18729,
+            "seconds": 0.351,
+            "error": "",
+            "http": [
+              {
+                "host": "www.teamworkonline.com",
+                "path": "/football-jobs/texans/houston-texans",
+                "status": 200,
+                "retry_after": "",
+                "cf_ray": "a5bb15a44a39e5b6-IAD",
+                "response_title": ""
+              }
+            ],
+            "sample": [
+              {
+                "title": "Talent Acquisition Specialist",
+                "url": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/talent-acquisition-specialist-2199304",
+                "location": "Houston, TX \u00b7 Entry Level"
+              },
+              {
+                "title": "Senior Director, Partnership Marketing",
+                "url": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/senior-director-partnership-marketing-2199174",
+                "location": "Houston, TX \u00b7 Director"
+              },
+              {
+                "title": "Gameday - Game Presentation Ambassador",
+                "url": "https://www.teamworkonline.com/football-jobs/texans/lovb-houston-jobs/gameday-game-presentation-ambassador-2195153",
+                "location": "Houston, TX \u00b7 Part Time"
+              },
+              {
+                "title": "Inside Sales Representative",
+                "url": "https://www.teamworkonline.com/football-jobs/texans/houston-texans/inside-sales-representative-2183512",
+                "location": "TX \u00b7 Entry Level"
+              }
+            ]
+          }
+        ],
+        "started_at": "2026-11-17T01:49:07.100893+00:00",
+        "finished_at": "2026-11-17T01:50:26.192983+00:00",
+        "production_writes": 0,
+        "discord_sends": 0,
+        "scope": "bounded canaries; not a full production scrape",
+        "recorded_at": "2026-11-17T01:50:26.384Z"
+      },
+      "source_status": [
+        {
+          "module": "sports_teams",
+          "source_id": "tw:football-jobs/texans/houston-texans",
+          "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+          "status": "passed",
+          "last_at": 1794880226384,
+          "last_success": 1794880226384,
+          "failures": 0,
+          "retry_at": null,
+          "consecutive_passes": 1,
+          "jobs_total": 4,
+          "sample_observed_at": 1794880226384,
+          "http": [
+            {
+              "host": "www.teamworkonline.com",
+              "path": "/football-jobs/texans/houston-texans",
+              "status": 200,
+              "retry_after": "",
+              "cf_ray": "a5bb15a44a39e5b6-IAD",
+              "response_title": ""
+            }
+          ],
+          "error": ""
+        },
+        {
+          "module": "sports_teams",
+          "source_id": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE",
+          "source_sha": "ac5370eb792394cfc0dd289305bc104992479cd0",
+          "status": "failed",
+          "last_at": 1794880226384,
+          "last_success": null,
+          "failures": 1,
+          "retry_at": 1794883826384,
+          "consecutive_passes": 0,
+          "jobs_total": 0,
+          "sample_observed_at": null,
+          "http": [
+            {
+              "host": "ambgroup.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/ambgroup/AMBSE/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb1425cebc09e5-IAD",
+              "response_title": ""
+            },
+            {
+              "host": "ambgroup.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/ambgroup/AMBSE/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb14a6cffc09e5-IAD",
+              "response_title": ""
+            },
+            {
+              "host": "ambgroup.wd1.myworkdayjobs.com",
+              "path": "/wday/cxs/ambgroup/AMBSE/jobs",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb15a24ff009e5-IAD",
+              "response_title": ""
+            }
+          ],
+          "error": "RuntimeError: WorkdayDeferred: ambgroup.wd1.myworkdayjobs.com offset=0: HTTP 429; 5 attempts exhausted"
+        }
+      ],
+      "promotion_eligible": false
+    },
+    "sportsbook": {
+      "slot": "2026-11-17T00:50:00.000Z",
+      "cursor": 1,
+      "status": "degraded",
+      "last_run": 1794880370829,
+      "last_report": "2026-11-17T00:50:00.000Z:sportsbook",
+      "last_error": "WorkdayDeferred: betmgminc.wd5.myworkdayjobs.com offset=None: HTTP 429; 5 attempts exhausted",
+      "every_minutes": 240,
+      "minute_utc": 50,
+      "next_due_utc": "2026-11-17T04:50:00.000Z",
+      "source_sha": "bcf53bb7c2371601e92f247ddf0aa36d3f9fecdc",
+      "registered_sources": 24,
+      "sandbox_supported_sources": 18,
+      "observed_sources": 1,
+      "passing_sources": 0,
+      "cooling_sources": 1,
+      "latest": {
+        "lease_id": "2026-11-17T00:50:00.000Z:sportsbook",
+        "module": "sportsbook",
+        "slot": "2026-11-17T00:50:00.000Z",
+        "source_sha": "bcf53bb7c2371601e92f247ddf0aa36d3f9fecdc",
+        "runner_build": "82a88f1277be667cddf143c31ebd2f4a0eeb4e4d",
+        "github_run_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/43998642966",
+        "status": "degraded",
+        "tests": [
+          {
+            "passed": true,
+            "tests": 15,
+            "returncode": 0,
+            "tail": ".test_forbidden_is_terminal) ... ok\ntest_http_date_retry_after (test_workday_http.WorkdayPolicyTests.test_http_date_retry_after) ... ok\ntest_logs_are_redacted_and_bounded (test_workday_http.WorkdayPolicyTests.test_logs_are_redacted_and_bounded) ... ok\ntest_long_wait_defers_without_early_retry (test_workday_http.WorkdayPolicyTests.test_long_wait_defers_without_early_retry) ... ok\ntest_non_json_and_timeout_recover (test_workday_http.WorkdayPolicyTests.test_non_json_and_timeout_recover) ... ok\ntest_numeric_retry_after_is_not_shortened (test_workday_http.WorkdayPolicyTests.test_numeric_retry_after_is_not_shortened) ... ok\ntest_read_only_post_recovers_and_records_attempts (test_workday_http.WorkdayPolicyTests.test_read_only_post_recovers_and_records_attempts) ... ok\ntest_repeated_429_is_bounded (test_workday_http.WorkdayPolicyTests.test_repeated_429_is_bounded) ... ok\ntest_same_host_clients_share_cooldown (test_workday_http.WorkdayPolicyTests.test_same_host_clients_share_cooldown) ... ok\ntest_successful_pages_are_paced (test_workday_http.WorkdayPolicyTests.test_successful_pages_are_paced) ... ok\ntest_write_posts_are_never_sent (test_workday_http.WorkdayPolicyTests.test_write_posts_are_never_sent) ... ok\ntest_all_three_listing_posts_recover (test_workday_providers.SportsbookWorkdayIntegration.test_all_three_listing_posts_recover) ... ok\ntest_detail_failure_fails_source_instead_of_skipping_job (test_workday_providers.SportsbookWorkdayIntegration.test_detail_failure_fails_source_instead_of_skipping_job) ... ok\ntest_incomplete_pagination_does_not_return_partial_jobs (test_workday_providers.SportsbookWorkdayIntegration.test_incomplete_pagination_does_not_return_partial_jobs) ... ok\n\n----------------------------------------------------------------------\nRan 15 tests in 0.019s\n\nOK\n"
+          },
+          {
+            "passed": true,
+            "tests": 17,
+            "returncode": 0,
+            "tail": "c_slots (test_hf_launcher_schedule_health.ScheduleHealthTests.test_daylight_saving_does_not_move_the_utc_slots) ... ok\ntest_health_json_keeps_the_fields_existing_readers_use (test_hf_launcher_schedule_health.ScheduleHealthTests.test_health_json_keeps_the_fields_existing_readers_use) ... ok\ntest_healthy_manifest_degrades_when_schedule_is_missed (test_hf_launcher_schedule_health.ScheduleHealthTests.test_healthy_manifest_degrades_when_schedule_is_missed) ... ok\ntest_healthy_manifest_stays_healthy_between_slots (test_hf_launcher_schedule_health.ScheduleHealthTests.test_healthy_manifest_stays_healthy_between_slots) ... ok\ntest_launcher_has_no_timer_of_its_own (test_hf_launcher_schedule_health.ScheduleHealthTests.test_launcher_has_no_timer_of_its_own) ... ok\ntest_running_scrape_is_not_marked_missed (test_hf_launcher_schedule_health.ScheduleHealthTests.test_running_scrape_is_not_marked_missed) ... ok\ntest_slot_becomes_missed_after_grace (test_hf_launcher_schedule_health.ScheduleHealthTests.test_slot_becomes_missed_after_grace) ... ok\ntest_slot_within_grace_is_not_missed (test_hf_launcher_schedule_health.ScheduleHealthTests.test_slot_within_grace_is_not_missed) ... ok\ntest_slots_are_every_four_hours_in_utc_on_the_sportsbook_offset (test_hf_launcher_schedule_health.ScheduleHealthTests.test_slots_are_every_four_hours_in_utc_on_the_sportsbook_offset) ... ok\ntest_restart_never_starts_scraper_even_with_old_boot_variable (test_hf_launcher_schedule_health.TemporaryCadenceTests.test_restart_never_starts_scraper_even_with_old_boot_variable) ... ok\ntest_twice_daily_schedule_and_freshness (test_hf_launcher_schedule_health.TemporaryCadenceTests.test_twice_daily_schedule_and_freshness) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 0.007s\n\nOK\n"
+          }
+        ],
+        "sources": [
+          {
+            "source_id": "betmgm",
+            "status": "failed",
+            "complete": false,
+            "jobs_total": 0,
+            "requests": 12,
+            "bytes": 256359,
+            "seconds": 97.496,
+            "error": "WorkdayDeferred: betmgminc.wd5.myworkdayjobs.com offset=None: HTTP 429; 5 attempts exhausted",
+            "http": [
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb16cc39b3a629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/jobs",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb16f13e207067-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/jobs",
+                "status": 200,
+                "retry_after": "",
+                "cf_ray": "a5bb17302e5fa629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Remote-New-Jersey/Director--Customer-Operations-Platforms_JR100831",
+                "status": 200,
+                "retry_after": "",
+                "cf_ray": "a5bb1734ba6ba629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Hybrid-New-Jersey/Director--AI-Platform-and-Portfolio-Delivery_JR100752",
+                "status": 200,
+                "retry_after": "",
+                "cf_ray": "a5bb1737ebf3a629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Hybrid-New-Jersey/Manager--Poker-Marketing-and-Promotions_JR100847",
+                "status": 200,
+                "retry_after": "",
+                "cf_ray": "a5bb173c4825a629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Remote-New-Jersey/Sr-Machine-Learning-Ops-Engineer_JR100850",
+                "status": 200,
+                "retry_after": "",
+                "cf_ray": "a5bb173f7901a629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Pennsylvania/Executive-Casino-Host_JR100851",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb1742c9e6a629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Pennsylvania/Executive-Casino-Host_JR100851",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb17679a837067-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Pennsylvania/Executive-Casino-Host_JR100851",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb17ac4df8a629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Pennsylvania/Executive-Casino-Host_JR100851",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb182d9de3a629-IAD",
+                "response_title": ""
+              },
+              {
+                "host": "betmgminc.wd5.myworkdayjobs.com",
+                "path": "/wday/cxs/betmgminc/BetMGM/job/Pennsylvania/Executive-Casino-Host_JR100851",
+                "status": 429,
+                "retry_after": "",
+                "cf_ray": "a5bb192c096fa629-IAD",
+                "response_title": ""
+              }
+            ],
+            "sample": []
+          }
+        ],
+        "started_at": "2026-11-17T01:51:12.340683+00:00",
+        "finished_at": "2026-11-17T01:52:50.643175+00:00",
+        "production_writes": 0,
+        "discord_sends": 0,
+        "scope": "bounded canaries; not a full production scrape",
+        "recorded_at": "2026-11-17T01:52:50.829Z"
+      },
+      "source_status": [
+        {
+          "module": "sportsbook",
+          "source_id": "betmgm",
+          "source_sha": "bcf53bb7c2371601e92f247ddf0aa36d3f9fecdc",
+          "status": "failed",
+          "last_at": 1794880370829,
+          "last_success": null,
+          "failures": 1,
+          "retry_at": 1794883970829,
+          "consecutive_passes": 0,
+          "jobs_total": 0,
+          "sample_observed_at": null,
+          "http": [
+            {
+              "host": "betmgminc.wd5.myworkdayjobs.com",
+              "path": "/wday/cxs/betmgminc/BetMGM/job/Pennsylvania/Executive-Casino-Host_JR100851",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb17ac4df8a629-IAD",
+              "response_title": ""
+            },
+            {
+              "host": "betmgminc.wd5.myworkdayjobs.com",
+              "path": "/wday/cxs/betmgminc/BetMGM/job/Pennsylvania/Executive-Casino-Host_JR100851",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb182d9de3a629-IAD",
+              "response_title": ""
+            },
+            {
+              "host": "betmgminc.wd5.myworkdayjobs.com",
+              "path": "/wday/cxs/betmgminc/BetMGM/job/Pennsylvania/Executive-Casino-Host_JR100851",
+              "status": 429,
+              "retry_after": "",
+              "cf_ray": "a5bb192c096fa629-IAD",
+              "response_title": ""
+            }
+          ],
+          "error": "WorkdayDeferred: betmgminc.wd5.myworkdayjobs.com offset=None: HTTP 429; 5 attempts exhausted"
+        }
+      ],
+      "promotion_eligible": false
+    }
+  },
+  "active": null,
+  "day": "2026-11-17",
+  "run_count": 5,
+  "changed_at": 1794879929280,
+  "last_tick": 1794881225310,
+  "private_month": "2026-11",
+  "private_runs": 1,
+  "runner_error": null,
+  "last_report": 1794881195308,
+  "status": "degraded",
+  "overdue": [],
+  "heartbeat_stale": false,
+  "next_alarm": 1794881525310,
+  "limits": {
+    "runs_per_day": 96,
+    "normal_scheduled_runs_per_day": 78,
+    "private_runs_per_month": 200,
+    "private_reserved_minutes_per_month": 800,
+    "sources_per_run": 2,
+    "sportsbook_sources_per_run": 1,
+    "requests_per_source": 12,
+    "seconds_per_source": 120,
+    "max_response_bytes": 16777216,
+    "max_source_bytes": 25165824,
+    "report_retention_days": 7,
+    "max_reports": 672,
+    "sample_jobs_per_source": 10
+  },
+  "storage": "dedicated SQLite-backed Durable Object; no production Supabase",
+  "production_dispatch_enabled": false,
+  "discord_sends": 0
+}
