@@ -13,10 +13,10 @@
 //   kind: 'space'  POST /api/run?slot=… on a Hugging Face Space. Its address is
 //                  read from the environment variable named by `urlEnv`.
 export const MODULES = [
-  { id: 'robotics', repo: 'misterplusev/job-radar', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 9, everyHours: 4, hourOffset: 0 },
-  { id: 'tech', repo: 'misterplusev/job-radar-tech', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 37, everyHours: 4, hourOffset: 1 },
-  { id: 'sports_teams', repo: 'misterplusev/job-radar', workflow: 'sports-teams.yml', prefix: 'sports-teams', minute: 23, everyHours: 4, hourOffset: 2 },
-  { id: 'sportsbook', kind: 'space', urlEnv: 'SPORTSBOOK_SPACE_URL', minute: 0, everyHours: 4, hourOffset: 3,
+  { id: 'robotics', repo: 'misterplusev/job-radar', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 9, everyHours: 12, hourOffset: 0 },
+  { id: 'tech', repo: 'misterplusev/job-radar-tech', workflow: 'pipeline.yml', prefix: 'job-radar', minute: 37, everyHours: 12, hourOffset: 9 },
+  { id: 'sports_teams', repo: 'misterplusev/job-radar', workflow: 'sports-teams.yml', prefix: 'sports-teams', minute: 23, everyHours: 12, hourOffset: 10 },
+  { id: 'sportsbook', kind: 'space', urlEnv: 'SPORTSBOOK_SPACE_URL', minute: 0, everyHours: 12, hourOffset: 11,
     // Discord delivery for sportsbook runs as a GitHub workflow (the Space cannot reach Discord).
     deliver: { repo: 'misterplusev/job-radar', workflow: 'sportsbook-deliver.yml', prefix: 'sportsbook-deliver' } },
 ];
@@ -47,7 +47,7 @@ const json = (value, status = 200) => Response.json(value, { status });
 //    While that fails, NO scraper is started. During the outage every scheduled run
 //    was still dispatched into a database that could not answer, and their retries
 //    kept it down for 36 hours. A held slot is started late if the database returns
-//    within the slot's 4-hour period, otherwise it is skipped; runs never pile up.
+//    within the slot's configured period, otherwise it is skipped; runs never pile up.
 // 2. Incident alert (optional): if ALERT_WEBHOOK is set, one Discord message when
 //    health has been bad for ALERT_AFTER_TICKS ticks in a row, a reminder every
 //    ALERT_REMINDER_MS while it stays bad, and one message when it recovers.
@@ -134,8 +134,10 @@ export class JobsScheduler {
       return;
     }
     // The Space forgets its slots when it restarts (a deploy, a platform restart).
-    // This slot already succeeded according to our own record: do not run it again.
-    if (record.status === 'success') {
+    // Completed slots remain completed after a runtime rebuild, including degraded runs.
+    // Retrying a completed degraded scrape on reboot would bypass the reduced cadence.
+    if (['success', 'degraded', 'failed'].includes(record.status)) {
+      record.error = record.status === 'success' ? null : `Run for ${slot} ended ${record.status}`;
       await this.dispatchDelivery(config, record, slot, state, origin);
       return;
     }
@@ -346,3 +348,4 @@ export default {
     return scheduler(env).fetch(`https://scheduler${path}`, { method: 'POST', headers: { 'X-Origin': 'operator' } });
   },
 };
+

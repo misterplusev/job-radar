@@ -22,15 +22,15 @@ test('slots honour the per-module cadence and stagger', () => {
   assert.equal(dueSlot(Date.parse('2026-11-11T00:05:00Z'), 9, 4, 0), '2026-11-10T20:09:00.000Z');
   assert.deepEqual(MODULES.map(m => m.id), ['robotics', 'tech', 'sports_teams', 'sportsbook']);
   // One scheduler, one cadence, and no two modules share an hour.
-  assert.deepEqual(MODULES.map(m => m.everyHours), [4, 4, 4, 4]);
-  assert.deepEqual(MODULES.map(m => m.hourOffset).sort(), [0, 1, 2, 3]);
+  assert.deepEqual(MODULES.map(m => m.everyHours), [12, 12, 12, 12]);
+  assert.deepEqual(MODULES.map(m => m.hourOffset).sort((a,b) => a-b), [0, 9, 10, 11]);
   const used = new Set();
   for (const m of MODULES) for (let h = m.hourOffset; h < 24; h += m.everyHours) { assert.ok(!used.has(h)); used.add(h); }
-  assert.equal(used.size, 24);
+  assert.equal(used.size, 8);
   for (const m of MODULES) assert.equal(24 % m.everyHours, 0);
 });
 test('alarm wake includes exact module slots and bounded recovery checks', () => {
-  assert.equal(nextWake(Date.parse('2026-11-11T08:08:00Z')), Date.parse('2026-11-11T08:09:00Z'));
+  assert.equal(nextWake(Date.parse('2026-11-11T12:08:00Z')), Date.parse('2026-11-11T12:09:00Z'));
   assert.equal(nextWake(Date.parse('2026-11-11T09:36:00Z')), Date.parse('2026-11-11T09:37:00Z'));
   assert.equal(nextWake(Date.parse('2026-11-11T10:22:00Z')), Date.parse('2026-11-11T10:23:00Z'));
   assert.equal(nextWake(Date.parse('2026-11-11T10:58:00Z')), Date.parse('2026-11-11T11:00:00Z'));
@@ -76,10 +76,10 @@ test('dispatch attempts are bounded and stale health is exposed', async () => {
 test('health allows one full period plus grace before calling a module overdue', () => {
   const { instance } = fixture();
   const modules = Object.fromEntries(MODULES.map(m => [m.id, { last_success: new Date(NOW).toISOString(), error: null }]));
-  const state = { paused: false, last_scheduler_tick: new Date(NOW + 4 * 3600000).toISOString(), modules };
-  assert.equal(instance.health(state, NOW + 4 * 3600000 + 60000).status, 'healthy');
-  state.last_scheduler_tick = new Date(NOW + 5 * 3600000).toISOString();
-  assert.equal(instance.health(state, NOW + 5 * 3600000).status, 'degraded');
+  const state = { paused: false, last_scheduler_tick: new Date(NOW + 12 * 3600000).toISOString(), modules };
+  assert.equal(instance.health(state, NOW + 12 * 3600000 + 60000).status, 'healthy');
+  state.last_scheduler_tick = new Date(NOW + 13 * 3600000).toISOString();
+  assert.equal(instance.health(state, NOW + 13 * 3600000).status, 'degraded');
 });
 test('sports teams dispatches its own workflow without blocking robotics', async () => {
   const { instance } = fixture(); const writes=[];
@@ -174,3 +174,22 @@ test('Space requests carry the read token and run token, and never put them in e
   assert.equal(seen[0].init.headers['X-Run-Token'], 'run-secret');
   assert.equal(seen[1].init.headers['X-Run-Token'], undefined);
 });
+
+test('slower schedule preserves all four last slots during the cutover', () => {
+ const at=Date.parse('2026-11-17T00:40:00Z');
+ assert.deepEqual(MODULES.map(m => dueSlot(at,m.minute,m.everyHours,m.hourOffset)),
+ ['2026-11-17T00:09:00.000Z','2026-11-16T21:37:00.000Z','2026-11-16T22:23:00.000Z','2026-11-16T23:00:00.000Z']);
+});
+for (const status of ['success','degraded','failed']) {
+ test('Space rebuild does not replay a completed '+status+' slot', async () => {
+  const slot=dueSlot(NOW,SB.minute,SB.everyHours,SB.hourOffset);
+  const made=fixture({paused:false,modules:{sportsbook:{slot,status,attempts:1,last_success:new Date(NOW-60000).toISOString()}}});
+  made.instance.github=async()=>({workflow_runs:[{status:'in_progress'}]});
+  let sends=0;
+  made.instance.space=async(config,path,run=false)=>{if(run)sends++;return {scrape_running:false,scheduler_slot:null};};
+  const result=await made.instance.tick('alarm',NOW);
+  assert.equal(sends,0); assert.equal(result.modules.sportsbook.status,status);
+  if(status!=='success')assert.match(result.modules.sportsbook.error,/ended/);
+ });
+}
+
