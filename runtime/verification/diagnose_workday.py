@@ -6,9 +6,8 @@ import requests
 assert os.environ.get('GITHUB_ACTIONS')=='true','Cloud execution required'
 assert not any(os.environ.get(k) for k in ('SUPABASE_SERVICE_ROLE_KEY','DISCORD_WEBHOOK_JOBS'))
 SOURCES=[
- ('robotics','bostondynamics.wd1.myworkdayjobs.com','bostondynamics','Boston_Dynamics'),
- ('teams','ambgroup.wd1.myworkdayjobs.com','ambgroup','AMBSE'),
- ('sportsbook','betmgminc.wd5.myworkdayjobs.com','betmgminc','External'),
+ ('hardrock','seminolehardrock.wd503.myworkdayjobs.com','seminolehardrock','seminolehardrockcareers'),
+ ('betway','myhcm.wd3.myworkdayjobs.com','myhcm','Betway'),
 ]
 OUT=Path('proof/workday-diagnosis');OUT.mkdir(parents=True,exist_ok=True)
 REPORT={'at':dt.datetime.now(dt.timezone.utc).isoformat(),'run_url':f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",'sources':[],'production_writes':0,'discord_sends':0}
@@ -17,7 +16,7 @@ def normalized(raw):
     text=re.sub(r'<[^>]+>',' ',text)
     return re.sub(r'\s+',' ',html.unescape(text)).strip()[:8000]
 def fetch(session,label,method,url,**kw):
-    assert url.startswith('https://') and urlsplit(url).hostname.endswith('.myworkdayjobs.com')
+    assert url.startswith('https://') and (urlsplit(url).hostname.endswith('.myworkdayjobs.com') or urlsplit(url).hostname=='bostondynamics.com')
     start=time.monotonic();r=session.request(method,url,timeout=(8,20),allow_redirects=False,stream=True,**kw)
     body=b''
     for chunk in r.iter_content(65536):
@@ -49,5 +48,9 @@ for module,host,tenant,site in SOURCES:
             source['events'].append(result)
     except Exception as exc:source['error']=type(exc).__name__+': '+str(exc)[:400]
     REPORT['sources'].append(source)
+try:
+    session=requests.Session();session.headers['User-Agent']='ABET-Jobs-Source-Validation/1.0'
+    REPORT['boston_official_page']=fetch(session,'boston-official','GET','https://bostondynamics.com/careers/')
+except Exception as exc:REPORT['boston_official_error']=str(exc)[:400]
 (OUT/'report.json').write_text(json.dumps(REPORT,indent=2),encoding='utf-8')
 print(json.dumps(REPORT,indent=2))
