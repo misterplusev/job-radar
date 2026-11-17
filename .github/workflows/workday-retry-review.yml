@@ -1,25 +1,49 @@
-name: workday-repair-validation
+name: workday-full-listing-candidate
 on:
   workflow_dispatch:
+    inputs:
+      allow_full_cloud_browser:
+        description: Separate explicit operator approval for full19-board browser collection
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
   group: workday-cloud-development
   cancel-in-progress: false
 jobs:
-  regression:
+  fixture-tests:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
+      - name: Incomplete-page safety fixtures; no browser installed
         env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
+          PYTHONPATH: runtime/verification/isolation:runtime/verification
           STAGING_TEST_NETWORK_OFF: '1'
-        run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+        run: python -m unittest discover -s runtime/verification -p 'test_browser_full_collection.py' -v
+  browser:
+    if: ${{ inputs.allow_full_cloud_browser }}
+    needs: fixture-tests
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install playwright==1.65.2 psutil
+      - run: python -m playwright install chromium
+      - name: One controlled full-listing browser session with guard and cleanup
+        env:
+          CLOUD_BROWSER_FULL_COLLECTION_APPROVED: 'true'
+        run: python runtime/verification/browser_full_collection.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: workday-full-listing-proof
+          path: proof/workday-full-listings/
+          retention-days: 7
