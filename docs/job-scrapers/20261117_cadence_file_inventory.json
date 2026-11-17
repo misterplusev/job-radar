@@ -1,0 +1,415 @@
+[
+  {
+    "repository": "job-radar",
+    "path": "runtime/cloudflare/worker.mjs",
+    "lines": 351,
+    "sha256": "4990504cde19195d640112d4569eadcbcaf90ca2c1c9dbbcc3ea0141bd1cde25",
+    "declarations": [
+      {
+        "line": 15,
+        "text": "export const MODULES = ["
+      },
+      {
+        "line": 24,
+        "text": "export function dueSlot(now, minute, everyHours = 1, hourOffset = 0) {"
+      },
+      {
+        "line": 37,
+        "text": "export function nextWake(now) {"
+      },
+      {
+        "line": 57,
+        "text": "export class JobsScheduler {"
+      },
+      {
+        "line": 337,
+        "text": "function scheduler(env) { return env.SCHEDULER.get(env.SCHEDULER.idFromName('production')); }"
+      }
+    ],
+    "hunks": [
+      "@@ -13,10 +13,10 @@",
+      "@@ -47,7 +47,7 @@",
+      "@@ -134,8 +134,10 @@",
+      "@@ -346,3 +348,4 @@"
+    ]
+  },
+  {
+    "repository": "job-radar",
+    "path": "runtime/cloudflare/test_scheduler.mjs",
+    "lines": 195,
+    "sha256": "767efee1a21828a1d8f20cd65a80a0b4b520162b7436a53a6d63297c068d456e",
+    "declarations": [
+      {
+        "line": 5,
+        "text": "function fixture(initial = { paused: false, modules: {} }) {"
+      },
+      {
+        "line": 103,
+        "text": "function spaceFixture(health) {"
+      }
+    ],
+    "hunks": [
+      "@@ -22,15 +22,15 @@",
+      "@@ -76,10 +76,10 @@",
+      "@@ -174,3 +174,22 @@"
+    ]
+  },
+  {
+    "repository": "sportsbook-jobs-dashboard",
+    "path": "runtime/huggingface/launcher.py",
+    "lines": 637,
+    "sha256": "fec4e98678e654eaaa3c82bbdcd04af1fae35547d99507b901ca90491ce73698",
+    "definitions": [
+      {
+        "name": "log",
+        "line": 87,
+        "end_line": 96
+      },
+      {
+        "name": "save_state",
+        "line": 99,
+        "end_line": 104
+      },
+      {
+        "name": "load_state",
+        "line": 107,
+        "end_line": 112
+      },
+      {
+        "name": "read_manifest",
+        "line": 115,
+        "end_line": 123
+      },
+      {
+        "name": "_as_utc",
+        "line": 126,
+        "end_line": 130
+      },
+      {
+        "name": "_sunday_on_or_after",
+        "line": 133,
+        "end_line": 134
+      },
+      {
+        "name": "_et_offset_for_utc",
+        "line": 137,
+        "end_line": 145
+      },
+      {
+        "name": "now_et",
+        "line": 148,
+        "end_line": 152
+      },
+      {
+        "name": "schedule_hours_utc",
+        "line": 155,
+        "end_line": 157
+      },
+      {
+        "name": "schedule_hours_et",
+        "line": 160,
+        "end_line": 163
+      },
+      {
+        "name": "previous_run_utc",
+        "line": 166,
+        "end_line": 170
+      },
+      {
+        "name": "next_run_utc",
+        "line": 173,
+        "end_line": 174
+      },
+      {
+        "name": "_et_label",
+        "line": 177,
+        "end_line": 178
+      },
+      {
+        "name": "_parse_utc",
+        "line": 181,
+        "end_line": 187
+      },
+      {
+        "name": "schedule_observation",
+        "line": 190,
+        "end_line": 227
+      },
+      {
+        "name": "derive_status",
+        "line": 230,
+        "end_line": 254
+      },
+      {
+        "name": "run_scrape",
+        "line": 257,
+        "end_line": 323
+      },
+      {
+        "name": "alert",
+        "line": 326,
+        "end_line": 358
+      },
+      {
+        "name": "keepalive_thread",
+        "line": 361,
+        "end_line": 390
+      },
+      {
+        "name": "health_json",
+        "line": 393,
+        "end_line": 437
+      },
+      {
+        "name": "status_html",
+        "line": 449,
+        "end_line": 484
+      },
+      {
+        "name": "Handler",
+        "line": 487,
+        "end_line": 604
+      },
+      {
+        "name": "handle_signal",
+        "line": 607,
+        "end_line": 612
+      },
+      {
+        "name": "main",
+        "line": 615,
+        "end_line": 630
+      },
+      {
+        "name": "_send",
+        "line": 488,
+        "end_line": 495
+      },
+      {
+        "name": "_handle",
+        "line": 497,
+        "end_line": 598
+      },
+      {
+        "name": "log_message",
+        "line": 603,
+        "end_line": 604
+      }
+    ],
+    "hunks": [
+      "@@ -54,8 +54,8 @@",
+      "@@ -625,8 +625,7 @@"
+    ]
+  },
+  {
+    "repository": "sportsbook-jobs-dashboard",
+    "path": "tests/test_hf_launcher_schedule_health.py",
+    "lines": 214,
+    "sha256": "0839379ad46c38f2caa34e87fab5c8359e77700d4b9efb565352f8da20060107",
+    "definitions": [
+      {
+        "name": "utc",
+        "line": 23,
+        "end_line": 24
+      },
+      {
+        "name": "StateCase",
+        "line": 27,
+        "end_line": 56
+      },
+      {
+        "name": "ScheduleHealthTests",
+        "line": 59,
+        "end_line": 124
+      },
+      {
+        "name": "RunRouteTests",
+        "line": 127,
+        "end_line": 190
+      },
+      {
+        "name": "TemporaryCadenceTests",
+        "line": 197,
+        "end_line": 214
+      },
+      {
+        "name": "setUp",
+        "line": 28,
+        "end_line": 52
+      },
+      {
+        "name": "tearDown",
+        "line": 54,
+        "end_line": 56
+      },
+      {
+        "name": "test_slots_are_every_four_hours_in_utc_on_the_sportsbook_offset",
+        "line": 60,
+        "end_line": 65
+      },
+      {
+        "name": "test_daylight_saving_does_not_move_the_utc_slots",
+        "line": 67,
+        "end_line": 75
+      },
+      {
+        "name": "test_slot_within_grace_is_not_missed",
+        "line": 77,
+        "end_line": 80
+      },
+      {
+        "name": "test_slot_becomes_missed_after_grace",
+        "line": 82,
+        "end_line": 86
+      },
+      {
+        "name": "test_running_scrape_is_not_marked_missed",
+        "line": 88,
+        "end_line": 92
+      },
+      {
+        "name": "test_completed_slot_is_not_missed",
+        "line": 94,
+        "end_line": 97
+      },
+      {
+        "name": "test_healthy_manifest_degrades_when_schedule_is_missed",
+        "line": 99,
+        "end_line": 103
+      },
+      {
+        "name": "test_healthy_manifest_stays_healthy_between_slots",
+        "line": 105,
+        "end_line": 108
+      },
+      {
+        "name": "test_health_json_keeps_the_fields_existing_readers_use",
+        "line": 110,
+        "end_line": 120
+      },
+      {
+        "name": "test_launcher_has_no_timer_of_its_own",
+        "line": 122,
+        "end_line": 124
+      },
+      {
+        "name": "call",
+        "line": 130,
+        "end_line": 152
+      },
+      {
+        "name": "test_refuses_when_no_token_is_configured",
+        "line": 154,
+        "end_line": 157
+      },
+      {
+        "name": "test_refuses_a_wrong_token",
+        "line": 159,
+        "end_line": 162
+      },
+      {
+        "name": "test_starts_the_slot_once",
+        "line": 164,
+        "end_line": 170
+      },
+      {
+        "name": "test_does_not_start_while_a_scrape_is_running",
+        "line": 172,
+        "end_line": 180
+      },
+      {
+        "name": "test_a_slot_that_could_not_take_the_lock_can_be_asked_again",
+        "line": 182,
+        "end_line": 190
+      },
+      {
+        "name": "test_twice_daily_schedule_and_freshness",
+        "line": 198,
+        "end_line": 205
+      },
+      {
+        "name": "test_restart_never_starts_scraper_even_with_old_boot_variable",
+        "line": 207,
+        "end_line": 214
+      },
+      {
+        "name": "FakeThread",
+        "line": 139,
+        "end_line": 144
+      },
+      {
+        "name": "__init__",
+        "line": 140,
+        "end_line": 141
+      },
+      {
+        "name": "start",
+        "line": 143,
+        "end_line": 144
+      }
+    ],
+    "hunks": [
+      "@@ -26,6 +26,12 @@",
+      "@@ -186,3 +192,23 @@"
+    ]
+  },
+  {
+    "repository": "sportsbook-jobs-dashboard",
+    "path": "runtime/cloudflare/watchdog/src/index.js",
+    "lines": 498,
+    "sha256": "5e17339010654b7d939b18df7d60f047545b8f0d88899dd95c84a7b5d962a5ec",
+    "declarations": [
+      {
+        "line": 31,
+        "text": "const STALE_SECONDS = 14 * 3600;"
+      },
+      {
+        "line": 45,
+        "text": "async function runCron(env, trigger) {"
+      },
+      {
+        "line": 213,
+        "text": "function logoUrl(company) {"
+      },
+      {
+        "line": 227,
+        "text": "function isoStamp(v) {"
+      },
+      {
+        "line": 233,
+        "text": "function jobEmbed(job) {"
+      },
+      {
+        "line": 268,
+        "text": "function sbHeaders(env) {"
+      },
+      {
+        "line": 276,
+        "text": "async function check(env, trigger) {"
+      },
+      {
+        "line": 431,
+        "text": "export function alertTitle(findings, db) {"
+      },
+      {
+        "line": 440,
+        "text": "async function alert(env, findings, db, space) {"
+      },
+      {
+        "line": 462,
+        "text": "async function notify(env, payload) {"
+      },
+      {
+        "line": 479,
+        "text": "function hrs(s) {"
+      },
+      {
+        "line": 489,
+        "text": "function json(o, status = 200, extraHeaders = {}) {"
+      }
+    ],
+    "hunks": [
+      "@@ -28,7 +28,7 @@"
+    ]
+  }
+]

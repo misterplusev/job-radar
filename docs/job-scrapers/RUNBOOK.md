@@ -1,6 +1,19 @@
 # ABET job scrapers: runbook
 
-**This is the current operating document.** Updated November 15, 2026, 00:40 UTC (November 14 Pacific). Measurements below retain their own observation dates; the November 14 recovery release has a separate linked evidence record. Older dated reports describe historical state and do not override this runbook.
+## Temporary lower cadence from November 17 2026 UTC
+
+Production now runs each scraper every 12 hours: eight scheduled collection runs per day instead of 24 (66.7% fewer). The Cloudflare Durable Object remains the only scheduler. UTC slots: robotics 00:09/12:09; tech 09:37/21:37; sports teams 10:23/22:23; sportsbook 11:00/23:00. The offsets preserve the last pre-change receipts and avoid replaying older slots during the cutover.
+
+The sportsbook launcher reports the same 12-hour schedule with its existing 30-minute grace. It no longer starts a scrape on boot, even if an obsolete RUN_ON_BOOT variable is set. The scheduler preserves completed degraded/failed sportsbook slots across runtime restarts; they are not silently retried. The watchdog keeps its two-hour health-check timer and existing error reporting; its fallback stale threshold is 14 hours. This health-check timer is not a collection schedule.
+
+The longer-backoff Workday proposal remains on development branches. Mocked regression suites passed, but the three robotics live sources still returned HTTP 429 after all five attempts, and the three sportsbook live probes also failed (retry exhaustion or source-budget exhaustion). Passing retry simulations is not proof of restored source access. No Workday candidate is promoted on that evidence. All runtime verification executes in the cloud; development workflows receive no production database or Discord credentials.
+
+This reduces scheduled scrape load, not all account consumption. Public board/dashboard reads, monitoring traffic and other projects remain. Supabase monthly transfer is not measured, so this change does not guarantee every free-tier limit. The database measured 287,386,771 bytes at November 17 00:25 UTC. Current provider failures must remain visible.
+
+Exact versions, cloud proof, release scope and rollback: [2026-11-17 0029 Temporary Cadence and Cloud Validation.md](2026-11-17%200029%20Temporary%20Cadence%20and%20Cloud%20Validation.md).
+
+
+**This is the current operating document.** Cadence updated November 17, 2026 UTC (November 16 Pacific). Earlier recovery measurements below retain their observation dates. Measurements below retain their own observation dates; the November 14 recovery release has a separate linked evidence record. Older dated reports describe historical state and do not override this runbook.
 
 Documentation audit, November 14 Pacific: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) records current coverage, authoritative sources and remaining gaps. The [fresh source inventory](20261114_documentation_audit/source_inventory/README.md) and [fresh public database dictionary](20261114_documentation_audit/DATABASE.md) supersede the old November 10–13 inventories for their stated scopes. The old generated system reference is historical, not a current operating instruction.
 
@@ -28,7 +41,7 @@ Released production runs passed: [robotics 66/66 sources](https://github.com/mis
 | Runs on | GitHub Actions, `pipeline.yml` | GitHub Actions, `pipeline.yml` | GitHub Actions, `sports-teams.yml` | Hugging Face Space (private), `launcher.py` |
 | Entry point | `run.py ingest` | `run.py ingest` | `sports_teams/pipeline_local.py --cloud`, then `publish_teams.py --post --limit 0` | `scripts/scrape.py` |
 | Started by | the scheduler | the scheduler | the scheduler | the scheduler |
-| UTC hours | 00 04 08 12 16 20, at :09 | 01 05 09 13 17 21, at :37 | 02 06 10 14 18 22, at :23 | 03 07 11 15 19 23, at :00 |
+| UTC hours | 00 12, at :09 | 09 21, at :37 | 10 22, at :23 | 11 23, at :00 |
 | Jobs table | `robotics_jobs` | `tech_jobs` | `team_jobs` | `jobs` |
 | Run receipts table | `robotics_job_scrape_runs` | `tech_job_scrape_runs` | `team_job_scrape_runs` | `job_scrape_runs` |
 | Discord delivery ledger | `robotics_job_notifications` (Discord message ID per job) | `tech_job_notifications` (message ID per job) | `team_job_notifications` (message ID per job from November 13, 2026) | `sportsbook_job_notifications` (message ID, channel ID and webhook ID per job) |
@@ -90,7 +103,7 @@ Free-tier limits are from each provider's documentation, read November 12, 2026.
 | Supabase compute | smallest size, shared CPU | 411 MB of memory (metrics endpoint, November 12 08:30 UTC); one scraper per hour |
 | GitHub Actions | free on public repositories; 2,000 minutes a month on private ones | Three public workflows. Run times measured November 13: robotics 6 min 1 s and 2 min 59 s, tech 1 min 51 s, sports teams 4 min 35 s |
 | Cloudflare Workers | 100,000 requests a day | One scheduler tick every 5 minutes (code). Daily request count not measured |
-| Hugging Face Space | free CPU Space | Six scheduled runs a day. Run times measured November 13: 177 s, 189 s, 196 s, 179 s |
+| Hugging Face Space | free CPU Space | Two scheduled runs a day from November 17 UTC. Run times measured November 13: 177 s, 189 s, 196 s, 179 s |
 | Discord | enforced by HTTP 429 with `retry_after`, which every sender obeys | 5 jobs per message, 2.1 seconds between messages (code) |
 
 ## 4. How to check that everything works

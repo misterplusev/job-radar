@@ -4,6 +4,8 @@ Reviewed November 14, 2026 Pacific. Scope: the four job scrapers, their cloud ru
 
 **Start with this index and RUNBOOK.md.** A file labelled historical is evidence of that time, not an instruction to restore an obsolete design. No single document currently provides a complete semantic description of every function or proves that documentation can never drift.
 
+Latest cadence change and isolated cloud validation: [2026-11-17 0029 Temporary Cadence and Cloud Validation.md](2026-11-17%200029%20Temporary%20Cadence%20and%20Cloud%20Validation.md). The November 14 acceptance is historical; ongoing Workday failures mean sustained full-source health has not been established.
+
 ## Read order for a new maintainer
 
 1. [Execution and operating rules](AGENTS.md), then [current runbook](RUNBOOK.md).
@@ -18,7 +20,7 @@ Reviewed November 14, 2026 Pacific. Scope: the four job scrapers, their cloud ru
 
 | Topic | Where to find it | Current boundary |
 |---|---|---|
-| Architecture, execution hosts, cadence, sender ownership | RUNBOOK.md sections 1–3 | Current four-hour cloud design; one scheduler and one sender per module |
+| Architecture, execution hosts, cadence, sender ownership | RUNBOOK.md sections 1–3 | Current temporary twelve-hour cloud design; one scheduler and one sender per module |
 | Source repositories, branches, files, line counts and symbol locations | Fresh source inventory, seven source snapshots | Git source inventory, not proof that every hosted deployment matches its current branch |
 | Each Python function/class location | Source inventory: AST ranges and imports | Indexes definitions; does not supply a full behavior/side-effect specification for every function |
 | JavaScript/TypeScript functions | Source inventory declaration scan | Text scan, not complete AST/call graph; anonymous callbacks and dynamic behavior may be omitted |

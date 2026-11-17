@@ -2,7 +2,9 @@
 
 **Current documentation index: [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md).** Read it with [RUNBOOK.md](RUNBOOK.md) and [AGENTS.md](AGENTS.md) before working on the system.
 
-The four scrapers run in the cloud. One Cloudflare scheduler starts each every four hours on staggered hours. GitHub Actions runs robotics, tech, sports teams and the sportsbook delivery worker; Hugging Face runs the sportsbook scraper. One Supabase project holds the job data. Each module has exactly one Discord sender using the shared send implementation. The retired watchdog job announcer and independent Space timer must not be restored as extra senders/clocks.
+The four scrapers run in the cloud. One Cloudflare scheduler starts each every twelve hours temporarily on staggered hours. GitHub Actions runs robotics, tech, sports teams and the sportsbook delivery worker; Hugging Face runs the sportsbook scraper. One Supabase project holds the job data. Each module has exactly one Discord sender using the shared send implementation. The retired watchdog job announcer and independent Space timer must not be restored as extra senders/clocks.
+
+Current cadence and development release gate: [2026-11-17 0029 Temporary Cadence and Cloud Validation.md](2026-11-17%200029%20Temporary%20Cadence%20and%20Cloud%20Validation.md). Workday live probes still fail; the retry candidate is not deployed.
 
 | Need | Document |
 |---|---|
