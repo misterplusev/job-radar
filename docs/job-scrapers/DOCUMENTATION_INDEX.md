@@ -1,5 +1,7 @@
 # ABET jobs documentation — current index and coverage
 
+Latest browser evidence: [November 17 compatibility results and prepared19-board full-pagination test](20261117_workday_source_repair/2026-11-17%201400%20Browser%20Evidence%20and%20Full%20Listing%20Candidate.md). Actual screenshots/native listing responses, cleanup proof, failed HTTP-session comparison and exact disabled candidate code are identified there. The first browser exception is consumed; broader Workday recovery remains incomplete.
+
 ## Latest scoped repair — November 17, 2026, 03:39 UTC
 
 [Workday failure-handling release, exact scripts/diffs, cloud tests, deployment receipts, rollback and remaining access block](20261117_workday_source_repair/2026-11-17%200340%20Workday%20Repair%20Release%20and%20Remaining%20Access%20Block.md). This repair is deployed, with 329 passing cloud regression tests and four explicit skips. It corrects retry/challenge handling, diagnostics and partial-source protection; it does not establish restored access to challenged career sites. Affected-file/symbol inventory and before/after hashes accompany that package. Production remains every twelve hours; staging remains isolated and recurring.

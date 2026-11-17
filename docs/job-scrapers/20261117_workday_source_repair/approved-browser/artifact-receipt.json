@@ -1,0 +1,17 @@
+{
+  "run": 44183404463,
+  "artifact_id": 14372313876,
+  "artifact_name": "workday-cloud-browser-proof",
+  "size_bytes": 874285,
+  "files": [
+    "betmgm-listing-0.json",
+    "betmgm.html",
+    "betmgm.png",
+    "boston-official.html",
+    "boston-official.png",
+    "boston-workday-listing-0.json",
+    "boston-workday.html",
+    "boston-workday.png",
+    "report.json"
+  ]
+}

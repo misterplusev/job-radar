@@ -1,0 +1,113 @@
+{
+  "at": "2026-11-17T21:51:50.835557+00:00",
+  "browser_sessions": 0,
+  "production_writes": 0,
+  "discord_sends": 0,
+  "sources": [
+    {
+      "company": "Boston Dynamics",
+      "host": "bostondynamics.wd1.myworkdayjobs.com",
+      "requests": 1,
+      "complete": false,
+      "public_page": {
+        "status": 429,
+        "content_type": "text/html; charset=UTF-8",
+        "cf_mitigated": "challenge",
+        "cf_ray": "a5c1f5878beca0e7-IAD",
+        "challenge": true
+      },
+      "result": "public_page_unavailable",
+      "seconds": 0.14
+    },
+    {
+      "company": "AutoStore",
+      "host": "autostore.wd3.myworkdayjobs.com",
+      "requests": 1,
+      "complete": false,
+      "public_page": {
+        "status": 429,
+        "content_type": "text/html; charset=UTF-8",
+        "cf_mitigated": "challenge",
+        "cf_ray": "a5c1f5895d81c2a0-VIE",
+        "challenge": true
+      },
+      "result": "public_page_unavailable",
+      "seconds": 0.345
+    },
+    {
+      "company": "Rockwell Automation",
+      "host": "rockwellautomation.wd1.myworkdayjobs.com",
+      "requests": 1,
+      "complete": false,
+      "public_page": {
+        "status": 429,
+        "content_type": "text/html; charset=UTF-8",
+        "cf_mitigated": "challenge",
+        "cf_ray": "a5c1f589fc3b11d6-IAD",
+        "challenge": true
+      },
+      "result": "public_page_unavailable",
+      "seconds": 0.051
+    },
+    {
+      "company": "BetMGM",
+      "host": "betmgminc.wd5.myworkdayjobs.com",
+      "requests": 1,
+      "complete": false,
+      "public_page": {
+        "status": 429,
+        "content_type": "text/html; charset=UTF-8",
+        "cf_mitigated": "challenge",
+        "cf_ray": "a5c1f58a498ec489-IAD",
+        "challenge": true
+      },
+      "result": "public_page_unavailable",
+      "seconds": 0.055
+    },
+    {
+      "company": "Betway",
+      "host": "myhcm.wd3.myworkdayjobs.com",
+      "requests": 1,
+      "complete": false,
+      "public_page": {
+        "status": 429,
+        "content_type": "text/html; charset=UTF-8",
+        "cf_mitigated": "challenge",
+        "cf_ray": "a5c1f58bfda78920-CPH",
+        "challenge": true
+      },
+      "result": "public_page_unavailable",
+      "seconds": 0.313
+    },
+    {
+      "company": "Hard Rock Bet",
+      "host": "seminolehardrock.wd503.myworkdayjobs.com",
+      "requests": 1,
+      "complete": false,
+      "public_page": {
+        "status": 429,
+        "content_type": "text/html; charset=UTF-8",
+        "cf_mitigated": "challenge",
+        "cf_ray": "a5c1f58d1fb12c7e-IAD",
+        "challenge": true
+      },
+      "result": "public_page_unavailable",
+      "seconds": 0.131
+    },
+    {
+      "company": "AMB Sports and Entertainment",
+      "host": "ambgroup.wd1.myworkdayjobs.com",
+      "requests": 1,
+      "complete": false,
+      "public_page": {
+        "status": 429,
+        "content_type": "text/html; charset=UTF-8",
+        "cf_mitigated": "challenge",
+        "cf_ray": "a5c1f58d79993019-IAD",
+        "challenge": true
+      },
+      "result": "public_page_unavailable",
+      "seconds": 0.055
+    }
+  ]
+}

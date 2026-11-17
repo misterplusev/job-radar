@@ -1,5 +1,7 @@
 # ABET job scrapers — start here
 
+Latest evidence: [November 17,13:48Pacific cloud browser test and full-listing candidate](20261117_workday_source_repair/2026-11-17%201400%20Browser%20Evidence%20and%20Full%20Listing%20Candidate.md). The single approved browser loaded actual Boston Dynamics and BetMGM listings and closed cleanly. Full pagination and the remaining Workday boards are not yet proven; the prepared19-board test remains disabled pending an additional exception. Production code and cadence were not changed by this compatibility test.
+
 Latest release: [November 17 Workday handling repair and remaining access block](20261117_workday_source_repair/2026-11-17%200340%20Workday%20Repair%20Release%20and%20Remaining%20Access%20Block.md). The request-handling, diagnostics and incomplete-source fixes are deployed after329 passing cloud regression tests (four explicit skips). Complete Workday access is still unresolved. Exact code diffs, source inventory, tests, deployment receipts and rollback are in that package; do not interpret the release as all-source recovery.
 
 ## Recurring isolated staging — November 17, 2026 UTC

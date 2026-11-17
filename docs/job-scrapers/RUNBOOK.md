@@ -1,10 +1,16 @@
 # ABET job scrapers: runbook
 
+## Browser compatibility evidence — November 17, 2026, 13:48 Pacific
+
+The operator-approved single cloud browser session completed and closed cleanly: Boston Dynamics and BetMGM Workday both returned actual listing JSON and visible jobs (85 and23 advertised; first20 of each observed). This is first-page compatibility proof, not a complete scrape. An HTTP-only comparison still received explicit security challenges on seven Workday public pages. No production protocol change was deployed from those results.
+
+A full-pagination candidate covering all19 configured Workday boards is prepared; its nine cloud safety fixtures passed, and its browser job was skipped. The first one-test exception is consumed. Another browser launch remains disabled pending an explicit extension under the existing stop rule. [Evidence, scripts, limits and remaining work](20261117_workday_source_repair/2026-11-17%201400%20Browser%20Evidence%20and%20Full%20Listing%20Candidate.md).
+
 ## Workday failure-handling repair — November 17, 2026, 03:39 UTC
 
 The tested request-handling and data-integrity repair is released: main/teams `a47faad85f70bf3ea57c853973c1b4ad6bd768e5`, tech `3d5c1e89ecded51fff43dcaca253d65e08b47f98`, sportsbook `03e7f50efd72f94e70f131197d031bce52231320`, existing sportsbook HF Space `e43043fa23fc741eaaf71a902150f64dfab6f550`. Explicit upstream security challenges stop after one response; ordinary transient failures retain bounded retry/backoff and Retry-After handling. Incomplete sportsbook Workday details/pagination now fail the source instead of publishing a partial result. Structured redacted diagnostics are retained in bounded cloud files. Production cadence, database schema and one-sender design are unchanged.
 
-**Full source recovery is NOT proven.** Actual Workday responses contain `CF-Mitigated: challenge` and a security-check page. The new live staging run proves one-request challenge handling and a successful unaffected source, not restored Workday access. Production remains every twelve hours and staging remains isolated. Release cloud suites: 329 passed, four explicitly skipped. A bounded ordinary cloud-browser compatibility test is prepared but waiting for the operator's exception to the existing machine-wide browser stop; do not dispatch it without that exception.
+**Full source recovery is NOT proven.** Actual Workday responses contain `CF-Mitigated: challenge` and a security-check page. The new live staging run proves one-request challenge handling and a successful unaffected source, not restored Workday access. Production remains every twelve hours and staging remains isolated. Release cloud suites: 329 passed, four explicitly skipped. The initial approved browser compatibility test has now completed as described above; it is not authorization for additional or recurring browser sessions.
 
 [Exact scripts, full diffs, cloud runs, deployed versions, remaining access block and rollback](20261117_workday_source_repair/2026-11-17%200340%20Workday%20Repair%20Release%20and%20Remaining%20Access%20Block.md). This entry supersedes older statements that the entire Workday candidate is still unpromoted; it does not supersede their evidence that source access failed.
 

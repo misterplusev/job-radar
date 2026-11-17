@@ -1,0 +1,74 @@
+{
+  "run_url": "https://github.com/misterplusev/job-radar/actions/runs/44183404463",
+  "browser_count": 1,
+  "pages": [
+    {
+      "name": "boston-official",
+      "url": "https://bostondynamics.com/careers/",
+      "status": 200,
+      "final_url": "https://bostondynamics.com/careers/",
+      "title": "Careers | Boston Dynamics",
+      "requests": 56,
+      "text": "We value your privacy\n\nWe use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking \"Accept All\", you consent to our use of cookies.\n\nCustomize\nReject All\nAccept All\nProducts\nSolutions\nIndustries\nCustomers\nCompany\nResources\nMerch\nSupport\nContact Sales\nJoin Our Team\n\nBoston Dynamics is in search of trusted partners and innovators, those who take ownership, move with speed, and turn intelligent failures into progress.\n\nView Open Positions\nGrow your career at Boston Dynamics\n\nBoston Dynamics provides employees with the tools they need to thrive, bringing together diverse perspectives and hands-on expertise. As we continue to grow and commercialize, Boston Dynamics prioritizes career growth through mentoring, internal mobility, and learning opportunities. From our interns to our executives, our team members work collaboratively and expand their capabilities in a productive environment.\n\nBoston Dynamics Benefits\n\nWe offer competitive packages to all our employees to ensure they feel their best and have their needs secured.\n\nParental Leave\n\n12 weeks of fully paid parental leave for birth and non birth parents.\n\nTuition Assistance\n\nUp to $60,000 in tuition assistance.\n\nCatered Lunch\n\nDaily catered lunch, coffee and snacks in our town hall.\u00a0\n\n\"We prioritize the human element in human-robot partnerships. We believe that robots play a complementary role to human ingenuity and creativity in making work safer and more enjoyable.\"\n\nBoston Dynamics\n\nStatement of Ethical Principles\n\nView Our Principles \nFind your career at Boston Dynamics\n\nExplore our open opportunities and apply today to start your journey with us.\n\n\u00a0\n\nBoston Dynamics does not accept unauthorized solicitations from recruiting agencies and will not pay any associated fees with said solicitations.\n\nPrevious\n\n1\n2\n3\n4\n5\n\nNext \n\nJOIN OUR TEAM!\n\nLearn more about Boston Dynamics and connect with our team members!\n\nFollow Us On LinkedIn\n(opens in new tab)\n(opens in new tab)\n(opens in new tab)\n(opens in new tab)\n(opens in new tab)\n(opens in new tab)\n(opens in new tab)\n\n\u00a92026 Boston Dynamics. All rights reserved.\n\nPrivacy Policy\nTerms of Use\nEthics Statement",
+      "listing_responses": [],
+      "challenge_present": false
+    },
+    {
+      "name": "boston-workday",
+      "url": "https://bostondynamics.wd1.myworkdayjobs.com/en-US/Boston_Dynamics",
+      "status": 200,
+      "final_url": "https://bostondynamics.wd1.myworkdayjobs.com/en-US/Boston_Dynamics",
+      "title": "Search for Jobs",
+      "requests": 23,
+      "text": "Skip to main content\nSign In\nSearch for Jobs\nBoston Dynamics Talent Community\nSearch\nFilters\nLocation\nTime Type\nJob Family\nMore\nSearch for Jobs page is loaded\n\n85 JOBS FOUND\n\nSoftware Engineer in Automation - Humanoid Robotics\nlocations\nWaltham Office (POST)\nR3393\nRepair Technician IV\nlocations\nWaltham, MA\nR3386\nSenior Staff Manufacturing Engineer - Atlas\nlocations\nWaltham Office (POST)\nR3390\nSenior Software Build Engineer, Central Software\nlocations\nWaltham Office (POST)\nR3388\nSenior Software Engineer, Build Systems (Bazel)\nlocations\nWaltham Office (POST)\nR3387\nDirector of Atlas Hardware Platform Engineering\nlocations\nWaltham, MA\nR3382\nDistinguished Hardware Development Engineer, Atlas\nlocations\nWaltham, MA\nR3381\nAdvanced Manufacturing Engineering Co-Op\nlocations\nWaltham Office (POST)\nR3380\nStaff Research Roboticist\nlocations\nWaltham, MA\nR3379\nProduct Manager - Atlas (Hardware)\nlocations\nWaltham Office (POST)\nR3378\nCNC Machinist, IV\nlocations\nWaltham Office (POST)\nR2979\nSenior Staff Product Marketing Manager - Orbit\nlocations\nWaltham Office (POST)\nR3375\nStaff Integration Project Manager\nlocations\nWaltham Office (POST)\nR3361\nManufacturing Test Engineer Co-Op\nlocations\nWaltham Office (POST)\nR3360\nSenior Staff ML Engineer, Spot\nlocations\nWaltham Office (POST)\nR3359\nSenior Field Service Engineer (Indianapolis, Indiana)\nlocations\nIndiana (Remote)\nR2895\nSenior Staff Customer Success Manager - Warehouse Robotics\nlocations\nWaltham Office (POST)\nR3354\nSenior Staff Electrical Test Engineer - Atlas\nlocations\nWaltham Office (POST)\nR3002\nCNC Machinist, III\nlocations\nWaltham Office (POST)\nR3353\nSenior Staff Audio Machine Learning Engineer\nlocations\nWaltham, MA\nR3349\n1\n2\n3\n4\n5\n\n1 - 20 of 85 jobs\n\nAbout Us\n\nWe are growing rapidly, building a commercial company that delivers cutting edge technology and solutions to our customers from industrial applications to logistics and warehouse solutions.\n\nRead More\n\u00a9 2026 Workday, Inc. All rights reserved.",
+      "listing_responses": [
+        {
+          "url": "https://bostondynamics.wd1.myworkdayjobs.com/wday/cxs/bostondynamics/Boston_Dynamics/jobs",
+          "status": 200,
+          "cf_mitigated": null,
+          "total": 85,
+          "jobs": 20,
+          "request_payload": {
+            "appliedFacets": {},
+            "limit": 20,
+            "offset": 0,
+            "searchText": ""
+          }
+        }
+      ],
+      "challenge_present": false
+    },
+    {
+      "name": "betmgm",
+      "url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM",
+      "status": 200,
+      "final_url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM",
+      "title": "Search for Jobs",
+      "requests": 26,
+      "text": "Skip to main content\nCareers\nSign In\nHome\nSearch for Jobs\nIntroduce Yourself\nSearch\nFilters\nLocation\nTime Type\nJob Category\nMore\nSearch for Jobs page is loaded\n\n23 JOBS FOUND\n\nDirector, Customer Operations Platforms\nlocations\n3 Locations\nposted on\nPosted 12 Days Ago\nJR100831\nDirector, Technical AI Solutions\nlocations\n3 Locations\nposted on\nPosted 21 Days Ago\nJR100752\nManager, Poker Marketing and Promotions\nlocations\n3 Locations\nposted on\nPosted Yesterday\nJR100847\nSr. Machine Learning Ops Engineer\nlocations\n21 Locations\nposted on\nPosted Yesterday\nJR100850\nExecutive Casino Host\nlocations\nPennsylvania\nposted on\nPosted 4 Days Ago\nJR100851\nManager, Trading\nlocations\nLas Vegas, Nevada\nposted on\nPosted 5 Days Ago\nJR100849\nSr. Manager, Information Security (Cloud)\nlocations\n4 Locations\nposted on\nPosted 6 Days Ago\nJR100816\nSenior Digital Marketing Associate\nlocations\n2 Locations\nposted on\nPosted 6 Days Ago\nJR100841\nSenior Executive Assistant\nlocations\n4 Locations\nposted on\nPosted 7 Days Ago\nJR100840\nSenior Manager, Regulatory Operations and Automation\nlocations\n4 Locations\nposted on\nPosted 7 Days Ago\nJR100819\nRegional Marketing Manager\nlocations\nHybrid, New Jersey\nposted on\nPosted 8 Days Ago\nJR100830\nPart-Time Trader\nlocations\nLas Vegas, Nevada\nposted on\nPosted 11 Days Ago\nJR100809\nCompliance Analyst, Regulatory Analysis and Implementation\nlocations\n4 Locations\nposted on\nPosted 11 Days Ago\nJR100812\nProgramming Specialist I\nlocations\nRemote, New Jersey\nposted on\nPosted 11 Days Ago\nJR100823\nSenior Commercial Manager, Sportsbook\nlocations\nHybrid, New Jersey\nposted on\nPosted 11 Days Ago\nJR100784\nSenior Account Manager\nlocations\n3 Locations\nposted on\nPosted 11 Days Ago\nJR100821\nInternal Auditor\nlocations\n4 Locations\nposted on\nPosted 12 Days Ago\nJR100825\nSenior Data Project Manager\nlocations\n4 Locations\nposted on\nPosted 12 Days Ago\nJR100827\nSenior Portfolio Manager\nlocations\nRemote, New Jersey\nposted on\nPosted 15 Days Ago\nJR100820\nAffiliate Marketing Coordinator\nlocations\n2 Locations\nposted on\nPosted 20 Days Ago\nJR100811\n1\n2\n\n1 - 20 of 23 jobs\n\nAbout Us\n\nWhen a legendary global entertainment company joins forces with the world\u2019s largest online betting technology company, the gaming world sits up and takes notice.\n\nBetMGM is a partnership between MGM Resorts International and Entain Holdings that is revolutionizing sports betting and online gaming in the United States.\n\nBetMGM is the exclusive sports betting division of MGM, both online and in MGM casinos nationwide.\u00a0 BetMGM is also the headline brand for online casino gaming along side sister brands Borgata Online (New Jersey), Party Casino and Party Poker .\n\nWe aspire to make unforgettable moments of sports and gaming even more personal, powerful, and fun through unmatched digital technology and evocative player experiences.\n\nRead More\nFollow Us\nPrivacy Policy\n\u00a9 2026 Workday, Inc. All rights reserved.",
+      "listing_responses": [
+        {
+          "url": "https://betmgminc.wd5.myworkdayjobs.com/wday/cxs/betmgminc/BetMGM/jobs",
+          "status": 200,
+          "cf_mitigated": null,
+          "total": 23,
+          "jobs": 20,
+          "request_payload": {
+            "appliedFacets": {},
+            "limit": 20,
+            "offset": 0,
+            "searchText": ""
+          }
+        }
+      ],
+      "challenge_present": false
+    }
+  ],
+  "production_writes": 0,
+  "discord_sends": 0,
+  "cleanup": {
+    "owned_processes": 2,
+    "remaining_owned_processes": 0,
+    "passed": true
+  }
+}

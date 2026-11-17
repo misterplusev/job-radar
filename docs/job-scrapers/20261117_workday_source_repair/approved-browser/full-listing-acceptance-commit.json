@@ -1,0 +1,15 @@
+{
+  "repo": "misterplusev/job-radar",
+  "branch": "codex/workday-browser-listings-20261117",
+  "before": "eeb3a59b17f97584729bdfb1188b01a3ecd7c571",
+  "after": "79809b89792779e4c70e073ef7721283b7c3ec56",
+  "url": "https://github.com/misterplusev/job-radar/commit/79809b89792779e4c70e073ef7721283b7c3ec56",
+  "files": [
+    ".github/workflows/workday-retry-review.yml",
+    "runtime/verification/browser_full_collection.py",
+    "runtime/verification/test_browser_full_collection.py",
+    "runtime/verification/full-browser-catalog.json",
+    "runtime/verification/20261019_runaway_guard_v1_0_0.py",
+    "runtime/verification/20261019_process_snapshot_v1_0_0.ps1"
+  ]
+}
