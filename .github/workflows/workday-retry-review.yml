@@ -39,7 +39,7 @@ jobs:
         with: {persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install playwright==1.56.1 psutil
+      - run: pip install playwright==1.65.2 psutil
       - run: python -m playwright install chromium
       - name: One approved cloud browser, original runaway guard, guaranteed cleanup
         env:

@@ -13,12 +13,13 @@ g=guard.guard_before_agent('workday-cloud-compatibility-once')
 if not g['ok']:raise SystemExit(g['reason'])
 out=Path('proof/cloud-browser');out.mkdir(parents=True,exist_ok=True)
 urls=[('boston-official','https://bostondynamics.com/careers/'),('boston-workday','https://bostondynamics.wd1.myworkdayjobs.com/en-US/Boston_Dynamics'),('betmgm','https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM')]
-proof={'run_url':f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",'browser_count':1,'pages':[],'production_writes':0,'discord_sends':0}
+proof={'run_url':f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",'browser_count':0,'pages':[],'production_writes':0,'discord_sends':0}
 owned=[];browser=None
 try:
     with sync_playwright() as p:
         before={x.pid for x in psutil.Process().children(recursive=True)}
         browser=p.chromium.launch(headless=True)
+        proof['browser_count']=1
         owned=[x for x in psutil.Process().children(recursive=True) if x.pid not in before]
         context=browser.new_context();page=context.new_page()
         for name,url in urls:
@@ -33,6 +34,10 @@ try:
                     if response.ok:
                         try:
                             data=response.json();rec.update(total=data.get('total'),jobs=len(data.get('jobPostings',[])))
+                            rec['request_payload']=response.request.post_data_json
+                            body=json.dumps(data,ensure_ascii=False)
+                            if len(body.encode('utf-8'))<=1024*1024:
+                                (out/(name+'-listing-'+str(len(responses))+'.json')).write_text(body,encoding='utf-8')
                         except Exception:pass
                     responses.append(rec)
             page.route('**/*',route);page.on('response',capture)
@@ -58,6 +63,8 @@ finally:
         try:
             if proc.is_running():proc.kill()
         except psutil.Error:pass
+    _,alive=psutil.wait_procs(owned,timeout=5)
+    proof['cleanup']={'owned_processes':len(owned),'remaining_owned_processes':len(alive),'passed':not alive}
     guard.cleanup_after_agent(g['t0'],'workday-cloud-compatibility-once')
     (out/'report.json').write_text(json.dumps(proof,indent=2),encoding='utf-8')
 print(json.dumps(proof,indent=2))
