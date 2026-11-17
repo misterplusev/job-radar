@@ -1,7 +1,6 @@
-"""Private HF cloud staging runner. No timer, boot run, database key or Discord webhook."""
+"""Cloud Actions staging execution library. No timer, HTTP server, database key or Discord webhook."""
 import datetime as dt,hashlib,hmac,json,os,re,shutil,subprocess,sys,tempfile,threading,time
 from pathlib import Path
-from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
 import requests
 ROOT=Path(__file__).resolve().parent
 MANIFEST=json.loads((ROOT/'source_manifest.json').read_text())
@@ -60,39 +59,3 @@ def execute(task):
                 STATE['report_error']=type(exc).__name__+': '+str(exc)[:160]
                 if attempt<2:time.sleep(2**attempt)
         STATE['active']=None;LOCK.release()
-
-class Handler(BaseHTTPRequestHandler):
-    def reply(self,obj,status=200):
-        data=json.dumps(obj).encode();self.send_response(status);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(data)));self.end_headers();self.wfile.write(data)
-    def authorized(self):
-        want=os.environ.get('STAGING_RUN_TOKEN','');got=self.headers.get('X-Run-Token','')
-        return bool(want) and hmac.compare_digest(want,got)
-    def do_GET(self):
-        if self.path=='/health':return self.reply({'service':'abet-jobs-isolated-staging','build':os.environ.get('STAGING_BUILD'),'active':STATE['active'],'completed':STATE['completed'],'report_error':STATE['report_error'],'source_shas':{m:v['sha'] for m,v in MANIFEST.items()},'has_timer':False,'production_credentials_present':any(os.environ.get(k) for k in ('SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','DISCORD_WEBHOOK_JOBS'))})
-        if self.path=='/result' and self.authorized():return self.reply(STATE['latest'])
-        self.reply({'error':'not found'},404)
-    def do_POST(self):
-        if self.path!='/run' or not self.authorized():return self.reply({'error':'unauthorized'},403)
-        size=int(self.headers.get('Content-Length','0'))
-        if not 0<size<8192:return self.reply({'error':'invalid size'},400)
-        try:
-            task=json.loads(self.rfile.read(size));module=task['module']
-            assert module in CATALOG and task['source_sha']==MANIFEST[module]['sha']
-            assert isinstance(task['source_ids'],list) and len(task['source_ids'])<=2
-            allowed={s['id'] for s in CATALOG[module] if s['supported']}
-            assert set(task['source_ids'])<=allowed
-            assert 1<=len(task['lease_id'])<=120 and 1<=len(task['slot'])<=80
-        except Exception:return self.reply({'error':'invalid task or source revision'},400)
-        if STATE['latest'] and STATE['latest']['lease_id']==task['lease_id']:return self.reply({'started':False,'reason':'already completed'})
-        if not LOCK.acquire(False):return self.reply({'started':False,'reason':'busy'},409)
-        STATE['active']={'lease_id':task['lease_id'],'module':module,'started_at':now()}
-        threading.Thread(target=execute,args=(task,),daemon=True).start();self.reply({'started':True},202)
-    def log_message(self,*args):pass
-
-if __name__=='__main__':
-    if any(os.environ.get(k) for k in ('SUPABASE_URL','SUPABASE_SERVICE_ROLE_KEY','DISCORD_WEBHOOK_JOBS')):raise SystemExit('Production credentials forbidden in staging')
-    # Every copied file must still match its pinned source manifest.
-    for module,meta in MANIFEST.items():
-        for path,digest in meta.get('file_sha256',{}).items():
-            if hashlib.sha256((ROOT/'sources'/module/path).read_bytes()).hexdigest()!=digest:raise SystemExit('Pinned source mismatch '+module+'/'+path)
-    ThreadingHTTPServer(('0.0.0.0',7860),Handler).serve_forever()

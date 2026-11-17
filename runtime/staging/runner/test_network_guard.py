@@ -1,4 +1,4 @@
-import unittest,time,sys
+import unittest,time,sys,io
 from unittest.mock import patch
 import requests
 from network_guard import NetworkBudget,BudgetExceeded
@@ -23,4 +23,15 @@ class GuardTests(unittest.TestCase):
     with self.assertRaises(BudgetExceeded):requests.get('https://careers.example/jobs')
    finally:b.close()
   self.assertEqual(b.count,1);self.assertEqual(b.events[0]['status'],429);self.assertEqual(b.events[0]['retry_after'],'900');self.assertTrue(b.violation)
+ def test_stream_response_and_cumulative_byte_caps(self):
+  def fake(session,req,**kw):
+   r=requests.Response();r.status_code=200;r.raw=io.BytesIO(b'123456');r.headers={};return r
+  for per_response,total in [(4,100),(10,10)]:
+   with self.subTest(per_response=per_response,total=total),patch.object(requests.Session,'send',fake):
+    b=NetworkBudget({'careers.example'},max_response_bytes=per_response,max_total_bytes=total).install()
+    try:
+     if per_response>6:requests.get('https://careers.example/jobs')
+     with self.assertRaises(BudgetExceeded):requests.get('https://careers.example/jobs')
+    finally:b.close()
+    self.assertTrue(b.violation);self.assertEqual(b.events[-1]['status'],200)
 if __name__=='__main__':unittest.main()

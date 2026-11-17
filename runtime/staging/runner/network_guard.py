@@ -6,8 +6,9 @@ import requests
 class BudgetExceeded(RuntimeError):pass
 
 class NetworkBudget:
-    def __init__(self, allowed_hosts, max_requests=12, seconds=105):
+    def __init__(self, allowed_hosts, max_requests=12, seconds=105, max_response_bytes=16*1024*1024, max_total_bytes=24*1024*1024):
         self.allowed=set(allowed_hosts);self.limit=max_requests;self.deadline=time.monotonic()+seconds
+        self.max_response_bytes=max_response_bytes;self.max_total_bytes=max_total_bytes
         self.events=[];self.bytes=0;self.count=0;self.original=None;self.violation=None
 
     def validate(self, method, url):
@@ -33,11 +34,13 @@ class NetworkBudget:
             try:
                 # Redirects are recursively sent through this same guard by Requests.
                 response=budget.original(session,request,**kw)
+                event.update(status=response.status_code,retry_after=response.headers.get('Retry-After','')[:100],cf_ray=response.headers.get('CF-Ray','')[:100])
                 if not response._content_consumed:
                     chunks=[];size=0
                     for part in response.iter_content(65536):
                         size+=len(part);budget.bytes+=len(part)
-                        if size>4*1024*1024 or budget.bytes>8*1024*1024 or time.monotonic()>budget.deadline:
+                        event['bytes']=size
+                        if size>budget.max_response_bytes or budget.bytes>budget.max_total_bytes or time.monotonic()>budget.deadline:
                             response.close();raise BudgetExceeded('Response byte/deadline budget exhausted')
                         chunks.append(part)
                     response._content=b''.join(chunks);response._content_consumed=True
