@@ -43,6 +43,10 @@ export function normalizeReport(body,lease){
 export class StagingControl {
  constructor(ctx,env){this.ctx=ctx;this.env=env;}
  async config(){return await this.ctx.storage.get('control')||{enabled:false,modules:{},active:null,day:null,run_count:0};}
+ async pruneReports(now){
+  const rows=await this.ctx.storage.list({prefix:'r:',limit:800});const sorted=[...rows].sort((a,b)=>Date.parse(b[1].recorded_at)-Date.parse(a[1].recorded_at));
+  const remove=sorted.filter((x,i)=>i>=672||now-Date.parse(x[1].recorded_at)>7*DAY).map(x=>x[0]);if(remove.length)await this.ctx.storage.delete(remove);
+ }
  async dispatch(lease){
   const [repo,ref]=TARGETS[lease.module];
   const r=await fetch(`https://api.github.com/repos/${repo}/actions/workflows/${WORKFLOW}/dispatches`,{method:'POST',headers:{Authorization:`Bearer ${this.env.GITHUB_TOKEN}`,Accept:'application/vnd.github+json','User-Agent':'ABET-Isolated-Staging','Content-Type':'application/json'},body:JSON.stringify({ref,inputs:{module:lease.module,slot:lease.slot,lease_id:lease.lease_id,source_sha:lease.source_sha}}),signal:AbortSignal.timeout(8000)});
@@ -63,8 +67,7 @@ export class StagingControl {
    state.active=null;state.last_report=now;
    await tx.put('r:'+report.lease_id,report);await tx.put('latest:'+report.module,report);await tx.put('control',state);
   });
-  const rows=await this.ctx.storage.list({prefix:'r:',limit:800});const sorted=[...rows].sort((a,b)=>Date.parse(b[1].recorded_at)-Date.parse(a[1].recorded_at));
-  const remove=sorted.filter((x,i)=>i>=672||now-Date.parse(x[1].recorded_at)>7*DAY).map(x=>x[0]);if(remove.length)await this.ctx.storage.delete(remove);
+  await this.pruneReports(now);
   if(state.enabled)await this.ctx.storage.setAlarm(now+30000);
   return {accepted:true,status:report.status};
  }
@@ -75,7 +78,7 @@ export class StagingControl {
   if(state.active){
    if(state.active&&now-state.active.created_at>12*60000){
     const lease=state.active;state.modules[lease.module]={...state.modules[lease.module],status:'runner_timeout',last_error:'No accepted result within twelve minutes; inspect staging Actions run',last_run:now};
-    await this.ctx.storage.put('r:'+lease.lease_id,{...lease,status:'runner_timeout',recorded_at:new Date(now).toISOString()});state.active=null;
+    await this.ctx.storage.put('r:'+lease.lease_id,{...lease,status:'runner_timeout',recorded_at:new Date(now).toISOString()});await this.pruneReports(now);state.active=null;
    }
   }
   if(!state.active&&state.run_count<MAX_RUNS){
