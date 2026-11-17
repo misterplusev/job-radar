@@ -1,27 +1,53 @@
-name: workday-source-diagnosis
+name: workday-repair-validation
 on:
   workflow_dispatch:
+    inputs:
+      allow_cloud_browser:
+        description: Explicit operator exception for one bounded cloud browser
+        type: boolean
+        default: false
+        required: true
 permissions:
   contents: read
 concurrency:
   group: workday-cloud-development
   cancel-in-progress: false
 jobs:
-  diagnose:
+  regression:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+        with: {persist-credentials: false}
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: pip install requests==2.32.5
-      - run: python runtime/verification/diagnose_workday.py
+        with: {python-version: '3.12'}
+      - run: pip install -r requirements.txt
+      - name: Retry, challenge, completeness and persistence regression suites
+        env:
+          PYTHONPATH: runtime/verification/isolation:sports_teams:.
+          STAGING_TEST_NETWORK_OFF: '1'
+        run: |
+          python -m unittest discover -s tests -v
+          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+  browser:
+    if: ${{ inputs.allow_cloud_browser }}
+    needs: regression
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install playwright==1.56.1 psutil
+      - run: python -m playwright install chromium
+      - name: One approved cloud browser, original runaway guard, guaranteed cleanup
+        env:
+          CLOUD_BROWSER_APPROVED: 'true'
+        run: python runtime/verification/cloud_browser_probe.py
       - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
-          name: workday-source-diagnosis
-          path: proof/workday-diagnosis/
+          name: workday-cloud-browser-proof
+          path: proof/cloud-browser/
           retention-days: 7
