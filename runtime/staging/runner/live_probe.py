@@ -12,7 +12,7 @@ def hosts_for(source):
         if 'host' in spec:return {spec['host']}
         return {spec['slug']+'.'+{'bostondynamics':'wd1','autostore':'wd3','rockwellautomation':'wd1'}[spec['slug']]+'.myworkdayjobs.com'}
     if kind=='sportsbook':
-        return {'betmgm':{'betmgminc.wd5.myworkdayjobs.com'},'betway':{'myhcm.wd3.myworkdayjobs.com'},'hardrock':{'seminolehardrock.wd503.myworkdayjobs.com'},'fanduel':{'www.fanduel.careers','boards-api.greenhouse.io'}}[source['id']]
+        return set(spec.get('hosts',[]))|{'boards-api.greenhouse.io','api.lever.co','api.ashbyhq.com'}
     for key in ('url','host'):
         if spec.get(key):common.add(urlsplit(spec[key]).hostname if key=='url' else spec[key])
     if kind=='teamworkonline':common.add('www.teamworkonline.com')
