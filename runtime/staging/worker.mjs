@@ -1,6 +1,6 @@
 import { CATALOG } from './catalog.mjs';
 export const MODULES = {robotics:5,tech:20,sports_teams:35,sportsbook:50};
-export const SHAS = {robotics:'75c94ecd586208df30a0bcb847081316720bfede',tech:'9c8cd1c4ba4af58bcbb7fb88867acf038a144768',sports_teams:'75c94ecd586208df30a0bcb847081316720bfede',sportsbook:'d49ad7051954cdb09212fa36b0a49327940544d6'};
+export const SHAS = {robotics:'75c94ecd586208df30a0bcb847081316720bfede',tech:'9c8cd1c4ba4af58bcbb7fb88867acf038a144768',sports_teams:'75c94ecd586208df30a0bcb847081316720bfede',sportsbook:'43c113b3d4612304036af9246d9fea1697037265'};
 export const PERIOD_HOURS={robotics:1,tech:1,sports_teams:1,sportsbook:4};
 const TARGETS={robotics:['misterplusev/job-radar','master'],sports_teams:['misterplusev/job-radar','master'],tech:['misterplusev/job-radar-tech','master'],sportsbook:['misterplusev/sportsbook-jobs-dashboard','prod/sportsbook-jobs']};
 const WORKFLOW='staging-recurring.yml';

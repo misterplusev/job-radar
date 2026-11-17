@@ -46,6 +46,10 @@ def run(module,source,run_id):
             provider=build_providers({source['kind']:[source['spec']]})[0]
             with source_budget(start+105):jobs=provider.fetch(run_id)
         if guard.violation:raise BudgetExceeded(guard.violation)
+        if module=="sportsbook" and source['id']=='hardrock' and jobs and all(getattr(j,'employer_index',False) for j in jobs):
+            # The independent index can confirm open jobs but cannot prove Workday absences.
+            result.update(jobs_total=len(jobs),sample=[{'title':j.title,'url':j.url,'location':j.location} for j in jobs[:25]])
+            raise ValueError(f"Employer careers index confirms {len(jobs)} active listings; primary Workday coverage unverified")
         last_http={(e['host'],e['path'],e['method']):e for e in guard.events}
         if any(e.get('status',200)>=400 or e.get('error') for e in last_http.values()):raise ValueError('Provider returned after an unrecovered HTTP failure; observation incomplete')
         rows=[j if isinstance(j,dict) else dataclasses.asdict(j) for j in jobs]
