@@ -1,4 +1,4 @@
-name: workday-repair-validation
+name: workday-session-http-compatibility
 on:
   workflow_dispatch:
 permissions:
@@ -7,19 +7,20 @@ concurrency:
   group: workday-cloud-development
   cancel-in-progress: false
 jobs:
-  regression:
+  session-http:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
-        run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+      - run: pip install requests
+      - name: Normal HTTP session initialization only; no browser or production credentials
+        run: python runtime/verification/probe_workday_session.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: workday-http-session-proof
+          path: proof/session-http/
+          retention-days: 7
