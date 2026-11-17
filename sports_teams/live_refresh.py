@@ -17,6 +17,12 @@ from datetime import datetime, timezone
 from urllib.parse import urlsplit, parse_qs
 
 import requests
+import sys
+from pathlib import Path
+
+# Support the existing sports_teams working directory and its standalone tests.
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+from jobradar.workday_http import WorkdayHTTP, is_workday_read
 
 from providers import nba, nfl, teamwork, teamwork_vertical, adp, ultipro, official_ats
 
@@ -35,12 +41,17 @@ SOURCE_ALIASES = {
 class BoundedSession(requests.Session):
     _teamwork_lock = threading.Lock()
     _teamwork_last_request = 0.0
-    def __init__(self):
+    def __init__(self, source="sports_teams"):
         super().__init__()
         self.started = time.monotonic()
         self.calls = 0
+        self.workday = WorkdayHTTP(self._request_once, source=source,
+                                   deadline=self.started + SOURCE_SECONDS - 5)
 
     def request(self, method, url, **kwargs):
+        # Workday's listing POST is read-only; unrelated POSTs keep their policy.
+        if is_workday_read(method, url):
+            return self.workday.request(method, url, **kwargs)
         # Retry read-only requests, with the same total source budget and pacing.
         retryable = method.upper() in ('GET', 'HEAD')
         for attempt in range(3):
@@ -74,7 +85,11 @@ class BoundedSession(requests.Session):
         remaining = SOURCE_SECONDS - (time.monotonic() - self.started)
         if remaining <= 0:
             raise TimeoutError('source request/time budget exceeded')
-        kwargs['timeout'] = min(float(kwargs.get('timeout', 25)), 25, remaining)
+        timeout = kwargs.get('timeout', 25)
+        if isinstance(timeout, tuple):
+            kwargs['timeout'] = tuple(min(float(t), 25, remaining / len(timeout)) for t in timeout)
+        else:
+            kwargs['timeout'] = min(float(timeout), 25, remaining)
         relay=os.environ.get('TEAMS_SOURCE_RELAY_URL')
         if relay and method.upper()=='GET' and urlsplit(url).netloc=='www.teamworkonline.com':
             original=requests.Request('GET',url,params=kwargs.pop('params',None)).prepare().url
@@ -193,7 +208,7 @@ def retired_replacements(pt):
 def fetch_source(source):
     start = time.monotonic()
     try:
-        with BoundedSession() as client:
+        with BoundedSession(source["key"]) as client:
             kind = source['kind']
             if kind in official_ats.SCRAPERS:
                 jobs=official_ats.SCRAPERS[kind](source,client)
