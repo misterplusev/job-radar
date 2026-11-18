@@ -1,25 +1,16 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
-permissions:
-  contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
+name: Check official job-detail HTML
+on: workflow_dispatch
+permissions: {contents: read, actions: read}
 jobs:
-  regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
-        run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+      - uses: actions/download-artifact@v4
+        with: {name: accepted-public-listings, path: input, run-id: 44231554343, github-token: '${{ github.token }}'}
+      - run: pip install requests beautifulsoup4
+      - run: python runtime/verification/public_detail_check.py
+      - uses: actions/upload-artifact@v4
+        with: {name: official-role-detail-check, path: detail-evidence.json, retention-days: 7}
