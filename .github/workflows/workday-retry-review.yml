@@ -1,0 +1,19 @@
+name: Verify new team collector in isolated staging
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - run: node --test runtime/staging/test_staging.mjs
+      - name: Check the tested source revisions
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {SHAS} from './runtime/staging/worker.mjs';
+          assert.deepEqual(SHAS,{robotics:'216b9a9845004a6c56508c816227f21651391df8',sports_teams:'216b9a9845004a6c56508c816227f21651391df8',tech:'3d5c1e89ecded51fff43dcaca253d65e08b47f98',sportsbook:'8cda24247aa008aca6e5371415fac682d0a01f80'});
+          NODE

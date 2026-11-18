@@ -1,8 +1,8 @@
 import { CATALOG } from './catalog.mjs';
 export const MODULES = {robotics:5,tech:20,sports_teams:35,sportsbook:50};
 export const SHAS = {
-  robotics: 'e68de7c813665bb401fca713063b0d620705da33',
-  sports_teams: 'e68de7c813665bb401fca713063b0d620705da33',
+  robotics: '216b9a9845004a6c56508c816227f21651391df8',
+  sports_teams: '216b9a9845004a6c56508c816227f21651391df8',
   tech: '3d5c1e89ecded51fff43dcaca253d65e08b47f98',
   sportsbook: '8cda24247aa008aca6e5371415fac682d0a01f80',
 };
