@@ -1,5 +1,5 @@
 {
-  "recorded_at": "2026-11-18T04:40:23.024374+00:00",
+  "recorded_at": "2026-11-18T05:16:59.755821+00:00",
   "workday_collection_run": 44224552245,
   "workday_published": {
     "url": "https://github.com/misterplusev/job-radar/releases/download/abet-workday-listings-v1/listings-1794969467-44232121949.json.gz",
@@ -105,18 +105,18 @@
   },
   "sportsbook_full": {
     "provider_outcomes": {
-      "nonempty": 22,
-      "empty": 2,
+      "nonempty": 23,
+      "empty": 1,
       "errors": 0,
       "timeouts": 0
     },
-    "jobs_published": 845,
-    "missing_detail_fetches": 154,
+    "jobs_published": 849,
+    "missing_detail_fetches": 158,
     "database": [
       {
         "company": "BetMGM",
         "active": 23,
-        "stored_descriptions": 21
+        "stored_descriptions": 23
       },
       {
         "company": "Betway",
@@ -166,8 +166,8 @@
   "supabase_counts": [
     {
       "module": "sportsbook",
-      "active": 868,
-      "historical": 5531
+      "active": 849,
+      "historical": 5535
     },
     {
       "module": "robotics",
@@ -381,6 +381,223 @@
     "remaining_owned_processes": 0,
     "passed": true
   },
+  "durable_screenshots": {
+    "run": 44224552245,
+    "artifact": 14392705826,
+    "github_artifact_sha256": "6d23a451c802911e80c6359aa5ea5ec254ed0e4e5242d7da09c86addace26660",
+    "repository_commit": "afe8f5a0b98c9a0972ed428728801afdd418b160",
+    "screenshots": [
+      {
+        "source": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE",
+        "company": "AMB Sports & Entertainment",
+        "site": "AMBSE",
+        "file": "docs/job-scrapers/evidence/20261118-workday/00.png",
+        "blob": "00b3197fd04a93cc6be963ec570a3ba900c1bad2",
+        "image_sha256": "64414ea9c27d5ed87f4309cae86d853a513206d0d6efd218b33503ab9cec6758",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/00.png"
+      },
+      {
+        "source": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+        "company": "Atlanta Braves",
+        "site": "AtlantaBraves",
+        "file": "docs/job-scrapers/evidence/20261118-workday/01.png",
+        "blob": "ecad026328cb7a7f9fa98b978098d9522abe3499",
+        "image_sha256": "415b33ea4c7019f1d7526fc0097a0db4e1f8867def26e149eed974bb9e258a6d",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/01.png"
+      },
+      {
+        "source": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO",
+        "company": "Chicago Cubs",
+        "site": "Chicago_Cubs_FO",
+        "file": "docs/job-scrapers/evidence/20261118-workday/02.png",
+        "blob": "48bcf2c3055ebf89c379dfd5b8a797e684b01407",
+        "image_sha256": "41067e4dfa15c23f4d63621c02ecffcfcd7e5185bb8dd21c9afb46fa3c2a4c5d",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/02.png"
+      },
+      {
+        "source": "wd:mariners.wd5.myworkdayjobs.com/Mariners",
+        "company": "Seattle Mariners",
+        "site": "Mariners",
+        "file": "docs/job-scrapers/evidence/20261118-workday/03.png",
+        "blob": "a5412419bc56d36df32521606b30fa46e47ffdd3",
+        "image_sha256": "e9f4682173aa79b46b8ff79ef09895b15854cd69ba59ef33827e446263e7bd8c",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/03.png"
+      },
+      {
+        "source": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets",
+        "company": "New York Mets",
+        "site": "Mets",
+        "file": "docs/job-scrapers/evidence/20261118-workday/04.png",
+        "blob": "a52361a0220a52aa31b1351a09c203e0b1763da2",
+        "image_sha256": "bbcec1b4cc824375f73e9fa78881ca657f35d2198b961fc6d9dd7bb182378967",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/04.png"
+      },
+      {
+        "source": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers",
+        "company": "Texas Rangers",
+        "site": "Rangers",
+        "file": "docs/job-scrapers/evidence/20261118-workday/05.png",
+        "blob": "4441e6787dcc4a65058f58a67bb93a290771f1d3",
+        "image_sha256": "41082a943b0b3ea473c923d06525c64f7386c66636a3d947d339751347b45709",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/05.png"
+      },
+      {
+        "source": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_Seasonal",
+        "company": "Chicago Cubs",
+        "site": "Chicago_Cubs_Seasonal",
+        "file": "docs/job-scrapers/evidence/20261118-workday/06.png",
+        "blob": "5f0bc02b145880acaf8231a8d6104af9d448ece1",
+        "image_sha256": "6d83d2d06140eaacdea04a10ecc80fa522948c088d181221dadc33b050764d1f",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/06.png"
+      },
+      {
+        "source": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_360",
+        "company": "Marquee 360",
+        "site": "Marquee_360",
+        "file": "docs/job-scrapers/evidence/20261118-workday/07.png",
+        "blob": "35b8fa3a0e57337f5896daeb1621e03501083410",
+        "image_sha256": "2f879f3972bdb044785ccae08f7a7d6b3f52b8f90703b27b192e9c4a927b8cdb",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/07.png"
+      },
+      {
+        "source": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_Development",
+        "company": "Marquee Development",
+        "site": "Marquee_Development",
+        "file": "docs/job-scrapers/evidence/20261118-workday/08.png",
+        "blob": "4c376253d70c9f26f5e8c99309d4267919a0da87",
+        "image_sha256": "3b5acdcb837ddf95ddaa4966bc6d6e036eab00c9224c4b533be9f59873e76726",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/08.png"
+      },
+      {
+        "source": "wd:wd1.myworkdaysite.com/hawks/External",
+        "company": "Atlanta Hawks",
+        "site": "External",
+        "file": "docs/job-scrapers/evidence/20261118-workday/09.png",
+        "blob": "1ea3a6385f1ed928cd0651c678dc7db8c83522f0",
+        "image_sha256": "8c92bf5d8b22286c0b17698c28954fe297f02b9ff5c99d101265c7e3a4328372",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/09.png"
+      },
+      {
+        "source": "wd:mlse.wd3.myworkdayjobs.com/MLSE",
+        "company": "Maple Leaf Sports & Entertainment",
+        "site": "MLSE",
+        "file": "docs/job-scrapers/evidence/20261118-workday/10.png",
+        "blob": "44e1092a6e9b65153bd26856a08f4d1c3263b90c",
+        "image_sha256": "147f50a45dd3df619ea7d70fc7367de0bc0146b856e905ea10dc9f272e87d15c",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/10.png"
+      },
+      {
+        "source": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Tigers",
+        "company": "Detroit Tigers",
+        "site": "Detroit-Tigers",
+        "file": "docs/job-scrapers/evidence/20261118-workday/11.png",
+        "blob": "ef47b28b3ae6f4073e4d89a9c853a547259466e3",
+        "image_sha256": "8511623dead15f4bf2dbefa9a595a249c359739369f73b6f73dbb377156355c3",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/11.png"
+      },
+      {
+        "source": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Red-Wings",
+        "company": "Detroit Red Wings",
+        "site": "Detroit-Red-Wings",
+        "file": "docs/job-scrapers/evidence/20261118-workday/12.png",
+        "blob": "c33d350e7a57cef3564fbe80e1e7360f1fd14c91",
+        "image_sha256": "02a79622c509437d02286eaffdb11333a17c25fe3e8f822b00045f58f4658362",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/12.png"
+      },
+      {
+        "source": "robotics:bostondynamics",
+        "company": "Boston Dynamics",
+        "site": "Boston_Dynamics",
+        "file": "docs/job-scrapers/evidence/20261118-workday/13.png",
+        "blob": "da5d8a109261283c58b12e7c977a796a113d2ecb",
+        "image_sha256": "04eedf3af8ed5f2eca641899fda91daa6dee3b5a37e8836baa06485901d257bd",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/13.png"
+      },
+      {
+        "source": "robotics:autostore",
+        "company": "AutoStore",
+        "site": "autostore",
+        "file": "docs/job-scrapers/evidence/20261118-workday/14.png",
+        "blob": "baf8923a163d3c7cf65581fc97c4e507c2d1d3b7",
+        "image_sha256": "5694476605a07364199ec3db0db6a01a7e43338ed26eac93eab87ec53b0c4313",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/14.png"
+      },
+      {
+        "source": "robotics:rockwellautomation",
+        "company": "Rockwell Automation",
+        "site": "External_Rockwell_Automation",
+        "file": "docs/job-scrapers/evidence/20261118-workday/15.png",
+        "blob": "78d9b636d32befebfd7319e0f06145cf45f951d9",
+        "image_sha256": "1e9501a9a6634c294ac88928e84a784a19b352013d43c127294e473a7a6a128e",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/15.png"
+      },
+      {
+        "source": "sportsbook:betmgminc",
+        "company": "BetMGM",
+        "site": "BetMGM",
+        "file": "docs/job-scrapers/evidence/20261118-workday/16.png",
+        "blob": "e701a75cf6f5f0f4f316c795bef0504882c0d86d",
+        "image_sha256": "f60d3de67ee1fd9dea33217eb0b01c017a18bd18e81e67d5df56e33c2e1730f7",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/16.png"
+      },
+      {
+        "source": "sportsbook:myhcm",
+        "company": "Betway",
+        "site": "Betway",
+        "file": "docs/job-scrapers/evidence/20261118-workday/17.png",
+        "blob": "6147ae7c211b30df89de0f58c3506ed89c03df5e",
+        "image_sha256": "eade0cad9e1f675be1f61921f940fed4a2b4c819f0c4ba592577d1f724339023",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/17.png"
+      },
+      {
+        "source": "sportsbook:seminolehardrock",
+        "company": "Hard Rock Bet",
+        "site": "seminolehardrockcareers",
+        "file": "docs/job-scrapers/evidence/20261118-workday/18.png",
+        "blob": "bc765507dc6c03d9458c1f0e26864f835863c068",
+        "image_sha256": "ab9c94b0dae1ec268193dc10623a4dbe9b3791cd5cbb9d06eb69adf3b82ff1fb",
+        "width": 1280,
+        "height": 720,
+        "link": "https://github.com/misterplusev/job-radar/blob/afe8f5a0b98c9a0972ed428728801afdd418b160/docs/job-scrapers/evidence/20261118-workday/18.png"
+      }
+    ]
+  },
   "hardrock_live_deployment": {
     "before": "9b5087d6e5e24a60aef374d635b8505309f9623c",
     "after": "5903ee15d5df3eda0d5517452cbb166bbbb49cf5",
@@ -403,9 +620,9 @@
     "slot": {
       "slot": "2026-11-17T23:00:00.000Z",
       "status": "degraded",
-      "ended_at": "2026-11-18T04:15:28.625303+00:00"
+      "ended_at": "2026-11-18T05:14:24.593745+00:00"
     },
-    "last_run_end": "2026-11-18T04:15:28.625303+00:00",
+    "last_run_end": "2026-11-18T05:14:24.593745+00:00",
     "runs_total": 1,
     "status": "degraded",
     "completed": [
@@ -423,6 +640,7 @@
       "Fliff",
       "Hard Rock Bet",
       "Kalshi",
+      "Kambi",
       "Novig",
       "PENN Interactive (ESPN BET / theScore)",
       "PrizePicks",
@@ -435,17 +653,16 @@
     "errors": [],
     "timeouts": [],
     "empty": [
-      "Chalkboard",
-      "Kambi"
+      "Chalkboard"
     ],
-    "rows": 845,
+    "rows": 849,
     "providers": [
       {
         "provider": "Bally's Corporation",
         "status": "success",
         "job_count": 52,
         "detail_missing": 0,
-        "duration_ms": 3451,
+        "duration_ms": 3366,
         "error": null
       },
       {
@@ -453,15 +670,15 @@
         "status": "success",
         "job_count": 93,
         "detail_missing": 0,
-        "duration_ms": 41065,
+        "duration_ms": 41015,
         "error": null
       },
       {
         "provider": "BetMGM",
         "status": "success",
         "job_count": 23,
-        "detail_missing": 23,
-        "duration_ms": 3413,
+        "detail_missing": 18,
+        "duration_ms": 6404,
         "error": null
       },
       {
@@ -469,7 +686,7 @@
         "status": "success",
         "job_count": 9,
         "detail_missing": 0,
-        "duration_ms": 2022,
+        "duration_ms": 2529,
         "error": null
       },
       {
@@ -477,7 +694,7 @@
         "status": "success",
         "job_count": 26,
         "detail_missing": 0,
-        "duration_ms": 1709,
+        "duration_ms": 2308,
         "error": null
       },
       {
@@ -485,7 +702,7 @@
         "status": "success",
         "job_count": 28,
         "detail_missing": 28,
-        "duration_ms": 3603,
+        "duration_ms": 3708,
         "error": null
       },
       {
@@ -493,7 +710,7 @@
         "status": "success",
         "job_count": 59,
         "detail_missing": 0,
-        "duration_ms": 29550,
+        "duration_ms": 27363,
         "error": null
       },
       {
@@ -501,7 +718,7 @@
         "status": "empty",
         "job_count": 0,
         "detail_missing": 0,
-        "duration_ms": 2115,
+        "duration_ms": 2008,
         "error": null
       },
       {
@@ -509,7 +726,7 @@
         "status": "success",
         "job_count": 3,
         "detail_missing": 0,
-        "duration_ms": 2209,
+        "duration_ms": 2536,
         "error": null
       },
       {
@@ -517,7 +734,7 @@
         "status": "success",
         "job_count": 69,
         "detail_missing": 0,
-        "duration_ms": 96958,
+        "duration_ms": 93956,
         "error": null
       },
       {
@@ -525,7 +742,7 @@
         "status": "success",
         "job_count": 104,
         "detail_missing": 0,
-        "duration_ms": 2789,
+        "duration_ms": 2807,
         "error": null
       },
       {
@@ -533,7 +750,7 @@
         "status": "success",
         "job_count": 103,
         "detail_missing": 0,
-        "duration_ms": 3976,
+        "duration_ms": 4080,
         "error": null
       },
       {
@@ -541,15 +758,15 @@
         "status": "success",
         "job_count": 18,
         "detail_missing": 0,
-        "duration_ms": 2308,
+        "duration_ms": 2607,
         "error": null
       },
       {
         "provider": "Hard Rock Bet",
         "status": "success",
         "job_count": 112,
-        "detail_missing": 103,
-        "duration_ms": 9209,
+        "detail_missing": 112,
+        "duration_ms": 3379,
         "error": null
       },
       {
@@ -557,15 +774,15 @@
         "status": "success",
         "job_count": 28,
         "detail_missing": 0,
-        "duration_ms": 2017,
+        "duration_ms": 2405,
         "error": null
       },
       {
         "provider": "Kambi",
-        "status": "empty",
-        "job_count": 0,
+        "status": "success",
+        "job_count": 4,
         "detail_missing": 0,
-        "duration_ms": 2018,
+        "duration_ms": 2813,
         "error": null
       },
       {
@@ -573,7 +790,7 @@
         "status": "success",
         "job_count": 13,
         "detail_missing": 0,
-        "duration_ms": 1923,
+        "duration_ms": 2218,
         "error": null
       },
       {
@@ -581,7 +798,7 @@
         "status": "success",
         "job_count": 28,
         "detail_missing": 0,
-        "duration_ms": 2112,
+        "duration_ms": 2517,
         "error": null
       },
       {
@@ -589,7 +806,7 @@
         "status": "success",
         "job_count": 32,
         "detail_missing": 0,
-        "duration_ms": 2247,
+        "duration_ms": 2125,
         "error": null
       },
       {
@@ -597,7 +814,7 @@
         "status": "success",
         "job_count": 5,
         "detail_missing": 0,
-        "duration_ms": 2012,
+        "duration_ms": 2613,
         "error": null
       },
       {
@@ -605,7 +822,7 @@
         "status": "success",
         "job_count": 4,
         "detail_missing": 0,
-        "duration_ms": 25112,
+        "duration_ms": 18923,
         "error": null
       },
       {
@@ -613,7 +830,7 @@
         "status": "success",
         "job_count": 7,
         "detail_missing": 0,
-        "duration_ms": 2211,
+        "duration_ms": 2220,
         "error": null
       },
       {
@@ -621,7 +838,7 @@
         "status": "success",
         "job_count": 6,
         "detail_missing": 0,
-        "duration_ms": 1720,
+        "duration_ms": 2213,
         "error": null
       },
       {
@@ -629,24 +846,12 @@
         "status": "success",
         "job_count": 23,
         "detail_missing": 0,
-        "duration_ms": 2716,
+        "duration_ms": 3340,
         "error": null
       }
     ]
   },
   "missing_workday_descriptions": [
-    {
-      "company": "BetMGM",
-      "title": "Manager, Poker Marketing and Promotions",
-      "url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM/job/Hybrid-New-Jersey/Manager--Poker-Marketing-and-Promotions_JR100847",
-      "description_characters": 0
-    },
-    {
-      "company": "BetMGM",
-      "title": "Sr. Machine Learning Ops Engineer",
-      "url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM/job/Remote-New-Jersey/Sr-Machine-Learning-Ops-Engineer_JR100850",
-      "description_characters": 0
-    },
     {
       "company": "Hard Rock Bet",
       "title": "Data Scientist III",
@@ -1023,6 +1228,792 @@
       "url": "https://discord.com/channels/1306037905407479878/1569043665345708344/1572463384484380723"
     }
   ],
+  "sportsbook_before_native_correction": {
+    "running": false,
+    "slot": {
+      "slot": "2026-11-17T23:00:00.000Z",
+      "status": "degraded",
+      "ended_at": "2026-11-18T04:15:28.625303+00:00"
+    },
+    "last_run_end": "2026-11-18T04:15:28.625303+00:00",
+    "runs_total": 1,
+    "status": "degraded",
+    "completed": [
+      "Bally's Corporation",
+      "bet365",
+      "BetMGM",
+      "Betr",
+      "BetRivers (Rush Street Interactive)",
+      "Betway",
+      "Caesars",
+      "Dabble",
+      "DraftKings",
+      "Fanatics Betting & Gaming",
+      "FanDuel",
+      "Fliff",
+      "Hard Rock Bet",
+      "Kalshi",
+      "Novig",
+      "PENN Interactive (ESPN BET / theScore)",
+      "PrizePicks",
+      "ProphetX",
+      "Rebet",
+      "Sleeper",
+      "Underdog Fantasy",
+      "Wynn Resorts"
+    ],
+    "errors": [],
+    "timeouts": [],
+    "empty": [
+      "Chalkboard",
+      "Kambi"
+    ],
+    "rows": 845,
+    "providers": [
+      {
+        "provider": "Bally's Corporation",
+        "status": "success",
+        "job_count": 52,
+        "detail_missing": 0,
+        "duration_ms": 3451,
+        "error": null
+      },
+      {
+        "provider": "bet365",
+        "status": "success",
+        "job_count": 93,
+        "detail_missing": 0,
+        "duration_ms": 41065,
+        "error": null
+      },
+      {
+        "provider": "BetMGM",
+        "status": "success",
+        "job_count": 23,
+        "detail_missing": 23,
+        "duration_ms": 3413,
+        "error": null
+      },
+      {
+        "provider": "Betr",
+        "status": "success",
+        "job_count": 9,
+        "detail_missing": 0,
+        "duration_ms": 2022,
+        "error": null
+      },
+      {
+        "provider": "BetRivers (Rush Street Interactive)",
+        "status": "success",
+        "job_count": 26,
+        "detail_missing": 0,
+        "duration_ms": 1709,
+        "error": null
+      },
+      {
+        "provider": "Betway",
+        "status": "success",
+        "job_count": 28,
+        "detail_missing": 28,
+        "duration_ms": 3603,
+        "error": null
+      },
+      {
+        "provider": "Caesars",
+        "status": "success",
+        "job_count": 59,
+        "detail_missing": 0,
+        "duration_ms": 29550,
+        "error": null
+      },
+      {
+        "provider": "Chalkboard",
+        "status": "empty",
+        "job_count": 0,
+        "detail_missing": 0,
+        "duration_ms": 2115,
+        "error": null
+      },
+      {
+        "provider": "Dabble",
+        "status": "success",
+        "job_count": 3,
+        "detail_missing": 0,
+        "duration_ms": 2209,
+        "error": null
+      },
+      {
+        "provider": "DraftKings",
+        "status": "success",
+        "job_count": 69,
+        "detail_missing": 0,
+        "duration_ms": 96958,
+        "error": null
+      },
+      {
+        "provider": "Fanatics Betting & Gaming",
+        "status": "success",
+        "job_count": 104,
+        "detail_missing": 0,
+        "duration_ms": 2789,
+        "error": null
+      },
+      {
+        "provider": "FanDuel",
+        "status": "success",
+        "job_count": 103,
+        "detail_missing": 0,
+        "duration_ms": 3976,
+        "error": null
+      },
+      {
+        "provider": "Fliff",
+        "status": "success",
+        "job_count": 18,
+        "detail_missing": 0,
+        "duration_ms": 2308,
+        "error": null
+      },
+      {
+        "provider": "Hard Rock Bet",
+        "status": "success",
+        "job_count": 112,
+        "detail_missing": 103,
+        "duration_ms": 9209,
+        "error": null
+      },
+      {
+        "provider": "Kalshi",
+        "status": "success",
+        "job_count": 28,
+        "detail_missing": 0,
+        "duration_ms": 2017,
+        "error": null
+      },
+      {
+        "provider": "Kambi",
+        "status": "empty",
+        "job_count": 0,
+        "detail_missing": 0,
+        "duration_ms": 2018,
+        "error": null
+      },
+      {
+        "provider": "Novig",
+        "status": "success",
+        "job_count": 13,
+        "detail_missing": 0,
+        "duration_ms": 1923,
+        "error": null
+      },
+      {
+        "provider": "PENN Interactive (ESPN BET / theScore)",
+        "status": "success",
+        "job_count": 28,
+        "detail_missing": 0,
+        "duration_ms": 2112,
+        "error": null
+      },
+      {
+        "provider": "PrizePicks",
+        "status": "success",
+        "job_count": 32,
+        "detail_missing": 0,
+        "duration_ms": 2247,
+        "error": null
+      },
+      {
+        "provider": "ProphetX",
+        "status": "success",
+        "job_count": 5,
+        "detail_missing": 0,
+        "duration_ms": 2012,
+        "error": null
+      },
+      {
+        "provider": "Rebet",
+        "status": "success",
+        "job_count": 4,
+        "detail_missing": 0,
+        "duration_ms": 25112,
+        "error": null
+      },
+      {
+        "provider": "Sleeper",
+        "status": "success",
+        "job_count": 7,
+        "detail_missing": 0,
+        "duration_ms": 2211,
+        "error": null
+      },
+      {
+        "provider": "Underdog Fantasy",
+        "status": "success",
+        "job_count": 6,
+        "detail_missing": 0,
+        "duration_ms": 1720,
+        "error": null
+      },
+      {
+        "provider": "Wynn Resorts",
+        "status": "success",
+        "job_count": 23,
+        "detail_missing": 0,
+        "duration_ms": 2716,
+        "error": null
+      }
+    ]
+  },
+  "sportsbook_final_full_manifest": {
+    "run_id": "e442f717733e4566b701266632f99be1",
+    "started_at_utc": "2026-11-18T05:12:16.559769Z",
+    "finished_at_utc": "2026-11-18T05:14:24.501533Z",
+    "overall_status": "degraded",
+    "providers_success": [
+      "Bally's Corporation",
+      "bet365",
+      "BetMGM",
+      "Betr",
+      "BetRivers (Rush Street Interactive)",
+      "Betway",
+      "Caesars",
+      "Dabble",
+      "DraftKings",
+      "Fanatics Betting & Gaming",
+      "FanDuel",
+      "Fliff",
+      "Hard Rock Bet",
+      "Kalshi",
+      "Kambi",
+      "Novig",
+      "PENN Interactive (ESPN BET / theScore)",
+      "PrizePicks",
+      "ProphetX",
+      "Rebet",
+      "Sleeper",
+      "Underdog Fantasy",
+      "Wynn Resorts"
+    ],
+    "providers_empty": [
+      "Chalkboard"
+    ],
+    "providers_error": [],
+    "providers_timeout": [],
+    "jobs_collected": 849,
+    "jobs_published": 849,
+    "database_publish_ok": true,
+    "provider_receipts": [
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 3366,
+        "employer_index": false,
+        "error": null,
+        "job_count": 52,
+        "provider": "Bally's Corporation",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 41015,
+        "employer_index": false,
+        "error": null,
+        "job_count": 93,
+        "provider": "bet365",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 18,
+        "duration_ms": 6404,
+        "employer_index": false,
+        "error": null,
+        "job_count": 23,
+        "provider": "BetMGM",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2529,
+        "employer_index": false,
+        "error": null,
+        "job_count": 9,
+        "provider": "Betr",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2308,
+        "employer_index": false,
+        "error": null,
+        "job_count": 26,
+        "provider": "BetRivers (Rush Street Interactive)",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 28,
+        "duration_ms": 3708,
+        "employer_index": false,
+        "error": null,
+        "job_count": 28,
+        "provider": "Betway",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 27363,
+        "employer_index": false,
+        "error": null,
+        "job_count": 59,
+        "provider": "Caesars",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": true,
+        "detail_missing": 0,
+        "duration_ms": 2008,
+        "employer_index": false,
+        "error": null,
+        "job_count": 0,
+        "provider": "Chalkboard",
+        "status": "empty"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2536,
+        "employer_index": false,
+        "error": null,
+        "job_count": 3,
+        "provider": "Dabble",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 93956,
+        "employer_index": false,
+        "error": null,
+        "job_count": 69,
+        "provider": "DraftKings",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2807,
+        "employer_index": false,
+        "error": null,
+        "job_count": 104,
+        "provider": "Fanatics Betting & Gaming",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 4080,
+        "employer_index": false,
+        "error": null,
+        "job_count": 103,
+        "provider": "FanDuel",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2607,
+        "employer_index": false,
+        "error": null,
+        "job_count": 18,
+        "provider": "Fliff",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 112,
+        "duration_ms": 3379,
+        "employer_index": false,
+        "error": null,
+        "job_count": 112,
+        "provider": "Hard Rock Bet",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2405,
+        "employer_index": false,
+        "error": null,
+        "job_count": 28,
+        "provider": "Kalshi",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2813,
+        "employer_index": false,
+        "error": null,
+        "job_count": 4,
+        "provider": "Kambi",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2218,
+        "employer_index": false,
+        "error": null,
+        "job_count": 13,
+        "provider": "Novig",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2517,
+        "employer_index": false,
+        "error": null,
+        "job_count": 28,
+        "provider": "PENN Interactive (ESPN BET / theScore)",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2125,
+        "employer_index": false,
+        "error": null,
+        "job_count": 32,
+        "provider": "PrizePicks",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2613,
+        "employer_index": false,
+        "error": null,
+        "job_count": 5,
+        "provider": "ProphetX",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 18923,
+        "employer_index": false,
+        "error": null,
+        "job_count": 4,
+        "provider": "Rebet",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2220,
+        "employer_index": false,
+        "error": null,
+        "job_count": 7,
+        "provider": "Sleeper",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 2213,
+        "employer_index": false,
+        "error": null,
+        "job_count": 6,
+        "provider": "Underdog Fantasy",
+        "status": "success"
+      },
+      {
+        "confirmed_empty": false,
+        "detail_missing": 0,
+        "duration_ms": 3340,
+        "employer_index": false,
+        "error": null,
+        "job_count": 23,
+        "provider": "Wynn Resorts",
+        "status": "success"
+      }
+    ]
+  },
+  "kambi_chalkboard_isolated_database": {
+    "run": "44242006690",
+    "official_requests": 3,
+    "listed": 4,
+    "urls": [
+      "https://kambi.teamtailor.com/jobs/8513492-senior-reward-manager",
+      "https://kambi.teamtailor.com/jobs/8518242-security-operations-engineer-stockholm-uppsala",
+      "https://kambi.teamtailor.com/jobs/8518286-linux-platform-engineer-stockholm-uppsala",
+      "https://kambi.teamtailor.com/jobs/8743515-senior-legal-counsel-commercial-london"
+    ],
+    "locations": {
+      "https://kambi.teamtailor.com/jobs/8513492-senior-reward-manager": "London, United Kingdom",
+      "https://kambi.teamtailor.com/jobs/8518242-security-operations-engineer-stockholm-uppsala": "Stockholm, Sweden; Uppsala, Sweden",
+      "https://kambi.teamtailor.com/jobs/8518286-linux-platform-engineer-stockholm-uppsala": "Stockholm, Sweden; Uppsala, Sweden",
+      "https://kambi.teamtailor.com/jobs/8743515-senior-legal-counsel-commercial-london": "London, United Kingdom"
+    },
+    "all_descriptions": true,
+    "all_employer_dates": true,
+    "chalkboard_authenticated_empty": true,
+    "stale_rows_retired": 2,
+    "unrelated_row_retained": true,
+    "failed_and_unconfirmed_empty_retired": 0,
+    "duplicate_alerts_on_replay": 0,
+    "isolated_delivery_count": 4,
+    "cutover_existing_matches": 3,
+    "fresh_url_count": 1,
+    "production_writes": 0
+  },
+  "kambi_chalkboard_deployment": {
+    "previous_github": "43456f6c6c04797784d284350207c58f93adc86e",
+    "previous_space": "5903ee15d5df3eda0d5517452cbb166bbbb49cf5",
+    "space": "85a4093ade491b82340831e9ae7aaf3bec8a738e",
+    "github": "06d3bb80fc2ea2254f8e90ac3ce35cc23d232fc4",
+    "tested": "5dbc4d01135c81e0a6dad6e41e848f4ef229b094",
+    "run": 44242006690,
+    "runtime_paths": [
+      "scripts/providers/kambi.py",
+      "scripts/providers/chalk.py",
+      "scripts/providers/base.py",
+      "scripts/provider_runner.py",
+      "scripts/scrape.py"
+    ]
+  },
+  "kambi_chalkboard_production": {
+    "checked": "2026-11-18T05:15:40.570186+00:00",
+    "active_kambi": 4,
+    "with_descriptions_and_dates": 4,
+    "active_chalkboard": 0,
+    "retired_wrong_tenant": 18,
+    "retired_former_chalkboard": 3,
+    "all_historical_records_retained": true,
+    "duplicate_kambi_outbox_records": 0,
+    "aliases_baselined": 3,
+    "production_writes_manifest": "e442f717733e4566b701266632f99be1",
+    "sender_run": 44242949855,
+    "pending": 0,
+    "real_discord": [
+      {
+        "job_url": "https://kambi.teamtailor.com/jobs/8743515-senior-legal-counsel-commercial-london",
+        "message_id": "1572480368089632771",
+        "readback_http": 200,
+        "link": "https://discord.com/channels/1306037905407479878/1478835376201269402/1572480368089632771"
+      }
+    ]
+  },
+  "kambi_known_openings_reconciled": {
+    "aliases_baselined": [
+      {
+        "current": "https://kambi.teamtailor.com/jobs/8518286-linux-platform-engineer-stockholm-uppsala",
+        "retained_historical_url": "https://job-boards.eu.greenhouse.io/kambi/jobs/4940787101",
+        "title": "Linux Platform Engineer - Stockholm / Uppsala",
+        "location": "Stockholm, Sweden; Uppsala, Sweden"
+      },
+      {
+        "current": "https://kambi.teamtailor.com/jobs/8518242-security-operations-engineer-stockholm-uppsala",
+        "retained_historical_url": "https://job-boards.eu.greenhouse.io/kambi/jobs/4896418101",
+        "title": "Security Operations Engineer - Stockholm / Uppsala",
+        "location": "Stockholm, Sweden; Uppsala, Sweden"
+      },
+      {
+        "current": "https://kambi.teamtailor.com/jobs/8513492-senior-reward-manager",
+        "retained_historical_url": "https://job-boards.eu.greenhouse.io/kambi/jobs/4982971101",
+        "title": "Senior Reward Manager",
+        "location": "London, United Kingdom"
+      }
+    ],
+    "employer_active": 4,
+    "remaining_new": [
+      "https://kambi.teamtailor.com/jobs/8743515-senior-legal-counsel-commercial-london"
+    ],
+    "historical_rows_edited": 0,
+    "alerts_sent_by_this_step": 0,
+    "run": "44242317473"
+  },
+  "previously_active_chalkboard_urls": [
+    "https://jobs.ashbyhq.com/chalk/927c74a5-1b40-490d-b3be-a29baec4db6f",
+    "https://jobs.ashbyhq.com/chalk/208c7ae8-3643-4bd4-bf25-ee26f6f9cbd9",
+    "https://jobs.ashbyhq.com/chalk/5496d29b-0c85-4ee2-b1cc-c3b8a58e8d04",
+    "https://jobs.ashbyhq.com/chalk/e1a9c309-d50d-4161-bfe0-cc81f45c6f94",
+    "https://jobs.ashbyhq.com/chalk/2f5141dc-b05b-4ece-8b71-fad8a4948ce6",
+    "https://jobs.ashbyhq.com/chalk/98fe8e12-e87a-49ba-98da-54b5e2c09c1b",
+    "https://jobs.ashbyhq.com/chalk/4f1f7423-43cf-49a4-b998-59e2244723f3",
+    "https://jobs.ashbyhq.com/chalk/2f22906b-527f-4aa8-82e7-0a6f842c560e",
+    "https://jobs.ashbyhq.com/chalk/e976735d-30a0-4b6f-aa9d-325d295c421e",
+    "https://jobs.ashbyhq.com/chalk/2dac2d81-3e76-4491-a0bc-c3bfc6126f83",
+    "https://jobs.ashbyhq.com/chalk/a953ba3c-9448-4adb-be09-bfe8acab5b03",
+    "https://jobs.ashbyhq.com/chalk/867937ab-fa06-4740-9e78-24bffacc779c",
+    "https://jobs.ashbyhq.com/chalk/e1678b56-8dc7-4955-a576-9450bd568a0c",
+    "https://jobs.ashbyhq.com/chalk/9f25940e-9462-46c1-b992-6211ba4e8f52",
+    "https://jobs.ashbyhq.com/chalk/14af92bf-812a-47d3-b4cb-dd9c1e8e11d3",
+    "https://jobs.ashbyhq.com/chalk/96eeb4e1-4621-4c03-b46e-ed2630b48811",
+    "https://jobs.ashbyhq.com/chalk/4daa8b14-53ac-47a0-86d8-eaedc81bafac",
+    "https://jobs.ashbyhq.com/chalk/262b99de-c605-42d8-bf9d-d65528112122",
+    "https://jobs.ashbyhq.com/chalkboard/1da8f498-ffd2-4276-a3c8-5465e2164401",
+    "https://jobs.ashbyhq.com/chalkboard/2585b273-6974-437d-a65c-2bb26375bdd1",
+    "https://jobs.ashbyhq.com/chalkboard/79897524-124d-4249-9693-0771a34eca7c"
+  ],
+  "final_recurring_staging_deployment": {
+    "accepted_development_run": 44242400483,
+    "real_network_canary_run": 44242556655,
+    "branch": "codex/recurring-staging-20261117",
+    "deployment_revision": "a353dc335e60a9d5034fbdcdcaea06e32f1da649",
+    "worker_sha256": "07e743cd9404c866cde40afe5feabe8e49ff2ce339ac66d1b46461041a13d935",
+    "code_and_bindings_verified": true,
+    "pins": {
+      "robotics": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+      "sports_teams": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+      "tech": "3d5c1e89ecded51fff43dcaca253d65e08b47f98",
+      "sportsbook": "06d3bb80fc2ea2254f8e90ac3ce35cc23d232fc4"
+    }
+  },
+  "final_recurring_staging_readback": {
+    "observed_at": "2026-11-18T05:13:34.063127+00:00",
+    "cloud_enabled": true,
+    "production_dispatch_enabled": false,
+    "discord_sends": 0,
+    "status": "degraded",
+    "last_tick": 1794978649262,
+    "active": false,
+    "modules": {
+      "robotics": {
+        "source_sha": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+        "every_minutes": 60,
+        "next_due_utc": "2026-11-18T06:05:00.000Z",
+        "status": "degraded",
+        "last_error": "WorkdayChallenge: autostore.wd3.myworkdayjobs.com offset=0: upstream security challenge; HTTP 429; CF-Ray=a5c47078bc0a9ef9-CDG; no automatic retry",
+        "last_run_commit": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+        "last_run_url": "https://github.com/misterplusev/job-radar/actions/runs/44241717623"
+      },
+      "tech": {
+        "source_sha": "3d5c1e89ecded51fff43dcaca253d65e08b47f98",
+        "every_minutes": 60,
+        "next_due_utc": "2026-11-18T05:20:00.000Z",
+        "status": "passed",
+        "last_error": null,
+        "last_run_commit": "9c8cd1c4ba4af58bcbb7fb88867acf038a144768",
+        "last_run_url": "https://github.com/misterplusev/job-radar-tech/actions/runs/44236585798"
+      },
+      "sports_teams": {
+        "source_sha": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+        "every_minutes": 60,
+        "next_due_utc": "2026-11-18T05:35:00.000Z",
+        "status": "passed",
+        "last_error": null,
+        "last_run_commit": "75c94ecd586208df30a0bcb847081316720bfede",
+        "last_run_url": "https://github.com/misterplusev/job-radar/actions/runs/44238323943"
+      },
+      "sportsbook": {
+        "source_sha": "06d3bb80fc2ea2254f8e90ac3ce35cc23d232fc4",
+        "every_minutes": 240,
+        "next_due_utc": "2026-11-18T08:50:00.000Z",
+        "status": "degraded",
+        "last_error": "ValueError: Provider returned after an unrecovered HTTP failure; observation incomplete",
+        "last_run_commit": "43456f6c6c04797784d284350207c58f93adc86e",
+        "last_run_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44240033263"
+      }
+    }
+  },
+  "guarded_source_checks": {
+    "chalk": {
+      "source_id": "chalk",
+      "kind": "sportsbook",
+      "status": "passed",
+      "complete": true,
+      "jobs_total": 0,
+      "sample": [],
+      "requests": 1,
+      "bytes": 28,
+      "seconds": 0.205,
+      "http": [
+        {
+          "host": "api.ashbyhq.com",
+          "path": "/posting-api/job-board/chalkboard",
+          "method": "GET",
+          "attempt": 1,
+          "status": 200,
+          "cf_mitigated": "",
+          "retry_after": "",
+          "cf_ray": "a5c47ab1da0ccc65-LAX",
+          "bytes": 28,
+          "server": "cloudflare",
+          "body_prefix_sha256": "03e836a65ca1e7ce4ab6bd534fd3b8d6c359fa5ceae781af2ce1c0e113ca1b9a",
+          "elapsed_ms": 79
+        }
+      ]
+    },
+    "kambi": {
+      "source_id": "kambi",
+      "kind": "sportsbook",
+      "status": "passed",
+      "complete": true,
+      "jobs_total": 4,
+      "sample": [
+        {
+          "title": "Senior Legal Counsel (Commercial) - London",
+          "url": "https://kambi.teamtailor.com/jobs/8743515-senior-legal-counsel-commercial-london",
+          "location": "London, United Kingdom"
+        },
+        {
+          "title": "Linux Platform Engineer - Stockholm / Uppsala",
+          "url": "https://kambi.teamtailor.com/jobs/8518286-linux-platform-engineer-stockholm-uppsala",
+          "location": "Stockholm, Sweden; Uppsala, Sweden"
+        },
+        {
+          "title": "Security Operations Engineer - Stockholm / Uppsala",
+          "url": "https://kambi.teamtailor.com/jobs/8518242-security-operations-engineer-stockholm-uppsala",
+          "location": "Stockholm, Sweden; Uppsala, Sweden"
+        },
+        {
+          "title": "Senior Reward Manager",
+          "url": "https://kambi.teamtailor.com/jobs/8513492-senior-reward-manager",
+          "location": "London, United Kingdom"
+        }
+      ],
+      "requests": 2,
+      "bytes": 119841,
+      "seconds": 1.104,
+      "http": [
+        {
+          "host": "kambi.teamtailor.com",
+          "path": "/jobs",
+          "method": "GET",
+          "attempt": 1,
+          "status": 200,
+          "cf_mitigated": "",
+          "retry_after": "",
+          "cf_ray": "",
+          "bytes": 84511,
+          "server": "nginx",
+          "body_prefix_sha256": "7e3c32ffcbb0695c9d433d2e0cc76b07ba540aefee3dc3363f13d40397a97cd6",
+          "elapsed_ms": 580
+        },
+        {
+          "host": "kambi.teamtailor.com",
+          "path": "/jobs.rss",
+          "method": "GET",
+          "attempt": 2,
+          "status": 200,
+          "cf_mitigated": "",
+          "retry_after": "",
+          "cf_ray": "",
+          "bytes": 35330,
+          "server": "nginx",
+          "body_prefix_sha256": "c1efc9a927038aa6140cd825ec51e8dadf8349ae14d25602c1957cd092eecc13",
+          "elapsed_ms": 139
+        }
+      ]
+    }
+  },
   "recurring_development_release": {
     "accepted_development_run": 44238592805,
     "branch": "codex/recurring-staging-20261117",
@@ -1082,5 +2073,45 @@
         "last_run_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44211031472"
       }
     }
+  },
+  "first_recurring_sportsbook": {
+    "checked": "2026-11-18T04:51:04.269711+00:00",
+    "active": null,
+    "source_sha": "43456f6c6c04797784d284350207c58f93adc86e",
+    "expected": "43456f6c6c04797784d284350207c58f93adc86e",
+    "slot": "2026-11-18T04:50:00.000Z",
+    "status": "degraded",
+    "github_run_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44240033263",
+    "runner_build": "1c14e6311aa805d5be3bcd5c1a90533cbc7ed025",
+    "tests": [
+      {
+        "passed": true,
+        "count": 17,
+        "returncode": 0
+      },
+      {
+        "passed": true,
+        "count": 17,
+        "returncode": 0
+      },
+      {
+        "passed": true,
+        "count": 3,
+        "returncode": 0
+      }
+    ],
+    "sources": [
+      {
+        "source_id": "kambi",
+        "complete": false,
+        "status": "failed",
+        "jobs_total": 0,
+        "requests": 1,
+        "error": "ValueError: Provider returned after an unrecovered HTTP failure; observation incomplete"
+      }
+    ],
+    "production_writes": 0,
+    "discord_sends": 0,
+    "next": "2026-11-18T08:50:00.000Z"
   }
 }
