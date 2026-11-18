@@ -1,5 +1,9 @@
 # ABET job scrapers: runbook
 
+## November 18 cloud recovery and production receipts
+
+The approved full Workday capture accounted for all 19 boards and 1,748 listings. The production release record covers the four source databases, the central incident receipt, real job messages, current detail gaps, the browser permission switch and rollback. [20261118_cloud_scraper_recovery.md](20261118_cloud_scraper_recovery.md).
+
 ## Browser compatibility evidence — November 17, 2026, 13:48 Pacific
 
 The operator-approved single cloud browser session completed and closed cleanly: Boston Dynamics and BetMGM Workday both returned actual listing JSON and visible jobs (85 and23 advertised; first20 of each observed). This is first-page compatibility proof, not a complete scrape. An HTTP-only comparison still received explicit security challenges on seven Workday public pages. No production protocol change was deployed from those results.

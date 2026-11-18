@@ -1,0 +1,1086 @@
+{
+  "recorded_at": "2026-11-18T04:40:23.024374+00:00",
+  "workday_collection_run": 44224552245,
+  "workday_published": {
+    "url": "https://github.com/misterplusev/job-radar/releases/download/abet-workday-listings-v1/listings-1794969467-44232121949.json.gz",
+    "sha256": "f68c289ff9f545130b04650612468ca8735c5b78e44e7f3ddb3adc0b2d2f2ebc",
+    "boards": 19,
+    "jobs": 1748,
+    "matches_accepted_artifact": true,
+    "observed": "2026-11-18T02:37:47.630914+00:00"
+  },
+  "workday_database_proof": {
+    "robotics_sources": 3,
+    "robotics_rows": 582,
+    "robotics_by_board": {
+      "workday:bostondynamics": 86,
+      "workday:autostore": 33,
+      "workday:rockwellautomation": 463
+    },
+    "team_sources": 13,
+    "team_rows": 176,
+    "verified_empty_team_boards": 2,
+    "team_queue_matches": 176,
+    "duplicate_team_rows_on_replay": 0,
+    "date": "2026-11-18T02:37:47.630914+00:00",
+    "production_writes": 0
+  },
+  "sportsbook_workday_proof": {
+    "raw_snapshot": {
+      "BetMGM": 23,
+      "Betway": 28,
+      "Hard Rock Bet": 112
+    },
+    "database": 163,
+    "acknowledged_jobs": 163,
+    "duplicate_on_replay": 0,
+    "detail_challenge_fixture": "explicitly marked missing",
+    "production_writes": 0
+  },
+  "fanduel": {
+    "jobs": 103,
+    "database": [
+      {
+        "active": 103,
+        "with_details": 103
+      }
+    ],
+    "real_job_alerts": 3,
+    "messages": [
+      {
+        "id": "1572446540755247228",
+        "jobs": 3,
+        "http": 200,
+        "url": "https://discord.com/channels/1306037905407479878/1478835376201269402/1572446540755247228"
+      }
+    ],
+    "sender_run": 44227358528
+  },
+  "central_alert": {
+    "id": "1572445000908677120",
+    "channel": "1446933103246442608",
+    "readback_http": 200,
+    "content": "\ud83d\udd34 **ABET job scrapers need attention** (since 2026-11-16T02:30:00.080Z)\n\u2022 robotics successful execution\n\u2022 robotics: Run 44205414759 completed failure\n\u2022 sports_teams successful execution\n\u2022 sports_teams: Run 44189513985 completed failure\n\u2022 sportsbook successful execution\n\u2022 sportsbook: Run for 2026-11-17T23:00:00.000Z ended degraded\nStatus: https://abet-jobs-scheduler.abetscrape.workers.dev/health",
+    "timestamp": "2026-11-18T02:55:02.832000+00:00",
+    "kind": "incident",
+    "link": "https://discord.com/channels/1306037905407479878/1446933103246442608/1572445000908677120"
+  },
+  "openai": {
+    "schema": "abet.jobs.scrape-manifest.v2",
+    "module": "robotics",
+    "started_at": "2026-11-18T03:01:43.643914+00:00",
+    "status": "healthy",
+    "providers": [
+      {
+        "provider": "ashby:openai",
+        "source_rows": 836,
+        "retained_title_urls": [
+          "https://jobs.ashbyhq.com/openai/1ae64ddb-505f-4ad2-a731-3a857e94edee"
+        ],
+        "unresolved_rows": 0,
+        "untitled_at_source": 1,
+        "detail_note": "1 exact same-source stored titles retained; 0 unresolved records",
+        "status": "success",
+        "job_count": 836,
+        "complete": true,
+        "seconds": 2.51
+      }
+    ],
+    "trigger": "verified-openai-recovery",
+    "scheduler_slot": "",
+    "github_run_id": "44227446771",
+    "expected_providers": 1,
+    "collected_jobs": 836,
+    "publish": {
+      "upserted": 836,
+      "deactivated": 0,
+      "queued_candidates": 0,
+      "delivered": 0,
+      "written_new": 33,
+      "written_changed": 15,
+      "written_backfill": 0,
+      "touched": 788
+    },
+    "finished_at": "2026-11-18T03:01:51.339370+00:00"
+  },
+  "sportsbook_full": {
+    "provider_outcomes": {
+      "nonempty": 22,
+      "empty": 2,
+      "errors": 0,
+      "timeouts": 0
+    },
+    "jobs_published": 845,
+    "missing_detail_fetches": 154,
+    "database": [
+      {
+        "company": "BetMGM",
+        "active": 23,
+        "stored_descriptions": 21
+      },
+      {
+        "company": "Betway",
+        "active": 28,
+        "stored_descriptions": 28
+      },
+      {
+        "company": "FanDuel",
+        "active": 103,
+        "stored_descriptions": 103
+      },
+      {
+        "company": "Hard Rock Bet",
+        "active": 112,
+        "stored_descriptions": 111
+      }
+    ],
+    "pending_notifications": 0
+  },
+  "public_boards": {
+    "sportsbook": {
+      "http": 200,
+      "url": "https://sportsbook-jobs-dashboard.vercel.app/",
+      "html_bytes": 13218
+    },
+    "sports_teams": {
+      "http": 200,
+      "url": "https://misterplusev.github.io/job-radar/",
+      "html_bytes": 11949
+    },
+    "tech": {
+      "http": 200,
+      "url": "https://misterplusev.github.io/jobradar-tech-board/",
+      "html_bytes": 15283
+    },
+    "robotics": {
+      "http": 200,
+      "url": "https://misterplusev.github.io/robotics-jobradar-board/",
+      "html_bytes": 16737
+    },
+    "dashboard": {
+      "http": 200,
+      "url": "https://abet-dashboard.vercel.app/",
+      "html_bytes": 3889
+    }
+  },
+  "supabase_counts": [
+    {
+      "module": "sportsbook",
+      "active": 868,
+      "historical": 5531
+    },
+    {
+      "module": "robotics",
+      "active": 17844,
+      "historical": 28388
+    },
+    {
+      "module": "sports_teams",
+      "active": 2091,
+      "historical": 2375
+    },
+    {
+      "module": "tech",
+      "active": 3727,
+      "historical": 5550
+    }
+  ],
+  "boards_checked": [
+    {
+      "id": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE",
+      "module": "sports_teams",
+      "company": "AMB Sports & Entertainment",
+      "url": "https://ambgroup.wd1.myworkdayjobs.com/en-US/AMBSE",
+      "advertised_total": 18,
+      "collected": 18,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+      "module": "sports_teams",
+      "company": "Atlanta Braves",
+      "url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/en-US/AtlantaBraves",
+      "advertised_total": 3,
+      "collected": 3,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO",
+      "module": "sports_teams",
+      "company": "Chicago Cubs",
+      "url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Chicago_Cubs_FO",
+      "advertised_total": 3,
+      "collected": 3,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:mariners.wd5.myworkdayjobs.com/Mariners",
+      "module": "sports_teams",
+      "company": "Seattle Mariners",
+      "url": "https://mariners.wd5.myworkdayjobs.com/en-US/Mariners",
+      "advertised_total": 3,
+      "collected": 3,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets",
+      "module": "sports_teams",
+      "company": "New York Mets",
+      "url": "https://sterlingmets.wd5.myworkdayjobs.com/en-US/Mets",
+      "advertised_total": 23,
+      "collected": 23,
+      "pages": 2,
+      "complete": true
+    },
+    {
+      "id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers",
+      "module": "sports_teams",
+      "company": "Texas Rangers",
+      "url": "https://rangersmlb.wd5.myworkdayjobs.com/en-US/Rangers",
+      "advertised_total": 23,
+      "collected": 23,
+      "pages": 2,
+      "complete": true
+    },
+    {
+      "id": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_Seasonal",
+      "module": "sports_teams",
+      "company": "Chicago Cubs",
+      "url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Chicago_Cubs_Seasonal",
+      "advertised_total": 0,
+      "collected": 0,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_360",
+      "module": "sports_teams",
+      "company": "Marquee 360",
+      "url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Marquee_360",
+      "advertised_total": 0,
+      "collected": 0,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_Development",
+      "module": "sports_teams",
+      "company": "Marquee Development",
+      "url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Marquee_Development",
+      "advertised_total": 1,
+      "collected": 1,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:wd1.myworkdaysite.com/hawks/External",
+      "module": "sports_teams",
+      "company": "Atlanta Hawks",
+      "url": "https://wd1.myworkdaysite.com/en-US/recruiting/hawks/External",
+      "advertised_total": 13,
+      "collected": 13,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:mlse.wd3.myworkdayjobs.com/MLSE",
+      "module": "sports_teams",
+      "company": "Maple Leaf Sports & Entertainment",
+      "url": "https://mlse.wd3.myworkdayjobs.com/en-US/MLSE",
+      "advertised_total": 69,
+      "collected": 69,
+      "pages": 4,
+      "complete": true
+    },
+    {
+      "id": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Tigers",
+      "module": "sports_teams",
+      "company": "Detroit Tigers",
+      "url": "https://ilitch.wd5.myworkdayjobs.com/en-US/Detroit-Tigers",
+      "advertised_total": 19,
+      "collected": 19,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Red-Wings",
+      "module": "sports_teams",
+      "company": "Detroit Red Wings",
+      "url": "https://ilitch.wd5.myworkdayjobs.com/en-US/Detroit-Red-Wings",
+      "advertised_total": 1,
+      "collected": 1,
+      "pages": 1,
+      "complete": true
+    },
+    {
+      "id": "robotics:bostondynamics",
+      "module": "robotics",
+      "company": "Boston Dynamics",
+      "url": "https://bostondynamics.wd1.myworkdayjobs.com/en-US/Boston_Dynamics",
+      "advertised_total": 86,
+      "collected": 86,
+      "pages": 5,
+      "complete": true
+    },
+    {
+      "id": "robotics:autostore",
+      "module": "robotics",
+      "company": "AutoStore",
+      "url": "https://autostore.wd3.myworkdayjobs.com/en-US/autostore",
+      "advertised_total": 33,
+      "collected": 33,
+      "pages": 2,
+      "complete": true
+    },
+    {
+      "id": "robotics:rockwellautomation",
+      "module": "robotics",
+      "company": "Rockwell Automation",
+      "url": "https://rockwellautomation.wd1.myworkdayjobs.com/en-US/External_Rockwell_Automation",
+      "advertised_total": 463,
+      "collected": 463,
+      "pages": 24,
+      "complete": true
+    },
+    {
+      "id": "sportsbook:betmgminc",
+      "module": "sportsbook",
+      "company": "BetMGM",
+      "url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM",
+      "advertised_total": 23,
+      "collected": 23,
+      "pages": 2,
+      "complete": true
+    },
+    {
+      "id": "sportsbook:myhcm",
+      "module": "sportsbook",
+      "company": "Betway",
+      "url": "https://myhcm.wd3.myworkdayjobs.com/en-US/Betway",
+      "advertised_total": 28,
+      "collected": 28,
+      "pages": 2,
+      "complete": true
+    },
+    {
+      "id": "sportsbook:seminolehardrock",
+      "module": "sportsbook",
+      "company": "Hard Rock Bet",
+      "url": "https://seminolehardrock.wd503.myworkdayjobs.com/en-US/seminolehardrockcareers",
+      "advertised_total": 939,
+      "collected": 939,
+      "pages": 47,
+      "complete": true
+    }
+  ],
+  "browser_cleanup": {
+    "remaining_owned_processes": 0,
+    "passed": true
+  },
+  "hardrock_live_deployment": {
+    "before": "9b5087d6e5e24a60aef374d635b8505309f9623c",
+    "after": "5903ee15d5df3eda0d5517452cbb166bbbb49cf5",
+    "github": "43456f6c6c04797784d284350207c58f93adc86e",
+    "tested": "f1c45e7d525f2d033f238457bff00fd015f3fb77",
+    "run": 44235109275
+  },
+  "hardrock_isolated_database": {
+    "listed": 112,
+    "structured_descriptions": 112,
+    "detail_requests": 112,
+    "first_omitted": null,
+    "official_url": "https://seminolehardrock.wd503.myworkdayjobs.com/en-US/seminolehardrockcareers/job/Seminole-Hard-Rock-Hotel--Casino-Tampa/Supervisor--Promotions_R17117",
+    "missing": 0,
+    "employer_source": "Workday JobPosting structured data on the official vacancy HTML",
+    "production_writes": 0
+  },
+  "sportsbook_latest_space_run": {
+    "running": false,
+    "slot": {
+      "slot": "2026-11-17T23:00:00.000Z",
+      "status": "degraded",
+      "ended_at": "2026-11-18T04:15:28.625303+00:00"
+    },
+    "last_run_end": "2026-11-18T04:15:28.625303+00:00",
+    "runs_total": 1,
+    "status": "degraded",
+    "completed": [
+      "Bally's Corporation",
+      "bet365",
+      "BetMGM",
+      "Betr",
+      "BetRivers (Rush Street Interactive)",
+      "Betway",
+      "Caesars",
+      "Dabble",
+      "DraftKings",
+      "Fanatics Betting & Gaming",
+      "FanDuel",
+      "Fliff",
+      "Hard Rock Bet",
+      "Kalshi",
+      "Novig",
+      "PENN Interactive (ESPN BET / theScore)",
+      "PrizePicks",
+      "ProphetX",
+      "Rebet",
+      "Sleeper",
+      "Underdog Fantasy",
+      "Wynn Resorts"
+    ],
+    "errors": [],
+    "timeouts": [],
+    "empty": [
+      "Chalkboard",
+      "Kambi"
+    ],
+    "rows": 845,
+    "providers": [
+      {
+        "provider": "Bally's Corporation",
+        "status": "success",
+        "job_count": 52,
+        "detail_missing": 0,
+        "duration_ms": 3451,
+        "error": null
+      },
+      {
+        "provider": "bet365",
+        "status": "success",
+        "job_count": 93,
+        "detail_missing": 0,
+        "duration_ms": 41065,
+        "error": null
+      },
+      {
+        "provider": "BetMGM",
+        "status": "success",
+        "job_count": 23,
+        "detail_missing": 23,
+        "duration_ms": 3413,
+        "error": null
+      },
+      {
+        "provider": "Betr",
+        "status": "success",
+        "job_count": 9,
+        "detail_missing": 0,
+        "duration_ms": 2022,
+        "error": null
+      },
+      {
+        "provider": "BetRivers (Rush Street Interactive)",
+        "status": "success",
+        "job_count": 26,
+        "detail_missing": 0,
+        "duration_ms": 1709,
+        "error": null
+      },
+      {
+        "provider": "Betway",
+        "status": "success",
+        "job_count": 28,
+        "detail_missing": 28,
+        "duration_ms": 3603,
+        "error": null
+      },
+      {
+        "provider": "Caesars",
+        "status": "success",
+        "job_count": 59,
+        "detail_missing": 0,
+        "duration_ms": 29550,
+        "error": null
+      },
+      {
+        "provider": "Chalkboard",
+        "status": "empty",
+        "job_count": 0,
+        "detail_missing": 0,
+        "duration_ms": 2115,
+        "error": null
+      },
+      {
+        "provider": "Dabble",
+        "status": "success",
+        "job_count": 3,
+        "detail_missing": 0,
+        "duration_ms": 2209,
+        "error": null
+      },
+      {
+        "provider": "DraftKings",
+        "status": "success",
+        "job_count": 69,
+        "detail_missing": 0,
+        "duration_ms": 96958,
+        "error": null
+      },
+      {
+        "provider": "Fanatics Betting & Gaming",
+        "status": "success",
+        "job_count": 104,
+        "detail_missing": 0,
+        "duration_ms": 2789,
+        "error": null
+      },
+      {
+        "provider": "FanDuel",
+        "status": "success",
+        "job_count": 103,
+        "detail_missing": 0,
+        "duration_ms": 3976,
+        "error": null
+      },
+      {
+        "provider": "Fliff",
+        "status": "success",
+        "job_count": 18,
+        "detail_missing": 0,
+        "duration_ms": 2308,
+        "error": null
+      },
+      {
+        "provider": "Hard Rock Bet",
+        "status": "success",
+        "job_count": 112,
+        "detail_missing": 103,
+        "duration_ms": 9209,
+        "error": null
+      },
+      {
+        "provider": "Kalshi",
+        "status": "success",
+        "job_count": 28,
+        "detail_missing": 0,
+        "duration_ms": 2017,
+        "error": null
+      },
+      {
+        "provider": "Kambi",
+        "status": "empty",
+        "job_count": 0,
+        "detail_missing": 0,
+        "duration_ms": 2018,
+        "error": null
+      },
+      {
+        "provider": "Novig",
+        "status": "success",
+        "job_count": 13,
+        "detail_missing": 0,
+        "duration_ms": 1923,
+        "error": null
+      },
+      {
+        "provider": "PENN Interactive (ESPN BET / theScore)",
+        "status": "success",
+        "job_count": 28,
+        "detail_missing": 0,
+        "duration_ms": 2112,
+        "error": null
+      },
+      {
+        "provider": "PrizePicks",
+        "status": "success",
+        "job_count": 32,
+        "detail_missing": 0,
+        "duration_ms": 2247,
+        "error": null
+      },
+      {
+        "provider": "ProphetX",
+        "status": "success",
+        "job_count": 5,
+        "detail_missing": 0,
+        "duration_ms": 2012,
+        "error": null
+      },
+      {
+        "provider": "Rebet",
+        "status": "success",
+        "job_count": 4,
+        "detail_missing": 0,
+        "duration_ms": 25112,
+        "error": null
+      },
+      {
+        "provider": "Sleeper",
+        "status": "success",
+        "job_count": 7,
+        "detail_missing": 0,
+        "duration_ms": 2211,
+        "error": null
+      },
+      {
+        "provider": "Underdog Fantasy",
+        "status": "success",
+        "job_count": 6,
+        "detail_missing": 0,
+        "duration_ms": 1720,
+        "error": null
+      },
+      {
+        "provider": "Wynn Resorts",
+        "status": "success",
+        "job_count": 23,
+        "detail_missing": 0,
+        "duration_ms": 2716,
+        "error": null
+      }
+    ]
+  },
+  "missing_workday_descriptions": [
+    {
+      "company": "BetMGM",
+      "title": "Manager, Poker Marketing and Promotions",
+      "url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM/job/Hybrid-New-Jersey/Manager--Poker-Marketing-and-Promotions_JR100847",
+      "description_characters": 0
+    },
+    {
+      "company": "BetMGM",
+      "title": "Sr. Machine Learning Ops Engineer",
+      "url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM/job/Remote-New-Jersey/Sr-Machine-Learning-Ops-Engineer_JR100850",
+      "description_characters": 0
+    },
+    {
+      "company": "Hard Rock Bet",
+      "title": "Data Scientist III",
+      "url": "https://seminolehardrock.wd503.myworkdayjobs.com/en-US/seminolehardrockcareers/job/Support-Services-Headquarters-Building/Data-Scientist-III_R17674",
+      "description_characters": 0
+    }
+  ],
+  "team_active_detail_counts": [
+    {
+      "platform": "teamworkonline",
+      "status": "error",
+      "count": 34
+    },
+    {
+      "platform": "teamworkonline",
+      "status": "success",
+      "count": 887
+    },
+    {
+      "platform": "workday",
+      "status": "error",
+      "count": 141
+    },
+    {
+      "platform": "workday",
+      "status": "pending",
+      "count": 6
+    },
+    {
+      "platform": "workday",
+      "status": "success",
+      "count": 80
+    }
+  ],
+  "scheduler_recovery_release": {
+    "production": "ab387b28f1ace4e8875dd18b7b348d2e22c5d08d",
+    "development": "ada8dfd2f449248a9a47f6af576e4da07a67a2d7",
+    "test_run": 44236682076,
+    "sha256": "bb01eb40bd8602b5d4e1fa3d9c8ce9834c899d622a7b91d186ff53f601bd5276",
+    "cloudflare_bindings_preserved": true
+  },
+  "scheduler_recovery_readback": {
+    "observed": "2026-11-18T04:24:59.492601+00:00",
+    "scheduler_tick": "2026-11-18T04:25:00.074Z",
+    "status": "degraded",
+    "overdue": [
+      "sportsbook successful execution",
+      "sportsbook: Run for 2026-11-17T23:00:00.000Z ended degraded"
+    ],
+    "database": {
+      "ok": true,
+      "note": null,
+      "checked_at": "2026-11-18T04:25:00.074Z",
+      "down_since": null
+    },
+    "robotics": {
+      "status": "success",
+      "slot": "2026-11-18T00:09:00.000Z",
+      "slot_status": "failure",
+      "run_id": 44205414759,
+      "run_url": "https://github.com/misterplusev/job-radar/actions/runs/44205414759",
+      "recovery": {
+        "run_id": 44232473031,
+        "run_url": "https://github.com/misterplusev/job-radar/actions/runs/44232473031",
+        "completed_at": "2026-11-18T03:47:34Z"
+      },
+      "error": null,
+      "last_success": "2026-11-18T03:47:34Z"
+    },
+    "next_alarm": "2026-11-18T04:30:00.000Z"
+  },
+  "public_frontends_and_employer_index": {
+    "public_module_reads": {
+      "robotics": {
+        "standalone": "https://misterplusev.github.io/robotics-jobradar-board/",
+        "standalone_http": 200,
+        "dashboard": "https://abet-dashboard.vercel.app/?section=jobs&tab=robotics-jobs",
+        "dashboard_http": 200,
+        "table": "robotics_jobs",
+        "database_public_role": "anon",
+        "database_http": 200,
+        "active_row": {
+          "id": 3330753,
+          "title": "QME Program Manager",
+          "url": "https://rockwellautomation.wd1.myworkdayjobs.com/External_Rockwell_Automation/job/Singapore-Singapore/QME-Program-Manager_R26-8622"
+        }
+      },
+      "tech": {
+        "standalone": "https://misterplusev.github.io/jobradar-tech-board/",
+        "standalone_http": 200,
+        "dashboard": "https://abet-dashboard.vercel.app/?section=jobs&tab=tech-jobs",
+        "dashboard_http": 200,
+        "table": "tech_jobs",
+        "database_public_role": "anon",
+        "database_http": 200,
+        "active_row": {
+          "id": 772107,
+          "title": "Field Marketing Manager, Enterprise",
+          "url": "https://job-boards.greenhouse.io/vercel/jobs/6262094004"
+        }
+      },
+      "sports_teams": {
+        "standalone": "https://misterplusev.github.io/job-radar/",
+        "standalone_http": 200,
+        "dashboard": "https://abet-dashboard.vercel.app/?section=jobs&tab=teams-jobs",
+        "dashboard_http": 200,
+        "table": "team_jobs",
+        "database_public_role": "anon",
+        "database_http": 200,
+        "active_row": {
+          "id": 287685,
+          "title": "Seasonal Sales Assistant",
+          "url": "https://ilitch.wd5.myworkdayjobs.com/Detroit-Tigers/job/Lakeland/Seasonal-Sales-Assistant_R9768-1"
+        }
+      },
+      "sportsbook": {
+        "standalone": "https://sportsbook-jobs-dashboard.vercel.app/",
+        "standalone_http": 200,
+        "dashboard": "https://abet-dashboard.vercel.app/?section=jobs&tab=jobs-browser",
+        "dashboard_http": 200,
+        "table": "jobs",
+        "database_public_role": "anon",
+        "database_http": 200,
+        "active_row": {
+          "id": 1237287,
+          "title": "Sr. Machine Learning Ops Engineer",
+          "url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM/job/Remote-New-Jersey/Sr-Machine-Learning-Ops-Engineer_JR100850"
+        }
+      }
+    },
+    "hard_rock_employer_index": {
+      "http": 200,
+      "total": 940,
+      "matching_records": 1,
+      "employer_url": "https://careers.hardrock.com/graphql/execute.json/shrss/getAllJobDetailsList",
+      "fields": [
+        "image",
+        "isApiData",
+        "isHotJob",
+        "jobCategory",
+        "jobId",
+        "jobLocationAddressLine1",
+        "jobLocationCity",
+        "jobLocationCountry",
+        "jobLocationState",
+        "jobLocationZipCode",
+        "jobPortalUrl",
+        "jobProperty",
+        "jobReqId",
+        "jobTitle",
+        "jobType",
+        "updatedDate"
+      ],
+      "field_sizes": {
+        "jobId": 19,
+        "jobReqId": 6,
+        "image": 107,
+        "jobTitle": 18,
+        "jobPortalUrl": 141,
+        "updatedDate": 29,
+        "jobCategory": 18,
+        "jobType": 9,
+        "jobLocationAddressLine1": 18,
+        "jobLocationCity": 5,
+        "jobLocationState": 2,
+        "jobLocationCountry": 2,
+        "jobLocationZipCode": 5,
+        "jobProperty": 38,
+        "isApiData": 4,
+        "isHotJob": 5
+      }
+    },
+    "staging": {
+      "service": "abet-jobs-staging",
+      "environment": "isolated cloud development",
+      "status": "degraded",
+      "enabled": true,
+      "next_alarm": 1794976254554,
+      "last_tick": 1794975954554,
+      "production_dispatch_enabled": false,
+      "discord_sends": 0,
+      "limits": {
+        "runs_per_day": 96,
+        "normal_scheduled_runs_per_day": 78,
+        "private_runs_per_month": 200,
+        "private_reserved_minutes_per_month": 800,
+        "sources_per_run": 2,
+        "sportsbook_sources_per_run": 1,
+        "requests_per_source": 12,
+        "seconds_per_source": 120,
+        "max_response_bytes": 16777216,
+        "max_source_bytes": 25165824,
+        "report_retention_days": 7,
+        "max_reports": 672,
+        "sample_jobs_per_source": 10
+      },
+      "modules": {
+        "robotics": {
+          "status": "degraded"
+        },
+        "tech": {
+          "status": "passed"
+        },
+        "sports_teams": {
+          "status": "passed"
+        },
+        "sportsbook": {
+          "status": "passed"
+        }
+      }
+    }
+  },
+  "relevant_runs": {
+    "tech": 44181677404,
+    "robotics": 44232473031,
+    "teams": 44234946035,
+    "workday_screenshots_artifact": 14392705826,
+    "sportsbook_sender": 44234819817,
+    "native_detail_development": 44235109275,
+    "watchdog_development": 44236682076,
+    "frontends": 44237543907
+  },
+  "database_note": "historical is the full retained table count, including currently active rows",
+  "full_tech": {
+    "github_run_id": "44181677404",
+    "status": "healthy",
+    "expected_providers": 13,
+    "collected_jobs": 3727,
+    "publish": {
+      "upserted": 3727,
+      "deactivated": 62,
+      "queued_candidates": 45,
+      "delivered": 45,
+      "written_new": 45,
+      "written_changed": 253,
+      "written_backfill": 5,
+      "touched": 3424
+    }
+  },
+  "full_robotics": {
+    "github_run_id": "44232473031",
+    "status": "healthy",
+    "expected_providers": 66,
+    "collected_jobs": 16858,
+    "publish": {
+      "upserted": 16776,
+      "deactivated": 611,
+      "queued_candidates": 12,
+      "delivered": 12,
+      "written_new": 65,
+      "written_changed": 87,
+      "written_backfill": 11,
+      "touched": 16613
+    }
+  },
+  "initial_team_retry": {
+    "github_run_id": "44233190274",
+    "overall_status": "degraded",
+    "runtime_status": "degraded",
+    "team_coverage": {
+      "teams": 124,
+      "with_verified_source": 119,
+      "official_career_links_verified": 124,
+      "all_configured_routes_verified": 115,
+      "partial": 4,
+      "unverified": 5
+    },
+    "totals": {
+      "providers": 152,
+      "successful": 141,
+      "failed": 11,
+      "active_jobs": 2096,
+      "new": 11,
+      "updated": 1353,
+      "closed": 5
+    },
+    "details": {
+      "success": 187,
+      "error": 63,
+      "pending": 186,
+      "deferred_this_run": 0,
+      "error_reasons": {
+        "WorkdayChallenge": 1,
+        "WorkdayDeferred": 62
+      },
+      "error_samples": [
+        {
+          "url": "https://ambgroup.wd1.myworkdayjobs.com/AMBSE/job/United-Training-Facility/Assistant-Groundskeeper---Atlanta-United-FC_R0029476-1",
+          "error": "WorkdayChallenge: ambgroup.wd1.myworkdayjobs.com offset=None: upstream security challenge; HTTP 429; CF-Ray=a5c405ac7b81681f-SEA; no automatic retry"
+        },
+        {
+          "url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Event-Conversion-Staff---Part-Time_R1969",
+          "error": "WorkdayDeferred: rangersmlb.wd5.myworkdayjobs.com: cooldown exceeds source budget; wait at least 86321.7s"
+        },
+        {
+          "url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Toll-Attendant_R2100",
+          "error": "WorkdayDeferred: rangersmlb.wd5.myworkdayjobs.com: cooldown exceeds source budget; wait at least 86321.7s"
+        },
+        {
+          "url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/Parking-Security_R2099",
+          "error": "WorkdayDeferred: rangersmlb.wd5.myworkdayjobs.com: cooldown exceeds source budget; wait at least 86321.7s"
+        },
+        {
+          "url": "https://rangersmlb.wd5.myworkdayjobs.com/Rangers/job/Arlington-TX/ADA-Shuttle-Driver_R2098",
+          "error": "WorkdayDeferred: rangersmlb.wd5.myworkdayjobs.com: cooldown exceeds source budget; wait at least 86321.7s"
+        }
+      ]
+    }
+  },
+  "team_retry_with_preload": {
+    "github_run_id": "44234946035",
+    "overall_status": "healthy",
+    "runtime_status": "healthy",
+    "team_coverage": {
+      "teams": 124,
+      "with_verified_source": 124,
+      "official_career_links_verified": 124,
+      "all_configured_routes_verified": 124,
+      "partial": 0,
+      "unverified": 0
+    },
+    "totals": {
+      "providers": 152,
+      "successful": 152,
+      "failed": 0,
+      "active_jobs": 2091,
+      "new": 6,
+      "updated": 1472,
+      "closed": 11
+    },
+    "details": {
+      "success": 0,
+      "error": 0,
+      "pending": 181,
+      "deferred_this_run": 0,
+      "error_reasons": {},
+      "error_samples": []
+    }
+  },
+  "real_discord_receipts": [
+    {
+      "module": "robotics",
+      "http": 200,
+      "confirmed_at": "2026-11-18T03:47:27.735000+00:00",
+      "matching_urls_in_sample": 2,
+      "url": "https://discord.com/channels/1306037905407479878/1559253539337801860/1572458191588032595"
+    },
+    {
+      "module": "sports_teams",
+      "http": 200,
+      "confirmed_at": "2026-11-17T22:31:04.059000+00:00",
+      "matching_urls_in_sample": 1,
+      "url": "https://discord.com/channels/1306037905407479878/1569043665345708344/1572378568279851181"
+    },
+    {
+      "module": "tech",
+      "http": 200,
+      "confirmed_at": "2026-11-17T21:38:38.065000+00:00",
+      "matching_urls_in_sample": 5,
+      "url": "https://discord.com/channels/1306037905407479878/1559253461613150238/1572365373024637084"
+    },
+    {
+      "module": "robotics",
+      "http": 200,
+      "confirmed_at": "2026-11-18T03:47:27.735000+00:00",
+      "matching_urls_in_sample": 2,
+      "url": "https://discord.com/channels/1306037905407479878/1559253539337801860/1572458191588032595"
+    },
+    {
+      "module": "sports_teams",
+      "http": 200,
+      "confirmed_at": "2026-11-18T04:08:05.818000+00:00",
+      "matching_urls_in_sample": 1,
+      "url": "https://discord.com/channels/1306037905407479878/1569043665345708344/1572463384484380723"
+    }
+  ],
+  "recurring_development_release": {
+    "accepted_development_run": 44238592805,
+    "branch": "codex/recurring-staging-20261117",
+    "deployment_revision": "1c14e6311aa805d5be3bcd5c1a90533cbc7ed025",
+    "worker_sha256": "070bb4533f647e1f65e0f2184b47048f3d8ce94e3413c471d37f0226b4c1678a",
+    "code_and_bindings_verified": true,
+    "pins": {
+      "robotics": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+      "sports_teams": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+      "tech": "3d5c1e89ecded51fff43dcaca253d65e08b47f98",
+      "sportsbook": "43456f6c6c04797784d284350207c58f93adc86e"
+    }
+  },
+  "recurring_development_live": {
+    "observed_at": "2026-11-18T04:39:07.698130+00:00",
+    "cloud_enabled": true,
+    "production_dispatch_enabled": false,
+    "discord_sends": 0,
+    "status": "degraded",
+    "last_tick": 1794976547745,
+    "active": false,
+    "modules": {
+      "robotics": {
+        "source_sha": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+        "every_minutes": 60,
+        "next_due_utc": "2026-11-18T05:05:00.000Z",
+        "status": "degraded",
+        "last_error": "WorkdayChallenge: rockwellautomation.wd1.myworkdayjobs.com offset=0: upstream security challenge; HTTP 429; CF-Ray=a5c4189f9e203117-SJC; no automatic retry",
+        "last_run_commit": "75c94ecd586208df30a0bcb847081316720bfede",
+        "last_run_url": "https://github.com/misterplusev/job-radar/actions/runs/44234830530"
+      },
+      "tech": {
+        "source_sha": "3d5c1e89ecded51fff43dcaca253d65e08b47f98",
+        "every_minutes": 60,
+        "next_due_utc": "2026-11-18T05:20:00.000Z",
+        "status": "passed",
+        "last_error": null,
+        "last_run_commit": "9c8cd1c4ba4af58bcbb7fb88867acf038a144768",
+        "last_run_url": "https://github.com/misterplusev/job-radar-tech/actions/runs/44236585798"
+      },
+      "sports_teams": {
+        "source_sha": "cf2dddff61f95df18f27e926c8bf24255ff68fb4",
+        "every_minutes": 60,
+        "next_due_utc": "2026-11-18T05:35:00.000Z",
+        "status": "passed",
+        "last_error": null,
+        "last_run_commit": "75c94ecd586208df30a0bcb847081316720bfede",
+        "last_run_url": "https://github.com/misterplusev/job-radar/actions/runs/44238323943"
+      },
+      "sportsbook": {
+        "source_sha": "43456f6c6c04797784d284350207c58f93adc86e",
+        "every_minutes": 240,
+        "next_due_utc": "2026-11-18T04:50:00.000Z",
+        "status": "passed",
+        "last_error": null,
+        "last_run_commit": "43c113b3d4612304036af9246d9fea1697037265",
+        "last_run_url": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44211031472"
+      }
+    }
+  }
+}

@@ -1,5 +1,9 @@
 # ABET jobs documentation — current index and coverage
 
+## November 18 cloud recovery and production receipts
+
+The approved full Workday capture accounted for all 19 boards and 1,748 listings. The production release record covers the four source databases, the central incident receipt, real job messages, current detail gaps, the browser permission switch and rollback. [20261118_cloud_scraper_recovery.md](20261118_cloud_scraper_recovery.md).
+
 Latest browser evidence: [November 17 compatibility results and prepared19-board full-pagination test](20261117_workday_source_repair/2026-11-17%201400%20Browser%20Evidence%20and%20Full%20Listing%20Candidate.md). Actual screenshots/native listing responses, cleanup proof, failed HTTP-session comparison and exact disabled candidate code are identified there. The first browser exception is consumed; broader Workday recovery remains incomplete.
 
 ## Latest scoped repair — November 17, 2026, 03:39 UTC
