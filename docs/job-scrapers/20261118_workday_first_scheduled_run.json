@@ -1,0 +1,404 @@
+{
+  "operator_setting": {
+    "repository": "misterplusev/job-radar",
+    "variable": "WORKDAY_CLOUD_BROWSER_ENABLED",
+    "value": "1",
+    "activated_at": "2026-11-18T07:38:27Z",
+    "cadence_utc": [
+      "10:23",
+      "22:23"
+    ],
+    "schedule_owner": "cloudflare-durable-object-alarm"
+  },
+  "activation_tests": {
+    "robotics_and_teams": "https://github.com/misterplusev/job-radar/actions/runs/44229996066",
+    "sportsbook_database_and_sender_replay": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44231478562",
+    "robotics_rows": 582,
+    "teams_rows": 176,
+    "teams_duplicate_rows_on_replay": 0,
+    "sportsbook_acknowledged": 163,
+    "sportsbook_duplicate_alerts_on_replay": 0
+  },
+  "collection": {
+    "parent_run": "https://github.com/misterplusev/job-radar/actions/runs/44284883664",
+    "source_commit": "621a43e080a69509077b87cc4020546d93a858bf",
+    "slot": "2026-11-18T10:23:00.000Z",
+    "observed_at": "2026-11-18T10:23:48.665829+00:00",
+    "elapsed_seconds": 103.922,
+    "requests": 553,
+    "browsers": 1,
+    "remaining_browser_processes": 0,
+    "direct_production_db_writes": 0,
+    "direct_discord_sends": 0,
+    "totals_by_module": {
+      "robotics": 583,
+      "sports_teams": 176,
+      "sportsbook": 990
+    },
+    "total_listings": 1749,
+    "github_screenshot_artifact": "https://github.com/misterplusev/job-radar/actions/runs/44284883664/artifacts/14418074624",
+    "boards": [
+      {
+        "module": "sports_teams",
+        "board_id": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE",
+        "official_url": "https://ambgroup.wd1.myworkdayjobs.com/en-US/AMBSE",
+        "pages": 1,
+        "advertised": 18,
+        "collected": 18,
+        "screenshot": "00.png",
+        "screenshot_sha256": "f7e87216c46500399e91c021cf7abcac8348a78eee4db45f8e9a19923d8cea19"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+        "official_url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/en-US/AtlantaBraves",
+        "pages": 1,
+        "advertised": 3,
+        "collected": 3,
+        "screenshot": "01.png",
+        "screenshot_sha256": "415b33ea4c7019f1d7526fc0097a0db4e1f8867def26e149eed974bb9e258a6d"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO",
+        "official_url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Chicago_Cubs_FO",
+        "pages": 1,
+        "advertised": 3,
+        "collected": 3,
+        "screenshot": "02.png",
+        "screenshot_sha256": "6138e37bebdb29791c3efb89c499bfb3db338c518cdc2a7cd670a8937b0cdf7b"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:mariners.wd5.myworkdayjobs.com/Mariners",
+        "official_url": "https://mariners.wd5.myworkdayjobs.com/en-US/Mariners",
+        "pages": 1,
+        "advertised": 3,
+        "collected": 3,
+        "screenshot": "03.png",
+        "screenshot_sha256": "e9f4682173aa79b46b8ff79ef09895b15854cd69ba59ef33827e446263e7bd8c"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets",
+        "official_url": "https://sterlingmets.wd5.myworkdayjobs.com/en-US/Mets",
+        "pages": 2,
+        "advertised": 23,
+        "collected": 23,
+        "screenshot": "04.png",
+        "screenshot_sha256": "bbcec1b4cc824375f73e9fa78881ca657f35d2198b961fc6d9dd7bb182378967"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers",
+        "official_url": "https://rangersmlb.wd5.myworkdayjobs.com/en-US/Rangers",
+        "pages": 2,
+        "advertised": 23,
+        "collected": 23,
+        "screenshot": "05.png",
+        "screenshot_sha256": "41082a943b0b3ea473c923d06525c64f7386c66636a3d947d339751347b45709"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_Seasonal",
+        "official_url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Chicago_Cubs_Seasonal",
+        "pages": 1,
+        "advertised": 0,
+        "collected": 0,
+        "screenshot": "06.png",
+        "screenshot_sha256": "6d83d2d06140eaacdea04a10ecc80fa522948c088d181221dadc33b050764d1f"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_360",
+        "official_url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Marquee_360",
+        "pages": 1,
+        "advertised": 0,
+        "collected": 0,
+        "screenshot": "07.png",
+        "screenshot_sha256": "2f879f3972bdb044785ccae08f7a7d6b3f52b8f90703b27b192e9c4a927b8cdb"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_Development",
+        "official_url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Marquee_Development",
+        "pages": 1,
+        "advertised": 1,
+        "collected": 1,
+        "screenshot": "08.png",
+        "screenshot_sha256": "3b3c1de62d86ccb9ec60241d7bb8990b9ef7101728363376f6a36da0785d573c"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:wd1.myworkdaysite.com/hawks/External",
+        "official_url": "https://wd1.myworkdaysite.com/en-US/recruiting/hawks/External",
+        "pages": 1,
+        "advertised": 13,
+        "collected": 13,
+        "screenshot": "09.png",
+        "screenshot_sha256": "8c92bf5d8b22286c0b17698c28954fe297f02b9ff5c99d101265c7e3a4328372"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:mlse.wd3.myworkdayjobs.com/MLSE",
+        "official_url": "https://mlse.wd3.myworkdayjobs.com/en-US/MLSE",
+        "pages": 4,
+        "advertised": 69,
+        "collected": 69,
+        "screenshot": "10.png",
+        "screenshot_sha256": "147f50a45dd3df619ea7d70fc7367de0bc0146b856e905ea10dc9f272e87d15c"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Tigers",
+        "official_url": "https://ilitch.wd5.myworkdayjobs.com/en-US/Detroit-Tigers",
+        "pages": 1,
+        "advertised": 19,
+        "collected": 19,
+        "screenshot": "11.png",
+        "screenshot_sha256": "f72c0dbed85c1d9b8d5fd5d1d462ac35bd6bf9c7b3860351bbaea8de6518a03a"
+      },
+      {
+        "module": "sports_teams",
+        "board_id": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Red-Wings",
+        "official_url": "https://ilitch.wd5.myworkdayjobs.com/en-US/Detroit-Red-Wings",
+        "pages": 1,
+        "advertised": 1,
+        "collected": 1,
+        "screenshot": "12.png",
+        "screenshot_sha256": "02a79622c509437d02286eaffdb11333a17c25fe3e8f822b00045f58f4658362"
+      },
+      {
+        "module": "robotics",
+        "board_id": "robotics:bostondynamics",
+        "official_url": "https://bostondynamics.wd1.myworkdayjobs.com/en-US/Boston_Dynamics",
+        "pages": 5,
+        "advertised": 86,
+        "collected": 86,
+        "screenshot": "13.png",
+        "screenshot_sha256": "04eedf3af8ed5f2eca641899fda91daa6dee3b5a37e8836baa06485901d257bd"
+      },
+      {
+        "module": "robotics",
+        "board_id": "robotics:autostore",
+        "official_url": "https://autostore.wd3.myworkdayjobs.com/en-US/autostore",
+        "pages": 2,
+        "advertised": 33,
+        "collected": 33,
+        "screenshot": "14.png",
+        "screenshot_sha256": "5694476605a07364199ec3db0db6a01a7e43338ed26eac93eab87ec53b0c4313"
+      },
+      {
+        "module": "robotics",
+        "board_id": "robotics:rockwellautomation",
+        "official_url": "https://rockwellautomation.wd1.myworkdayjobs.com/en-US/External_Rockwell_Automation",
+        "pages": 24,
+        "advertised": 464,
+        "collected": 464,
+        "screenshot": "15.png",
+        "screenshot_sha256": "87e6ef01891b46d1802e2705540f07b44a47f61ba38fe39c18f330714f96ac14"
+      },
+      {
+        "module": "sportsbook",
+        "board_id": "sportsbook:betmgminc",
+        "official_url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM",
+        "pages": 2,
+        "advertised": 23,
+        "collected": 23,
+        "screenshot": "16.png",
+        "screenshot_sha256": "80ae41a3f5c8fc8b2e60309139ac27e6d2791e2a883451bc482e0e8b542ceba6"
+      },
+      {
+        "module": "sportsbook",
+        "board_id": "sportsbook:myhcm",
+        "official_url": "https://myhcm.wd3.myworkdayjobs.com/en-US/Betway",
+        "pages": 2,
+        "advertised": 28,
+        "collected": 28,
+        "screenshot": "17.png",
+        "screenshot_sha256": "eade0cad9e1f675be1f61921f940fed4a2b4c819f0c4ba592577d1f724339023"
+      },
+      {
+        "module": "sportsbook",
+        "board_id": "sportsbook:seminolehardrock",
+        "official_url": "https://seminolehardrock.wd503.myworkdayjobs.com/en-US/seminolehardrockcareers",
+        "pages": 47,
+        "advertised": 939,
+        "collected": 939,
+        "screenshot": "18.png",
+        "screenshot_sha256": "ab9c94b0dae1ec268193dc10623a4dbe9b3791cd5cbb9d06eb69adf3b82ff1fb"
+      }
+    ],
+    "listing_url_changes_since_development": {
+      "robotics:rockwellautomation": {
+        "added_urls": 3,
+        "removed_urls": 2
+      }
+    }
+  },
+  "published_snapshot": {
+    "asset_id": 762938226,
+    "asset_url": "https://github.com/misterplusev/job-radar/releases/download/abet-workday-listings-v1/listings-1794997428-44284883664.json.gz",
+    "digest": "sha256:91030e5bb8a1e5ea118b6219ba5b54706c613dff8fe4e5abd59c04517f2338de",
+    "bytes": 53549,
+    "download_verified": true
+  },
+  "sports_teams": {
+    "totals": {
+      "providers": 152,
+      "successful": 152,
+      "failed": 0,
+      "active_jobs": 2085,
+      "new": 0,
+      "updated": 1501,
+      "closed": 7
+    },
+    "team_coverage": {
+      "teams": 124,
+      "with_verified_source": 124,
+      "official_career_links_verified": 124,
+      "all_configured_routes_verified": 124,
+      "partial": 0,
+      "unverified": 0
+    },
+    "database": "supabase",
+    "stored_active_count_at_check": 2085,
+    "github_run": "https://github.com/misterplusev/job-radar/actions/runs/44284883664",
+    "snapshot_reader_job": "https://github.com/misterplusev/job-radar/actions/runs/44284883664/job/134736382598",
+    "detail_work": {
+      "success": 196,
+      "error": 54,
+      "pending": 229,
+      "error_reasons": {
+        "WorkdayChallenge": 4,
+        "WorkdayDeferred": 50
+      }
+    },
+    "result": "healthy",
+    "public_board": {
+      "url": "https://misterplusev.github.io/job-radar/health.json",
+      "module_status": "healthy",
+      "slot": "2026-11-18T10:23:00.000Z",
+      "provider_count": 152,
+      "active": 2085,
+      "delivery": "success",
+      "run_id": "44284883664"
+    }
+  },
+  "sportsbook": {
+    "slot": {
+      "slot": "2026-11-18T11:00:00.000Z",
+      "status": "degraded",
+      "ended_at": "2026-11-18T11:02:20.586921+00:00"
+    },
+    "run_id": "55040dafc08d4b73a0624d7f8a1ca9e0",
+    "published": 847,
+    "database_publish_ok": true,
+    "providers_with_jobs": 23,
+    "verified_empty": [
+      "Chalkboard"
+    ],
+    "source_errors": [],
+    "timeouts": [],
+    "workday_sources": [
+      {
+        "provider": "BetMGM",
+        "job_count": 23,
+        "detail_missing": 23,
+        "status": "success"
+      },
+      {
+        "provider": "Betway",
+        "job_count": 28,
+        "detail_missing": 28,
+        "status": "success"
+      },
+      {
+        "provider": "Hard Rock Bet",
+        "job_count": 112,
+        "detail_missing": 102,
+        "status": "success"
+      }
+    ],
+    "stored_descriptions": [
+      {
+        "company": "BetMGM",
+        "active": 23,
+        "with_saved_description": 23
+      },
+      {
+        "company": "Betway",
+        "active": 28,
+        "with_saved_description": 28
+      },
+      {
+        "company": "Hard Rock Bet",
+        "active": 112,
+        "with_saved_description": 111
+      }
+    ],
+    "delivery": "https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44291390178",
+    "delivery_status": "success",
+    "active_database_url_matches": {
+      "BetMGM": {
+        "active_database_urls": 23,
+        "exact_official_urls_in_collection": 23
+      },
+      "Betway": {
+        "active_database_urls": 28,
+        "exact_official_urls_in_collection": 28
+      },
+      "Hard Rock Bet": {
+        "active_database_urls": 112,
+        "exact_official_urls_in_collection": 112
+      }
+    }
+  },
+  "checked_at": "2026-11-18T11:41:43.199856+00:00",
+  "tech": {
+    "run": "https://github.com/misterplusev/job-radar-tech/actions/runs/44277595824",
+    "started": "2026-11-18T09:37:03Z",
+    "ended": "2026-11-18T09:38:12Z",
+    "conclusion": "success",
+    "sources": 13,
+    "completed": 13,
+    "jobs_upserted": 3719,
+    "artifact": "https://github.com/misterplusev/job-radar-tech/actions/runs/44277595824/artifacts/14415865591"
+  },
+  "delivery_at_check": {
+    "as_of_utc": "2026-11-18T11:41:43Z",
+    "sportsbook_pending": 0,
+    "sports_teams_new_in_slot": 0,
+    "teams_sender_report": "No newly observed/recently posted jobs eligible for notification.",
+    "teams_prior_pending": 773,
+    "teams_prior_pending_active": 635,
+    "teams_prior_pending_closed": 138,
+    "teams_first_seen_at_or_after_observation_among_pending": 0
+  },
+  "robotics_before_scheduled_run": {
+    "checked_at": "2026-11-18T11:47:17.484117+00:00",
+    "per_company": {
+      "Boston Dynamics": {
+        "advertised": 86,
+        "active_stored": 86,
+        "exact_matches": 86,
+        "missing": 0,
+        "extra": 0
+      },
+      "AutoStore": {
+        "advertised": 33,
+        "active_stored": 33,
+        "exact_matches": 33,
+        "missing": 0,
+        "extra": 0
+      },
+      "Rockwell Automation": {
+        "advertised": 464,
+        "active_stored": 463,
+        "exact_matches": 461,
+        "missing": 3,
+        "extra": 2
+      }
+    }
+  }
+}
