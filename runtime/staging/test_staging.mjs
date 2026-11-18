@@ -27,3 +27,9 @@ test('sportsbook has four-hour cadence and hard monthly private-minute reservati
 test('timeout-only outages still enforce seven-day receipt retention',async()=>{const f=fixture();for(let i=0;i<700;i++)f.map.set('r:old-'+i,{recorded_at:new Date(NOW-8*86400000+i).toISOString()});await f.controller.tick(NOW);await f.controller.tick(NOW+13*60000);const receipts=[...f.map].filter(([k])=>k.startsWith('r:'));assert.equal(receipts.length,1);assert.equal(receipts[0][1].status,'runner_timeout')});
 
 test('explicit access challenges cool down at least a day and honor longer Retry-After',()=>{assert.equal(retryAt({status:'blocked_access',http:[{status:429,cf_mitigated:'challenge'}]},null,NOW),NOW+86400000);assert.equal(retryAt({status:'blocked_access',http:[{status:429,cf_mitigated:'challenge',retry_after:'172800'}]},null,NOW),NOW+172800000)});
+test('a lease already issued before a pin change retains its own exact revision', () => {
+  const lease = { module: 'robotics', slot: 's', lease_id: 'l', source_sha: 'a'.repeat(40), source_ids: ['workday:bostondynamics'] };
+  const result = { ...body(lease), source_sha: lease.source_sha };
+  assert.equal(normalizeReport(result, lease).source_sha, lease.source_sha);
+  assert.throws(() => normalizeReport({ ...result, source_sha: SHAS.robotics }, lease));
+});
