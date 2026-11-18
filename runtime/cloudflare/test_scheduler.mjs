@@ -193,3 +193,40 @@ for (const status of ['success','degraded','failed']) {
  });
 }
 
+test('a later full recovery verifies a failed slot without erasing its first receipt', async () => {
+  const slot = dueSlot(NOW, 9, 12, 0);
+  const failed = { id: 41, workflow_id: 123, head_branch: 'master', event: 'workflow_dispatch',
+    display_title: 'job-radar ' + slot, status: 'completed', conclusion: 'failure', html_url: 'https://example/41',
+    run_started_at: '2026-11-11T00:10:00Z', updated_at: '2026-11-11T00:13:00Z' };
+  const fixed = { ...failed, id: 42, display_title: 'job-radar manual-recovery',
+    run_started_at: '2026-11-11T03:44:00Z', updated_at: '2026-11-11T03:47:00Z', conclusion: 'success', html_url: 'https://example/42' };
+  const cases = [
+    { newer: [fixed], recovered: true },
+    { newer: [{ ...fixed, run_started_at: failed.run_started_at }] },
+    { newer: [{ ...fixed, head_branch: 'dev' }] },
+    { newer: [{ ...fixed, workflow_id: 456 }] },
+    { newer: [{ ...fixed, event: 'pull_request' }] },
+    { newer: [fixed, { ...fixed, id: 43, run_started_at: '2026-11-11T04:01:00Z', conclusion: 'failure' }] },
+    { newer: [fixed, { ...fixed, id: 44, run_started_at: null, created_at: '2026-11-11T04:01:00Z', status: 'queued', conclusion: null }] },
+    { newer: [fixed, { ...fixed, id: 45, run_started_at: '2026-11-11T04:01:00Z', status: 'in_progress', conclusion: null }] },
+  ];
+  for (const { newer, recovered } of cases) {
+    const { instance } = fixture();
+    instance.github = async (path, body) => body ? null : { workflow_runs:
+      path.includes('misterplusev/job-radar/actions/workflows/pipeline.yml') ? [...newer, failed] : [] };
+    const state = await instance.tick('manual', NOW);
+    const record = state.modules.robotics;
+    assert.equal(record.status, recovered ? 'success' : 'failure');
+    assert.equal(record.slot_status, 'failure');
+    assert.equal(record.run_id, failed.id);
+    assert.equal(record.run_url, failed.html_url);
+    if (recovered) {
+      assert.deepEqual(record.recovery, { run_id: fixed.id, run_url: fixed.html_url, completed_at: fixed.updated_at });
+      assert.equal(record.error, null);
+      assert.ok(!instance.health(state, NOW).overdue.some(item => item.startsWith('robotics')));
+    } else {
+      assert.equal(record.recovery, undefined);
+      assert.match(record.error, /Run 41 completed failure/);
+    }
+  }
+});

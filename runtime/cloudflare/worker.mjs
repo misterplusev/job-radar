@@ -34,6 +34,22 @@ export function dueSlot(now, minute, everyHours = 1, hourOffset = 0) {
 const slotFor = (now, module) => dueSlot(now, module.minute, module.everyHours || 1, module.hourOffset || 0);
 const periodMs = module => (module.everyHours || 1) * 3600000;
 
+// The list comes from this module's production workflow. A new attempt must start
+// after the failed slot finished. Keep the original receipt and use only the
+// newest qualifying full run, so an intervening failure or running attempt stays visible.
+function latestFollowup(runs, failed) {
+  let latest;
+  let newest = Date.parse(failed.updated_at);
+  for (const run of runs) {
+    const started = Date.parse(run.run_started_at || run.created_at);
+    if (run.id === failed.id || run.workflow_id !== failed.workflow_id || !run.workflow_id ||
+        run.head_branch !== 'master' || run.event !== 'workflow_dispatch' || !(started > newest)) continue;
+    latest = run;
+    newest = started;
+  }
+  return latest;
+}
+
 export function nextWake(now) {
   const candidates = [Math.floor(now / 300000) * 300000 + 300000];
   for (const module of MODULES) candidates.push(Date.parse(slotFor(now, module)) + periodMs(module));
@@ -255,8 +271,17 @@ export class JobsScheduler {
           record.run_id = match.id;
           record.run_url = match.html_url;
           record.status = match.status === 'completed' ? match.conclusion : match.status;
-          if (match.status === 'completed' && match.conclusion !== 'success')
-            record.error = `Run ${match.id} completed ${match.conclusion}`;
+          record.slot_status = record.status;
+          delete record.recovery;
+          if (match.status === 'completed' && match.conclusion !== 'success') {
+            const later = latestFollowup(runs, match);
+            if (later?.status === 'completed' && later.conclusion === 'success') {
+              record.status = 'success';
+              record.recovery = { run_id: later.id, run_url: later.html_url, completed_at: later.updated_at };
+            } else {
+              record.error = `Run ${match.id} completed ${match.conclusion}`;
+            }
+          }
           continue;
         }
         // A persisted acceptance receipt and run-name lookup prevent duplicate dispatch.
