@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from live_refresh import BoundedSession
 from jobradar.workday_http import WorkdayChallenge, WorkdayDeferred
 from providers.teamwork import UA
+from teamwork_detail import detail as read_teamwork_detail
 from publish_teams import _clean_text, _iso
 
 
@@ -57,7 +58,10 @@ def fetch_detail(row):
             item = r.json().get('jobPostingInfo') or {}
             return {'description': _clean_text(item.get('jobDescription')), 'posted_at': _iso(item.get('startDate')), 'salary': None}
         r = client.get(url); r.raise_for_status()
-        item = jsonld_job(r.text)
+        if p.hostname == 'www.teamworkonline.com':
+            item = read_teamwork_detail(r.text, url, r.url, row['title'], _clean_text)
+        else:
+            item = jsonld_job(r.text)
         if not item:
             raise ValueError('JobPosting structured data missing')
         salary = item.get('baseSalary')
