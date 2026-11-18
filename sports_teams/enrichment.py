@@ -58,7 +58,7 @@ def fetch_detail(row):
             item = r.json().get('jobPostingInfo') or {}
             return {'description': _clean_text(item.get('jobDescription')), 'posted_at': _iso(item.get('startDate')), 'salary': None}
         r = client.get(url); r.raise_for_status()
-        if p.hostname == 'www.teamworkonline.com':
+        if p.hostname == 'www.teamworkonline.com' and row.get('title'):
             item = read_teamwork_detail(r.text, url, r.url, row['title'], _clean_text)
         else:
             item = jsonld_job(r.text)
