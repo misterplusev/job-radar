@@ -24,7 +24,7 @@ on:
       max_listing_age_minutes:
         description: Collect the Workday listing first when the saved one is older than this many minutes
         required: false
-        default: '150'
+        default: '60'
         type: string
 # Cloudflare Durable Object alarms own hourly dispatch at :23 UTC.
 permissions:
@@ -37,7 +37,9 @@ concurrency:
 jobs:
   # The Workday boards refuse direct requests from cloud runners (HTTP 429 security check), so every run reads the
   # saved listing collected by workday-careers.yml. The scraper accepts a listing up to 180 minutes old. This job
-  # measures its age; when it is older than the limit (default 150 minutes) the collection runs first. That holds
+  # measures its age; when it is older than the limit the collection runs first. The limit here is 60 minutes, not
+  # robotics' 150: the sportsbook scraper starts 37 minutes after this run and cannot collect the listing itself,
+  # so this run must leave a listing that is still under 180 minutes old when sportsbook reads it. That holds
   # for scheduled and hand-started runs alike, so no scraper depends on another scraper's run having happened.
   listing_age:
     runs-on: ubuntu-latest
@@ -48,7 +50,7 @@ jobs:
       - id: age
         env:
           GH_TOKEN: ${{ github.token }}
-          MAX_MINUTES: ${{ inputs.max_listing_age_minutes || '150' }}
+          MAX_MINUTES: ${{ inputs.max_listing_age_minutes || '60' }}
         run: |
           newest=$(gh api "repos/misterplusev/job-radar/releases/tags/abet-workday-listings-v1" \
             --jq '[.assets[] | select(.state == "uploaded") | .name | select(test("^listings-[0-9]+-[0-9]+\\.json\\.gz$")) | split("-")[1] | tonumber] | max // 0' || echo 0)
