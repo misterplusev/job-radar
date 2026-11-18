@@ -1,5 +1,7 @@
 # ABET job scrapers: runbook
 
+[November 18 four-scraper architecture, deployed accounts, source paths and line counts, database schemas and production repair receipts](https://github.com/misterplusev/sportsbook-jobs-dashboard/tree/codex/jobs-system-reference-20261118/docs/jobs-system/2026-11-18). The package is in the existing private sportsbook repository.
+
 ## November 18 cloud recovery and production receipts
 
 The approved full Workday capture accounted for all 19 boards and 1,748 listings. The production release record covers the four source databases, the central incident receipt, real job messages, current detail gaps, the browser permission switch and rollback. [20261118_cloud_scraper_recovery.md](20261118_cloud_scraper_recovery.md).
