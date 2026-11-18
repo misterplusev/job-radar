@@ -1,6 +1,11 @@
 import { CATALOG } from './catalog.mjs';
 export const MODULES = {robotics:5,tech:20,sports_teams:35,sportsbook:50};
-export const SHAS = {robotics:'75c94ecd586208df30a0bcb847081316720bfede',tech:'9c8cd1c4ba4af58bcbb7fb88867acf038a144768',sports_teams:'75c94ecd586208df30a0bcb847081316720bfede',sportsbook:'43c113b3d4612304036af9246d9fea1697037265'};
+export const SHAS = {
+  robotics: 'cf2dddff61f95df18f27e926c8bf24255ff68fb4',
+  sports_teams: 'cf2dddff61f95df18f27e926c8bf24255ff68fb4',
+  tech: '3d5c1e89ecded51fff43dcaca253d65e08b47f98',
+  sportsbook: '43456f6c6c04797784d284350207c58f93adc86e',
+};
 export const PERIOD_HOURS={robotics:1,tech:1,sports_teams:1,sportsbook:4};
 const TARGETS={robotics:['misterplusev/job-radar','master'],sports_teams:['misterplusev/job-radar','master'],tech:['misterplusev/job-radar-tech','master'],sportsbook:['misterplusev/sportsbook-jobs-dashboard','prod/sportsbook-jobs']};
 const WORKFLOW='staging-recurring.yml';
@@ -26,7 +31,7 @@ export function chooseSources(module,states,cursor,now){
  return chosen;
 }
 export function normalizeReport(body,lease){
- if(body.module!==lease.module||body.slot!==lease.slot||body.lease_id!==lease.lease_id||body.source_sha!==SHAS[lease.module])throw Error('report identity/revision mismatch');
+ if(body.module!==lease.module||body.slot!==lease.slot||body.lease_id!==lease.lease_id||body.source_sha!==(lease.source_sha||SHAS[lease.module]))throw Error('report identity/revision mismatch');
  if(body.production_writes!==0||body.discord_sends!==0)throw Error('isolation violation reported');
  const tests=(body.tests||[]).slice(0,3).map(t=>({passed:t.passed===true,tests:Number(t.tests)||0,returncode:t.returncode,tail:String(t.tail||'').slice(-1800)}));
  const testOK=tests.length>0&&tests.every(t=>t.passed)&&tests.reduce((n,t)=>n+t.tests,0)>=MIN_TESTS[lease.module];
