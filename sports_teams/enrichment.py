@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 from live_refresh import BoundedSession
 from jobradar.workday_http import WorkdayChallenge, WorkdayDeferred
 from providers.teamwork import UA
+from teamwork_evidence import record_missing
 from publish_teams import _clean_text, _iso
 
 
@@ -58,6 +59,11 @@ def fetch_detail(row):
             return {'description': _clean_text(item.get('jobDescription')), 'posted_at': _iso(item.get('startDate')), 'salary': None}
         r = client.get(url); r.raise_for_status()
         item = jsonld_job(r.text)
+        if p.hostname == 'www.teamworkonline.com' and len(_clean_text(item.get('description'))) < 80:
+            try:
+                record_missing(row, r, _clean_text)
+            except (OSError, TypeError, ValueError) as exc:
+                print(f'[DETAILS] Unable to record public TeamWork evidence: {type(exc).__name__}', flush=True)
         if not item:
             raise ValueError('JobPosting structured data missing')
         salary = item.get('baseSalary')

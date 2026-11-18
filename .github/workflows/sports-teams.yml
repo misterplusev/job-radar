@@ -66,7 +66,9 @@ jobs:
         run: python ${{ github.workspace }}/runtime/workday/preload_workday.py
       - name: Scrape and persist all supported sources
         id: scrape
-        env: {WORKDAY_LISTINGS_ENABLED: '1'}
+        env:
+          WORKDAY_LISTINGS_ENABLED: '1'
+          TEAMWORK_DETAIL_EVIDENCE_DIR: data/runtime/teamwork-detail
         run: python -u pipeline_local.py --cloud --trigger '${{ inputs.trigger_source || github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}' ${{ github.event.inputs.recover_pending == 'true' && '--recover-pending' || '' }}
       - name: Notification guard and delivery
         id: delivery
@@ -109,6 +111,7 @@ jobs:
           path: |
             sports_teams/data/runtime/latest_scrape_manifest.json
             sports_teams/data/runtime/workday-http/*.jsonl
+            sports_teams/data/runtime/teamwork-detail/*.json
           retention-days: 7
       - name: Surface source failures
         run: |
