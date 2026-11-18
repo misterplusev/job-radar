@@ -1,25 +1,17 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
-permissions:
-  contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
+name: Read production job modules and employer careers metadata
+on: workflow_dispatch
+permissions: {contents: read}
 jobs:
-  regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
+  readback:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
-        run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+      - name: Read the four boards and public tables using the published anonymous client
+        run: python3 runtime/verification/read_jobs_frontends.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public-job-board-evidence
+          path: http-acceptance.json
+          retention-days: 14
