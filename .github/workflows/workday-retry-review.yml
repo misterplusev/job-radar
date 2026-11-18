@@ -42,7 +42,7 @@ jobs:
           psql -h 127.0.0.1 -U proof -d proof -v ON_ERROR_STOP=1 \
             -c "CREATE ROLE service_role BYPASSRLS; CREATE ROLE anon; CREATE ROLE authenticated; CREATE TABLE public.jobs(id bigint)" \
             -f db/schema_robotics.sql -f db/schema_notifications.sql \
-            -c "GRANT USAGE ON SCHEMA public TO service_role; GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role; GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO service_role; NOTIFY pgrst, 'reload schema'"
+            -c "GRANT USAGE ON SCHEMA public TO service_role; GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role; GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO service_role"
       - name: Test all provider, publication and scheduling fixtures
         env: {PYTHONPATH: 'runtime/verification/isolation:.', STAGING_TEST_NETWORK_OFF: '1'}
         run: python -m unittest discover -s tests -p 'test_*.py' -v
