@@ -1,25 +1,64 @@
-name: workday-repair-validation
+name: Validate the verified Workday catalog in isolated robotics and team databases
 on:
   workflow_dispatch:
 permissions:
+  actions: read
   contents: read
 concurrency:
-  group: workday-cloud-development
+  group: workday-isolated-data
   cancel-in-progress: false
 jobs:
-  regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
+  prove:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 9
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: proof
+          POSTGRES_PASSWORD: development-only
+          POSTGRES_DB: proof
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U proof -d proof"
+          --health-interval 3s --health-timeout 3s --health-retries 12
+      rest:
+        image: postgrest/postgrest:v12.2.3
+        env:
+          PGRST_DB_URI: postgres://proof:development-only@postgres:5432/proof
+          PGRST_DB_ANON_ROLE: service_role
+          PGRST_JWT_SECRET: isolated-development-proof-key-0123456789abcdef
+        ports: ['3100:3000']
+    env:
+      PGPASSWORD: development-only
+      PYTHONUNBUFFERED: '1'
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
+      - uses: actions/download-artifact@v4
+        with: {name: workday-full-listing-proof, path: captured, run-id: 44224552245, github-token: '${{ github.token }}'}
+      - run: python runtime/workday/seal.py captured runtime/workday/catalog.json proof/listings.json.gz
+      - run: pip install -r requirements.txt -r sports_teams/requirements.txt
+      - name: Initialize isolated robotics tables and compare current source behavior
         run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+          psql -h 127.0.0.1 -U proof -d proof -v ON_ERROR_STOP=1 \
+            -c "CREATE ROLE service_role BYPASSRLS; CREATE ROLE anon; CREATE ROLE authenticated; CREATE TABLE public.jobs(id bigint)" \
+            -f db/schema_robotics.sql -f db/schema_notifications.sql -f sports_teams/db/schema_cloud.sql \
+            -c "GRANT USAGE ON SCHEMA public TO service_role; GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role; GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO service_role"
+      - name: Test all provider, publication and scheduling fixtures
+        env: {PYTHONPATH: 'runtime/verification/isolation:.', STAGING_TEST_NETWORK_OFF: '1'}
+        run: |
+          python -m unittest discover -s tests -p 'test_*.py' -v
+          (cd sports_teams && PYTHONPATH=../runtime/verification/isolation:.. python -m unittest discover -p 'test_*.py' -v)
+      - name: Verify the snapshot using normal ingestion, storage and queue code in an isolated database
+        if: ${{ !cancelled() }}
+        env: {PYTHONPATH: '.'}
+        run: python runtime/verification/isolated/workday_accept.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with:
+          name: independent-cloud-proof
+          path: proof/
+          retention-days: 14

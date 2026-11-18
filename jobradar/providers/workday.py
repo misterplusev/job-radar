@@ -56,6 +56,14 @@ class WorkdayProvider(Provider):
             raise ValueError("Unknown Workday board")
         host, site = board
         company = _BOARD_NAMES.get(self.slug, self.slug.replace("-", " ").title())
+        from ..workday_snapshot import board as snapshot_board
+        snapshot = snapshot_board(host, self.slug, site)
+        if snapshot is not None:
+            observed_at, rows = snapshot
+            return [Job(company=company, title=clean_ws(row["title"]),
+                        url=f"https://{host}/{site}" + row["externalPath"],
+                        location=clean_ws(row.get("locationsText")) or None, source=self.source,
+                        provider_slug=self.slug, run_id=run_id, scraped_at=observed_at) for row in rows]
         jobs: List[Job] = []
         seen = set()
         offset = 0

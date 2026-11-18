@@ -1,0 +1,173 @@
+[
+  {
+    "id": "wd:ambgroup.wd1.myworkdayjobs.com/AMBSE",
+    "module": "sports_teams",
+    "company": "AMB Sports & Entertainment",
+    "host": "ambgroup.wd1.myworkdayjobs.com",
+    "tenant": "ambgroup",
+    "site": "AMBSE",
+    "url": "https://ambgroup.wd1.myworkdayjobs.com/en-US/AMBSE"
+  },
+  {
+    "id": "wd:atlantabravesmlb.wd5.myworkdayjobs.com/AtlantaBraves",
+    "module": "sports_teams",
+    "company": "Atlanta Braves",
+    "host": "atlantabravesmlb.wd5.myworkdayjobs.com",
+    "tenant": "atlantabravesmlb",
+    "site": "AtlantaBraves",
+    "url": "https://atlantabravesmlb.wd5.myworkdayjobs.com/en-US/AtlantaBraves"
+  },
+  {
+    "id": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO",
+    "module": "sports_teams",
+    "company": "Chicago Cubs",
+    "host": "my1060wd.wd5.myworkdayjobs.com",
+    "tenant": "my1060wd",
+    "site": "Chicago_Cubs_FO",
+    "url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Chicago_Cubs_FO"
+  },
+  {
+    "id": "wd:mariners.wd5.myworkdayjobs.com/Mariners",
+    "module": "sports_teams",
+    "company": "Seattle Mariners",
+    "host": "mariners.wd5.myworkdayjobs.com",
+    "tenant": "mariners",
+    "site": "Mariners",
+    "url": "https://mariners.wd5.myworkdayjobs.com/en-US/Mariners"
+  },
+  {
+    "id": "wd:sterlingmets.wd5.myworkdayjobs.com/Mets",
+    "module": "sports_teams",
+    "company": "New York Mets",
+    "host": "sterlingmets.wd5.myworkdayjobs.com",
+    "tenant": "sterlingmets",
+    "site": "Mets",
+    "url": "https://sterlingmets.wd5.myworkdayjobs.com/en-US/Mets"
+  },
+  {
+    "id": "wd:rangersmlb.wd5.myworkdayjobs.com/Rangers",
+    "module": "sports_teams",
+    "company": "Texas Rangers",
+    "host": "rangersmlb.wd5.myworkdayjobs.com",
+    "tenant": "rangersmlb",
+    "site": "Rangers",
+    "url": "https://rangersmlb.wd5.myworkdayjobs.com/en-US/Rangers"
+  },
+  {
+    "id": "wd:my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_Seasonal",
+    "module": "sports_teams",
+    "company": "Chicago Cubs",
+    "host": "my1060wd.wd5.myworkdayjobs.com",
+    "tenant": "my1060wd",
+    "site": "Chicago_Cubs_Seasonal",
+    "url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Chicago_Cubs_Seasonal"
+  },
+  {
+    "id": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_360",
+    "module": "sports_teams",
+    "company": "Marquee 360",
+    "host": "my1060wd.wd5.myworkdayjobs.com",
+    "tenant": "my1060wd",
+    "site": "Marquee_360",
+    "url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Marquee_360"
+  },
+  {
+    "id": "wd:my1060wd.wd5.myworkdayjobs.com/Marquee_Development",
+    "module": "sports_teams",
+    "company": "Marquee Development",
+    "host": "my1060wd.wd5.myworkdayjobs.com",
+    "tenant": "my1060wd",
+    "site": "Marquee_Development",
+    "url": "https://my1060wd.wd5.myworkdayjobs.com/en-US/Marquee_Development"
+  },
+  {
+    "id": "wd:wd1.myworkdaysite.com/hawks/External",
+    "module": "sports_teams",
+    "company": "Atlanta Hawks",
+    "host": "wd1.myworkdaysite.com",
+    "tenant": "hawks",
+    "site": "External",
+    "url": "https://wd1.myworkdaysite.com/en-US/recruiting/hawks/External"
+  },
+  {
+    "id": "wd:mlse.wd3.myworkdayjobs.com/MLSE",
+    "module": "sports_teams",
+    "company": "Maple Leaf Sports & Entertainment",
+    "host": "mlse.wd3.myworkdayjobs.com",
+    "tenant": "mlse",
+    "site": "MLSE",
+    "url": "https://mlse.wd3.myworkdayjobs.com/en-US/MLSE"
+  },
+  {
+    "id": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Tigers",
+    "module": "sports_teams",
+    "company": "Detroit Tigers",
+    "host": "ilitch.wd5.myworkdayjobs.com",
+    "tenant": "ilitch",
+    "site": "Detroit-Tigers",
+    "url": "https://ilitch.wd5.myworkdayjobs.com/en-US/Detroit-Tigers"
+  },
+  {
+    "id": "wd:ilitch.wd5.myworkdayjobs.com/Detroit-Red-Wings",
+    "module": "sports_teams",
+    "company": "Detroit Red Wings",
+    "host": "ilitch.wd5.myworkdayjobs.com",
+    "tenant": "ilitch",
+    "site": "Detroit-Red-Wings",
+    "url": "https://ilitch.wd5.myworkdayjobs.com/en-US/Detroit-Red-Wings"
+  },
+  {
+    "id": "robotics:bostondynamics",
+    "module": "robotics",
+    "company": "Boston Dynamics",
+    "host": "bostondynamics.wd1.myworkdayjobs.com",
+    "tenant": "bostondynamics",
+    "site": "Boston_Dynamics",
+    "url": "https://bostondynamics.wd1.myworkdayjobs.com/en-US/Boston_Dynamics"
+  },
+  {
+    "id": "robotics:autostore",
+    "module": "robotics",
+    "company": "AutoStore",
+    "host": "autostore.wd3.myworkdayjobs.com",
+    "tenant": "autostore",
+    "site": "autostore",
+    "url": "https://autostore.wd3.myworkdayjobs.com/en-US/autostore"
+  },
+  {
+    "id": "robotics:rockwellautomation",
+    "module": "robotics",
+    "company": "Rockwell Automation",
+    "host": "rockwellautomation.wd1.myworkdayjobs.com",
+    "tenant": "rockwellautomation",
+    "site": "External_Rockwell_Automation",
+    "url": "https://rockwellautomation.wd1.myworkdayjobs.com/en-US/External_Rockwell_Automation"
+  },
+  {
+    "id": "sportsbook:betmgminc",
+    "module": "sportsbook",
+    "company": "BetMGM",
+    "host": "betmgminc.wd5.myworkdayjobs.com",
+    "tenant": "betmgminc",
+    "site": "BetMGM",
+    "url": "https://betmgminc.wd5.myworkdayjobs.com/en-US/BetMGM"
+  },
+  {
+    "id": "sportsbook:myhcm",
+    "module": "sportsbook",
+    "company": "Betway",
+    "host": "myhcm.wd3.myworkdayjobs.com",
+    "tenant": "myhcm",
+    "site": "Betway",
+    "url": "https://myhcm.wd3.myworkdayjobs.com/en-US/Betway"
+  },
+  {
+    "id": "sportsbook:seminolehardrock",
+    "module": "sportsbook",
+    "company": "Hard Rock Bet",
+    "host": "seminolehardrock.wd503.myworkdayjobs.com",
+    "tenant": "seminolehardrock",
+    "site": "seminolehardrockcareers",
+    "url": "https://seminolehardrock.wd503.myworkdayjobs.com/en-US/seminolehardrockcareers"
+  }
+]
