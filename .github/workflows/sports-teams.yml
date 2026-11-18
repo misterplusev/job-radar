@@ -21,6 +21,11 @@ on:
         description: 'Recover missed individual alerts from the paused repair runs'
         type: boolean
         default: false
+      max_listing_age_minutes:
+        description: Collect the Workday listing first when the saved one is older than this many minutes
+        required: false
+        default: '150'
+        type: string
 # Cloudflare Durable Object alarms own hourly dispatch at :23 UTC.
 permissions:
   contents: read
@@ -30,13 +35,36 @@ concurrency:
   group: sports-teams-jobs
   cancel-in-progress: false
 jobs:
+  # The Workday boards refuse direct requests from cloud runners (HTTP 429 security check), so every run reads the
+  # saved listing collected by workday-careers.yml. The scraper accepts a listing up to 180 minutes old. This job
+  # measures its age; when it is older than the limit (default 150 minutes) the collection runs first. That holds
+  # for scheduled and hand-started runs alike, so no scraper depends on another scraper's run having happened.
+  listing_age:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      stale: ${{ steps.age.outputs.stale }}
+    steps:
+      - id: age
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MAX_MINUTES: ${{ inputs.max_listing_age_minutes || '150' }}
+        run: |
+          newest=$(gh api "repos/misterplusev/job-radar/releases/tags/abet-workday-listings-v1" \
+            --jq '[.assets[] | select(.state == "uploaded") | .name | select(test("^listings-[0-9]+-[0-9]+\\.json\\.gz$")) | split("-")[1] | tonumber] | max // 0' || echo 0)
+          case "$newest" in ''|*[!0-9]*) newest=0 ;; esac
+          age=$(( ( $(date +%s) - newest ) / 60 ))
+          if [ "$age" -gt "$MAX_MINUTES" ]; then stale=true; else stale=false; fi
+          echo "Saved Workday listing is $age minutes old (limit $MAX_MINUTES): stale=$stale"
+          echo "stale=$stale" >> "$GITHUB_OUTPUT"
   official_workday:
-    if: ${{ inputs.trigger_source == 'cloudflare' && vars.WORKDAY_CLOUD_BROWSER_ENABLED == '1' }}
+    needs: listing_age
+    if: ${{ needs.listing_age.outputs.stale == 'true' && vars.WORKDAY_CLOUD_BROWSER_ENABLED == '1' }}
     permissions: {contents: write, actions: read}
     uses: ./.github/workflows/workday-careers.yml
     with: {mode: collect}
   scrape:
-    needs: official_workday
+    needs: [listing_age, official_workday]
     if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
