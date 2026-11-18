@@ -53,7 +53,11 @@ class BoundedSession(requests.Session):
         if is_workday_read(method, url):
             return self.workday.request(method, url, **kwargs)
         # Retry read-only requests, with the same total source budget and pacing.
-        retryable = method.upper() in ('GET', 'HEAD')
+        # UKG (UltiPro) boards are read with a POST to .../JobBoardView/LoadSearchResults. It changes nothing on
+        # their side, so it is retried like a GET. Without this one dropped connection failed the whole source
+        # (4 UKG sources failed that way in run 44385546747 on 2026-11-18).
+        retryable = method.upper() in ('GET', 'HEAD') or (
+            method.upper() == 'POST' and urlsplit(url).path.endswith('/JobBoardView/LoadSearchResults'))
         for attempt in range(3):
             delay = 2 ** attempt
             try:
