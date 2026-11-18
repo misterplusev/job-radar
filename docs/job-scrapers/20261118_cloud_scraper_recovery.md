@@ -1,5 +1,13 @@
 # November 18 cloud recovery for the ABET job scrapers
 
+## Twice-daily Workday collection
+
+Enabled November 18, 2026 at 07:38:27 UTC (November 17 at 11:38 p.m. Pacific) with operator approval. The production repository variable `WORKDAY_CLOUD_BROWSER_ENABLED` was absent before activation. GitHub returned `1` on readback. Cloudflare dispatches the sports teams workflow daily at 10:23 and 22:23 UTC, which in November is 2:23 a.m. and 2:23 p.m. Pacific. The first scheduled slot after activation is November 18 at 10:23 UTC. [Repository setting](https://github.com/misterplusev/job-radar/settings/variables/actions) · [Production schedule](../../runtime/cloudflare/worker.mjs) · [Teams workflow](../../.github/workflows/sports-teams.yml) · [Collection workflow](../../.github/workflows/workday-careers.yml)
+
+Each scheduled teams run calls one GitHub-hosted browser before the teams scrape. The workflow processes the 19 configured official boards sequentially. It publishes a new snapshot only after it reconciles all advertised listing counts and verifies that zero browser processes remain. The teams, sportsbook and robotics readers accept the snapshot for three hours from observation. Tech has no Workday source. If publication fails, inspect the collection job and its `workday-full-listing-proof` artifact in the parent [teams run](https://github.com/misterplusev/job-radar/actions/workflows/sports-teams.yml). Compare the observation time with the newest [published snapshot](https://github.com/misterplusev/job-radar/releases/tag/abet-workday-listings-v1). The ordinary sender for each scraper remains responsible for job alerts.
+
+Before activation, the isolated database receipts showed 582 robotics rows and 176 team rows. Replaying the teams input added zero duplicate rows. The isolated sportsbook database saved 163 eligible listings, the test receiver acknowledged 163, and replay sent zero additional alerts. To pause future browser launches, set `WORKDAY_CLOUD_BROWSER_ENABLED` to `0` in the same repository. [Robotics and team test](https://github.com/misterplusev/job-radar/actions/runs/44229996066) · [Sportsbook replay test](https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44231478562)
+
 ## Production verdict
 
 Evidence was collected on November 17–18, 2026 UTC. The latest full runs collected jobs in all four modules. The production watchdog still reports a sportsbook detail warning. Each active-table figure below is a direct Supabase count taken after the sportsbook run ended at 05:14 UTC. The “jobs in run” column covers the latest completed full run. A database can retain active rows from an earlier observation pending confirmation of closure.
