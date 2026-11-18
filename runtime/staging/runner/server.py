@@ -39,8 +39,8 @@ def execute(task):
             pattern='test_workday*.py' if module=='sportsbook' else 'test_*.py'
             report['tests'].append(command([sys.executable,'-m','unittest','discover','-s',testdir,'-p',pattern,'-v'],work,env,90))
             if module=='sportsbook':
-                for suite in ('test_hf_launcher_schedule_health.py', 'test_fanduel_catalog.py'):
-                    report['tests'].append(command([sys.executable,'-m','unittest','discover','-s','tests','-p',suite,'-v'],work,env,30))
+                report['tests'].append(command([sys.executable,'-m','unittest','discover','-s','tests','-p','test_hf_launcher_schedule_health.py','-v'],work,env,30))
+                report['tests'].append(command([sys.executable,'-m','unittest','-v','test_fanduel_catalog','test_native_employers'],work/'tests',env,30))
             if all(t['passed'] for t in report['tests']):
                 for sid in task['source_ids']:
                     output=Path(tmp)/'probe.json'

@@ -4,7 +4,7 @@ export const SHAS = {
   robotics: 'cf2dddff61f95df18f27e926c8bf24255ff68fb4',
   sports_teams: 'cf2dddff61f95df18f27e926c8bf24255ff68fb4',
   tech: '3d5c1e89ecded51fff43dcaca253d65e08b47f98',
-  sportsbook: '43456f6c6c04797784d284350207c58f93adc86e',
+  sportsbook: '06d3bb80fc2ea2254f8e90ac3ce35cc23d232fc4',
 };
 export const PERIOD_HOURS={robotics:1,tech:1,sports_teams:1,sportsbook:4};
 const TARGETS={robotics:['misterplusev/job-radar','master'],sports_teams:['misterplusev/job-radar','master'],tech:['misterplusev/job-radar-tech','master'],sportsbook:['misterplusev/sportsbook-jobs-dashboard','prod/sportsbook-jobs']};
