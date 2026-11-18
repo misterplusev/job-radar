@@ -110,7 +110,6 @@ def scrape_org(org: TeamWorkOrg, session=None, timeout: int = 45) -> list[Job]:
             title=title,
             url=BASE + href if href.startswith("/") else href,
             location=location,
-            description_clean=_clean(cat.group(1)) if cat else "",
             platform="teamworkonline",
         ))
     return jobs
