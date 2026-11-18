@@ -43,6 +43,10 @@ jobs:
       # Schema is NOT applied here. Running DDL and a PostgREST schema reload before
       # every scrape let a slow database block ingestion entirely (2026-11-11 outage).
       # Apply schema changes deliberately with the manual apply-schema workflow.
+      - name: Fetch verified career listings for this cloud runner
+        continue-on-error: true
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python ${{ github.workspace }}/runtime/workday/preload_workday.py
       - name: Scrape, reconcile, and deliver pending notifications
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
