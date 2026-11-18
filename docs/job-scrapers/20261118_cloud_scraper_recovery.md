@@ -8,7 +8,22 @@ Each scheduled teams run calls one GitHub-hosted browser before the teams scrape
 
 Before activation, the isolated database receipts showed 582 robotics rows and 176 team rows. Replaying the teams input added zero duplicate rows. The isolated sportsbook database saved 163 eligible listings, the test receiver acknowledged 163, and replay sent zero additional alerts. To pause future browser launches, set `WORKDAY_CLOUD_BROWSER_ENABLED` to `0` in the same repository. [Robotics and team test](https://github.com/misterplusev/job-radar/actions/runs/44229996066) · [Sportsbook replay test](https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44231478562)
 
+### First scheduled production collection
+
+At 10:23:48 UTC on November 18 (2:23 a.m. Pacific), one GitHub-hosted browser matched every advertised listing on all 19 official boards. It collected 1,749 listing URLs in 104 seconds and closed with zero browser processes remaining. The publisher uploaded asset 762938226 and its public download matched the recorded SHA-256. Compared with the development capture, Rockwell Automation advertised three new URLs and removed two. [Scheduled run](https://github.com/misterplusev/job-radar/actions/runs/44284883664) · [19 screenshots](https://github.com/misterplusev/job-radar/actions/runs/44284883664/artifacts/14418074624) · [Permanent per-board receipt](20261118_workday_first_scheduled_run.json)
+
+| Production module | First cycle after activation |
+| --- | --- |
+| Sports teams | The workflow read the new snapshot for all 13 team Workday routes. All 152 sources passed across 124 teams with verified official careers links. Supabase and the public board reported 2,085 active jobs. The run added 0 and closed 7. [Teams reader log](https://github.com/misterplusev/job-radar/actions/runs/44284883664/job/134736382598) · [Public board health](https://misterplusev.github.io/job-radar/health.json) |
+| Sportsbook | Published 847 jobs. All 163 active Workday database URLs matched this observation exactly. The sender completed and its queue was empty at the database check. The run remained degraded because 153 descriptions could not be refreshed. 162 of 163 had saved descriptions. [Scheduled sender](https://github.com/misterplusev/sportsbook-jobs-dashboard/actions/runs/44291390178) |
+| Robotics | Read the same verified snapshot. 66 of 66 sources completed. Supabase matched every official URL across Boston Dynamics (86), AutoStore (33) and Rockwell Automation (464). All three newly advertised Rockwell URLs entered the active set and both removed URLs left it. The sender recorded seven job deliveries in two Discord messages. [Production run](https://github.com/misterplusev/job-radar/actions/runs/44301167872) |
+| Tech | All 13 sources passed and the production run upserted 3,719 jobs. Tech runs independently of Workday. [Production run](https://github.com/misterplusev/job-radar-tech/actions/runs/44277595824) |
+
+The teams run refreshed 196 job descriptions and recorded 54 failed or deferred attempts. Its enrichment queue contained 229 after the run. The teams sender found zero eligible new alerts. At the database check, 773 team notification rows remained marked pending for URLs first seen before this run, including 138 closed jobs. The permanent receipt records this separately from collection coverage.
+
 ## Production verdict
+
+*The following table records the earlier recovery checkpoint at 05:14 UTC on November 18.*
 
 Evidence was collected on November 17–18, 2026 UTC. The latest full runs collected jobs in all four modules. The production watchdog still reports a sportsbook detail warning. Each active-table figure below is a direct Supabase count taken after the sportsbook run ended at 05:14 UTC. The “jobs in run” column covers the latest completed full run. A database can retain active rows from an earlier observation pending confirmation of closure.
 
