@@ -317,7 +317,7 @@ def collect(pt):
     return results, discovery
 
 
-def apply_results(con, results, pipeline, retired_sources=None):
+def apply_results(con, results, pipeline, retired_sources=None, registered_sources=None):
     con.execute('create table if not exists team_job_observations (source_id text not null,url text not null,is_active integer not null default 1,observed_at text,primary key(source_id,url))')
     columns = {r[1] for r in con.execute('pragma table_info(team_jobs)')}
     if 'source_id' not in columns:
@@ -363,6 +363,14 @@ def apply_results(con, results, pipeline, retired_sources=None):
         if replacement in succeeded:
             con.execute('update team_job_observations set is_active=0,observed_at=? where source_id=?',
                         (succeeded[replacement],retired))
+    # A source that is no longer registered can never report again, so its last sighting must not keep a
+    # job open forever. On 2026-11-10 the registry moved to the teams' own career sites; 73 older sources
+    # stopped running and by 2026-11-18 had left 629 of 2,080 jobs marked active with nothing checking them.
+    # A job that a registered source still lists stays open through that source's observation.
+    if registered_sources:
+        keys = sorted(registered_sources)
+        con.execute('update team_job_observations set is_active=0 where is_active=1 and source_id not in ('
+                    + ','.join('?' * len(keys)) + ')', keys)
     # A cross-listed job closes only when all its known sources report it absent.
     cur = con.execute('''update team_jobs set is_active=0,closed_at=? where is_active=1
                          and exists (select 1 from team_job_observations o where o.url=team_jobs.url)

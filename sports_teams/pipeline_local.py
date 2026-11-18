@@ -207,7 +207,8 @@ def main():
     prior_urls={r[0] for r in con.execute('select url from team_jobs')}
     results, discovery = live_refresh.collect(pt)
     new, updated, closed = live_refresh.apply_results(con, results, sys.modules[__name__],
-                                                    live_refresh.retired_replacements(pt))
+                                                    live_refresh.retired_replacements(pt),
+                                                    registered_sources=set(live_refresh.build_sources(pt)))
     new_urls={r[0] for r in con.execute('select url from team_jobs')}-prior_urls
     if args.recover_pending:
         # Only jobs actually observed on the current organization sources.
