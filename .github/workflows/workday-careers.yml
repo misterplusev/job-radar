@@ -1,0 +1,53 @@
+name: Verified Workday career-page collection
+run-name: Workday official career pages ${{ inputs.mode || 'scheduled' }}
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        description: Import the authorized cloud test or start an approved recurring collection
+        options: [import, collect]
+        default: import
+  workflow_call:
+    inputs:
+      mode: {type: string, default: collect}
+permissions: {contents: read, actions: read}
+concurrency: {group: workday-official-cloud-collection, cancel-in-progress: false}
+jobs:
+  collect:
+    if: ${{ inputs.mode == 'collect' && vars.WORKDAY_CLOUD_BROWSER_ENABLED == '1' }}
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install playwright==1.65.2 psutil
+      - run: python -m playwright install chromium
+      - name: Read the official boards in one guarded cloud session
+        env: {CLOUD_BROWSER_FULL_COLLECTION_APPROVED: 'true'}
+        run: python runtime/verification/browser_full_collection.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with: {name: workday-full-listing-proof, path: proof/workday-full-listings/, retention-days: 3}
+  publish:
+    needs: collect
+    if: ${{ !cancelled() && ((inputs.mode == 'import' && github.event_name == 'workflow_dispatch') || needs.collect.result == 'success') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    permissions: {contents: write, actions: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: false}
+      - uses: actions/download-artifact@v4
+        if: ${{ inputs.mode == 'import' }}
+        with: {name: workday-full-listing-proof, path: captured, run-id: 44224552245, github-token: '${{ github.token }}'}
+      - uses: actions/download-artifact@v4
+        if: ${{ inputs.mode != 'import' }}
+        with: {name: workday-full-listing-proof, path: captured}
+      - run: python runtime/workday/seal.py captured runtime/workday/catalog.json proof/listings.json.gz
+      - run: pip install requests
+      - name: Publish the checked public asset and verify its identical download
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python runtime/workday/publish_workday.py
