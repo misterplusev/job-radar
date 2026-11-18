@@ -1,0 +1,371 @@
+{
+  "artifacts": [
+    {
+      "id": 14418698940,
+      "at": "2026-11-18T10:35:34Z",
+      "run": 44284883664,
+      "bytes": 2737950
+    },
+    {
+      "id": 14397131611,
+      "at": "2026-11-18T04:08:10Z",
+      "run": 44234946035,
+      "bytes": 2738356
+    },
+    {
+      "id": 14396602457,
+      "at": "2026-11-18T03:59:02Z",
+      "run": 44233190274,
+      "bytes": 2746365
+    },
+    {
+      "id": 14377450411,
+      "at": "2026-11-17T22:31:10Z",
+      "run": 44189513985,
+      "bytes": 2741016
+    }
+  ],
+  "files": [],
+  "targets": [
+    {
+      "id": 2656,
+      "title": "Event Captain",
+      "company": "Atlanta Braves",
+      "team": "Atlanta Braves",
+      "source_id": "tw:baseball-jobs/atlanta-braves/atlanta-braves-jobs",
+      "url": "https://www.teamworkonline.com/baseball-jobs/atlanta-braves/atlanta-braves-jobs/event-captain-2194349",
+      "location": "Atlanta, GA · Part Time",
+      "first_seen_at": "2026-11-09 22:57:40.425142+00"
+    },
+    {
+      "id": 2658,
+      "title": "Offsite Retail Warehouse Keyholder",
+      "company": "Atlanta Braves",
+      "team": "Atlanta Braves",
+      "source_id": "tw:baseball-jobs/atlanta-braves/atlanta-braves-jobs",
+      "url": "https://www.teamworkonline.com/baseball-jobs/atlanta-braves/atlanta-braves-jobs/offsite-retail-warehouse-keyholder-2147890",
+      "location": "Marietta, GA · Part Time",
+      "first_seen_at": "2026-11-09 22:57:40.42551+00"
+    },
+    {
+      "id": 2657,
+      "title": "Retail Truck Driver",
+      "company": "Atlanta Braves",
+      "team": "Atlanta Braves",
+      "source_id": "tw:baseball-jobs/atlanta-braves/atlanta-braves-jobs",
+      "url": "https://www.teamworkonline.com/baseball-jobs/atlanta-braves/atlanta-braves-jobs/retail-truck-driver-2186817",
+      "location": "Marietta, GA · Entry Level",
+      "first_seen_at": "2026-11-09 22:57:40.425325+00"
+    },
+    {
+      "id": 2511,
+      "title": "Account Executive, Business Development",
+      "company": "New Jersey Devils",
+      "team": "New Jersey Devils",
+      "source_id": "tw:multiple-properties/harris-blitzer-sports-entertainment-jobs/new-jersey-devils-jobs",
+      "url": "https://www.teamworkonline.com/multiple-properties/harris-blitzer-sports-entertainment-jobs/new-jersey-devils-jobs/account-executive-business-development-2175651",
+      "location": "Newark, NJ · Hybrid · Entry Level",
+      "first_seen_at": "2026-11-09 22:57:40.03826+00"
+    },
+    {
+      "id": 2519,
+      "title": "Sales Associate - New Jersey Devils",
+      "company": "HBSE",
+      "team": "HBSE",
+      "source_id": "tw:multiple-properties/harris-blitzer-sports-entertainment-jobs/new-jersey-devils-jobs",
+      "url": "https://www.teamworkonline.com/multiple-properties/harris-blitzer-sports-entertainment-jobs/new-jersey-devils-jobs/sales-associate-new-jersey-devils-1998323",
+      "location": "Newark, NJ · Entry Level",
+      "first_seen_at": "2026-11-09 22:57:40.040464+00"
+    },
+    {
+      "id": 2498,
+      "title": "Brand Marketing Seasonal Assistant",
+      "company": "Ilitch Sports + Entertainment",
+      "team": "Ilitch Sports + Entertainment",
+      "source_id": "tw:multiple-properties/ilitch-sports/detroit-red-wings",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings/brand-marketing-seasonal-assistant-2192046",
+      "location": "Detroit, MI · Intern",
+      "first_seen_at": "2026-11-09 22:57:40.032644+00"
+    },
+    {
+      "id": 2501,
+      "title": "Controller",
+      "company": "Detroit Red Wings",
+      "team": "Detroit Red Wings",
+      "source_id": "tw:multiple-properties/ilitch-sports/detroit-red-wings",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings/controller-2190964",
+      "location": "Detroit, MI · Director",
+      "first_seen_at": "2026-11-09 22:57:40.033262+00"
+    },
+    {
+      "id": 2497,
+      "title": "General Accountant",
+      "company": "Detroit Red Wings",
+      "team": "Detroit Red Wings",
+      "source_id": "tw:multiple-properties/ilitch-sports/detroit-red-wings",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings/general-accountant-2192669",
+      "location": "Detroit, MI · Manager",
+      "first_seen_at": "2026-11-09 22:57:40.031459+00"
+    },
+    {
+      "id": 2512,
+      "title": "Red Patrol Entertainment Team",
+      "company": "Detroit Red Wings",
+      "team": "Detroit Red Wings",
+      "source_id": "tw:multiple-properties/ilitch-sports/detroit-red-wings",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-red-wings/red-patrol-entertainment-team-2174269",
+      "location": "Detroit, MI · Part Time",
+      "first_seen_at": "2026-11-09 22:57:40.038423+00"
+    },
+    {
+      "id": 49331,
+      "title": "Affiliate Bench Coach",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/affiliate-bench-coach-2196853",
+      "location": "Lakeland, FL · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.070967+00"
+    },
+    {
+      "id": 49340,
+      "title": "Applied Performance Scientist",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/applied-performance-scientist-2192594",
+      "location": "Detroit, MI · Manager",
+      "first_seen_at": "2026-11-11 08:02:05.081922+00"
+    },
+    {
+      "id": 49329,
+      "title": "Assistant Engineering Manager",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/assistant-engineering-manager-2198045",
+      "location": "Detroit, MI · Manager",
+      "first_seen_at": "2026-11-11 08:02:05.068486+00"
+    },
+    {
+      "id": 49327,
+      "title": "Associate, Amateur Scouting",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/associate-amateur-scouting-2198341",
+      "location": "Lakeland, FL · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.066022+00"
+    },
+    {
+      "id": 49330,
+      "title": "Associate, Baseball Technology & Video",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/associate-baseball-technology-video-2197586",
+      "location": "Lakeland, FL · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.069712+00"
+    },
+    {
+      "id": 278202,
+      "title": "Associate Dietitian (Toledo, AAA)",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/associate-dietitian-toledo-aaa-2200084",
+      "location": "Toledo, OH · Part Time",
+      "first_seen_at": "2026-11-17 22:25:02.453484+00"
+    },
+    {
+      "id": 49325,
+      "title": "Associate, International Scouting",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/associate-international-scouting-2199111",
+      "location": "Lakeland, FL · Intern",
+      "first_seen_at": "2026-11-11 08:02:05.063421+00"
+    },
+    {
+      "id": 49337,
+      "title": "Athletic Training Assistant (Seasonal)",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/athletic-training-assistant-seasonal-2192724",
+      "location": "Lakeland, FL · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.078263+00"
+    },
+    {
+      "id": 49341,
+      "title": "Baseball Analytics Associate (Seasonal)",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/baseball-analytics-associate-seasonal-2190751",
+      "location": "Detroit, MI · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.083119+00"
+    },
+    {
+      "id": 49339,
+      "title": "Baseball Performance Associate (Seasonal)",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/baseball-performance-associate-seasonal-2192615",
+      "location": "Detroit, MI · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.080711+00"
+    },
+    {
+      "id": 49334,
+      "title": "Complex Coordinator",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/complex-coordinator-2196805",
+      "location": "Lakeland, FL · Manager",
+      "first_seen_at": "2026-11-11 08:02:05.074646+00"
+    },
+    {
+      "id": 49338,
+      "title": "DSL Athletic Trainer",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/dsl-athletic-trainer-2192700",
+      "location": "Remote, Dominican Republic · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.079493+00"
+    },
+    {
+      "id": 49332,
+      "title": "DSL Pitching Coach",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/dsl-pitching-coach-2196851",
+      "location": "Remote, Dominican Republic · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.072207+00"
+    },
+    {
+      "id": 49336,
+      "title": "Major League Advance Scouting Associate (Seasonal)",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/major-league-advance-scouting-associate-seasonal-2192723",
+      "location": "Detroit, MI · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.077059+00"
+    },
+    {
+      "id": 49335,
+      "title": "Major League Performance Rehab Coach",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/major-league-performance-rehab-coach-2193881",
+      "location": "Lakeland, FL · Director",
+      "first_seen_at": "2026-11-11 08:02:05.075863+00"
+    },
+    {
+      "id": 49333,
+      "title": "Player Development Associate",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/player-development-associate-2196852",
+      "location": "Lakeland, FL · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.073407+00"
+    },
+    {
+      "id": 278203,
+      "title": "Seasonal Sales Assistant",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/seasonal-sales-assistant-2199959",
+      "location": "Lakeland, FL · Entry Level",
+      "first_seen_at": "2026-11-17 22:25:02.454475+00"
+    },
+    {
+      "id": 49328,
+      "title": "Security Representative",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/security-representative-2198228",
+      "location": "Detroit, MI · Entry Level",
+      "first_seen_at": "2026-11-11 08:02:05.067245+00"
+    },
+    {
+      "id": 49342,
+      "title": "Youth Baseball Assistant Coach",
+      "company": "Detroit Tigers",
+      "team": "Detroit Tigers",
+      "source_id": "tw:baseball-jobs/baseballjobs/detroit-tigers",
+      "url": "https://www.teamworkonline.com/multiple-properties/ilitch-sports/detroit-tigers/youth-baseball-assistant-coach-2176079",
+      "location": "Detroit, MI · Manager",
+      "first_seen_at": "2026-11-11 08:02:05.084338+00"
+    },
+    {
+      "id": 525,
+      "title": "Account Executive, Inside Sales (Caps)",
+      "company": "Washington Capitals",
+      "team": "Washington Capitals",
+      "source_id": "tw:multiple-properties/monumentalsports/monumental-sports",
+      "url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/washington-capitals-jobs/account-executive-inside-sales-caps-2198421",
+      "location": "Washington, DC · Entry Level",
+      "first_seen_at": "2026-11-09 20:46:19.571035+00"
+    },
+    {
+      "id": 2515,
+      "title": "Game Night Staff: Marketing Brand Ambassador (Part-Time/Seasonal)",
+      "company": "Washington Capitals",
+      "team": "Washington Capitals",
+      "source_id": "tw:multiple-properties/monumentalsports/monumental-sports",
+      "url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/washington-capitals-jobs/game-night-staff-marketing-brand-ambassador-part-time-seasonal-2092659",
+      "location": "Washington, DC · Part Time",
+      "first_seen_at": "2026-11-09 22:57:40.039837+00"
+    },
+    {
+      "id": 2517,
+      "title": "Game Night Staff: Membership Services (Part-Time/Seasonal)",
+      "company": "Washington Capitals",
+      "team": "Washington Capitals",
+      "source_id": "tw:multiple-properties/monumentalsports/monumental-sports",
+      "url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/washington-capitals-jobs/game-night-staff-membership-services-part-time-seasonal-2089893",
+      "location": "Washington, DC · Part Time",
+      "first_seen_at": "2026-11-09 22:57:40.040153+00"
+    },
+    {
+      "id": 2516,
+      "title": "Game Night Staff: Radio (Part-Time/Seasonal)",
+      "company": "Washington Capitals",
+      "team": "Washington Capitals",
+      "source_id": "tw:multiple-properties/monumentalsports/monumental-sports",
+      "url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/washington-capitals-jobs/game-night-staff-radio-part-time-seasonal-2090725",
+      "location": "Washington, DC · Part Time",
+      "first_seen_at": "2026-11-09 22:57:40.039996+00"
+    },
+    {
+      "id": 2518,
+      "title": "Game Night Staff: Youth Hockey Development (Part-Time/Seasonal)",
+      "company": "Washington Capitals",
+      "team": "Washington Capitals",
+      "source_id": "tw:multiple-properties/monumentalsports/monumental-sports",
+      "url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/washington-capitals-jobs/game-night-staff-youth-hockey-development-part-time-seasonal-2070310",
+      "location": "Arlington, VA · Part Time",
+      "first_seen_at": "2026-11-09 22:57:40.040308+00"
+    },
+    {
+      "id": 181552,
+      "title": "Youth Hockey Development Coach (Part-Time/Seasonal)",
+      "company": "Washington Capitals",
+      "team": "Washington Capitals",
+      "source_id": "tw:multiple-properties/monumentalsports/monumental-sports",
+      "url": "https://www.teamworkonline.com/multiple-properties/monumentalsports/washington-capitals-jobs/youth-hockey-development-coach-part-time-seasonal-2199549",
+      "location": "Washington, DC · Part Time",
+      "first_seen_at": "2026-11-13 18:24:48.36486+00"
+    }
+  ]
+}

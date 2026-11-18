@@ -1,25 +1,20 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
+name: Inspect prior hosted team-board snapshots for verified descriptions
+on: workflow_dispatch
 permissions:
   contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
+  actions: read
 jobs:
-  regression:
+  inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
-        run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+      - name: Match exact live job identities to prior published records
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python runtime/verification/archived_team_detail.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: archived-team-detail-evidence
+          path: history-proof/
+          retention-days: 14
