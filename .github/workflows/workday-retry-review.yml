@@ -1,25 +1,30 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
-permissions:
-  contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
+name: Test the hosted release download through all 13 production team sources
+on: workflow_dispatch
+permissions: {contents: read}
 jobs:
-  regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
+  prove:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
+      - run: pip install -r requirements.txt -r sports_teams/requirements.txt
+      - name: Fetch the actual production snapshot using the hosted runner identity
+        env: {GH_TOKEN: '${{ github.token }}', REQUIRE_FRESH_WORKDAY: '1'}
+        run: python runtime/workday/preload_workday.py
+      - name: Verify all public team acquisition routes with the same working directory as production
+        working-directory: sports_teams
+        env: {PYTHONPATH: '..'}
         run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          from unittest.mock import patch
+          import live_refresh,pipeline_local
+          boards=[s for s in live_refresh.build_sources(pipeline_local.pt).values() if s['kind']=='workday']
+          assert Path(os.environ['WORKDAY_LISTINGS_FILE']).is_file() and len(boards)==13
+          with patch.object(live_refresh.BoundedSession,'post',side_effect=AssertionError('Unexpected second collection')):
+              got=[live_refresh.fetch_source(s) for s in boards]
+          assert all(r['status']=='success' for r in got),got
+          print(json.dumps({r['source']['key']:len(r['rows']) for r in got}))
+          PY

@@ -60,6 +60,10 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Regression checks
         run: python -m unittest discover -p 'test_*.py'
+      - name: Fetch verified career listings for this cloud runner
+        continue-on-error: true
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python ${{ github.workspace }}/runtime/workday/preload_workday.py
       - name: Scrape and persist all supported sources
         id: scrape
         env: {WORKDAY_LISTINGS_ENABLED: '1'}
