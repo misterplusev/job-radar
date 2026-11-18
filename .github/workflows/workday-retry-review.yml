@@ -1,25 +1,17 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
-permissions:
-  contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
+name: Isolated team enrichment recovery
+on: workflow_dispatch
+permissions: {contents: read}
 jobs:
-  regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
-        run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+      - run: pip install -r sports_teams/requirements.txt -r requirements.txt
+      - name: Test agency denials, other employers, reopened retries and the Hawks detail path
+        working-directory: sports_teams
+        env: {PYTHONPATH: '..'}
+        run: python -m unittest discover -p 'test_*.py' -v

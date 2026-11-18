@@ -38,14 +38,20 @@ def fetch_detail(row):
         p = urlsplit(url)
         if p.netloc == 'www.teamworkonline.com':
             client.headers.update(UA)
-        if 'myworkdayjobs.com' in p.netloc:
+        if p.hostname and p.hostname.endswith(('.myworkdayjobs.com', '.myworkdaysite.com')):
             parts = [s for s in p.path.split('/') if s]
-            if re.fullmatch(r'[a-z]{2}-[A-Z]{2}', parts[0]):
+            if parts and re.fullmatch(r'[a-z]{2}-[A-Z]{2}', parts[0]):
                 parts = parts[1:]
-            if parts[-1] == 'apply':
+            if parts and parts[-1] == 'apply':
                 parts = parts[:-1]
-            path = '/'.join(parts[1:])
-            endpoint = f'https://{p.netloc}/wday/cxs/{p.netloc.split(".")[0]}/{parts[0]}/{path}'
+            if p.hostname.endswith('.myworkdaysite.com') and parts[:1] == ['recruiting']:
+                parts = parts[1:]
+                tenant = parts.pop(0) if parts else ''
+            else:
+                tenant = p.hostname.split('.')[0]
+            if not tenant or len(parts) < 3 or parts[1] != 'job':
+                raise ValueError('unrecognized official Workday detail URL')
+            endpoint = f'https://{p.hostname}/wday/cxs/{tenant}/' + '/'.join(parts)
             r = client.get(endpoint); r.raise_for_status()
             item = r.json().get('jobPostingInfo') or {}
             return {'description': _clean_text(item.get('jobDescription')), 'posted_at': _iso(item.get('startDate')), 'salary': None}
@@ -64,18 +70,29 @@ def enrich(con, limit=250, seconds=900):
     for name in ('salary', 'detail_status', 'detail_checked_at'):
         if name not in cols:
             con.execute(f'alter table team_jobs add column {name} text')
-    # Failed pages retry on the next bounded run, including after a network fix.
-    retry_before = datetime.now(timezone.utc).isoformat()
-    refresh_before = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
-    rows = [dict(r) for r in con.execute('''select * from team_jobs where is_active=1
-        and (platform in ('teamworkonline','workday'))
-        and (detail_checked_at is null or (detail_status!='success' and detail_checked_at<?)
-             or (detail_status='success' and detail_checked_at<?))
-        order by detail_checked_at is not null, first_seen_at desc limit ?''', (retry_before,refresh_before,limit))]
-    start = time.monotonic(); counts = {'success':0, 'error':0, 'pending':0, 'error_samples':[]}
-    for row in rows:
-        if time.monotonic() - start > seconds:
+    now = datetime.now(timezone.utc)
+    # A denial stays visible. Give new and due jobs from other organizations a turn.
+    cutoffs = tuple((now - interval).isoformat() for interval in
+                    (timedelta(hours=12), timedelta(days=2), timedelta(days=7)))
+    rows = con.execute('''select * from team_jobs where is_active=1
+        and platform in ('teamworkonline','workday') and (detail_checked_at is null
+        or (coalesce(detail_status,'') not in ('success','forbidden','rate_limited') and detail_checked_at<=?)
+        or (detail_status in ('forbidden','rate_limited') and detail_checked_at<=?)
+        or (detail_status='success' and detail_checked_at<=?))
+        order by detail_checked_at is not null, detail_checked_at, first_seen_at desc limit ?''',
+        (*cutoffs, min(2000, max(0, limit) * 4)))
+    started = time.monotonic()
+    counts = {'success':0, 'error':0, 'pending':0, 'deferred_this_run':0, 'error_reasons':{}, 'error_samples':[]}
+    blocked_orgs, limited_hosts = set(), set()
+    for record in rows.fetchall():
+        if counts['success'] + counts['error'] >= limit or time.monotonic() - started > seconds:
             break
+        row = dict(record)
+        parts = urlsplit(row['url'])
+        org = (parts.hostname, parts.path.rsplit('/', 1)[0])
+        if parts.hostname in limited_hosts or org in blocked_orgs:
+            counts['deferred_this_run'] += 1
+            continue
         stamp = datetime.now(timezone.utc).isoformat()
         try:
             detail = fetch_detail(row)
@@ -87,7 +104,17 @@ def enrich(con, limit=250, seconds=900):
             counts['success'] += 1
         except Exception as exc:
             # Preserve known details and active state on a detail-page failure.
-            con.execute("update team_jobs set detail_status='error',detail_checked_at=? where id=?",(stamp,row['id']))
+            code = getattr(getattr(exc, 'response', None), 'status_code', None)
+            status = 'error'
+            if code == 403:
+                status = 'forbidden'
+                blocked_orgs.add(org)
+            elif code == 429:
+                status = 'rate_limited'
+                limited_hosts.add(parts.hostname)
+            reason = f'{parts.hostname} HTTP {code}' if code else type(exc).__name__
+            counts['error_reasons'][reason] = counts['error_reasons'].get(reason, 0) + 1
+            con.execute("update team_jobs set detail_status=?,detail_checked_at=? where id=?", (status,stamp,row['id']))
             counts['error'] += 1
             if len(counts['error_samples']) < 5:
                 counts['error_samples'].append({'url':row['url'],'error':f'{type(exc).__name__}: {exc}'[:350]})
