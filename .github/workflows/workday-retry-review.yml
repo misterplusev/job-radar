@@ -1,25 +1,29 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
-permissions:
-  contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
+name: Verify and recover the deployed OpenAI source
+on: workflow_dispatch
+permissions: {contents: read}
+concurrency: {group: job-radar-pipeline, cancel-in-progress: false}
 jobs:
-  regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
+      - uses: actions/checkout@v4
+        with: {ref: f0aea7d33e83b4e3997ec3f09dc8ed4e0e8b39a0, path: deployed, persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
+      - run: pip install -r deployed/requirements.txt
+      - name: Collect the official board and verify normal database and delivery receipts
+        working-directory: deployed
         env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
-        run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+          PYTHONPATH: .
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DISCORD_WEBHOOK_JOBS: ${{ secrets.DISCORD_WEBHOOK_JOBS }}
+          JOBRADAR_MODULE: robotics
+          JOBRADAR_TRIGGER: verified-openai-recovery
+        run: python ../runtime/verification/ashby_production.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with: {name: openai-production-receipt, path: deployed/data/runtime/latest_manifest.json, retention-days: 14}
