@@ -1,25 +1,39 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
+name: TeamWork employer-label development acceptance
+on: workflow_dispatch
 permissions:
   contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
 jobs:
-  regression:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env: {POSTGRES_USER: proof, POSTGRES_PASSWORD: isolated-fixture, POSTGRES_DB: proof}
+        ports: ['5432:5432']
+        options: --health-cmd "pg_isready -U proof -d proof" --health-interval 3s --health-retries 12
+    env: {PGPASSWORD: isolated-fixture}
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
+      - run: pip install -r requirements.txt -r sports_teams/requirements.txt
+      - name: Test normal source and publishing entrypoints
         run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+          PYTHONPATH=runtime/verification/isolation:. STAGING_TEST_NETWORK_OFF=1 python -m unittest discover -s tests -v
+          (cd sports_teams && PYTHONPATH=../runtime/verification/isolation:.. STAGING_TEST_NETWORK_OFF=1 python -m unittest discover -p 'test_*.py' -v)
+      - name: Rehearse exact historical data and replay in a dedicated database
+        run: |
+          psql -X -h 127.0.0.1 -U proof -d proof -v ON_ERROR_STOP=1 <<'SQL'
+          create role anon;
+          create role authenticated;
+          create role service_role;
+          create schema auth;
+          create table auth.users(id uuid primary key);
+          create function auth.uid() returns uuid language sql stable as 'select null::uuid';
+          SQL
+          psql -X -h 127.0.0.1 -U proof -d proof -v ON_ERROR_STOP=1 -f sports_teams/db/schema_cloud.sql
+          python runtime/verification/teamwork_labels/accept.py
+      - uses: actions/upload-artifact@v4
+        with: {name: verified-teamwork-label-repair, path: proof/labels.json, retention-days: 14}

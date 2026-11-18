@@ -98,16 +98,25 @@ def ingest(con, rows, record_runs=True):
         title = pt._clean_text(r.get('title'))[:500]
         loc = pt._clean_text(r.get('location'))[:300]
         desc = pt._clean_text(r.get('description'))[:50000]
+        platform = r.get('platform')
+        if platform == 'teamworkonline' and desc.casefold() in (
+            team_display.casefold(), pt._clean_text(r.get('team')).casefold()
+        ):
+            desc = ''
         posted = pt._iso(r.get('posted_at'))
         logo = pt.logo_for(r)
-        cur = con.execute('select id, first_seen_at from team_jobs where url=? order by id limit 1', (url,))
+        cur = con.execute('''select id, platform='teamworkonline' and length(trim(description))>0
+                       and lower(trim(description))=lower(trim(team)) as stored_team_label
+                       from team_jobs where url=? order by id limit 1''', (url,))
         hit = cur.fetchone()
         if hit:
-            full_description = r.get('platform') in ('greenhouse','adp') and len(desc)>=80
+            replace_description = (platform in ('greenhouse','adp') and len(desc)>=80) or (
+                platform == 'teamworkonline' and hit[1]
+            )
             con.execute('''update team_jobs set league=?, team=?, title=?, location=?, description=case when length(?)>length(coalesce(description,'')) or ? then ? else description end,
                            platform=?, posted_at=coalesce(?,posted_at), last_seen_at=?, is_active=1, closed_at=null,
                            logo_url=? where id=?''',
-                        (league, team_display, title, loc, desc, full_description, desc, r.get('platform'), posted, r.get('scraped_at') or now(), logo, hit[0]))
+                        (league, team_display, title, loc, desc, replace_description, desc, r.get('platform'), posted, r.get('scraped_at') or now(), logo, hit[0]))
             updated += 1
         else:
             con.execute('''insert into team_jobs (league, team, title, url, location, description,
