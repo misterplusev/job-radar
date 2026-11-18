@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 from bs4 import BeautifulSoup
 
 from live_refresh import BoundedSession
+from jobradar.workday_http import WorkdayChallenge, WorkdayDeferred
 from providers.teamwork import UA
 from publish_teams import _clean_text, _iso
 
@@ -79,7 +80,8 @@ def enrich(con, limit=250, seconds=900):
         or (coalesce(detail_status,'') not in ('success','forbidden','rate_limited') and detail_checked_at<=?)
         or (detail_status in ('forbidden','rate_limited') and detail_checked_at<=?)
         or (detail_status='success' and detail_checked_at<=?))
-        order by detail_checked_at is not null, detail_checked_at, first_seen_at desc limit ?''',
+        order by (length(trim(coalesce(description,''))) >= 80), detail_checked_at is not null,
+                 detail_checked_at, first_seen_at desc limit ?''',
         (*cutoffs, min(2000, max(0, limit) * 4)))
     started = time.monotonic()
     counts = {'success':0, 'error':0, 'pending':0, 'deferred_this_run':0, 'error_reasons':{}, 'error_samples':[]}
@@ -106,7 +108,13 @@ def enrich(con, limit=250, seconds=900):
             # Preserve known details and active state on a detail-page failure.
             code = getattr(getattr(exc, 'response', None), 'status_code', None)
             status = 'error'
-            if code == 403:
+            if isinstance(exc, WorkdayChallenge):
+                status = 'forbidden'
+                limited_hosts.add(parts.hostname)
+            elif isinstance(exc, WorkdayDeferred):
+                status = 'rate_limited'
+                limited_hosts.add(parts.hostname)
+            elif code == 403:
                 status = 'forbidden'
                 blocked_orgs.add(org)
             elif code == 429:
@@ -119,5 +127,10 @@ def enrich(con, limit=250, seconds=900):
             if len(counts['error_samples']) < 5:
                 counts['error_samples'].append({'url':row['url'],'error':f'{type(exc).__name__}: {exc}'[:350]})
         con.commit()
-    counts['pending'] = con.execute("select count(*) from team_jobs where is_active=1 and platform in ('teamworkonline','workday') and coalesce(detail_status,'')!='success'").fetchone()[0]
+    missing, held, due = con.execute("""select
+        count(*) filter (where length(trim(coalesce(description,''))) < 80),
+        count(*) filter (where length(trim(coalesce(description,''))) >= 80 and coalesce(detail_status,'') != 'success'),
+        count(*) filter (where coalesce(detail_status,'') != 'success')
+        from team_jobs where is_active=1 and platform in ('teamworkonline','workday')""").fetchone()
+    counts.update(pending=due, missing_descriptions=missing, retained_descriptions_pending_refresh=held)
     return counts
