@@ -180,10 +180,15 @@ export class JobsScheduler {
   async notify(text) {
     if (!this.env.ALERT_WEBHOOK) return false;
     try {
-      const response = await fetch(this.env.ALERT_WEBHOOK, { method: 'POST',
+      const url = new URL(this.env.ALERT_WEBHOOK);
+      url.searchParams.set('wait', 'true');
+      const response = await fetch(url, { method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: text.slice(0, 1900) }), signal: AbortSignal.timeout(6000) });
-      return response.ok;
+      if (!response.ok) return false;
+      const receipt = await response.json();
+      if (![receipt?.id, receipt?.channel_id].every(id => typeof id === 'string' && /^\d{17,20}$/.test(id))) return false;
+      return { message_id: receipt.id, channel_id: receipt.channel_id };
     } catch { return false; }
   }
 
@@ -193,8 +198,11 @@ export class JobsScheduler {
     const alert = state.alert || { bad_ticks: 0, notified_at: null };
     state.alert = alert;
     if (health.status === 'healthy' || health.status === 'paused') {
-      if (alert.notified_at && health.status === 'healthy')
-        await this.notify(`🟢 **ABET job scrapers recovered.** All four modules and the database are healthy again (problem began ${alert.since}).`);
+      if (alert.notified_at && health.status === 'healthy') {
+        const recovery = await this.notify(`🟢 **ABET job scrapers recovered.** All four modules and the database are healthy again (problem began ${alert.since}).`);
+        if (!recovery) return;
+        state.last_alert_delivery = { ...recovery, kind: 'recovery', at: new Date(now).toISOString() };
+      }
       state.alert = { bad_ticks: 0, notified_at: null };
       return;
     }
@@ -206,7 +214,10 @@ export class JobsScheduler {
     const lines = health.overdue.slice(0, 8).map(item => `• ${item}`);
     const sent = await this.notify([`🔴 **ABET job scrapers need attention** (since ${alert.since})`, ...lines,
       'Status: https://abet-jobs-scheduler.abetscrape.workers.dev/health'].join('\n'));
-    if (sent) alert.notified_at = new Date(now).toISOString();
+    if (sent) {
+      alert.notified_at = new Date(now).toISOString();
+      state.last_alert_delivery = { ...sent, kind: 'incident', at: alert.notified_at };
+    }
   }
 
   async tick(origin, now) {
