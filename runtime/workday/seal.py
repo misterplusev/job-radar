@@ -17,7 +17,11 @@ def seal(source, catalog):
         receipt=report["sources"][i]
         data=json.loads((source/f"{i:02d}-jobs.json").read_text(encoding="utf-8"))
         assert data["source"]==expected and receipt["id"]==expected["id"] and receipt["complete"]
-        assert receipt["advertised_total"]==receipt["collected"]==data["advertised_total"]==len(data["jobs"])
+        # Postings the employer published without a title or job path are skipped by the collector and counted.
+        skipped=receipt.get("skipped_malformed",0)
+        assert skipped==data.get("skipped_malformed",0) and 0<=skipped<=max(3,receipt["advertised_total"]//50)
+        assert receipt["advertised_total"]==data["advertised_total"]==receipt["collected"]+skipped
+        assert receipt["collected"]==len(data["jobs"])
         urls={j["externalPath"] for j in data["jobs"]}
         assert len(urls)==len(data["jobs"]) and all(p.startswith("/job/") for p in urls)
         key="/".join(expected[k] for k in ("host","tenant","site"))
