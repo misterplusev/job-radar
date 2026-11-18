@@ -1,25 +1,39 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
-permissions:
-  contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
+name: Reconcile expired or closed team queue entries once
+on: workflow_dispatch
+permissions: {contents: read, actions: read}
+concurrency: {group: sports-teams-jobs, cancel-in-progress: false}
 jobs:
-  regression:
-    runs-on: ubuntu-latest
+  reconcile:
+    runs-on: ubuntu-24.04
     timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
-        with: {persist-credentials: false}
+        with: {ref: e68de7c813665bb401fca713063b0d620705da33, persist-credentials: false}
+      - name: Verify isolated tests and the production code
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          set -eu
+          test "$(gh api repos/misterplusev/job-radar/actions/runs/44341224310 --jq .head_sha)" = "a70311b6960fd5a53d11deea6d72f3afcedfc1bd"
+          test "$(gh api repos/misterplusev/job-radar/actions/runs/44341224310 --jq .conclusion)" = success
+          test "$(git rev-parse HEAD)" = "e68de7c813665bb401fca713063b0d620705da33"
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
+      - run: pip install requests
+      - name: Preview, apply and replay with the normal queue reconciler
         env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+          python sports_teams/publish_teams.py --reconcile-queue --dry-run --queue-receipt proof/before.json
+          python sports_teams/publish_teams.py --reconcile-queue --queue-receipt proof/applied.json
+          python sports_teams/publish_teams.py --reconcile-queue --dry-run --queue-receipt proof/after.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          a,b,c=[json.loads(Path('proof/'+name+'.json').read_text()) for name in ('before','applied','after')]
+          assert not c['transitions'] and all(len(v)==b['transitions'][k] for k,v in b['changed_ids'].items())
+          print('Persisted state transitions',b['transitions'],'eligible left',c['eligible'])
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: team-queue-states, path: proof/, retention-days: 30}
