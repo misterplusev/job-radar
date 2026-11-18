@@ -30,7 +30,14 @@ concurrency:
   group: sports-teams-jobs
   cancel-in-progress: false
 jobs:
+  official_workday:
+    if: ${{ inputs.trigger_source == 'cloudflare' && vars.WORKDAY_CLOUD_BROWSER_ENABLED == '1' }}
+    permissions: {contents: write, actions: read}
+    uses: ./.github/workflows/workday-careers.yml
+    with: {mode: collect}
   scrape:
+    needs: official_workday
+    if: ${{ !cancelled() }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     environment:
@@ -55,6 +62,7 @@ jobs:
         run: python -m unittest discover -p 'test_*.py'
       - name: Scrape and persist all supported sources
         id: scrape
+        env: {WORKDAY_LISTINGS_ENABLED: '1'}
         run: python -u pipeline_local.py --cloud --trigger '${{ inputs.trigger_source || github.event_name }}' --detail-limit '${{ github.event.inputs.detail_limit || 250 }}' ${{ github.event.inputs.recover_pending == 'true' && '--recover-pending' || '' }}
       - name: Notification guard and delivery
         id: delivery
