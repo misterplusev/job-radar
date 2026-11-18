@@ -25,6 +25,8 @@ class CloudStorage:
         ignore_duplicates=kwargs.pop('ignore_duplicates',False)
         headers = {'apikey':self.key,'Authorization':'Bearer '+self.key,
                    'Prefer':('resolution=ignore-duplicates' if ignore_duplicates else 'resolution=merge-duplicates')+',return=minimal'}
+        if kwargs.pop('returning', False):
+            headers['Prefer'] = 'return=representation'
         for attempt in range(3):
             try:
                 r = requests.request(method,self.url+'/rest/v1/'+table,headers=headers,timeout=45,**kwargs)
@@ -37,10 +39,10 @@ class CloudStorage:
                 raise RuntimeError(f'Supabase {method} {table.split("?")[0]} HTTP {r.status_code}')
             return r
 
-    def rows(self, table):
+    def rows(self, table, *, select='*', filters=None):
         result=[]
         for offset in range(0,100000,1000):
-            r=self.request('GET',table,params={'select':'*','order':'id.asc','limit':1000,'offset':offset})
+            r=self.request('GET',table,params={**(filters or {}),'select':select,'order':'id.asc','limit':1000,'offset':offset})
             page=r.json()
             if not isinstance(page,list): raise ValueError('Invalid database result')
             result.extend(page)

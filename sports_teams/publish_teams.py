@@ -311,7 +311,25 @@ def main():
     ap.add_argument('--preview', action='store_true', help='post the newest N regardless of state')
     ap.add_argument('--limit', type=int, default=0,help='Job limit; 0 processes every eligible job within the delivery time budget')
     ap.add_argument('--show-payload', action='store_true')
+    ap.add_argument('--reconcile-queue', action='store_true', help='Classify the cloud queue without sending a Discord message')
+    ap.add_argument('--queue-receipt', type=Path, help='Write the reconciliation result to this cloud-run artifact')
     args = ap.parse_args()
+    if args.reconcile_queue and (args.post or args.preview):
+        ap.error('--reconcile-queue is a separate maintenance operation')
+    if args.queue_receipt and not args.reconcile_queue:
+        ap.error('--queue-receipt requires --reconcile-queue')
+    if args.reconcile_queue or (args.post and not args.preview and not args.dry_run and os.environ.get('SUPABASE_SERVICE_ROLE_KEY')):
+        from cloud_storage import CloudStorage
+        from notification_queue import reconcile
+        if not args.dry_run:
+            guard()
+        report = reconcile(CloudStorage(), POSTED_DAYS_MAX, apply=not args.dry_run)
+        print('Team queue:', json.dumps({k:v for k,v in report.items() if k != 'changed_ids'}))
+        if args.queue_receipt:
+            args.queue_receipt.parent.mkdir(parents=True, exist_ok=True)
+            args.queue_receipt.write_text(json.dumps(report, indent=2), encoding='utf-8')
+        if args.reconcile_queue:
+            return 0
 
     rows = load_rows()
     state = load_state()
