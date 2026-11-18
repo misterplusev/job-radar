@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 
 from ..models import Job, clean_ws, now_iso
 from .base import Provider, http_get
+from ..observations import PartialBoard
 from .names import board_company
 
 API = "https://api.ashbyhq.com/posting-api/job-board/{slug}?includeCompensation=true"
@@ -36,20 +37,29 @@ class AshbyProvider(Provider):
             raise ValueError("ashby returned an invalid posting list")
         company = board_company(self.slug, data.get("name"))
         jobs: List[Job] = []
-        for p in data.get("jobs", []):
+        untitled, rejected, seen = [], 0, set()
+        for p in data["jobs"]:
+            if not isinstance(p, dict):
+                rejected += 1
+                continue
             title = clean_ws(p.get("title"))
             url = p.get("jobUrl") or p.get("applyUrl") or ""
-            if not title or not url:
-                raise ValueError("Posting missing title or URL; observation is incomplete")
+            if not url or url in seen:
+                rejected += 1
+                continue
+            seen.add(url)
             loc = clean_ws(p.get("location") or p.get("locationName"))
             if self.content:
                 desc = _strip(p.get("descriptionHtml") or "") or clean_ws(p.get("descriptionPlain"))
                 raw = p.get("descriptionHtml") or ""
             else:
                 desc, raw = "", ""
-            jobs.append(Job(company=company, title=title, url=url, location=loc or None,
+            group = jobs if title else untitled
+            group.append(Job(company=company, title=title, url=url, location=loc or None,
                             description=desc, description_raw=raw,
                             description_clean=desc, source=self.source, provider_slug=self.slug,
                             run_id=run_id, remote=bool(p.get("isRemote")) or ("remote" in (loc or "").lower()) or None,
                             scraped_at=now_iso()))
+        if untitled or rejected:
+            raise PartialBoard(jobs, untitled, rejected)
         return jobs
