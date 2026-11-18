@@ -1,0 +1,19 @@
+name: Validate isolated scheduler version pins
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Exercise isolated scheduler control plane
+        run: node --test runtime/staging/test_staging.mjs
+      - name: Verify exact release references
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import {SHAS} from './runtime/staging/worker.mjs';
+          assert.deepEqual(SHAS, {robotics:'e68de7c813665bb401fca713063b0d620705da33',sports_teams:'e68de7c813665bb401fca713063b0d620705da33',tech:'3d5c1e89ecded51fff43dcaca253d65e08b47f98',sportsbook:'8cda24247aa008aca6e5371415fac682d0a01f80'});
+          NODE
