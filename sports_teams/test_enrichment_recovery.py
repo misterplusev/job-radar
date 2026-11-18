@@ -29,3 +29,11 @@ class EnrichmentRecovery(unittest.TestCase):
             client.get.return_value.json.return_value={"jobPostingInfo":{"jobDescription":"<p>Careers</p>"}}
             enrichment.fetch_detail({"url":"https://wd1.myworkdaysite.com/en-US/recruiting/hawks/External/job/Atlanta/Example_R1"})
             self.assertEqual(client.get.call_args.args[0],"https://wd1.myworkdaysite.com/wday/cxs/hawks/External/job/Atlanta/Example_R1")
+
+    def test_cubs_reads_published_jobposting_in_the_official_page(self):
+        with patch.object(enrichment,"BoundedSession") as factory:
+            client=factory.return_value.__enter__.return_value
+            client.get.return_value.text='<script type="application/ld+json">{"@type":"JobPosting","description":"Verified Cubs description","datePosted":"2026-11-06"}</script>'
+            row=enrichment.fetch_detail({"url":"https://my1060wd.wd5.myworkdayjobs.com/Chicago_Cubs_FO/job/Chicago/Example_R2"})
+            self.assertEqual(row["description"],"Verified Cubs description")
+            self.assertIn("/en-US/Chicago_Cubs_FO/job/",client.get.call_args.args[0])

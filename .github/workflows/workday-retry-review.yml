@@ -1,25 +1,18 @@
-name: workday-repair-validation
-on:
-  workflow_dispatch:
-permissions:
-  contents: read
-concurrency:
-  group: workday-cloud-development
-  cancel-in-progress: false
+name: Verify employer-published Cubs front-office job details
+on: workflow_dispatch
+permissions: {contents: read}
 jobs:
-  regression:
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
         with: {persist-credentials: false}
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - run: pip install -r requirements.txt
-      - name: Retry, challenge, completeness and persistence regression suites
-        env:
-          PYTHONPATH: runtime/verification/isolation:sports_teams:.
-          STAGING_TEST_NETWORK_OFF: '1'
-        run: |
-          python -m unittest discover -s tests -v
-          python -m unittest discover -s sports_teams -p 'test_*.py' -v
+      - run: pip install -r requirements.txt -r sports_teams/requirements.txt
+      - run: cd sports_teams && PYTHONPATH=.. python -m unittest discover -p 'test_*.py' -v
+      - name: Verify every current Cubs front-office vacancy through the changed detail adapter
+        env: {WORKDAY_LISTINGS_ENABLED: '1', PYTHONPATH: '.'}
+        run: python runtime/verification/cubs_live.py
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
+        with: {name: cubs-official-details, path: cubs-details.json, retention-days: 7}

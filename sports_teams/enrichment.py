@@ -38,10 +38,12 @@ def fetch_detail(row):
         p = urlsplit(url)
         if p.netloc == 'www.teamworkonline.com':
             client.headers.update(UA)
-        if p.hostname and p.hostname.endswith(('.myworkdayjobs.com', '.myworkdaysite.com')):
-            parts = [s for s in p.path.split('/') if s]
-            if parts and re.fullmatch(r'[a-z]{2}-[A-Z]{2}', parts[0]):
-                parts = parts[1:]
+        parts = [v for v in p.path.split('/') if v]
+        if parts and re.fullmatch(r'[a-z]{2}-[A-Z]{2}', parts[0]):
+            parts = parts[1:]
+        if p.hostname == 'my1060wd.wd5.myworkdayjobs.com' and parts[:2] == ['Chicago_Cubs_FO', 'job']:
+            url = 'https://' + p.hostname + '/en-US/' + '/'.join(parts)
+        elif p.hostname and p.hostname.endswith(('.myworkdayjobs.com', '.myworkdaysite.com')):
             if parts and parts[-1] == 'apply':
                 parts = parts[:-1]
             if p.hostname.endswith('.myworkdaysite.com') and parts[:1] == ['recruiting']:
