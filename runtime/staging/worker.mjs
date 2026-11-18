@@ -1,10 +1,10 @@
 import { CATALOG } from './catalog.mjs';
 export const MODULES = {robotics:5,tech:20,sports_teams:35,sportsbook:50};
 export const SHAS = {
-  robotics: 'cf2dddff61f95df18f27e926c8bf24255ff68fb4',
-  sports_teams: 'cf2dddff61f95df18f27e926c8bf24255ff68fb4',
+  robotics: 'e68de7c813665bb401fca713063b0d620705da33',
+  sports_teams: 'e68de7c813665bb401fca713063b0d620705da33',
   tech: '3d5c1e89ecded51fff43dcaca253d65e08b47f98',
-  sportsbook: '06d3bb80fc2ea2254f8e90ac3ce35cc23d232fc4',
+  sportsbook: '8cda24247aa008aca6e5371415fac682d0a01f80',
 };
 export const PERIOD_HOURS={robotics:1,tech:1,sports_teams:1,sportsbook:4};
 const TARGETS={robotics:['misterplusev/job-radar','master'],sports_teams:['misterplusev/job-radar','master'],tech:['misterplusev/job-radar-tech','master'],sportsbook:['misterplusev/sportsbook-jobs-dashboard','prod/sportsbook-jobs']};
