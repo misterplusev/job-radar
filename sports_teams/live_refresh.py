@@ -208,6 +208,7 @@ def retired_replacements(pt):
 def fetch_source(source):
     start = time.monotonic()
     try:
+        observed_at = None
         with BoundedSession(source["key"]) as client:
             kind = source['kind']
             if kind in official_ats.SCRAPERS:
@@ -238,37 +239,45 @@ def fetch_source(source):
                 jobs = [dict(title=j.get('title'), url=j.get('absolute_url'), location=(j.get('location') or {}).get('name'),
                              description=j.get('content'), posted_at=j.get('first_published')) for j in data['jobs']]
             elif kind == 'workday':
-                jobs, seen = [], set()
-                total=None
-                for offset in range(0, 1000, 20):
-                    response = client.post(f'https://{source["host"]}/wday/cxs/{source["tenant"]}/{source["site"]}/jobs',
-                                           json={'appliedFacets': {}, 'limit': 20, 'offset': offset, 'searchText': ''})
-                    response.raise_for_status()
-                    data = response.json()
-                    if not isinstance(data.get('jobPostings'), list) or 'total' not in data:
-                        raise ValueError('missing Workday jobPostings array or total')
-                    count=int(data['total'])
-                    # CXS returns the total on page one; some tenants return 0
-                    # on later pages even when that page contains jobs (Mets).
-                    if total is not None and count not in (0,total):raise ValueError('Workday total changed during pagination')
-                    if total is None:total=count
-                    batch = data['jobPostings']
-                    for j in batch:
-                        path = j.get('externalPath')
-                        if not path or path in seen:
-                            raise ValueError('missing or repeated Workday job path')
-                        seen.add(path)
-                        public_base=source.get('public_base') or f'https://{source["host"]}/{source["site"]}'
-                        jobs.append(dict(title=j.get('title'), url=public_base+path, location=j.get('locationsText')))
-                    if len(jobs) == total:
-                        break
-                    if not batch or len(jobs)>total:
-                        raise ValueError('incomplete Workday pagination')
+                from jobradar.workday_snapshot import board as snapshot_board
+                snapshot = snapshot_board(source['host'], source['tenant'], source['site'])
+                if snapshot is not None:
+                    observed_at, postings = snapshot
+                    public_base = source.get('public_base') or f'https://{source["host"]}/{source["site"]}'
+                    jobs = [dict(title=p['title'], url=public_base + p['externalPath'],
+                                 location=p.get('locationsText')) for p in postings]
                 else:
-                    raise ValueError('Workday pagination cap reached')
+                    jobs, seen = [], set()
+                    total=None
+                    for offset in range(0, 1000, 20):
+                        response = client.post(f'https://{source["host"]}/wday/cxs/{source["tenant"]}/{source["site"]}/jobs',
+                                               json={'appliedFacets': {}, 'limit': 20, 'offset': offset, 'searchText': ''})
+                        response.raise_for_status()
+                        data = response.json()
+                        if not isinstance(data.get('jobPostings'), list) or 'total' not in data:
+                            raise ValueError('missing Workday jobPostings array or total')
+                        count=int(data['total'])
+                        # CXS returns the total on page one; some tenants return 0
+                        # on later pages even when that page contains jobs (Mets).
+                        if total is not None and count not in (0,total):raise ValueError('Workday total changed during pagination')
+                        if total is None:total=count
+                        batch = data['jobPostings']
+                        for j in batch:
+                            path = j.get('externalPath')
+                            if not path or path in seen:
+                                raise ValueError('missing or repeated Workday job path')
+                            seen.add(path)
+                            public_base=source.get('public_base') or f'https://{source["host"]}/{source["site"]}'
+                            jobs.append(dict(title=j.get('title'), url=public_base+path, location=j.get('locationsText')))
+                        if len(jobs) == total:
+                            break
+                        if not batch or len(jobs)>total:
+                            raise ValueError('incomplete Workday pagination')
+                    else:
+                        raise ValueError('Workday pagination cap reached')
             else:
                 raise ValueError('unsupported provider')
-        observed_at = datetime.now(timezone.utc).isoformat()
+        observed_at = observed_at or datetime.now(timezone.utc).isoformat()
         rows = []
         for job in jobs:
             row = dict(job) if isinstance(job, dict) else asdict(job)
@@ -327,6 +336,12 @@ def apply_results(con, results, pipeline, retired_sources=None):
     for result in results:
         source, status = result['source'], result['status']
         if status == 'success':
+            if source.get('kind') == 'workday':
+                latest = con.execute('select max(observed_at) from team_job_observations where source_id=?',
+                                     (source['key'],)).fetchone()[0]
+                if latest and datetime.fromisoformat(latest) >= datetime.fromisoformat(result['observed_at']):
+                    # A replay or an older observation cannot close or reopen a newer job.
+                    continue
             n, u = pipeline.ingest(con, result['rows'], record_runs=False)
             new += n; updated += u
             urls = {r['url'] for r in result['rows']}
