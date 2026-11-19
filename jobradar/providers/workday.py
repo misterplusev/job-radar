@@ -8,10 +8,12 @@ Discovered tenant/site combos (verified 2026-10-09):
 The per-job detail endpoint is disabled (HTTP 400) on these instances, so
 list-only fields are used: title, location, url (no descriptions).
 """
+import re
 import requests
 import sys
 import time
-from typing import List
+from datetime import datetime, timedelta, timezone
+from typing import List, Optional
 
 from .base import Provider
 from ..models import Job, clean_ws
@@ -34,6 +36,32 @@ _BOARD_NAMES = {
     "autostore": "AutoStore",
     "rockwellautomation": "Rockwell Automation",
 }
+
+def posted_from_relative(text, observed_at) -> Optional[str]:
+    """Workday shows only "Posted Today", "Posted Yesterday" or "Posted N Days Ago". Turn that into a date,
+    counted back from the time the listing was read. "Posted 30+ Days Ago" has no exact date and returns
+    None. Without a posted date a new job is never sent to Discord. The publisher keeps the first date it
+    stored for a Workday job, so reading the same listing on another day cannot move the date."""
+    words = " ".join(str(text or "").lower().split())
+    if not words or "+" in words:
+        return None
+    if "today" in words:
+        days = 0
+    elif "yesterday" in words:
+        days = 1
+    else:
+        match = re.search(r"(\d+)\s+days?\s+ago", words)
+        if not match:
+            return None
+        days = int(match.group(1))
+    try:
+        seen = datetime.fromisoformat(str(observed_at).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        seen = datetime.now(timezone.utc)
+    if seen.tzinfo is None:
+        seen = seen.replace(tzinfo=timezone.utc)
+    return (seen.astimezone(timezone.utc) - timedelta(days=days)).date().isoformat()
+
 
 def _new_client(source):
     return WorkdayHTTP(lambda method, url, **kw: requests.post(url, **kw), source=source)
@@ -63,7 +91,8 @@ class WorkdayProvider(Provider):
             return [Job(company=company, title=clean_ws(row["title"]),
                         url=f"https://{host}/{site}" + row["externalPath"],
                         location=clean_ws(row.get("locationsText")) or None, source=self.source,
-                        provider_slug=self.slug, run_id=run_id, scraped_at=observed_at) for row in rows]
+                        provider_slug=self.slug, run_id=run_id, scraped_at=observed_at,
+                        posted_at=posted_from_relative(row.get("postedOn"), observed_at)) for row in rows]
         jobs: List[Job] = []
         seen = set()
         offset = 0
@@ -105,6 +134,7 @@ class WorkdayProvider(Provider):
                     provider_slug=self.slug,
                     run_id=run_id,
                     is_active=True,
+                    posted_at=posted_from_relative(jp.get("postedOn"), datetime.now(timezone.utc).isoformat()),
                 ))
             offset += len(data["jobPostings"])
             if offset >= expected_total:

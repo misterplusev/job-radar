@@ -4,7 +4,8 @@ Endpoint: https://api.lever.co/v0/postings/{slug}?mode=json
 """
 from __future__ import annotations
 
-from typing import List
+from datetime import datetime, timezone
+from typing import List, Optional
 
 from ..models import Job, clean_ws, now_iso
 from .base import Provider, http_get
@@ -41,5 +42,15 @@ class LeverProvider(Provider):
                             description=desc, description_raw=raw,
                             description_clean=desc, source=self.source, provider_slug=self.slug,
                             run_id=run_id, remote=("remote" in (loc or "").lower()) or None,
+                            posted_at=posted_from_ms(p.get("createdAt")),
                             scraped_at=now_iso()))
         return jobs
+
+
+def posted_from_ms(value) -> Optional[str]:
+    """Lever gives the posting's creation time in milliseconds. Without a posted date a new job is
+    never sent to Discord (the publisher only announces jobs posted in the last 14 days)."""
+    try:
+        return datetime.fromtimestamp(int(value) / 1000, tz=timezone.utc).isoformat(timespec="seconds")
+    except (TypeError, ValueError, OverflowError, OSError):
+        return None

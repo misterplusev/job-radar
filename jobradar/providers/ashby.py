@@ -59,6 +59,8 @@ class AshbyProvider(Provider):
                             description=desc, description_raw=raw,
                             description_clean=desc, source=self.source, provider_slug=self.slug,
                             run_id=run_id, remote=bool(p.get("isRemote")) or ("remote" in (loc or "").lower()) or None,
+                            # Ashby's own published time. Without it a new job is never sent to Discord.
+                            posted_at=p.get("publishedAt") or None,
                             scraped_at=now_iso()))
         if untitled or rejected:
             raise PartialBoard(jobs, untitled, rejected)
