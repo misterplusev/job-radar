@@ -10,7 +10,7 @@ from urllib.parse import urlsplit
 class IncompleteListing(RuntimeError):pass
 
 class Listing:
-    def __init__(self):self.total=None;self.rows=[];self.paths=set();self.pages=0;self.skipped=0
+    def __init__(self):self.total=None;self.rows=[];self.paths=set();self.pages=0;self.skipped=0;self.skipped_rows=[]
     @property
     def complete(self):return self.total is not None and len(self.rows)+self.skipped==self.total
     def accept(self,data,offset):
@@ -22,18 +22,24 @@ class Listing:
         if self.total is None:self.total=total
         elif total not in (0,self.total):raise IncompleteListing('Advertised total changed')
         if not rows and len(self.rows)+self.skipped<self.total:raise IncompleteListing('Empty page before advertised total')
-        fresh=[];kept=[];bad=0
+        fresh=[];kept=[];bad=0;lost=[]
         for row in rows:
             if not isinstance(row,dict):raise IncompleteListing('Invalid posting')
             path=row.get('externalPath');title=row.get('title')
             # A posting the employer published without a title or job path is skipped and counted. It used to fail
             # its board, and one failed board fails the whole 19-board collection (run 44407253462: one Hard Rock row).
-            if not isinstance(path,str) or not path.startswith('/job/') or not title:bad+=1;continue
+            # What still identifies it (job path, requisition fields) is kept so seal.py can carry the posting over
+            # from the previous listing; otherwise the next run of every scraper would close a job that is still listed.
+            if not isinstance(path,str) or not path.startswith('/job/') or not title:
+                bad+=1;fields=row.get('bulletFields')
+                lost.append({'externalPath':path if isinstance(path,str) and path.startswith('/job/') else None,
+                             'bulletFields':fields if isinstance(fields,list) and all(isinstance(f,str) for f in fields) else None})
+                continue
             if path in self.paths or path in fresh:raise IncompleteListing('Repeated posting across pages')
             fresh.append(path);kept.append(row)
         if len(self.rows)+self.skipped+len(rows)>self.total:raise IncompleteListing('Rows exceed advertised total')
         if self.skipped+bad>max(3,self.total//50):raise IncompleteListing('Too many postings without a title or job path')
-        self.paths.update(fresh);self.rows.extend(kept);self.skipped+=bad;self.pages+=1
+        self.paths.update(fresh);self.rows.extend(kept);self.skipped+=bad;self.skipped_rows.extend(lost);self.pages+=1
         if self.pages>250:raise IncompleteListing('Page cap exceeded')
 
 def challenged(text):
@@ -108,7 +114,7 @@ def main():
                         if not button.is_enabled():raise IncompleteListing('Next button disabled before full total')
                         button.click(timeout=10000)
                     item.update(complete=True,advertised_total=listing.total,collected=len(listing.rows),skipped_malformed=listing.skipped,pages=listing.pages)
-                    (out/f'{index:02d}-jobs.json').write_text(json.dumps({'source':source,'advertised_total':listing.total,'skipped_malformed':listing.skipped,'jobs':listing.rows},indent=2),encoding='utf-8')
+                    (out/f'{index:02d}-jobs.json').write_text(json.dumps({'source':source,'advertised_total':listing.total,'skipped_malformed':listing.skipped,'skipped':listing.skipped_rows,'jobs':listing.rows},indent=2),encoding='utf-8')
                 except Exception as exc:item['error']=type(exc).__name__+': '+str(exc)[:400]
                 finally:
                     page.remove_listener('response',capture)

@@ -46,7 +46,9 @@ jobs:
       - uses: actions/download-artifact@v4
         if: ${{ inputs.mode != 'import' }}
         with: {name: workday-full-listing-proof, path: captured}
-      - run: python runtime/workday/seal.py captured runtime/workday/catalog.json proof/listings.json.gz
+      - name: Check the collection and carry over any posting the collector had to skip
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: python runtime/workday/seal.py captured runtime/workday/catalog.json proof/listings.json.gz
       - run: pip install requests
       - name: Publish the checked public asset and verify its identical download
         env: {GH_TOKEN: '${{ github.token }}'}
