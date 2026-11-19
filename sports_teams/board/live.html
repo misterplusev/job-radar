@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ABET | Sports Teams Jobs</title><link rel="stylesheet" href="standalone.css?v=20261110-2"><style>.abet-chip-perspective{perspective:620px;width:76px;height:76px}
+<title>ABET | Sports Teams Jobs</title><link rel="stylesheet" href="standalone.css?v=20261119-1"><style>.abet-chip-perspective{perspective:620px;width:76px;height:76px}
 .abet-chip-spinner{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:abet-chip-flip 2.4s cubic-bezier(.45,.05,.35,1) infinite}
 .abet-chip-face{position:absolute;inset:0;border-radius:50%;display:grid;place-items:center;backface-visibility:hidden;border:3px solid #FDB515;outline:1px solid rgba(253,181,21,0.45);outline-offset:-5px;background:radial-gradient(circle at 30% 24%,rgba(255,255,255,0.16),transparent 34%),radial-gradient(circle at 68% 78%,rgba(253,181,21,0.10),transparent 40%),radial-gradient(circle at 34% 30%,#29405a 0%,#16222f 45%,#0d131c 68%,#070B0F 100%);box-shadow:0 0 28px rgba(253,181,21,0.34),0 0 64px rgba(253,181,21,0.12),inset 0 0 18px rgba(253,181,21,0.14),inset 0 2px 6px rgba(0,0,0,0.65)}
 .abet-chip-seg{position:absolute;left:50%;top:2px;width:8px;height:10px;margin-left:-4px;border-radius:3px;background:linear-gradient(180deg,rgba(255,214,102,1) 0%,rgba(253,181,21,0.92) 45%,rgba(180,120,8,0.9) 100%);box-shadow:inset 0 1px 1px rgba(255,255,255,0.45),inset 0 -1px 2px rgba(80,50,0,0.6);transform-origin:50% 36.0px}
@@ -31,7 +31,7 @@
 <footer class="board-footer">Application marks are private to this browser. A mark does not submit an application. Missing posting dates sort last. U.S. only uses the stated job location; include international and unspecified locations to see ambiguous remote listings.</footer>
 <script type="module">
 import { jobCardMarkup, wireJobDetails, wireCompanyScroll, escapeHTML } from './standalone-ui.mjs';
-import { filterJobs, postedLabel, initialVisibleCount, nextVisibleCount, fetchAllJobRows, safeJobUrl } from './job-board-core.mjs';
+import { filterJobs, postedLabel, initialVisibleCount, nextVisibleCount, fetchAllJobRows, safeJobUrl, jobTeams } from './job-board-core.mjs';
 const SB_URL="https://alxgteasytezekyunyjk.supabase.co", SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFseGd0ZWFzeXRlemVreXVueWprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDg0NzgsImV4cCI6MjA5MDUyNDQ3OH0.jpeiWLBepn1O1BeDFJMaM28iWxwRgMA0zIckit6g4Cc", POLL="hourly";
 const el=id=>document.getElementById(id);let jobs=[],shown=100,matching=0,observer;
 const marks=()=>{try{return new Set(JSON.parse(localStorage.getItem('abet.team.applications')||'[]'))}catch{return new Set()}};
@@ -40,7 +40,7 @@ function fill(id,values){[...new Set(values.filter(Boolean))].sort().forEach(v=>
 function render(reset=true){
  if(reset!==false)shown=initialVisibleCount(el('limit').value);
  const marked=marks();let out=filterJobs(jobs,{status:el('status').value,sort:el('sort').value,includeInternational:el('international').checked,search:el('q').value,league:el('league').value,source:el('source').value,remoteOnly:el('remote').checked});
- out=out.filter(j=>(!el('team').value||j.team===el('team').value)&&(!el('unapplied').checked||!marked.has(j.url)));
+ out=out.filter(j=>(!el('team').value||jobTeams(j).some(t=>t.team===el('team').value))&&(!el('unapplied').checked||!marked.has(j.url)));
  matching=out.length;el('count').textContent=`Showing ${Math.min(shown,matching).toLocaleString()} of ${matching.toLocaleString()} matches · ${el('international').checked?'All locations':'U.S. locations only'}`;el('jobs').replaceChildren();
  el('jobs').innerHTML=out.slice(0,shown).map(j=>jobCardMarkup(j,{logoUrl:j.logo_url,applied:marked.has(j.url)})).join('');
  if(!out.length)el('jobs').innerHTML='<p class="muted">No jobs match these filters.</p>';
@@ -54,14 +54,14 @@ el('jobs').addEventListener('click',event=>{const button=event.target.closest('.
 el('pills').addEventListener('click',event=>{const button=event.target.closest('[data-team]');if(!button)return;el('team').value=button.dataset.team;render()});
 function fillOverview(){
  const active=jobs.filter(j=>j.is_active).length, counts=new Map();
- for(const j of jobs){if(j.team&&!counts.has(j.team))counts.set(j.team,{active:0,logo:j.logo_url});if(j.team&&j.is_active)counts.get(j.team).active++}
+ for(const j of jobs)for(const t of jobTeams(j)){if(!counts.has(t.team))counts.set(t.team,{active:0,logo:t.logo});if(j.is_active)counts.get(t.team).active++}
  el('overview-counts').textContent=active.toLocaleString()+' active';el('overview-stats').textContent=jobs.length.toLocaleString()+' total · '+active.toLocaleString()+' active · '+(jobs.length-active).toLocaleString()+' closed';
  el('pills').innerHTML='<button type="button" class="company-pill" data-team="" aria-pressed="true">All teams</button>'+[...counts].sort((a,b)=>a[0].localeCompare(b[0])).map(([team,c])=>`<button type="button" class="company-pill" data-team="${escapeHTML(team)}" aria-pressed="false">${safeJobUrl(c.logo)?`<img src="${escapeHTML(c.logo)}" alt="" loading="lazy" onerror="this.hidden=true">`:''}<span>${escapeHTML(team)}</span><span class="cnt">${c.active}</span></button>`).join('');
 }
 ['q','league','team','source','status','sort','limit','international','remote','unapplied'].forEach(id=>el(id).addEventListener(id==='q'?'input':'change',()=>render()));
 el('more').addEventListener('click',()=>{shown=nextVisibleCount(shown,el('limit').value,matching);render(false)});
 async function load(){
- try{jobs=await fetchAllJobRows({url:SB_URL,key:SB_ANON,table:'team_jobs',columns:'id,company,team,league,title,url,location,ats,posted_at,first_seen_at,is_active,salary,logo_url',onProgress:n=>el('fresh').textContent='Loading… '+n.toLocaleString()+' jobs'});fill('league',jobs.map(j=>j.league));fill('team',jobs.map(j=>j.team));fill('source',jobs.map(j=>j.ats));el('fresh').textContent='Loaded '+new Date().toLocaleString();fillOverview();render()}catch(e){el('fresh').textContent=e.message}finally{el('loading').hidden=true}
+ try{jobs=await fetchAllJobRows({url:SB_URL,key:SB_ANON,table:'team_jobs',columns:'id,company,team,teams,league,title,url,location,ats,posted_at,first_seen_at,is_active,salary,logo_url',onProgress:n=>el('fresh').textContent='Loading… '+n.toLocaleString()+' jobs'});fill('league',jobs.flatMap(j=>jobTeams(j).map(t=>t.league)));fill('team',jobs.flatMap(j=>jobTeams(j).map(t=>t.team)));fill('source',jobs.map(j=>j.ats));el('fresh').textContent='Loaded '+new Date().toLocaleString();fillOverview();render()}catch(e){el('fresh').textContent=e.message}finally{el('loading').hidden=true}
  try{const r=await fetch('api/health',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)return;const h=await r.json(),m=h.latest_manifest||{},t=m.totals||{};el('health').textContent=`Scraper: ${h.status}. ${t.successful||0}/${t.providers||0} sources successful. Last run: ${h.last_run_end||'unknown'}.${h.notifications_paused?' Notifications paused.':''}`}catch{}
 }
 load();

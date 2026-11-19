@@ -1,12 +1,18 @@
-import { postedLabel, safeJobUrl } from './job-board-core.mjs'
-export const STANDALONE_UI_VERSION = '2026-11-10.2'
+import { jobTeams, postedLabel, safeJobUrl } from './job-board-core.mjs'
+export const STANDALONE_UI_VERSION = '2026-11-19.1'
 export const escapeHTML = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 export function jobCardMarkup(job, { logoUrl = '', applied = false } = {}) {
-  const e = escapeHTML, name = job.company || job.team || 'Employer', url = safeJobUrl(job.url)
-  const logo = safeJobUrl(logoUrl), initials = name.split(/\s+/).map(s=>s[0]).join('').slice(0,2).toUpperCase()
+  // A sports-team job is headed by its team (both teams when the owner has two), with the owner's name beneath when
+  // the careers site names the owner ("Montreal Canadiens" over "Groupe CH"). Other tables have no team: the company heads the card.
+  const e = escapeHTML, teams = jobTeams(job), plain = (v) => String(v || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+  const name = teams.map(t => t.team).join(' / ') || job.company || 'Employer', url = safeJobUrl(job.url)
+  const owner = teams.length && job.company && !teams.some(t => plain(t.team) === plain(job.company)) ? job.company : ''
+  const initialsOf = (text) => String(text || '').split(/\s+/).map(s=>s[0]).join('').slice(0,2).toUpperCase()
+  const marks = teams.length > 1 ? teams.map(t => ({ label: t.team, logo: safeJobUrl(t.logo) })) : [{ label: name, logo: safeJobUrl(logoUrl) }]
+  const logos = marks.map(m => `<span class="job-logo"><span>${e(initialsOf(m.label))}</span>${m.logo ? `<img loading="lazy" src="${e(m.logo)}" alt="${e(m.label)} logo" onerror="this.hidden=true">` : ''}</span>`).join('')
   return `<article class="job-card">
-    <div class="job-card-heading"><span class="job-logo"><span>${e(initials)}</span>${logo ? `<img loading="lazy" src="${e(logo)}" alt="${e(name)} logo" onerror="this.hidden=true">` : ''}</span>
-      <div class="job-identity"><span class="job-company">${e(name)}</span><h2 class="job-title">${url ? `<a href="${e(url)}" target="_blank" rel="noopener noreferrer">${e(job.title)}</a>` : e(job.title)}</h2></div>
+    <div class="job-card-heading">${marks.length > 1 ? `<span class="job-logos">${logos}</span>` : logos}
+      <div class="job-identity"><span class="job-company">${e(name)}</span>${owner ? `<span class="job-owner">${e(owner)}</span>` : ''}<h2 class="job-title">${url ? `<a href="${e(url)}" target="_blank" rel="noopener noreferrer">${e(job.title)}</a>` : e(job.title)}</h2></div>
       <div class="job-actions">${url ? `<a href="${e(url)}" target="_blank" rel="noopener noreferrer">Open listing ↗</a>` : ''}<button type="button" class="apply-btn" aria-pressed="${applied}" data-c="${e(job.company)}" data-u="${e(job.url)}" data-t="${e(job.title)}">${applied ? 'Applied ✓' : 'Mark applied'}</button></div>
     </div>
     <p class="job-location">${e(job.location || 'Location not listed')}</p>

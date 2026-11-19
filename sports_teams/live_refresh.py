@@ -200,6 +200,16 @@ def build_sources(pt):
     sources={s['key']:s for s in registry if s['key'] in allowed}
     missing=allowed-sources.keys()
     if missing:raise ValueError('Official team source configuration missing: '+', '.join(sorted(missing)))
+    # The teams the registry lists each careers site for, in registry order. Most sites belong to one team;
+    # four belong to an owner of two (Maple Leafs and Raptors, Nuggets and Avalanche, Wizards and Capitals,
+    # Saints and Pelicans). pipeline_local.ingest uses this when the site names the owner instead of a team.
+    owners={}
+    for team in teams:
+        for key in team['source_keys']:
+            if team.get('team'):
+                owners.setdefault(key,[]).append({'league':team.get('league') or '','team':team['team']})
+    for key,source in sources.items():
+        source['registered_teams']=owners.get(key,[])
     return sources
 
 
@@ -294,7 +304,8 @@ def fetch_source(source):
                 for key,meta in labels.LOGO_MAP.items():
                     if labels._norm(team) in (labels._norm(key.partition(':')[2]),labels._norm(meta.get('espn_name'))):
                         league=key.partition(':')[0];break
-            row.update(league=league, team=team, platform=row.get('platform') or source['kind'], source_id=source['key'], scraped_at=observed_at)
+            row.update(league=league, team=team, platform=row.get('platform') or source['kind'], source_id=source['key'], scraped_at=observed_at,
+                       registered_teams=source.get('registered_teams') or [])
             row['description'] = row.get('description') or row.get('description_clean') or ''
             rows.append(row)
         return {'source': source, 'rows': rows, 'status': 'success',

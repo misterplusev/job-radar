@@ -15,6 +15,13 @@ export function postedLabel(value) {
   return stamp === null ? 'Date not provided' : new Date(stamp).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' })
 }
 
+// The clubs a job is shown under. An owner of two clubs runs one careers site, so one stored job can belong to
+// two teams (team_jobs.teams). Without that list it is the single team/league/logo of the row.
+export function jobTeams(job) {
+  if (Array.isArray(job?.teams) && job.teams.some((t) => t && t.team)) return job.teams.filter((t) => t && t.team)
+  return job?.team ? [{ league: job.league, team: job.team, logo: job.logo_url }] : []
+}
+
 export function compareJobs(a, b, sort = 'newest') {
   if (sort === 'newest' || sort === 'oldest') {
     const av = postedTime(a.posted_at), bv = postedTime(b.posted_at)
@@ -25,7 +32,9 @@ export function compareJobs(a, b, sort = 'newest') {
     if (av !== null && bv !== null && av !== bv) return sort === 'oldest' ? av - bv : bv - av
   } else {
     const key = ['company', 'title', 'location'].includes(sort) ? sort : 'title'
-    const cmp = String(a[key] || '').localeCompare(String(b[key] || ''), undefined, { sensitivity: 'base', numeric: true })
+    // "Team A-Z" sorts by the team a job is shown under; tables without teams sort by company as before
+    const value = (job) => String((key === 'company' ? job.team || job.company : job[key]) || '')
+    const cmp = value(a).localeCompare(value(b), undefined, { sensitivity: 'base', numeric: true })
     if (cmp) return cmp
   }
   return String(a.company || a.team || '').localeCompare(String(b.company || b.team || '')) || String(a.title || '').localeCompare(String(b.title || '')) || String(a.id ?? a.url ?? '').localeCompare(String(b.id ?? b.url ?? ''), undefined, { numeric: true })
@@ -72,10 +81,10 @@ export function filterJobs(rows, options = {}, applied = (job) => job.applied ==
     if (!opts.includeInternational && jobGeography(job) !== 'us') return false
     if (opts.company && !String(job.company || job.team || '').toLowerCase().includes(opts.company.toLowerCase())) return false
     if (opts.location && !String(job.location || '').toLowerCase().includes(opts.location.toLowerCase())) return false
-    if (opts.league && job.league !== opts.league) return false
+    if (opts.league && !(jobTeams(job).length ? jobTeams(job).some((t) => t.league === opts.league) : job.league === opts.league)) return false
     if (opts.source && (job.ats || job.platform) !== opts.source) return false
     if (opts.remoteOnly && !/remote/i.test(job.location || '')) return false
-    if (search && ![job.title, job.company, job.team, job.location].join(' ').toLowerCase().includes(search)) return false
+    if (search && ![job.title, job.company, job.team, ...jobTeams(job).map((t) => t.team), job.location].join(' ').toLowerCase().includes(search)) return false
     return true
   }).sort((a, b) => compareJobs(a, b, opts.sort))
 }

@@ -141,6 +141,20 @@ def _display_team(row) -> str:
     return team
 
 
+def _team_and_owner(row) -> str:
+    """'Toronto Maple Leafs / Toronto Raptors · Maple Leaf Sports & Entertainment'; just the team when the site names the team."""
+    teams = row.get('teams')
+    if isinstance(teams, str):
+        try:
+            teams = json.loads(teams)
+        except ValueError:
+            teams = None
+    names = [t.get('team') for t in teams if isinstance(t, dict) and t.get('team')] if isinstance(teams, list) else []
+    team = ' / '.join(names) or _display_team(row)
+    owner = str(row.get('company') or '').strip()
+    return team if not owner or _norm(owner) in {_norm(n) for n in (names or [team])} else f'{team} · {owner}'
+
+
 def logo_for(row):
     """Match a scraped team label ('marlins', 'Astros', 'Miami Dolphins') to an ESPN logo."""
     league = (row.get('league') or '').upper()
@@ -258,7 +272,7 @@ def embed(row: dict) -> dict:
         'description': description or 'New team job discovered.',
         'color': COLOR,
         'fields': [
-            {'name': 'Company', 'value': _display_team(row)[:256], 'inline': True},
+            {'name': 'Company', 'value': _team_and_owner(row)[:256], 'inline': True},
             {'name': 'Location', 'value': _clean_text(row.get('location'))[:1024] or 'Unknown', 'inline': True},
         ],
         'footer': {'text': FOOTER},

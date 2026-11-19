@@ -80,8 +80,46 @@ def connect():
     return con
 
 
+def shown_under(pt, r):
+    """(team, league, logo, company, teams) for one scraped row.
+
+    Many clubs do not run their own careers site: their owner does ("Groupe CH" for the Montreal Canadiens,
+    "Maple Leaf Sports & Entertainment" for the Maple Leafs and the Raptors). The site names the owner, the
+    board has no logo for an owner, and the club itself showed 0 jobs (541 of 1,422 active jobs on 2026-11-19).
+    When the name the site gives is not a club we know, the job is shown under the club(s) the registry lists
+    that careers site for. `company` keeps the name the site gives. `teams` is filled only when the site
+    belongs to more than one club: the job is stored once and shown under each of them.
+    """
+    team, league, logo = pt._display_team(r), (r.get('league') or '').upper(), pt.logo_for(r)
+    company, teams = team, None
+    if logo is not None:
+        return team, league, logo, company, teams
+
+    def club(league_name, name):
+        shown = pt._display_team({'league': league_name, 'team': name})
+        return {'league': (league_name or '').upper(), 'team': shown, 'logo': pt.logo_for({'league': league_name, 'team': shown})}
+    registered = [club(c.get('league'), c.get('team')) for c in (r.get('registered_teams') or [])]
+    # A name such as "New Jersey Devils & Prudential Center" or "Miami Dolphins & Hard Rock Stadium" names a club
+    # in full. That club is the employer even on another club's careers site (the Devils on the 76ers' owner's
+    # site), unless it is one of several clubs the site is registered for (then the job belongs to all of them).
+    wanted = pt._norm(team)
+    named = [club(key.partition(':')[0], key.partition(':')[2]) for key in pt.LOGO_MAP
+             if len(pt._norm(key.partition(':')[2])) >= 8 and pt._norm(key.partition(':')[2]) in wanted]
+    registered_names = {c['team'] for c in registered}
+    clubs = named if named and not (len(registered) > 1 and {c['team'] for c in named} <= registered_names) else registered
+    clubs = [c for c in clubs if c['logo']]
+    if clubs:
+        team, league, logo = clubs[0]['team'], clubs[0]['league'], clubs[0]['logo']
+        teams = clubs if len(clubs) > 1 else None
+    return team, league, logo, company, teams
+
+
 def ingest(con, rows, record_runs=True):
     new = updated = 0
+    columns = {c[1] for c in con.execute('pragma table_info(team_jobs)')}
+    for name in ('company', 'teams'):
+        if name not in columns:
+            con.execute(f'alter table team_jobs add column {name} text')
     for r in rows:
         if not r.get('platform'):
             portal = (r.get('portal') or '') + ' ' + (r.get('url') or '')
@@ -90,8 +128,8 @@ def ingest(con, rows, record_runs=True):
                 if host in portal:
                     r['platform'] = 'workday' if host == 'myworkdayjobs' else host
                     break
-        team_display = pt._display_team(r)
-        league = (r.get('league') or '').upper()
+        team_display, league, logo, company, teams = shown_under(pt, r)
+        teams_json = json.dumps(teams) if teams else None
         url = r.get('url')
         if not url:
             continue
@@ -104,7 +142,6 @@ def ingest(con, rows, record_runs=True):
         ):
             desc = ''
         posted = pt._iso(r.get('posted_at'))
-        logo = pt.logo_for(r)
         cur = con.execute('''select id, platform='teamworkonline' and length(trim(description))>0
                        and lower(trim(description))=lower(trim(team)) as stored_team_label
                        from team_jobs where url=? order by id limit 1''', (url,))
@@ -115,15 +152,15 @@ def ingest(con, rows, record_runs=True):
             )
             con.execute('''update team_jobs set league=?, team=?, title=?, location=?, description=case when length(?)>length(coalesce(description,'')) or ? then ? else description end,
                            platform=?, posted_at=coalesce(?,posted_at), last_seen_at=?, is_active=1, closed_at=null,
-                           logo_url=? where id=?''',
-                        (league, team_display, title, loc, desc, replace_description, desc, r.get('platform'), posted, r.get('scraped_at') or now(), logo, hit[0]))
+                           logo_url=?, company=?, teams=? where id=?''',
+                        (league, team_display, title, loc, desc, replace_description, desc, r.get('platform'), posted, r.get('scraped_at') or now(), logo, company, teams_json, hit[0]))
             updated += 1
         else:
             con.execute('''insert into team_jobs (league, team, title, url, location, description,
-                           platform, posted_at, first_seen_at, last_seen_at, is_active, logo_url)
-                           values (?,?,?,?,?,?,?,?,?,?,1,?)''',
+                           platform, posted_at, first_seen_at, last_seen_at, is_active, logo_url, company, teams)
+                           values (?,?,?,?,?,?,?,?,?,?,1,?,?,?)''',
                         (league, team_display, title, url, loc, desc, r.get('platform'),
-                         posted, now(), r.get('scraped_at') or now(), logo))
+                         posted, now(), r.get('scraped_at') or now(), logo, company, teams_json))
             new += 1
         if record_runs:
             con.execute('''insert into team_job_scrape_runs (source, platform, status, job_count, created_at)

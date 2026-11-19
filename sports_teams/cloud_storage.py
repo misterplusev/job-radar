@@ -11,7 +11,7 @@ import requests
 
 JOB_FIELDS = ('league','team','title','url','location','description','platform','posted_at',
               'first_seen_at','last_seen_at','is_active','closed_at','logo_url','source_id',
-              'salary','detail_status','detail_checked_at')
+              'salary','detail_status','detail_checked_at','company','teams')
 
 
 class CloudStorage:
@@ -56,10 +56,12 @@ class CloudStorage:
     def restore(self, con):
         rows=self.rows('team_jobs')
         cols={r[1] for r in con.execute('pragma table_info(team_jobs)')}
-        for name in ('source_id','salary','detail_status','detail_checked_at'):
+        for name in ('source_id','salary','detail_status','detail_checked_at','company','teams'):
             if name not in cols:con.execute(f'alter table team_jobs add column {name} text')
         con.execute('create table if not exists team_job_observations (source_id text,url text,is_active integer,observed_at text,primary key(source_id,url))')
         for row in rows:
+            # `teams` is a JSON list in the database and text in the working copy
+            row['teams']=json.dumps(row['teams']) if row.get('teams') else None
             hit=con.execute('select id from team_jobs where url=?',(row['url'],)).fetchone()
             if hit:
                 con.execute('update team_jobs set '+','.join(f'{k}=?' for k in JOB_FIELDS)+' where id=?',
@@ -89,7 +91,9 @@ class CloudStorage:
         rows=[]
         for r in con.execute('select * from team_jobs'):
             d=dict(r);row={k:d.get(k) for k in JOB_FIELDS}
-            row.update(company=d['team'],ats=d.get('platform'),scraped_at=d.get('last_seen_at'),is_active=bool(d['is_active']))
+            # company: the name the careers site gives (an owner such as "Groupe CH"); the team's own name when it is the same
+            row.update(company=d.get('company') or d['team'],teams=json.loads(d['teams']) if d.get('teams') else None,
+                       ats=d.get('platform'),scraped_at=d.get('last_seen_at'),is_active=bool(d['is_active']))
             rows.append(row)
         self.upsert('team_jobs',rows,'url')
         obs=[dict(r) for r in con.execute('select * from team_job_observations')]
