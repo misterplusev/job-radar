@@ -63,7 +63,7 @@ class ParityTests(unittest.TestCase):
     def test_old_unannounced_job_is_not_announced_as_new(self):
         import sys
         rows=[dict(title='Old role',url='https://example.com/old',posted_at='2020-01-01',first_seen_at='2020-01-01')]
-        with patch.object(publish_teams,'load_rows',return_value=rows),patch.object(publish_teams,'load_state',return_value={'seen':[]}),patch.object(publish_teams,'notify') as send,patch.object(sys,'argv',['publish_teams.py','--post']):
+        with patch.object(publish_teams,'load_rows',return_value=rows),patch.object(publish_teams,'load_state',return_value={'seen':[],'pending':['https://example.com/old']}),patch.object(publish_teams,'notify') as send,patch.object(sys,'argv',['publish_teams.py','--post']):
             self.assertEqual(publish_teams.main(),0);send.assert_not_called()
 
     def test_verified_empty_source_retires_jobs(self):

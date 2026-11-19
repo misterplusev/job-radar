@@ -92,3 +92,23 @@ test('a successful delivery leaves the module healthy', async () => {
   assert.equal(value().modules.sportsbook.delivery_status, 'success');
   assert.equal(value().modules.sportsbook.error, null);
 });
+
+test('a delivery that failed stays an error on every later tick, so the alert can fire', async () => {
+  const { instance, calls, value } = fixture({ SPORTSBOOK_DELIVERY: 'on' });
+  await instance.tick('alarm', NOW);                       // slot finished: delivery is started
+  calls.runs = [{ id: 9, status: 'completed', conclusion: 'failure', display_title: `sportsbook-deliver ${SLOT}` }];
+  for (let i = 1; i <= 4; i++) {
+    await instance.tick('alarm', NOW + i * 300000);
+    assert.match(value().modules.sportsbook.error || '', /Delivery run 9 completed failure/, `tick ${i}`);
+    assert.equal(instance.health(value(), NOW + i * 300000).status, 'degraded', `tick ${i}`);
+  }
+});
+
+test('a delivery that was started but never appears is reported after 15 minutes', async () => {
+  const { instance, value } = fixture({ SPORTSBOOK_DELIVERY: 'on' });
+  await instance.tick('alarm', NOW);
+  await instance.tick('alarm', NOW + 300000);
+  assert.equal(value().modules.sportsbook.error || null, null);
+  await instance.tick('alarm', NOW + 20 * 60000);
+  assert.match(value().modules.sportsbook.error || '', /no matching run/);
+});

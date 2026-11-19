@@ -111,10 +111,21 @@ export class JobsScheduler {
     const path = `repos/${config.deliver.repo}/actions/workflows/${config.deliver.workflow}`;
     try {
       if (record.delivery_dispatched_at) {
-        if (['success', 'failure', 'cancelled', 'timed_out'].includes(record.delivery_status)) return;
+        if (['success', 'failure', 'cancelled', 'timed_out'].includes(record.delivery_status)) {
+          // tickSpace clears record.error on every tick. A delivery that ended badly used to show as an
+          // error for one tick only, and the alert needs three, so it never fired (found 2026-11-19).
+          if (record.delivery_status !== 'success')
+            record.error = `Delivery run ${record.delivery_run_id} completed ${record.delivery_status}`;
+          return;
+        }
         const data = await this.github(`${path}/runs?branch=master&per_page=20`);
         const match = data.workflow_runs.find(run => run.display_title === `${config.deliver.prefix} ${slot}`);
-        if (!match) return;
+        if (!match) {
+          // A delivery that was started but never shows up must not wait for ever without a word.
+          if (Date.parse(state.last_tick) - Date.parse(record.delivery_dispatched_at) > 15 * 60000)
+            record.error = 'Delivery workflow was started but no matching run was found after 15 minutes';
+          return;
+        }
         record.delivery_run_id = match.id;
         record.delivery_status = match.status === 'completed' ? match.conclusion : match.status;
         if (match.status === 'completed' && match.conclusion !== 'success')
@@ -133,6 +144,8 @@ export class JobsScheduler {
       console.log(JSON.stringify({ module: config.id, slot, status: 'delivery_dispatched', origin }));
     } catch (error) {
       record.delivery_error = String(error.message).slice(0, 200);
+      // Health reads record.error only; a delivery check that keeps failing must be visible there.
+      record.error = `Delivery check failed: ${record.delivery_error}`;
     }
   }
 

@@ -113,11 +113,9 @@ class CloudStorage:
 
     def has_message_id_column(self):
         """True once `team_job_notifications.discord_message_id` exists (additive migration)."""
-        try:
-            self.request('GET','team_job_notifications',params={'select':'discord_message_id','limit':1})
-            return True
-        except RuntimeError:
-            return False
+        # The column has existed since 2026-11-11. Probing for it on every save meant one failed request
+        # stored a delivered job without its Discord message ID.
+        return True
 
     def save_notification_state(self,state):
         prior={r['url'] for r in self.rows('team_job_notifications') if r['status'] in ('seeded','delivered')}

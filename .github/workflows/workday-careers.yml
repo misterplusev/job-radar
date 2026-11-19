@@ -7,7 +7,7 @@ on:
         type: choice
         description: Import the authorized cloud test or start an approved recurring collection
         options: [import, collect]
-        default: import
+        default: collect
   workflow_call:
     inputs:
       mode: {type: string, default: collect}

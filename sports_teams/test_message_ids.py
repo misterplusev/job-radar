@@ -59,13 +59,13 @@ class LedgerRecordsTheMessageId(unittest.TestCase):
             s.save_notification_state({'seen': ['a'], 'posted_at': 'now', 'message_ids': {'a': '111'}})
         self.assertEqual(up.call_args.args[1], [{'url': 'a', 'status': 'delivered', 'delivered_at': 'now'}])
 
-    def test_the_column_check_reads_one_row_and_maps_an_error_to_absent(self):
+    def test_the_column_is_known_to_exist_and_is_not_probed(self):
+        # Until 2026-11-19 the column was probed on every save and any failed request read as 'no column',
+        # which stored a delivered job without its Discord message ID.
         s = self.storage()
-        with patch.object(s, 'request') as request:
+        with patch.object(s, 'request', side_effect=RuntimeError('Supabase GET team_job_notifications HTTP 500')) as request:
             self.assertTrue(s.has_message_id_column())
-            self.assertEqual(request.call_args.kwargs['params'], {'select': 'discord_message_id', 'limit': 1})
-            request.side_effect = RuntimeError('Supabase GET team_job_notifications HTTP 400')
-            self.assertFalse(s.has_message_id_column())
+            request.assert_not_called()
 
 
 class MainKeepsTheIdPerJob(unittest.TestCase):
