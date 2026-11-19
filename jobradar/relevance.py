@@ -175,9 +175,11 @@ def _norm_company(name: Optional[str]) -> str:
 # description) is not enough — a STRONG title match is required. Measured leak
 # rate on the pure-tech boards drops to 0 with this applied.
 #
-# Matches the non-robotics slugs in config/targets.json:
+# These were the non-robotics slugs in config/targets.json:
 #   greenhouse: anthropic databricks stripe coinbase figma airbnb robinhood
 #   ashby:      ramp openai
+# All nine left the robotics list on 2026-11-19 (they are tech companies, scraped by job-radar-tech) and
+# tests/test_board_lists.py refuses to let them back in. The set stays so that test and this rule keep working.
 STRICT_TITLE_ONLY_COMPANIES = frozenset({
     "anthropic", "databricks", "stripe", "coinbase", "figma", "airbnb",
     "robinhood", "ramp", "openai",

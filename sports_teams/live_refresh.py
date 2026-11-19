@@ -317,8 +317,58 @@ def collect(pt):
     return results, discovery
 
 
+UKG_JOB = re.compile(r'^https://([^/]+)/([^/]+)/JobBoard/([0-9a-fA-F-]{36})/OpportunityDetail\?opportunityId=([0-9a-fA-F-]{36})$')
+
+
+def one_row_per_ukg_job(con, results):
+    """Keep a UKG job under one job board only. Returns the number of rows dropped.
+
+    One employer account can have several job boards (Buffalo's account HOC10001BFLO has 7: 3 registered to
+    the Bills, 4 to the Sabres) and lists one job on more than one of them. The link holds the board id, and a
+    stored job is identified by its link, so the same job was stored once per board (12 jobs on 2026-11-19).
+    The job is the pair (employer account, opportunityId). It stays with the board it is already stored under;
+    a job never stored goes to the first board, in key order, that lists it. Its row is dropped from the other
+    boards' results, so a copy stored under another board loses its sighting and is closed by the normal rule.
+    """
+    def parts(url):
+        m = UKG_JOB.match(url or '')
+        return m and ((m.group(1).lower(), m.group(2).upper(), m.group(4).lower()),
+                      f'ukg:{m.group(1)}/{m.group(2)}/JobBoard/{m.group(3)}')
+    succeeded = {r['source']['key'] for r in results if r['status'] == 'success'}
+    stored, listed = {}, {}
+    if con.execute("select 1 from sqlite_master where type='table' and name='team_jobs'").fetchone():
+        for (url,) in con.execute("select url from team_jobs where is_active=1 and url like '%/JobBoard/%opportunityId=%'"):
+            found = parts(url)
+            if found:
+                stored.setdefault(found[0], set()).add(found[1])
+    for result in results:
+        if result['status'] == 'success':
+            for row in result['rows']:
+                found = parts(row.get('url'))
+                if found:
+                    listed.setdefault(found[0], set()).add(result['source']['key'])
+    owner = {}
+    for job, boards in listed.items():
+        held = stored.get(job, set())
+        # a board that failed this run keeps the job it holds; otherwise a board that holds it and still lists it
+        keeps = sorted(b for b in held if b not in succeeded) or sorted(held & boards) or sorted(boards)
+        owner[job] = keeps[0]
+    dropped = 0
+    for result in results:
+        if result['status'] != 'success':
+            continue
+        kept = [row for row in result['rows']
+                if not parts(row.get('url')) or owner[parts(row['url'])[0]] == result['source']['key']]
+        dropped += len(result['rows']) - len(kept)
+        result['rows'] = kept
+    if dropped:
+        print(f'[SOURCES] {dropped} UKG rows dropped: the same job is listed on another board of the same employer', flush=True)
+    return dropped
+
+
 def apply_results(con, results, pipeline, retired_sources=None, registered_sources=None):
     con.execute('create table if not exists team_job_observations (source_id text not null,url text not null,is_active integer not null default 1,observed_at text,primary key(source_id,url))')
+    one_row_per_ukg_job(con, results)
     columns = {r[1] for r in con.execute('pragma table_info(team_jobs)')}
     if 'source_id' not in columns:
         con.execute('alter table team_jobs add column source_id text')

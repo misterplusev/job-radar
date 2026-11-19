@@ -3,14 +3,8 @@
   "_note_2026_10_16": "greenhouse 'figure' resolved to [Figure Lending] (mortgage/insurance), NOT Figure AI humanoid robotics - 0/17 roles were relevant. Corrected to 'figureai' (verified: company_name 'Figure', 100 jobs incl. AV Operations Specialist). Audited with audit_targets.py.",
   "_note_2026_10_16_discovery": "Discovery probe against 147 candidate slugs found 44 live public ATS boards not previously scraped. 34 added here. REJECTED after verification: greenhouse:archer (board_name 'Archer Veterinary Clinic' - DVM externships, NOT Archer Aviation), ashby:sanctuary (civil engineer / construction coordinator / FP&A - not Sanctuary AI), ashby:kindred (no robotics titles, Kindred AI was acquired by Ocado in 2020), lever:relay (3 React frontend roles, cannot confirm Relay Robotics vs an unrelated 'Relay'), and 0-job boards lever:attabotics / lever:beta / lever:blueorigin / lever:zapsurgical / ashby:planet.",
   "_resource_note": "content:false is set for every board with >=100 jobs. Anduril alone showed the cost: 2,470 jobs x full descriptions pushed hourly runs to 19 min; content:false dropped that to ~3 min. Large boards still count toward the workflow's 45-min timeout even without descriptions, because the payload must still be downloaded.",
+  "_note_2026_11_19_tech_companies": "Robotics companies only. anthropic, databricks, stripe, coinbase, figma, airbnb, robinhood (greenhouse) and ramp, openai (ashby) were removed on 2026-11-19: they are tech companies and belong to job-radar-tech/config/targets.json. While they were here every one of their jobs was stored in robotics_jobs as well as tech_jobs (2,445 jobs in both tables) and none was ever announced in the robotics channel. tests/test_board_lists.py refuses them.",
   "greenhouse": [
-    "anthropic",
-    "databricks",
-    "stripe",
-    "coinbase",
-    "figma",
-    "airbnb",
-    "robinhood",
     "waymo",
     "nuro",
     "flyzipline",
@@ -55,8 +49,6 @@
     "ambirobotics"
   ],
   "ashby": [
-    "ramp",
-    "openai",
     "wayve",
     "1x",
     "physicalintelligence",
