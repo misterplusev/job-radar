@@ -55,9 +55,12 @@ def scrape(league: str, team: str, company_id: str, board_guid: str,
                 posted_at=o.get('PostedDate'),
                 platform='ultipro',
             ))
-        skip += page_size
+        skip += len(opps)  # a board may return fewer rows than asked for
         if not opps and len(out)<total:raise ValueError('Incomplete UKG pagination')
         if not opps or skip >= total:
             break
     else:raise ValueError('UKG pagination limit reached')
+    # Only a complete reading may close the jobs it does not list.
+    if len(out) != total or len({job.url for job in out}) != len(out):
+        raise ValueError(f'Incomplete UKG listing: {len(out)} rows read, {total} advertised')
     return out

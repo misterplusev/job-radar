@@ -90,7 +90,13 @@ def scrape_org(org: TeamWorkOrg, session=None, timeout: int = 45) -> list[Job]:
     page = '\n'.join(pages(org_url(org), client, timeout, org.org_id))
     jobs: list[Job] = []
     seen = set()
-    for m in CARD_RE.finditer(page):
+    # The page is checked with a parser but read with a pattern. If the employer changes the markup the
+    # pattern can find nothing on a valid page, which would read as "no jobs" and close the source's jobs.
+    cards = list(CARD_RE.finditer(page))
+    on_page = len(BeautifulSoup(page, 'html.parser').select('.organization-portal__job-title'))
+    if len(cards) != on_page:
+        raise ValueError(f'TeamWork listing not fully read: {on_page} job titles on the page, {len(cards)} read')
+    for m in cards:
         href, title_html, tail = m.group(1), m.group(2), m.group(3)
         title = _clean(title_html)
         if not title or href in seen:

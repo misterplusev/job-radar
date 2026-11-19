@@ -53,9 +53,9 @@ class SourceRepairTests(unittest.TestCase):
     def test_retired_route_waits_for_successful_replacement(self):
         con,pipe=self.fixture()
         con.execute('insert into team_job_observations values(?,?,?,?)',('old','https://example.com/job',1,'2026-11-10'))
-        live_refresh.apply_results(con,[self.result('replacement','error')],pipe,{'old':'replacement'})
+        live_refresh.apply_results(con,[self.result('replacement','error')],pipe,{'old':'replacement'},registered_sources={'replacement'})
         self.assertEqual(con.execute('select is_active from team_jobs').fetchone()[0],1)
-        live_refresh.apply_results(con,[self.result('replacement')],pipe,{'old':'replacement'})
+        live_refresh.apply_results(con,[self.result('replacement')],pipe,{'old':'replacement'},registered_sources={'replacement'})
         self.assertEqual(con.execute('select is_active from team_jobs').fetchone()[0],0)
 
 

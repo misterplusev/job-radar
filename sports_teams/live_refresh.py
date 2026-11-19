@@ -368,7 +368,9 @@ def apply_results(con, results, pipeline, retired_sources=None, registered_sourc
     # stopped running and by 2026-11-18 had left 629 of 2,080 jobs marked active with nothing checking them.
     # A job that a registered source still lists stays open through that source's observation.
     if registered_sources:
-        keys = sorted(registered_sources)
+        # A retired source whose replacement has not reported yet keeps its sightings (the rule just above).
+        waiting = {old for old, new in (retired_sources or {}).items() if new not in succeeded}
+        keys = sorted(set(registered_sources) | waiting)
         con.execute('update team_job_observations set is_active=0 where is_active=1 and source_id not in ('
                     + ','.join('?' * len(keys)) + ')', keys)
     # A cross-listed job closes only when all its known sources report it absent.
