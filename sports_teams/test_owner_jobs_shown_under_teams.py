@@ -94,6 +94,22 @@ class Stored(unittest.TestCase):
         self.assertEqual((rows[0]['team'], rows[0]['company']), ('Montreal Canadiens', 'Groupe CH'))
         self.assertTrue(rows[0]['logo_url'])
 
+    def test_closed_jobs_and_jobs_of_a_failed_source_are_renamed_too(self):
+        # stored before the fix under the owner's name; no source lists them in this run
+        pipeline_local.ingest(self.con, [row(1, 'Groupe CH'), row(2, 'Maple Leaf Sports & Entertainment'), row(3, 'Seattle Kraken'), row(4, 'Old Venue')], record_runs=False)
+        self.con.execute("alter table team_jobs add column source_id text")
+        for n, key in ((1, 'canadiens'), (2, 'mlse'), (3, 'kraken'), (4, 'retired')):
+            self.con.execute('update team_jobs set source_id=?, is_active=? where url like ?', (key, 0 if n in (1, 4) else 1, f'%/{n}'))
+        sources = {'canadiens': {'registered_teams': CANADIENS}, 'mlse': {'registered_teams': MLSE}, 'kraken': {'registered_teams': [{'league': 'NHL', 'team': 'Seattle Kraken'}]}}
+        changed = pipeline_local.rename_stored_owner_rows(self.con, pt, sources)
+        rows = {r['url'][-1]: r for r in self.stored()}
+        self.assertEqual(changed, 2)
+        self.assertEqual((rows['1']['team'], rows['1']['company'], rows['1']['is_active']), ('Montreal Canadiens', 'Groupe CH', 0))   # still closed
+        self.assertEqual([t['team'] for t in json.loads(rows['2']['teams'])], ['Toronto Raptors', 'Toronto Maple Leafs'])
+        self.assertEqual(rows['3']['team'], 'Seattle Kraken')
+        self.assertEqual((rows['4']['team'], rows['4']['logo_url']), ('Old Venue', None))                  # its source is no longer registered
+        self.assertEqual(pipeline_local.rename_stored_owner_rows(self.con, pt, sources), 0)                 # nothing left to do
+
     def test_database_copy_carries_owner_and_teams_both_ways(self):
         pipeline_local.ingest(self.con, [row(1, 'Groupe CH', registered=CANADIENS), row(2, 'Maple Leaf Sports & Entertainment', registered=MLSE),
                                          row(3, 'Seattle Kraken')], record_runs=False)

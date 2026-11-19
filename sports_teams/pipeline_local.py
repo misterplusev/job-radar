@@ -114,6 +114,33 @@ def shown_under(pt, r):
     return team, league, logo, company, teams
 
 
+def rename_stored_owner_rows(con, pt, sources):
+    """Apply the naming rule to stored jobs that no run re-reads; returns the number of rows changed.
+
+    ingest() names a job when a source lists it. A closed job is never listed again, and a job whose source
+    failed in this run is not listed either, so both kept the owner's name and no logo (420 closed and 6 open
+    rows after the first run of the rule on 2026-11-19), and the board showed a team button for each owner.
+    """
+    columns = {c[1] for c in con.execute('pragma table_info(team_jobs)')}
+    for name in ('company', 'teams', 'source_id'):
+        if name not in columns:
+            con.execute(f'alter table team_jobs add column {name} text')
+    changed = 0
+    for row_id, league, team, company, source_id in con.execute(
+            "select id, league, team, coalesce(company, team), source_id from team_jobs where logo_url is null or logo_url=''").fetchall():
+        source = sources.get(source_id)
+        if not source:
+            continue
+        shown, shown_league, logo, owner, teams = shown_under(
+            pt, {'league': league, 'team': company, 'registered_teams': source.get('registered_teams') or []})
+        if logo and shown != team:
+            con.execute('update team_jobs set team=?, league=?, logo_url=?, company=?, teams=? where id=?',
+                        (shown, shown_league, logo, owner, json.dumps(teams) if teams else None, row_id))
+            changed += 1
+    con.commit()
+    return changed
+
+
 def ingest(con, rows, record_runs=True):
     new = updated = 0
     columns = {c[1] for c in con.execute('pragma table_info(team_jobs)')}
@@ -246,6 +273,9 @@ def main():
     new, updated, closed = live_refresh.apply_results(con, results, sys.modules[__name__],
                                                     live_refresh.retired_replacements(pt),
                                                     registered_sources=set(live_refresh.build_sources(pt)))
+    renamed = rename_stored_owner_rows(con, pt, live_refresh.build_sources(pt))
+    if renamed:
+        print(f'[NAMES] {renamed} stored jobs moved from an owner name to their team', flush=True)
     new_urls={r[0] for r in con.execute('select url from team_jobs')}-prior_urls
     if args.recover_pending:
         # Only jobs actually observed on the current organization sources.

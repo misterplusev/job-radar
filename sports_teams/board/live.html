@@ -56,7 +56,7 @@ function fillOverview(){
  const active=jobs.filter(j=>j.is_active).length, counts=new Map();
  for(const j of jobs)for(const t of jobTeams(j)){if(!counts.has(t.team))counts.set(t.team,{active:0,logo:t.logo});if(j.is_active)counts.get(t.team).active++}
  el('overview-counts').textContent=active.toLocaleString()+' active';el('overview-stats').textContent=jobs.length.toLocaleString()+' total · '+active.toLocaleString()+' active · '+(jobs.length-active).toLocaleString()+' closed';
- el('pills').innerHTML='<button type="button" class="company-pill" data-team="" aria-pressed="true">All teams</button>'+[...counts].sort((a,b)=>a[0].localeCompare(b[0])).map(([team,c])=>`<button type="button" class="company-pill" data-team="${escapeHTML(team)}" aria-pressed="false">${safeJobUrl(c.logo)?`<img src="${escapeHTML(c.logo)}" alt="" loading="lazy" onerror="this.hidden=true">`:''}<span>${escapeHTML(team)}</span><span class="cnt">${c.active}</span></button>`).join('');
+ el('pills').innerHTML='<button type="button" class="company-pill" data-team="" aria-pressed="true">All teams</button>'+[...counts].filter(([,c])=>c.active||c.logo).sort((a,b)=>a[0].localeCompare(b[0])).map(([team,c])=>`<button type="button" class="company-pill" data-team="${escapeHTML(team)}" aria-pressed="false">${safeJobUrl(c.logo)?`<img src="${escapeHTML(c.logo)}" alt="" loading="lazy" onerror="this.hidden=true">`:''}<span>${escapeHTML(team)}</span><span class="cnt">${c.active}</span></button>`).join('');
 }
 ['q','league','team','source','status','sort','limit','international','remote','unapplied'].forEach(id=>el(id).addEventListener(id==='q'?'input':'change',()=>render()));
 el('more').addEventListener('click',()=>{shown=nextVisibleCount(shown,el('limit').value,matching);render(false)});
