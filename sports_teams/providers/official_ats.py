@@ -117,7 +117,10 @@ def tnse(source,client):
     for a in soup.find_all('a',href=re.compile(r'entertimeonline\.com/ta/6146095\.careers\?ShowJob=')):
         q=parse_qs(urlsplit(a['href']).query);u='https://secure3.entertimeonline.com/ta/6146095.careers?'+urlencode({'ShowJob':q['ShowJob'][0]})
         out[u]=dict(title=a.get_text(' ',strip=True),url=u,location='Winnipeg, Manitoba')
-    if not out:raise ValueError('True North job links missing; review official page')
+    # The page says "There are no opportunities available at this time" when nothing is open (seen 2026-11-19,
+    # after its last job closed). That is an empty board, not a failure; anything else without links is.
+    if not out and not re.search(r'no opportunities available',soup.get_text(' ',strip=True),re.I):
+        raise ValueError('True North job links missing; review official page')
     return list(out.values())
 
 def clearcompany(source,client):
