@@ -70,6 +70,19 @@ const json = (value, status = 200) => Response.json(value, { status });
 export const ALERT_AFTER_TICKS = 3;            // 3 ticks = 15 minutes
 export const ALERT_REMINDER_MS = 6 * 3600000;  // at most 4 reminders a day
 
+// 3. Running without storage (added 2026-11-21). This Durable Object's storage is counted against the
+//    Cloudflare account's free daily allowance, which every Worker on the account shares. On 2026-11-21
+//    other Workers used it up at 18:00 UTC: storage.get and storage.put threw until 00:00 UTC, the alarm
+//    handler failed six times, Cloudflare dropped the alarm, and no evening run was started. A dev probe
+//    the same day showed that alarms still fire and setAlarm/getAlarm still work in that state.
+//    So when storage cannot be read, the alarm keeps itself alive and the tick runs from ground truth
+//    alone: a slot is started only if it came due within NO_STORAGE_WINDOW_MS, no run carrying that
+//    slot's name exists, and nothing of that module is running. The slot name on the run is the receipt;
+//    the normal tick finds it again when storage returns, so nothing is started twice or piled up.
+export const NO_STORAGE_WINDOW_MS = 12 * 60000;          // ticks at +0, +5 and +10 minutes may start a slot
+export const NO_STORAGE_DELIVERY_WINDOW_MS = 30 * 60000; // delivery follows the end of the sportsbook run
+const short = error => String(error?.message || error).slice(0, 200);
+
 export class JobsScheduler {
   constructor(state, env) { this.state = state; this.env = env; }
 
@@ -130,6 +143,18 @@ export class JobsScheduler {
         record.delivery_status = match.status === 'completed' ? match.conclusion : match.status;
         if (match.status === 'completed' && match.conclusion !== 'success')
           record.error = `Delivery run ${match.id} completed ${match.conclusion}`;
+        return;
+      }
+      // A delivery run with this slot's name may already exist: started while storage was unavailable,
+      // or by an operator standing in for the scheduler. Adopt it instead of starting a second one.
+      const existing = (await this.github(`${path}/runs?branch=master&per_page=20`)).workflow_runs
+        .find(run => run.display_title === `${config.deliver.prefix} ${slot}`);
+      if (existing) {
+        record.delivery_dispatched_at = existing.created_at || state.last_tick;
+        record.delivery_run_id = existing.id;
+        record.delivery_status = existing.status === 'completed' ? existing.conclusion : existing.status;
+        if (existing.status === 'completed' && existing.conclusion !== 'success')
+          record.error = `Delivery run ${existing.id} completed ${existing.conclusion}`;
         return;
       }
       if ((record.delivery_attempts || 0) >= 2) {
@@ -348,13 +373,95 @@ export class JobsScheduler {
     return { ...state, scheduler: 'cloudflare-durable-object-alarm', status: state.paused ? 'paused' : overdue.length ? 'degraded' : 'healthy', overdue };
   }
 
+  // Start one GitHub workflow run for a slot, using only what GitHub itself reports.
+  // `stamp` names the field of `record` (in memory only) that remembers this instance already asked.
+  async startByName(target, title, slot, record, stamp, now, due) {
+    const base = `repos/${target.repo}/actions/workflows/${target.workflow}`;
+    const runs = (await this.github(`${base}/runs?branch=master&per_page=30`)).workflow_runs;
+    const match = runs.find(run => run.display_title === title);
+    if (match) return { status: match.status === 'completed' ? match.conclusion : match.status, run_id: match.id };
+    if (runs.some(run => run.status !== 'completed')) return { status: 'deferred_running' };
+    if (!due) return { status: 'not_started_no_storage' };
+    if (record[stamp] && now - Date.parse(record[stamp]) < 15 * 60000) return { status: 'awaiting_run' };
+    record[stamp] = new Date(now).toISOString();
+    await this.github(`${base}/dispatches`, { ref: 'master', inputs: { scheduler_slot: slot, trigger_source: 'cloudflare' } });
+    console.log(JSON.stringify({ mode: 'no_storage', title, status: 'dispatched' }));
+    return { status: 'awaiting_run', started: true };
+  }
+
+  // One tick while storage cannot be read (guardrail 3). Nothing is stored; `this.noStorage` lives only
+  // as long as this instance and is shown by /health.
+  async tickWithoutStorage(now, cause) {
+    const memory = this.noStorage = this.noStorage || { since: new Date(now).toISOString(), modules: {} };
+    memory.reason = short(cause);
+    memory.last_tick = new Date(now).toISOString();
+    console.error(JSON.stringify({ mode: 'no_storage', reason: memory.reason }));
+    const database = await this.databaseCheck();
+    memory.database = { ok: database.ok, note: database.note };
+    if (!database.ok) return memory;   // circuit breaker, as in the normal tick
+    for (const config of MODULES) {
+      const slot = slotFor(now, config);
+      const prior = memory.modules[config.id];
+      const record = prior?.slot === slot ? prior : { slot };
+      memory.modules[config.id] = record;
+      const due = now - Date.parse(slot) <= NO_STORAGE_WINDOW_MS;
+      try {
+        record.error = null;
+        if (config.kind !== 'space') {
+          Object.assign(record, await this.startByName(config, `${config.prefix} ${slot}`, slot, record, 'dispatched_at', now, due));
+          continue;
+        }
+        const health = await this.space(config, '/api/health');
+        const last = health.scheduler_slot || null;
+        if (last?.slot === slot) {
+          record.status = last.status === 'healthy' ? 'success' : last.status;
+          if (config.deliver && this.env.SPORTSBOOK_DELIVERY === 'on') {
+            const fresh = now - Date.parse(last.ended_at) <= NO_STORAGE_DELIVERY_WINDOW_MS;
+            const delivery = await this.startByName(config.deliver, `${config.deliver.prefix} ${slot}`, slot, record, 'delivery_dispatched_at', now, fresh);
+            record.delivery_status = delivery.status;
+            record.delivery_run_id = delivery.run_id || null;
+          }
+        } else if (health.scrape_running) {
+          record.status = health.current_slot === slot ? 'in_progress' : 'deferred_running';
+        } else if (!due) {
+          record.status = 'not_started_no_storage';
+        } else if (record.dispatched_at && now - Date.parse(record.dispatched_at) < 15 * 60000) {
+          record.status = 'awaiting_run';
+        } else {
+          record.dispatched_at = new Date(now).toISOString();
+          const reply = await this.space(config, `/api/run?slot=${encodeURIComponent(slot)}`, true);
+          record.status = reply.started ? 'in_progress' : 'awaiting_run';
+          console.log(JSON.stringify({ mode: 'no_storage', module: config.id, slot, status: 'dispatched' }));
+        }
+      } catch (error) {
+        record.status = 'error'; record.error = short(error);
+        console.error(JSON.stringify({ mode: 'no_storage', module: config.id, slot, error: record.error }));
+      }
+    }
+    return memory;
+  }
+
   async alarm() {
     await this.state.blockConcurrencyWhile(async () => {
-      const state = await this.state.storage.get('state');
+      let state;
+      try { state = await this.state.storage.get('state'); }
+      catch (error) {
+        // Storage cannot be read. An alarm exists only while the scheduler is enabled (pause deletes it),
+        // so this tick may act. Never let the failure escape: Cloudflare drops an alarm after six failed tries.
+        try { await this.tickWithoutStorage(Date.now(), error); }
+        catch (failure) { console.error(JSON.stringify({ mode: 'no_storage', error: short(failure) })); }
+        finally { await this.state.storage.setAlarm(nextWake(Date.now())); }
+        return;
+      }
+      this.noStorage = null;
       if (!state || state.paused) return;
       // Arm recovery before network work, so a failed request cannot stop scheduling.
       await this.state.storage.setAlarm(Date.now() + 300000);
       try { await this.tick('alarm', Date.now()); }
+      catch (error) {
+        // Storage can stop answering in the middle of a tick; the next alarm takes the path above.
+        console.error(JSON.stringify({ mode: 'tick_failed', error: short(error) }));
+      }
       finally { await this.state.storage.setAlarm(nextWake(Date.now())); }
     });
   }
@@ -362,23 +469,38 @@ export class JobsScheduler {
   async fetch(request) {
     const path = new URL(request.url).pathname;
     if (path === '/health') {
-      const health = this.health(await this.state.storage.get('state'), Date.now());
+      let health;
+      try { health = this.health(await this.state.storage.get('state'), Date.now()); }
+      catch (error) {
+        // Used to answer with an uncaught exception (Cloudflare error 1101), which said nothing.
+        health = { scheduler: 'cloudflare-durable-object-alarm', status: 'degraded', storage: 'unavailable', modules: {},
+          overdue: [`scheduler storage cannot be read (${short(error)}); running without stored state`],
+          no_storage: this.noStorage || null };
+      }
       const nextAlarm = await this.state.storage.getAlarm();
       health.next_alarm_at = nextAlarm === null ? null : new Date(nextAlarm).toISOString();
       return json(health, health.status === 'healthy' || health.status === 'paused' ? 200 : 503);
     }
     return this.state.blockConcurrencyWhile(async () => {
-      if (path === '/tick') return json(await this.tick(request.headers.get('X-Origin') || 'manual', Date.now()));
-      if (path === '/enable' || path === '/pause') {
-        const state = await this.state.storage.get('state') || { modules: {} };
-        state.paused = path === '/pause';
-        state.changed_at = new Date().toISOString();
-        await this.state.storage.put('state', state);
-        if (state.paused) await this.state.storage.deleteAlarm();
-        else await this.state.storage.setAlarm(Date.now() + 1000);
-        return json({ paused: state.paused });
+      try {
+        if (path === '/tick') return json(await this.tick(request.headers.get('X-Origin') || 'manual', Date.now()));
+        if (path === '/enable' || path === '/pause') {
+          const state = await this.state.storage.get('state') || { modules: {} };
+          state.paused = path === '/pause';
+          state.changed_at = new Date().toISOString();
+          await this.state.storage.put('state', state);
+          if (state.paused) await this.state.storage.deleteAlarm();
+          else await this.state.storage.setAlarm(Date.now() + 1000);
+          return json({ paused: state.paused });
+        }
+        return json({ error: 'not found' }, 404);
+      } catch (error) {
+        // Storage unavailable. The alarm is the on/off switch that still works: arm it or remove it.
+        if (path === '/enable') await this.state.storage.setAlarm(Date.now() + 1000);
+        if (path === '/pause') await this.state.storage.deleteAlarm();
+        return json({ stored: false, alarm: path === '/enable' ? 'armed' : path === '/pause' ? 'removed' : 'unchanged',
+          error: short(error) }, path === '/tick' ? 503 : 202);
       }
-      return json({ error: 'not found' }, 404);
     });
   }
 }
