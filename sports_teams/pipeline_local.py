@@ -318,7 +318,10 @@ def main():
         'career_link_audit_status':'verified' if coverage_verified else 'partial',
         'team_coverage':coverage['summary'],
         'providers':audit['sources'],'discovery':discovery,'details':details,
-        'totals':{'providers':len(results),'successful':len(results)-failed,'failed':failed,'active_jobs':len(jobs),'new':new,'updated':updated,'closed':closed},
+        'totals':{'providers':len(results),'successful':len(results)-failed,'failed':failed,'active_jobs':len(jobs),'new':new,'updated':updated,'closed':closed,
+                  # Every source type, not only the two whose detail pages are fetched (details.missing_descriptions).
+                  # The status above is about listings and delivery; this count sits beside it on the board.
+                  'without_description':sum(len((j.get('description') or '').strip())<80 for j in jobs)},
         'persistence':'supabase' if cloud else 'sqlite','trigger':args.trigger,
         'scheduler_slot':os.environ.get('JOBRADAR_SCHEDULER_SLOT',''),
         'github_run_id':os.environ.get('GITHUB_RUN_ID','')}

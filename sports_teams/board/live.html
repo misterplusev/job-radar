@@ -60,9 +60,17 @@ function fillOverview(){
 }
 ['q','league','team','source','status','sort','limit','international','remote','unapplied'].forEach(id=>el(id).addEventListener(id==='q'?'input':'change',()=>render()));
 el('more').addEventListener('click',()=>{shown=nextVisibleCount(shown,el('limit').value,matching);render(false)});
+// "healthy" means every source listed its jobs and delivery worked. Missing job descriptions are a separate
+// fact, shown beside it. Older health files have no count: say nothing rather than "0".
+function describedText(m){
+ const t=m.totals||{},d=m.details||{};
+ if(typeof t.without_description!=='number')return '';
+ const waiting=typeof d.retained_descriptions_pending_refresh==='number'&&d.retained_descriptions_pending_refresh?`; ${d.retained_descriptions_pending_refresh} more are waiting for a refresh`:'';
+ return ` Descriptions: ${t.without_description} of ${t.active_jobs||0} open jobs have none${waiting}.`;
+}
 async function load(){
  try{jobs=await fetchAllJobRows({url:SB_URL,key:SB_ANON,table:'team_jobs',columns:'id,company,team,teams,league,title,url,location,ats,posted_at,first_seen_at,is_active,salary,logo_url',onProgress:n=>el('fresh').textContent='Loading… '+n.toLocaleString()+' jobs'});fill('league',jobs.flatMap(j=>jobTeams(j).map(t=>t.league)));fill('team',jobs.flatMap(j=>jobTeams(j).map(t=>t.team)));fill('source',jobs.map(j=>j.ats));el('fresh').textContent='Loaded '+new Date().toLocaleString();fillOverview();render()}catch(e){el('fresh').textContent=e.message}finally{el('loading').hidden=true}
- try{const r=await fetch('api/health',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)return;const h=await r.json(),m=h.latest_manifest||{},t=m.totals||{};el('health').textContent=`Scraper: ${h.status}. ${t.successful||0}/${t.providers||0} sources successful. Last run: ${h.last_run_end||'unknown'}.${h.notifications_paused?' Notifications paused.':''}`}catch{}
+ try{const r=await fetch('api/health',{cache:'no-store',signal:AbortSignal.timeout(15000)});if(!r.ok)return;const h=await r.json(),m=h.latest_manifest||{},t=m.totals||{};el('health').textContent=`Scraper: ${h.status}. ${t.successful||0}/${t.providers||0} sources successful.${describedText(m)} Last run: ${h.last_run_end||'unknown'}.${h.notifications_paused?' Notifications paused.':''}`}catch{}
 }
 load();
 </script></main></body></html>
