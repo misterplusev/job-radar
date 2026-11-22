@@ -83,6 +83,17 @@ export const NO_STORAGE_WINDOW_MS = 12 * 60000;          // ticks at +0, +5 and 
 export const NO_STORAGE_DELIVERY_WINDOW_MS = 30 * 60000; // delivery follows the end of the sportsbook run
 const short = error => String(error?.message || error).slice(0, 200);
 
+// 4. Storage that can be read but not written (added 2026-11-22). The account's free stored-data limit
+//    (5 GB, shared by every Worker; 4.6 GB was in use on 2026-11-22, almost none of it this scheduler's)
+//    and its daily rows-written allowance stop storage.put while storage.get keeps answering. The normal
+//    tick saves its intent before every start, so with writes failing it started nothing and, because
+//    its failure count was never saved, never alerted. Each alarm therefore saves the record once before
+//    trusting it. If that save fails the tick runs exactly as in guardrail 3, from run names alone.
+//    No memory can be kept between ticks in that state, so the owner is told on fixed clock marks:
+//    the tick at 00:15, 06:15, 12:15 and 18:15 UTC.
+export const WRITE_ALERT_EVERY_MS = 6 * 3600000;
+export const writeAlertDue = now => Math.floor(now / 300000) % (WRITE_ALERT_EVERY_MS / 300000) === 3;
+
 export class JobsScheduler {
   constructor(state, env) { this.state = state; this.env = env; }
 
@@ -441,20 +452,41 @@ export class JobsScheduler {
     return memory;
   }
 
+  // Guardrail 4: one Discord message on fixed clock marks while the record cannot be saved.
+  async alertWriteBlocked(now, cause) {
+    const bucket = Math.floor(now / 300000);
+    if (!writeAlertDue(now) || this.writeAlertBucket === bucket) return;
+    this.writeAlertBucket = bucket;
+    await this.notify(`🔴 **ABET job scheduler cannot save its state** (${short(cause)}). It can still read it and keeps starting runs ` +
+      "from GitHub's and the Space's own records. The Cloudflare account's stored data is at its limit or its daily write allowance " +
+      'is used up; other Workers on the account hold almost all of it. Status: https://abet-jobs-scheduler.abetscrape.workers.dev/health');
+  }
+
   async alarm() {
     await this.state.blockConcurrencyWhile(async () => {
-      let state;
+      let state, cause = null, readable = true;
       try { state = await this.state.storage.get('state'); }
-      catch (error) {
-        // Storage cannot be read. An alarm exists only while the scheduler is enabled (pause deletes it),
-        // so this tick may act. Never let the failure escape: Cloudflare drops an alarm after six failed tries.
-        try { await this.tickWithoutStorage(Date.now(), error); }
+      catch (error) { cause = error; readable = false; }
+      if (readable) {
+        if (!state || state.paused) { this.noStorage = null; return; }
+        // Guardrail 4: the record must be savable before the normal tick may rely on it.
+        try { await this.state.storage.put('state', state); }
+        catch (error) { cause = error; }
+      }
+      if (cause) {
+        // Storage cannot be read, or cannot be written. An alarm exists only while the scheduler is enabled
+        // (pause deletes it), so this tick may act. Never let the failure escape: Cloudflare drops an alarm
+        // after six failed tries. If setAlarm itself throws, that retry is all that is left; /health then
+        // reports "enabled but no alarm".
+        try {
+          await this.tickWithoutStorage(Date.now(), cause);
+          if (readable) await this.alertWriteBlocked(Date.now(), cause);
+        }
         catch (failure) { console.error(JSON.stringify({ mode: 'no_storage', error: short(failure) })); }
         finally { await this.state.storage.setAlarm(nextWake(Date.now())); }
         return;
       }
       this.noStorage = null;
-      if (!state || state.paused) return;
       // Arm recovery before network work, so a failed request cannot stop scheduling.
       await this.state.storage.setAlarm(Date.now() + 300000);
       try { await this.tick('alarm', Date.now()); }
@@ -469,16 +501,35 @@ export class JobsScheduler {
   async fetch(request) {
     const path = new URL(request.url).pathname;
     if (path === '/health') {
-      let health;
-      try { health = this.health(await this.state.storage.get('state'), Date.now()); }
+      const now = Date.now();
+      let health, stored = null;
+      try { stored = await this.state.storage.get('state'); health = this.health(stored, now); }
       catch (error) {
         // Used to answer with an uncaught exception (Cloudflare error 1101), which said nothing.
         health = { scheduler: 'cloudflare-durable-object-alarm', status: 'degraded', storage: 'unavailable', modules: {},
           overdue: [`scheduler storage cannot be read (${short(error)}); running without stored state`],
           no_storage: this.noStorage || null };
       }
-      const nextAlarm = await this.state.storage.getAlarm();
-      health.next_alarm_at = nextAlarm === null ? null : new Date(nextAlarm).toISOString();
+      let nextAlarm;
+      try { nextAlarm = await this.state.storage.getAlarm(); } catch { nextAlarm = undefined; }
+      // Enabled but no alarm: Cloudflare dropped it (six failed tries), or /pause removed it while the record
+      // could not be saved. The two cannot be told apart here, so it is reported and never armed from a read:
+      // arming it would undo a pause.
+      if (stored && stored.paused === false && nextAlarm === null) {
+        health.status = 'degraded';
+        health.overdue = ['scheduler is enabled in its record but has no alarm, so nothing is being started: POST /enable starts it', ...health.overdue];
+      }
+      // Guardrail 4, read without memory: the alarm is running but the record is old, so saving it fails.
+      const staleRecord = stored && !stored.paused && stored.last_scheduler_tick && now - Date.parse(stored.last_scheduler_tick) > 12 * 60000;
+      if (staleRecord && typeof nextAlarm === 'number' && nextAlarm > now - 60000) {
+        health.status = 'degraded';
+        health.storage = 'not being written';
+        health.no_storage = this.noStorage || null;
+        health.overdue = [`scheduler state has not been saved since ${stored.last_scheduler_tick} although its alarm is running: ` +
+          "storage writes are failing; runs are started from GitHub's and the Space's own records, and the module records below are old",
+          ...health.overdue.filter(line => line !== 'scheduler heartbeat')];
+      }
+      health.next_alarm_at = nextAlarm === undefined ? 'unreadable' : nextAlarm === null ? null : new Date(nextAlarm).toISOString();
       return json(health, health.status === 'healthy' || health.status === 'paused' ? 200 : 503);
     }
     return this.state.blockConcurrencyWhile(async () => {

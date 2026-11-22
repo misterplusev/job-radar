@@ -49,8 +49,9 @@ test('the alarm survives storage that cannot be read and arms the next one', asy
 });
 
 test('a tick that fails midway does not end the alarm chain', async () => {
-  const alarms = [];
-  const state = { storage: { get: async () => ({ paused: false, modules: {} }), put: async () => { throw new Error(LIMIT); },
+  const alarms = []; let puts = 0;
+  // The first save (the alarm's own check, guardrail 4) works; storage stops answering during the tick.
+  const state = { storage: { get: async () => ({ paused: false, modules: {} }), put: async () => { if (++puts > 1) throw new Error(LIMIT); },
       getAlarm: async () => null, setAlarm: async at => { alarms.push(at); }, deleteAlarm: async () => {} },
     blockConcurrencyWhile: callback => callback() };
   const instance = new JobsScheduler(state, { GITHUB_TOKEN: 'fake' });
