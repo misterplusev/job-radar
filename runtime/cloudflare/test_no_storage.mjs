@@ -184,3 +184,20 @@ test('when storage returns, the normal tick finds the runs started without it an
   assert.equal(result.modules.sportsbook.delivery_status, 'success');
   assert.equal(result.modules.sportsbook.delivery_run_id, 7);
 });
+
+test('reads blocked: the owner is alerted on fixed 6-hour marks even when storage.get throws', async () => {
+  const sent = [];
+  const { instance } = blocked({ ALERT_WEBHOOK: 'https://discord.example/api/webhooks/1/x' });
+  fakeGithub(instance); instance.space = idleSpace('2026-11-21T11:00:00.000Z');
+  instance.notify = async text => { sent.push(text); return { message_id: '1', channel_id: '2' }; };
+  const real = Date.now;
+  try {
+    Date.now = () => Date.parse('2026-11-22T06:15:00.050Z');
+    await instance.alarm();
+    Date.now = () => Date.parse('2026-11-22T06:20:00.050Z');
+    await instance.alarm();
+  } finally { Date.now = real; }
+  assert.equal(sent.length, 1);
+  assert.match(sent[0], /cannot read or save its state/);
+  assert.match(sent[0], /Exceeded allowed rows read/);
+});

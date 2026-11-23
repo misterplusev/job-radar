@@ -177,3 +177,17 @@ test('storage healthy: one extra save per tick, and nothing else changes', async
   assert.equal(stored.modules.tech.status, 'awaiting_run');
   assert.ok(stored.last_scheduler_tick);
 });
+
+test('writes blocked: /health reports 503 immediately via in-memory this.noStorage before 12 min elapse', async () => {
+  const start = Date.parse('2026-11-21T17:55:00.000Z');
+  const { instance } = readOnly({}, { record: saved(), alarm: start + 300000 });
+  fakeGithub(instance); instance.space = idleSpace('2026-11-21T11:00:00.000Z');
+  await at(instance, start + 60000, () => instance.alarm());
+  assert.ok(instance.noStorage);
+  const response = await at(instance, start + 65000, () => instance.fetch(new Request('https://scheduler/health')));
+  const body = await response.json();
+  assert.equal(response.status, 503);
+  assert.equal(body.status, 'degraded');
+  assert.equal(body.storage, 'not being written');
+  assert.ok(body.no_storage);
+});
