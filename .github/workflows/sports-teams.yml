@@ -133,6 +133,36 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: sports_teams/out
+      - name: Wait for the board artifact to be visible to Pages
+        uses: actions/github-script@v7
+        timeout-minutes: 2
+        with:
+          script: |
+            const token = process.env.ACTIONS_RUNTIME_TOKEN;
+            const claims = JSON.parse(Buffer.from(token.split(".")[1], "base64url"));
+            const scope = claims.scp.split(" ").find(s => s.startsWith("Actions.Results:"));
+            if (!scope) throw Error("Missing artifact service scope");
+            const [, run, job] = scope.split(":");
+            const url = new URL("/twirp/github.actions.results.api.v1.ArtifactService/ListArtifacts",
+                                process.env.ACTIONS_RESULTS_URL);
+            for (let attempt = 1; attempt <= 10; attempt++) {
+              const response = await fetch(url, {
+                method: "POST",
+                headers: {Authorization: "Bearer " + token, "Content-Type": "application/json"},
+                body: JSON.stringify({workflowRunBackendId: run, workflowJobRunBackendId: job}),
+                signal: AbortSignal.timeout(5000)
+              }).catch(() => null);
+              if (response?.ok) {
+                const {artifacts} = await response.json();
+                const found = (artifacts || []).filter(a => a.name === "github-pages");
+                if (found.length > 1) throw Error("Ambiguous Pages artifacts");
+                if (found.length === 1 && Number(found[0].size) > 0) return;
+              } else if (response && response.status < 500 && response.status !== 429) {
+                throw Error("Artifact service returned HTTP " + response.status);
+              }
+              if (attempt < 10) await new Promise(r => setTimeout(r, 4000));
+            }
+            throw Error("Board artifact did not become visible; no deployment attempted");
       - uses: actions/deploy-pages@v4
         id: deployment
       # One row per run in public.job_system_log: database size, rows and active rows per job table, run-log sizes,
